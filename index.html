@@ -1,0 +1,1593 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Evseenko Majesty — от улицы к мастерству</title>
+    
+    <!-- Шрифты -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/site.webmanifest">
+    
+    <style>
+        /* ========== БАЗОВЫЕ СТИЛИ ========== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0A0A0A;
+            color: #FFFFFF;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            width: 100%;
+        }
+
+        .section {
+            padding: 100px 0;
+        }
+
+        .section-title {
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 60px;
+            text-align: center;
+        }
+
+        .section-title span {
+            color: #FFD700;
+            position: relative;
+        }
+
+        .section-title span::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, #FFD700, transparent);
+        }
+
+        /* ========== ХЕДЕР ========== */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 215, 0, 0.2);
+            z-index: 1000;
+            transition: all 0.3s;
+        }
+
+        .header.scrolled {
+            background-color: rgba(10, 10, 10, 0.98);
+            border-bottom-color: rgba(255, 215, 0, 0.4);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 80px;
+        }
+
+        /* Логотип */
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo-svg {
+            height: 70px;
+            width: auto;
+            filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.7));
+            transition: all 0.3s;
+        }
+
+        .logo-svg:hover {
+            filter: drop-shadow(0 0 30px #FFD700);
+            transform: scale(1.05);
+        }
+
+        .logo-name {
+            font-size: 28px;
+            font-weight: 700;
+            color: white;
+        }
+
+        .logo-majesty {
+            font-size: 28px;
+            color: #FFD700;
+            font-weight: 300;
+            margin-left: 8px;
+            letter-spacing: 2px;
+        }
+
+        /* Навигация */
+        .nav {
+            display: flex;
+            gap: 40px;
+        }
+
+        .nav a {
+            color: #FFFFFF;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+            position: relative;
+            font-size: 16px;
+        }
+
+        .nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: #FFD700;
+            transition: width 0.3s ease;
+        }
+
+        .nav a:hover {
+            color: #FFD700;
+        }
+
+        .nav a:hover::after {
+            width: 100%;
+        }
+
+        /* Кнопка Telegram в хедере */
+        .tg-button {
+           background-color: #0088cc;
+            color: white !important;
+            padding: 10px 20px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s;
+        }
+
+        .tg-button:hover {
+            background-color: #0099ff;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(0, 136, 204, 0.4);
+        }
+
+        /* ========== ЛОГОТИП В HERO ========== */
+        .hero {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+            padding: 80px 0;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 30% 50%, rgba(255, 215, 0, 0.1) 0%, transparent 60%);
+            z-index: 1;
+        }
+
+        .hero-crown {
+            position: absolute;
+            right: 5%;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 5;
+            opacity: 0.2;
+            animation: crownFloat 8s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        .hero-crown-svg {
+            width: 500px;
+            height: auto;
+            filter: drop-shadow(0 0 50px rgba(255, 215, 0, 0.4));
+        }
+
+        @keyframes crownFloat {
+            0%, 100% { transform: translateY(-50%) scale(1); }
+            50% { transform: translateY(-50%) scale(1.08); }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+        }
+
+        /* Название бренда в hero */
+        .hero-sup-title {
+            color: #FFD700;
+            text-transform: uppercase;
+            letter-spacing: 6px;
+            font-size: 24px;
+            margin-bottom: 30px;
+            font-weight: 600;
+            text-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+            position: relative;
+            display: inline-block;
+        }
+
+        .hero-sup-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 80%;
+            height: 3px;
+            background: #FFD700;
+            box-shadow: 0 0 15px #FFD700;
+        }
+
+        /* ========== БИЛИНГВАЛЬНЫЕ СТРОКИ ========== */
+        .hero-title {
+            margin-bottom: 30px;
+        }
+
+        .title-line {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 25px;
+        }
+
+        .lang-en, .lang-ru {
+            display: block;
+            text-transform: uppercase;
+        }
+
+        .lang-ru {
+            font-weight: 700;
+            color: #FFD700;
+            letter-spacing: 1px;
+        }
+
+        .lang-en {
+            font-weight: 500;
+            color: #E0E0E0;
+            letter-spacing: 0.5px;
+            opacity: 0.9;
+        }
+
+        .hero-title .lang-ru {
+            font-size: 48px;
+        }
+
+        .hero-title .lang-en {
+            font-size: 42px;
+        }
+
+        .hero-line {
+            margin-bottom: 20px;
+        }
+
+        .line-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .hero-line-2 .lang-ru {
+            font-size: 28px;
+        }
+
+        .hero-line-2 .lang-en {
+            font-size: 24px;
+        }
+
+        .hero-line-3 .lang-ru {
+            font-size: 24px;
+        }
+
+        .hero-line-3 .lang-en {
+            font-size: 20px;
+        }
+
+        .hero-description {
+            font-size: 18px;
+            color: #CCCCCC;
+            margin-bottom: 40px;
+            max-width: 600px;
+        }
+
+        /* ========== КНОПКИ ========== */
+        .hero-buttons {
+            display: flex;
+            gap: 20px;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 15px 40px;
+            border-radius: 40px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s;
+            cursor: pointer;
+            border: none;
+            font-size: 16px;
+        }
+
+        .btn-telegram {
+            background-color: #0088cc;
+            color: white !important;
+        }
+
+        .btn-telegram:hover {
+            background-color: #0099ff;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0, 136, 204, 0.4);
+        }
+
+        .btn-outline {
+            border: 1px solid #FFD700;
+            color: #FFFFFF;
+            background: transparent;
+        }
+
+        .btn-outline:hover {
+            background-color: rgba(255, 215, 0, 0.1);
+            border-color: #FFFFFF;
+            transform: translateY(-2px);
+        }
+
+        /* ========== НОВАЯ ФИЛОСОФИЯ ========== */
+        .philosophy-section {
+            background: linear-gradient(135deg, #0A0A0A 0%, #111111 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .philosophy-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" opacity="0.03"><path d="M20 20 L80 20 L80 80 L20 80 Z" stroke="%23FFD700" fill="none" stroke-width="0.5"/><circle cx="50" cy="50" r="10" stroke="%23FFD700" fill="none" stroke-width="0.5"/></svg>');
+            background-size: 60px 60px;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .philosophy-intro {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto 60px auto;
+            position: relative;
+            z-index: 2;
+        }
+
+        .intro-main {
+            font-size: 36px;
+            font-weight: 700;
+            color: #FFD700;
+            margin-bottom: 20px;
+            line-height: 1.2;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+        }
+
+        .intro-sub {
+            font-size: 20px;
+            color: #CCCCCC;
+            line-height: 1.6;
+            font-weight: 300;
+        }
+
+        .philosophy-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+            margin-bottom: 80px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .philosophy-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 215, 0, 0.1);
+            border-radius: 30px;
+            padding: 40px 25px;
+            transition: all 0.5s;
+            position: relative;
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: cardAppear 0.8s forwards;
+        }
+
+        .philosophy-card:nth-child(1) { animation-delay: 0.1s; }
+        .philosophy-card:nth-child(2) { animation-delay: 0.3s; }
+        .philosophy-card:nth-child(3) { animation-delay: 0.5s; }
+        .philosophy-card:nth-child(4) { animation-delay: 0.7s; }
+
+        @keyframes cardAppear {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .philosophy-card:hover {
+            border-color: #FFD700;
+            transform: translateY(-15px) scale(1.02);
+            box-shadow: 0 30px 50px rgba(255, 215, 0, 0.2);
+            background: rgba(255, 215, 0, 0.02);
+        }
+
+        .card-icon {
+            margin-bottom: 20px;
+        }
+
+        .card-icon i {
+            font-size: 48px;
+            color: #FFD700;
+            transition: all 0.4s;
+            filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.3));
+        }
+
+        .philosophy-card:hover .card-icon i {
+            transform: scale(1.2) rotate(5deg);
+            filter: drop-shadow(0 0 20px #FFD700);
+        }
+
+        .card-number {
+            font-size: 48px;
+            font-weight: 800;
+            color: transparent;
+            -webkit-text-stroke: 2px rgba(255, 215, 0, 0.2);
+            margin-bottom: 15px;
+            line-height: 1;
+        }
+
+        .philosophy-card:hover .card-number {
+            -webkit-text-stroke: 2px #FFD700;
+        }
+
+        .philosophy-card h3 {
+            font-size: 28px;
+            font-weight: 600;
+            color: #FFD700;
+            margin-bottom: 20px;
+        }
+
+        .philosophy-card p {
+            color: #CCCCCC;
+            line-height: 1.7;
+            font-size: 16px;
+            margin-bottom: 25px;
+        }
+
+        .card-line {
+            width: 50px;
+            height: 2px;
+            background: #FFD700;
+            transition: width 0.4s;
+        }
+
+        .philosophy-card:hover .card-line {
+            width: 100px;
+            box-shadow: 0 0 15px #FFD700;
+        }
+
+        .philosophy-footer {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+
+        .footer-line {
+            width: 100px;
+            height: 3px;
+            background: #FFD700;
+            margin: 0 auto 30px auto;
+            box-shadow: 0 0 20px #FFD700;
+        }
+
+        .slogan-en {
+            font-size: 28px;
+            font-weight: 700;
+            color: #FFD700;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 15px;
+            text-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
+        }
+
+        .slogan-ru {
+            font-size: 20px;
+            color: #CCCCCC;
+            font-weight: 300;
+            letter-spacing: 1px;
+        }
+
+        /* ========== НОВЫЙ ПУТЬ РАЗВИТИЯ ========== */
+        .roadmap-section {
+            background: linear-gradient(135deg, #0A0A0A 0%, #111111 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .roadmap-intro {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto 60px auto;
+            font-size: 24px;
+            color: #CCCCCC;
+            line-height: 1.6;
+            font-weight: 300;
+        }
+
+        .roadmap-timeline {
+            max-width: 900px;
+            margin: 0 auto;
+            position: relative;
+            padding: 20px 0;
+        }
+
+        .roadmap-timeline::before {
+            content: '';
+            position: absolute;
+            left: 30px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(180deg, transparent 0%, #FFD700 10%, #FFD700 90%, transparent 100%);
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+        }
+
+        .timeline-item {
+            display: flex;
+            margin-bottom: 60px;
+            position: relative;
+            opacity: 0;
+            transform: translateX(-30px);
+            animation: timelineAppear 0.8s forwards;
+        }
+
+        .timeline-item:nth-child(1) { animation-delay: 0.1s; }
+        .timeline-item:nth-child(2) { animation-delay: 0.2s; }
+        .timeline-item:nth-child(3) { animation-delay: 0.3s; }
+        .timeline-item:nth-child(4) { animation-delay: 0.4s; }
+        .timeline-item:nth-child(5) { animation-delay: 0.5s; }
+        .timeline-item:nth-child(6) { animation-delay: 0.6s; }
+        .timeline-item:nth-child(7) { animation-delay: 0.7s; }
+
+        @keyframes timelineAppear {
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .timeline-marker {
+            width: 60px;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            z-index: 2;
+        }
+
+        .timeline-dot {
+            width: 20px;
+            height: 20px;
+            background: #FFD700;
+            border: 4px solid #0A0A0A;
+            border-radius: 50%;
+            box-shadow: 0 0 20px #FFD700;
+            margin-bottom: 10px;
+            transition: all 0.3s;
+            z-index: 3;
+        }
+
+        .timeline-item:hover .timeline-dot {
+            transform: scale(1.3);
+            box-shadow: 0 0 30px #FFD700;
+        }
+
+        .timeline-line {
+            width: 2px;
+            flex: 1;
+            background: linear-gradient(180deg, #FFD700, transparent);
+            min-height: 100%;
+        }
+
+        .timeline-content {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 215, 0, 0.1);
+            border-radius: 30px;
+            padding: 30px;
+            margin-left: 30px;
+            transition: all 0.4s;
+        }
+
+        .timeline-content:hover {
+            border-color: #FFD700;
+            transform: translateX(10px);
+            box-shadow: 0 20px 40px rgba(255, 215, 0, 0.1);
+        }
+
+        .timeline-header {
+            display: flex;
+            align-items: baseline;
+            gap: 15px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .timeline-number {
+            font-size: 18px;
+            font-weight: 600;
+            color: #FFD700;
+            background: rgba(255, 215, 0, 0.1);
+            padding: 5px 15px;
+            border-radius: 30px;
+            border: 1px solid rgba(255, 215, 0, 0.3);
+        }
+
+        .timeline-title {
+            font-size: 28px;
+            font-weight: 700;
+            color: #FFFFFF;
+        }
+
+        .timeline-body p {
+            margin-bottom: 15px;
+            line-height: 1.7;
+            color: #CCCCCC;
+        }
+
+        .timeline-quote {
+            font-style: italic;
+            color: #FFD700;
+            padding-left: 15px;
+            border-left: 3px solid #FFD700;
+            margin: 15px 0;
+        }
+
+        .timeline-highlight {
+            font-size: 20px;
+            font-weight: 600;
+            color: #FFD700;
+            margin: 10px 0;
+        }
+
+        .timeline-list {
+            list-style: none;
+            padding: 0;
+            margin: 15px 0;
+        }
+
+        .timeline-list li {
+            padding: 5px 0 5px 25px;
+            position: relative;
+            color: #CCCCCC;
+        }
+
+        .timeline-list li::before {
+            content: '⸻';
+            color: #FFD700;
+            position: absolute;
+            left: 0;
+            opacity: 0.7;
+        }
+
+        .timeline-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 20px;
+            border-radius: 30px;
+            font-size: 14px;
+            font-weight: 500;
+            margin-top: 20px;
+        }
+
+        .status-beginning {
+            background: rgba(255, 215, 0, 0.1);
+            color: #FFD700;
+            border: 1px solid #FFD700;
+        }
+
+        .status-progress {
+            background: rgba(0, 136, 204, 0.1);
+            color: #0088cc;
+            border: 1px solid #0088cc;
+        }
+
+        .status-planned {
+            background: rgba(255, 255, 255, 0.05);
+            color: #888888;
+            border: 1px solid #444444;
+        }
+
+        .status-development {
+            background: rgba(255, 165, 0, 0.1);
+            color: #FFA500;
+            border: 1px solid #FFA500;
+        }
+
+        .status-future {
+            background: rgba(147, 112, 219, 0.1);
+            color: #9370DB;
+            border: 1px solid #9370DB;
+        }
+
+        .status-goal {
+            background: rgba(255, 215, 0, 0.15);
+            color: #FFD700;
+            border: 1px solid #FFD700;
+            font-weight: 700;
+        }
+
+        .roadmap-footer {
+            text-align: center;
+            margin-top: 60px;
+            padding-top: 40px;
+        }
+
+        .footer-separator {
+            width: 100px;
+            height: 2px;
+            background: #FFD700;
+            margin: 0 auto 30px auto;
+            box-shadow: 0 0 20px #FFD700;
+        }
+
+        .footer-ru {
+            font-size: 24px;
+            color: #FFFFFF;
+            margin-bottom: 10px;
+            font-weight: 300;
+        }
+
+        .footer-en {
+            font-size: 20px;
+            color: #FFD700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        /* ========== НОВАЯ ЦИФРОВАЯ ЭКОСИСТЕМА ========== */
+        .digital-section {
+            background: linear-gradient(135deg, #0A0A0A 0%, #111111 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .digital-intro {
+            text-align: center;
+            max-width: 900px;
+            margin: 0 auto 60px auto;
+        }
+
+        .digital-intro .intro-main {
+            font-size: 28px;
+            font-weight: 600;
+            color: #FFD700;
+            margin-bottom: 20px;
+        }
+
+        .digital-intro .intro-text {
+            font-size: 20px;
+            color: #CCCCCC;
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+        .digital-intro .intro-highlight {
+            font-size: 22px;
+            color: #FFFFFF;
+            font-style: italic;
+            padding: 10px 30px;
+            border-top: 1px solid rgba(255, 215, 0, 0.3);
+            border-bottom: 1px solid rgba(255, 215, 0, 0.3);
+            display: inline-block;
+        }
+
+        .digital-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+            margin-bottom: 80px;
+        }
+
+        .digital-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 215, 0, 0.1);
+            border-radius: 30px;
+            padding: 40px;
+            transition: all 0.4s;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: cardAppear 0.8s forwards;
+        }
+
+        .digital-card:nth-child(1) { animation-delay: 0.1s; }
+        .digital-card:nth-child(2) { animation-delay: 0.3s; }
+        .digital-card:nth-child(3) { animation-delay: 0.5s; }
+        .digital-card:nth-child(4) { animation-delay: 0.7s; }
+
+        .digital-card:hover {
+            border-color: #FFD700;
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(255, 215, 0, 0.15);
+        }
+
+        .digital-card .card-icon i {
+            font-size: 48px;
+            color: #FFD700;
+            margin-bottom: 25px;
+            transition: all 0.4s;
+        }
+
+        .digital-card:hover .card-icon i {
+            transform: scale(1.1) rotate(5deg);
+            filter: drop-shadow(0 0 20px #FFD700);
+        }
+
+        .digital-card h3 {
+            font-size: 28px;
+            font-weight: 700;
+            color: #FFD700;
+            margin-bottom: 10px;
+        }
+
+        .digital-card h4 {
+            font-size: 18px;
+            font-weight: 400;
+            color: #FFFFFF;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(255, 215, 0, 0.2);
+        }
+
+        .digital-card p {
+            font-size: 16px;
+            color: #CCCCCC;
+            line-height: 1.7;
+            margin-bottom: 20px;
+        }
+
+        .digital-list {
+            list-style: none;
+            padding: 0;
+            margin: 20px 0;
+        }
+
+        .digital-list li {
+            padding: 8px 0 8px 25px;
+            position: relative;
+            color: #CCCCCC;
+        }
+
+        .digital-list li::before {
+            content: '⸻';
+            color: #FFD700;
+            position: absolute;
+            left: 0;
+            opacity: 0.7;
+        }
+
+        .card-note {
+            font-size: 14px;
+            color: #888888;
+            font-style: italic;
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px dashed rgba(255, 215, 0, 0.2);
+        }
+
+        .card-feature {
+            font-size: 16px;
+            color: #FFD700;
+            background: rgba(255, 215, 0, 0.05);
+            padding: 15px;
+            border-radius: 15px;
+            margin-top: 15px;
+            border: 1px solid rgba(255, 215, 0, 0.2);
+        }
+
+        .digital-footer {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .footer-lines {
+            margin-bottom: 30px;
+        }
+
+        /* ========== ФУТЕР ========== */
+        .footer {
+            background-color: #050505;
+            padding: 80px 0 30px;
+            border-top: 1px solid rgba(255, 215, 0, 0.1);
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 60px;
+            margin-bottom: 60px;
+        }
+
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .footer-logo .logo-crown {
+            font-size: 36px;
+        }
+
+        .footer-text {
+            color: #CCCCCC;
+            margin-bottom: 20px;
+        }
+
+        .footer-links {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .footer-links a {
+            color: #CCCCCC;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: #FFD700;
+        }
+
+        .footer-social {
+            display: flex;
+            gap: 20px;
+        }
+
+        .social-link {
+            width: 40px;
+            height: 40px;
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #FFD700;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .social-link:hover {
+            background-color: #FFD700;
+            color: #0A0A0A;
+        }
+
+        .social-link.tg-social:hover {
+            background-color: #0088cc;
+            border-color: #0088cc;
+            color: white;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 215, 0, 0.1);
+            color: #666666;
+            font-size: 14px;
+        }
+
+        /* ========== АДАПТАЦИЯ ========== */
+        @media (max-width: 1200px) {
+            .hero-crown-svg { width: 400px; }
+        }
+
+        @media (max-width: 992px) {
+            .hero-title .lang-ru { font-size: 42px; }
+            .hero-title .lang-en { font-size: 36px; }
+            .hero-line-2 .lang-ru { font-size: 24px; }
+            .hero-line-2 .lang-en { font-size: 20px; }
+            .hero-line-3 .lang-ru { font-size: 20px; }
+            .hero-line-3 .lang-en { font-size: 18px; }
+            
+            .philosophy-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .digital-grid {
+                gap: 20px;
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav { display: none; }
+            
+            .hero-title .lang-ru { font-size: 32px; }
+            .hero-title .lang-en { font-size: 28px; }
+            .hero-line-2 .lang-ru { font-size: 20px; }
+            .hero-line-2 .lang-en { font-size: 18px; }
+            .hero-line-3 .lang-ru { font-size: 18px; }
+            .hero-line-3 .lang-en { font-size: 16px; }
+            
+            .hero-buttons { flex-direction: column; }
+            
+            .hero-crown { opacity: 0.1; }
+            .hero-crown-svg { width: 250px; }
+            
+            .section-title { font-size: 36px; }
+            
+            .philosophy-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .roadmap-timeline::before { left: 20px; }
+            
+            .timeline-marker { width: 40px; }
+            .timeline-content { margin-left: 15px; padding: 20px; }
+            
+            .digital-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            
+            .footer-logo { justify-content: center; }
+            .footer-links { align-items: center; }
+            .footer-social { justify-content: center; }
+        }
+
+        @media (max-width: 576px) {
+            .hero-crown { display: none; }
+        }
+
+        @media (max-width: 480px) {
+            .hero-title .lang-ru { font-size: 26px; }
+            .hero-title .lang-en { font-size: 22px; }
+            
+            .logo-svg { height: 50px; }
+            .logo-name { font-size: 22px; }
+            .logo-majesty { font-size: 22px; }
+            
+            .hero-sup-title { font-size: 18px; }
+            
+            .philosophy-card { padding: 30px 20px; }
+            .digital-card { padding: 30px 20px; }
+            
+            .footer-ru { font-size: 18px; }
+            .footer-en { font-size: 16px; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Хедер -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo">
+                    <img src="images/logo.svg" alt="Evseenko Majesty" class="logo-svg">
+                </div>
+                
+                <nav class="nav">
+                    <a href="#about">О бренде</a>
+                    <a href="#roadmap">Путь</a>
+                    <a href="#digital">Экосистема</a>
+                </nav>
+                
+                <a href="https://t.me/evseenko_majesty_bot" class="tg-button" target="_blank">
+                    <i class="fab fa-telegram"></i> Telegram
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- Hero секция -->
+        <section class="hero">
+            <div class="container">
+                <div class="hero-content">
+                    <div class="hero-sup-title">Evseenko Majesty</div>
+                    
+                    <h1 class="hero-title">
+                        <div class="title-line">
+                            <span class="lang-ru">ПУТЬ ТОЛЬКО НАЧИНАЕТСЯ!</span>
+                            <span class="lang-en">A JOURNEY IS JUST BEGINNING!</span>
+                        </div>
+                    </h1>
+                    
+                    <div class="hero-line hero-line-2">
+                        <div class="line-wrapper">
+                            <span class="lang-ru">СОЗДАНИЕ НОВОЙ АВТОМОБИЛЬНОЙ КУЛЬТУРЫ</span>
+                            <span class="lang-en">BUILDING A NEW AUTOMOTIVE CULTURE</span>
+                        </div>
+                    </div>
+                    
+                    <div class="hero-line hero-line-3">
+                        <div class="line-wrapper">
+                            <span class="lang-ru">ОТ УЛИЧНОЙ СТРАСТИ К НАСТОЯЩЕМУ МАСТЕРСТВУ</span>
+                            <span class="lang-en">FROM STREET PASSION TO TRUE MASTERY</span>
+                        </div>
+                    </div>
+                    
+                    <div class="hero-buttons">
+                        <a href="https://t.me/evseenko_majesty_bot" class="btn btn-telegram" target="_blank">
+                            <i class="fab fa-telegram"></i> Перейти в бота
+                        </a>
+                        <a href="#roadmap" class="btn btn-outline">
+                            Путь развития
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="hero-crown">
+                <img src="images/logo.svg" alt="Evseenko Majesty Crown" class="hero-crown-svg">
+            </div>
+        </section>
+
+        <!-- Секция Философия -->
+        <section id="about" class="section philosophy-section">
+            <div class="container">
+                <h2 class="section-title">
+                    Философия <span>Evseenko Majesty</span>
+                </h2>
+                
+                <div class="philosophy-intro">
+                    <p class="intro-main">Evseenko Majesty — это культура движения.</p>
+                    <p class="intro-sub">Не просто машины. Не просто сервис.<br>Это путь к мастерству в каждой детали, каждом решении, каждом движении.</p>
+                </div>
+                
+                <div class="philosophy-grid">
+                    <!-- Дисциплина -->
+                    <div class="philosophy-card">
+                        <div class="card-icon">
+                            <i class="fas fa-gem"></i>
+                        </div>
+                        <div class="card-number">01</div>
+                        <h3>Дисциплина</h3>
+                        <p>Каждое действие осознанно. Каждая деталь на своём месте. Дисциплина — это фундамент, на котором рождается мастерство.</p>
+                        <div class="card-line"></div>
+                    </div>
+                    
+                    <!-- Технология -->
+                    <div class="philosophy-card">
+                        <div class="card-icon">
+                            <i class="fas fa-microchip"></i>
+                        </div>
+                        <div class="card-number">02</div>
+                        <h3>Технология</h3>
+                        <p>Мы понимаем машины изнутри. Не просто заменяем, а создаём решения, которые работают в гармонии с техникой.</p>
+                        <div class="card-line"></div>
+                    </div>
+                    
+                    <!-- Эстетика -->
+                    <div class="philosophy-card">
+                        <div class="card-icon">
+                            <i class="fas fa-paint-brush"></i>
+                        </div>
+                        <div class="card-number">03</div>
+                        <h3>Эстетика</h3>
+                        <p>Красота в деталях, не в показе. От аккуратной проводки до формы кузова — каждая мелочь отражает характер машины.</p>
+                        <div class="card-line"></div>
+                    </div>
+                    
+                    <!-- Дух движения -->
+                    <div class="philosophy-card">
+                        <div class="card-icon">
+                            <i class="fas fa-road"></i>
+                        </div>
+                        <div class="card-number">04</div>
+                        <h3>Дух движения</h3>
+                        <p>Evseenko Majesty — это движение вперёд. Не скорость ради скорости, а путь к совершенству. Каждая поездка — часть истории.</p>
+                        <div class="card-line"></div>
+                    </div>
+                </div>
+                
+                <div class="philosophy-footer">
+                    <div class="footer-line"></div>
+                    <p class="slogan-en">MAJESTY IS THE JOURNEY, NOT JUST THE DRIVE</p>
+                    <p class="slogan-ru">Majesty — это путь, а не просто движение</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Секция Путь развития -->
+        <section id="roadmap" class="section roadmap-section">
+            <div class="container">
+                <h2 class="section-title">
+                    Путь <span>развития</span>
+                </h2>
+                
+                <div class="roadmap-intro">
+                    <p>Evseenko Majesty — это долгий путь.<br>
+                    Он начинается с идеи и постепенно превращается в инфраструктуру автомобильной культуры.</p>
+                </div>
+                
+                <div class="roadmap-timeline">
+                    <!-- Этап 1 -->
+                    <div class="timeline-item">
+                        <div class="timeline-marker">
+                            <span class="timeline-dot"></span>
+                            <span class="timeline-line"></span>
+                        </div>
+                        <div class="timeline-content">
+                            <div class="timeline-header">
+                                <span class="timeline-number">Этап 1</span>
+                                <span class="timeline-title">Основа</span>
+                            </div>
+                            <div class="timeline-body">
+                                <p>Начало пути. Работа руками, первые ремонты, первые клиенты и первые ошибки.</p>
+                                <p class="timeline-quote">Здесь формируется опыт, дисциплина и понимание машин.</p>
+                                <div class="timeline-status status-beginning">
+                                    <i class="fas fa-flag"></i> Статус: Начало
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Этап 2 -->
+                    <div class="timeline-item">
+                        <div class="timeline-marker">
+                            <span class="timeline-dot"></span>
+                            <span class="timeline-line"></span>
+                        </div>
+                        <div class="timeline-content">
+                            <div class="timeline-header">
+                                <span class="timeline-number">Этап 2</span>
+                                <span class="timeline-title">Цифровой фундамент</span>
+                            </div>
+                            <div class="timeline-body">
+                                <p>Создание цифровой системы бренда.</p>
+                                <ul class="timeline-list">
+                                    <li>Telegram-бот</li>
+                                    <li>ID автомобилей</li>
+                                    <li>История обслуживания</li>
+                                    <li>Цифровая экосистема для клиентов</li>
+                                </ul>
+                                <p class="timeline-quote">Технология становится частью сервиса.</p>
+                                <div class="timeline-status status-progress">
+                                    <i class="fas fa-spinner fa-pulse"></i> Статус: В процессе
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Этап 3 -->
+                    <div class="timeline-item">
+                        <div class="timeline-marker">
+                            <span class="timeline-dot"></span>
+                            <span class="timeline-line"></span>
+                        </div>
+                        <div class="timeline-content">
+                            <div class="timeline-header">
+                                <span class="timeline-number">Этап 3</span>
+                                <span class="timeline-title">Первая точка</span>
+                            </div>
+                            <div class="timeline-body">
+                                <p>Первая стабильная инфраструктура. Мойка самообслуживания как финансовая база для развития проекта.</p>
+                                <div class="timeline-status status-planned">
+                                    <i class="far fa-clock"></i> Статус: Планируется
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Этап 4 -->
+                    <div class="timeline-item">
+                        <div class="timeline-marker">
+                            <span class="timeline-dot"></span>
+                            <span class="timeline-line"></span>
+                        </div>
+                        <div class="timeline-content">
+                            <div class="timeline-header">
+                                <span class="timeline-number">Этап 4</span>
+                                <span class="timeline-title">Мастерская</span>
+                            </div>
+                            <div class="timeline-body">
+                                <p>Создание пространства настоящей работы с автомобилями.</p>
+                                <ul class="timeline-list">
+                                    <li>Детейлинг</li>
+                                    <li>Тюнинг</li>
+                                    <li>Кастомные детали</li>
+                                    <li>Инженерные доработки</li>
+                                </ul>
+                                <p class="timeline-quote">Место, где техника становится искусством.</p>
+                                <div class="timeline-status status-planned">
+                                    <i class="far fa-clock"></i> Статус: Планируется
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Этап 5 -->
+                    <div class="timeline-item">
+                        <div class="timeline-marker">
+                            <span class="timeline-dot"></span>
+                            <span class="timeline-line"></span>
+                        </div>
+                        <div class="timeline-content">
+                            <div class="timeline-header">
+                                <span class="timeline-number">Этап 5</span>
+                                <span class="timeline-title">Культура</span>
+                            </div>
+                            <div class="timeline-body">
+                                <p>Формирование сообщества вокруг бренда.</p>
+                                <p class="timeline-highlight">Majesty: AFTERDARK</p>
+                                <ul class="timeline-list">
+                                    <li>Ночной формат</li>
+                                    <li>Закрытые встречи</li>
+                                    <li>Автомобильная культура без лишнего шума</li>
+                                </ul>
+                                <div class="timeline-status status-development">
+                                    <i class="fas fa-chart-line"></i> Статус: Развитие
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Этап 6 -->
+                    <div class="timeline-item">
+                        <div class="timeline-marker">
+                            <span class="timeline-dot"></span>
+                            <span class="timeline-line"></span>
+                        </div>
+                        <div class="timeline-content">
+                            <div class="timeline-header">
+                                <span class="timeline-number">Этап 6</span>
+                                <span class="timeline-title">Трек</span>
+                            </div>
+                            <div class="timeline-body">
+                                <p>Создание собственной территории движения.</p>
+                                <ul class="timeline-list">
+                                    <li>Автотрек</li>
+                                    <li>Трек-дни</li>
+                                    <li>Обучение управлению</li>
+                                </ul>
+                                <p class="timeline-quote">Место, где машины показывают свой настоящий характер.</p>
+                                <div class="timeline-status status-future">
+                                    <i class="fas fa-star"></i> Статус: Будущее
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Этап 7 -->
+                    <div class="timeline-item">
+                        <div class="timeline-marker">
+                            <span class="timeline-dot"></span>
+                            <span class="timeline-line"></span>
+                        </div>
+                        <div class="timeline-content">
+                            <div class="timeline-header">
+                                <span class="timeline-number">Этап 7</span>
+                                <span class="timeline-title">Центр</span>
+                            </div>
+                            <div class="timeline-body">
+                                <p>Финальная форма проекта. Центр автомобильной культуры:</p>
+                                <ul class="timeline-list">
+                                    <li>Выставки</li>
+                                    <li>Мастерские</li>
+                                    <li>Магазины</li>
+                                    <li>Инженерия</li>
+                                    <li>Сообщество</li>
+                                </ul>
+                                <p class="timeline-quote">Место, где объединяется техника, люди и культура.</p>
+                                <div class="timeline-status status-goal">
+                                    <i class="fas fa-bullseye"></i> Статус: Цель
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="roadmap-footer">
+                    <div class="footer-separator"></div>
+                    <p class="footer-ru">Путь к Majesty строится шаг за шагом.</p>
+                    <p class="footer-en">THE ROAD TO MAJESTY IS BUILT STEP BY STEP</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Секция Цифровая экосистема -->
+        <section id="digital" class="section digital-section">
+            <div class="container">
+                <h2 class="section-title">
+                    Цифровая <span>экосистема</span>
+                </h2>
+                
+                <div class="digital-intro">
+                    <p class="intro-main">Evseenko Majesty создаёт цифровую систему обслуживания автомобиля.</p>
+                    <p class="intro-text">Каждая работа фиксируется, каждая деталь имеет идентификацию, а владелец всегда может увидеть историю своего автомобиля.</p>
+                    <p class="intro-highlight">Технология делает сервис прозрачным и понятным.</p>
+                </div>
+                
+                <div class="digital-grid">
+                    <!-- Telegram-бот -->
+                    <div class="digital-card">
+                        <div class="card-icon">
+                            <i class="fab fa-telegram"></i>
+                        </div>
+                        <h3>Telegram-бот</h3>
+                        <h4>Личный кабинет клиента</h4>
+                        <p>Через Telegram владелец получает доступ к своему аккаунту.</p>
+                        <ul class="digital-list">
+                            <li>Запись на услуги</li>
+                            <li>История заказов</li>
+                            <li>Уведомления о работах</li>
+                            <li>Доступ к выполненным услугам</li>
+                        </ul>
+                        <div class="card-note">Вся информация о взаимодействии с сервисом хранится в одном месте.</div>
+                    </div>
+                    
+                    <!-- История обслуживания -->
+                    <div class="digital-card">
+                        <div class="card-icon">
+                            <i class="fas fa-history"></i>
+                        </div>
+                        <h3>История обслуживания</h3>
+                        <h4>Хронология работ</h4>
+                        <p>Каждая выполненная работа сохраняется в системе.</p>
+                        <ul class="digital-list">
+                            <li>Обслуживание</li>
+                            <li>Ремонт</li>
+                            <li>Доработки</li>
+                            <li>Установленные детали</li>
+                        </ul>
+                        <div class="card-note">Клиент всегда может увидеть, что и когда было сделано с его автомобилем.</div>
+                    </div>
+                    
+                    <!-- ID автомобиля -->
+                    <div class="digital-card">
+                        <div class="card-icon">
+                            <i class="fas fa-id-card"></i>
+                        </div>
+                        <h3>ID автомобиля</h3>
+                        <h4>Система идентификации</h4>
+                        <p>Каждый автомобиль получает внутренний цифровой идентификатор.</p>
+                        <div class="card-feature">Он используется внутри системы для учёта работ, деталей и обслуживания.</div>
+                    </div>
+                    
+                    <!-- QR / NFC метки -->
+                    <div class="digital-card">
+                        <div class="card-icon">
+                            <i class="fas fa-qrcode"></i>
+                        </div>
+                        <h3>QR / NFC метки</h3>
+                        <h4>Доступ к информации</h4>
+                        <p>На автомобиле и деталях могут размещаться QR или NFC метки.</p>
+                        <div class="card-feature">Сканирование метки позволяет открыть информацию о конкретном элементе или автомобиле в системе.</div>
+                    </div>
+                </div>
+                
+                <div class="digital-footer">
+                    <div class="footer-separator"></div>
+                    <div class="footer-lines">
+                        <p class="footer-ru">История обслуживания, которой можно доверять.</p>
+                        <p class="footer-en">SERVICE HISTORY YOU CAN TRUST</p>
+                    </div>
+                    <div class="footer-lines second">
+                        <p class="footer-ru">Цифровая система Evseenko Majesty.</p>
+                        <p class="footer-en">DIGITAL SYSTEM OF EVSEENKO MAJESTY</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Футер -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-info">
+                    <div class="footer-logo">
+                        <span class="logo-crown">👑</span>
+                        <span>Evseenko Majesty</span>
+                    </div>
+                    <p class="footer-text">From the street to mastery</p>
+                </div>
+                
+                <div class="footer-links">
+                    <a href="#about">О бренде</a>
+                    <a href="#roadmap">Путь</a>
+                    <a href="#digital">Экосистема</a>
+                </div>
+                
+                <div class="footer-social">
+                    <a href="https://t.me/evseenko_majesty" class="social-link tg-social"><i class="fab fa-telegram"></i></a>
+                    <a href="https://vk.ru/evseenko_majesty" class="social-link"><i class="fab fa-vk"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2026 Evseenko Majesty. Все права защищены.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Простой JavaScript для эффектов
+        document.addEventListener('DOMContentLoaded', function() {
+            const header = document.querySelector('.header');
+            
+            window.addEventListener('scroll', function() {
+                if (window.scrollY > 100) {
+                    header.style.backgroundColor = 'rgba(10, 10, 10, 0.98)';
+                    header.classList.add('scrolled');
+                } else {
+                    header.style.backgroundColor = 'rgba(10, 10, 10, 0.95)';
+                    header.classList.remove('scrolled');
+                }
+            });
+            
+            document.querySelectorAll('.nav a').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    const href = this.getAttribute('href');
+                    if (href && href.startsWith('#')) {
+                        e.preventDefault();
+                        const element = document.querySelector(href);
+                        if (element) {
+                            element.scrollIntoView({ behavior: 'smooth' });
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
