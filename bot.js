@@ -1,15 +1,32 @@
+
 const { Telegraf, Markup } = require('telegraf');
 const { createClient } = require('@supabase/supabase-js');
+const express = require('express');
 require('dotenv').config();
 
+// --- КЛЮЧИ ---
 const BOT_TOKEN = process.env.TOKEN_BOT;
 const SUPABASE_URL = process.env.SUPABASE_URL;
 const SUPABASE_KEY = process.env.SUPABASE_KEY;
 const WEBAPP_URL = 'https://evseenkomajesty.ru/app';
 
+// --- ПОДКЛЮЧЕНИЯ ---
 const bot = new Telegraf(BOT_TOKEN);
 const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
+// --- ПРОСТОЙ HTTP-СЕРВЕР ДЛЯ RENDER ---
+const app = express();
+const port = process.env.PORT || 3000;
+
+app.get('/', (req, res) => {
+    res.send('Evseenko Majesty Bot is running!');
+});
+
+app.listen(port, () => {
+    console.log(`🌐 HTTP-сервер запущен на порту ${port}`);
+});
+
+// --- КОМАНДА /start ---
 bot.start(async (ctx) => {
     const user = ctx.from;
     const firstName = user.first_name;
@@ -51,28 +68,39 @@ bot.start(async (ctx) => {
             );
         }
     } catch (error) {
+        console.error('Ошибка:', error);
         await ctx.reply('⚠️ Ошибка. Попробуй позже.');
     }
 });
 
+// --- КОМАНДА /balance ---
 bot.command('balance', async (ctx) => {
-    const { data: user } = await supabase
-        .from('majesty_users')
-        .select('balance, bonus_points')
-        .eq('telegram_id', ctx.from.id)
-        .single();
+    const telegramId = ctx.from.id;
+    try {
+        const { data: user } = await supabase
+            .from('majesty_users')
+            .select('balance, bonus_points')
+            .eq('telegram_id', telegramId)
+            .single();
 
-    if (!user) {
-        await ctx.reply('⚠️ Напиши /start');
-        return;
+        if (!user) {
+            await ctx.reply('⚠️ Напиши /start');
+            return;
+        }
+
+        await ctx.replyWithMarkdown(
+            `💰 *Баланс:* ${user.balance} ₽\n` +
+            `🎁 *Бонусы:* ${user.bonus_points}`
+        );
+    } catch (error) {
+        await ctx.reply('⚠️ Ошибка');
     }
-
-    await ctx.replyWithMarkdown(
-        `💰 *Баланс:* ${user.balance} ₽\n` +
-        `🎁 *Бонусы:* ${user.bonus_points}`
-    );
 });
 
+// --- ЗАПУСК БОТА ---
 bot.launch().then(() => {
-    console.log('✅ Бот запущен!');
+    console.log('✅ Бот Evseenko Majesty запущен!');
 });
+
+process.once('SIGINT', () => bot.stop('SIGINT'));
+process.once('SIGTERM', () => bot.stop('SIGTERM'));
