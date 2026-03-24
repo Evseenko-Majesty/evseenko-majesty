@@ -2,25 +2,20 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>Evseenko Majesty — Личный кабинет</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
             background: #0A0A0A;
             color: #FFFFFF;
             padding: 20px;
+            min-height: 100vh;
         }
-        .container {
-            max-width: 500px;
-            margin: 0 auto;
-        }
+        .container { max-width: 500px; margin: 0 auto; }
         .card {
             background: rgba(255, 255, 255, 0.05);
             border: 1px solid rgba(255, 215, 0, 0.2);
@@ -31,12 +26,9 @@
         .balance {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 15px;
-        }
-        .balance-item {
             text-align: center;
-            flex: 1;
         }
+        .balance-item { flex: 1; }
         .balance-value {
             font-size: 28px;
             font-weight: bold;
@@ -45,43 +37,72 @@
         .balance-label {
             font-size: 12px;
             color: #888;
+            margin-top: 5px;
         }
         .button {
             background: #FFD700;
             color: #0A0A0A;
             border: none;
             border-radius: 30px;
-            padding: 12px 20px;
+            padding: 14px 20px;
             font-size: 16px;
             font-weight: bold;
             width: 100%;
             cursor: pointer;
-            margin-bottom: 10px;
+            margin-bottom: 12px;
         }
         .button-secondary {
             background: transparent;
             border: 1px solid #FFD700;
             color: #FFD700;
         }
-        h1 {
-            font-size: 24px;
-            margin-bottom: 10px;
-        }
-        .gold {
-            color: #FFD700;
-        }
+        h1 { font-size: 24px; margin-bottom: 5px; }
+        .gold { color: #FFD700; }
         .info-row {
             display: flex;
             justify-content: space-between;
             padding: 12px 0;
             border-bottom: 1px solid rgba(255,255,255,0.1);
         }
-        .info-label {
-            color: #888;
+        .info-label { color: #888; }
+        .info-value { color: #FFD700; font-weight: 500; }
+        .status {
+            text-align: center;
+            padding: 15px;
+            font-size: 14px;
         }
-        .info-value {
-            color: #FFD700;
+        .status-success { color: #00C851; }
+        .status-error { color: #ff4444; }
+        .status-info { color: #FFD700; }
+        .service-item {
+            padding: 12px;
+            border-bottom: 1px solid rgba(255,215,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
+        .service-name { font-weight: 500; }
+        .service-price { color: #FFD700; }
+        .badge {
+            background: rgba(255,215,0,0.2);
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+        }
+        .badge-coming { background: rgba(100,100,100,0.3); color: #aaa; }
+        .order-item {
+            padding: 12px;
+            border-bottom: 1px solid rgba(255,215,0,0.1);
+        }
+        .order-status {
+            font-size: 12px;
+            padding: 2px 8px;
+            border-radius: 12px;
+            display: inline-block;
+        }
+        .status-pending { background: #ffa50020; color: #ffa500; }
+        .status-progress { background: #0088cc20; color: #0088cc; }
+        .status-completed { background: #00c85120; color: #00c851; }
     </style>
 </head>
 <body>
@@ -110,67 +131,225 @@
                 <span class="info-value" id="firstName">—</span>
             </div>
             <div class="info-row">
-                <span class="info-label">Telegram ID</span>
-                <span class="info-value" id="telegramId">—</span>
-            </div>
-            <div class="info-row">
                 <span class="info-label">Роль</span>
-                <span class="info-value" id="role">client</span>
+                <span class="info-value" id="role">Клиент</span>
             </div>
+        </div>
+
+        <!-- Услуги (скоро) -->
+        <div class="card" id="servicesCard">
+            <h3 style="margin-bottom: 15px;">🛠️ Услуги</h3>
+            <div id="servicesList"></div>
+            <div class="badge badge-coming" style="margin-top: 10px; text-align: center;">🚧 Новые услуги скоро</div>
+        </div>
+
+        <!-- Мои заказы -->
+        <div class="card" id="ordersCard">
+            <h3 style="margin-bottom: 15px;">📋 Мои заказы</h3>
+            <div id="ordersList"></div>
         </div>
 
         <div class="card">
-            <button class="button" onclick="sendToBot('balance')">💰 Проверить баланс</button>
-            <button class="button button-secondary" onclick="sendToBot('support')">💬 Поддержка</button>
-            <button class="button button-secondary" onclick="closeApp()">✖️ Закрыть</button>
+            <button class="button" id="balanceBtn">💰 Обновить баланс</button>
+            <button class="button button-secondary" id="supportBtn">💬 Поддержка</button>
+            <button class="button button-secondary" id="closeBtn">✖️ Закрыть</button>
         </div>
 
-        <div class="card" style="text-align: center;">
-            <p style="font-size: 12px; color: #444;">Evseenko Majesty — от улицы к мастерству</p>
-        </div>
+        <div class="status" id="status">Загрузка...</div>
     </div>
 
     <script>
-        // Инициализация Telegram WebApp
+        // Supabase настройки (замени на свои)
+        const SUPABASE_URL = 'https://dgqlbvajznobyitubazo.supabase.co';
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRncWxidmFqem5vYnlpdHViYXpvIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3Mzg1MjcyMSwiZXhwIjoyMDg5NDI4NzIxfQ.iTNnvDhM7cZ5W5oWpTMVNLfbAAtZKZAq_mjhzqSAzUc';
+        
+        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+        
+        // Telegram WebApp
         const tg = window.Telegram.WebApp;
         tg.expand();
         tg.ready();
-
-        // Данные пользователя из Telegram
+        
         const user = tg.initDataUnsafe?.user;
         
-        // Отображаем данные
-        if (user) {
-            document.getElementById('firstName').innerText = user.first_name || '—';
-            document.getElementById('telegramId').innerText = user.id || '—';
+        // Состояние
+        let currentUser = null;
+        
+        // Услуги (заглушка — потом добавишь)
+        const services = [
+            { name: "🚿 Мойка", price: "скоро", coming: true },
+            { name: "🔧 Тюнинг", price: "скоро", coming: true },
+            { name: "🏭 Мастерская", price: "скоро", coming: true },
+            { name: "🎨 Детейлинг", price: "скоро", coming: true }
+        ];
+        
+        // Отображение услуг
+        function renderServices() {
+            const container = document.getElementById('servicesList');
+            if (!container) return;
+            
+            container.innerHTML = services.map(s => `
+                <div class="service-item">
+                    <span class="service-name">${s.name}</span>
+                    <span class="service-price">${s.price}</span>
+                </div>
+            `).join('');
         }
-
-        // Загружаем баланс из бота (временно)
-        function loadBalance() {
-            // Запрос к боту
-            tg.sendData(JSON.stringify({ action: 'getBalance' }));
+        
+        // Отображение заказов
+        function renderOrders(orders) {
+            const container = document.getElementById('ordersList');
+            if (!container) return;
+            
+            if (!orders || orders.length === 0) {
+                container.innerHTML = '<div style="color: #888; text-align: center;">Нет заказов</div>';
+                return;
+            }
+            
+            container.innerHTML = orders.map(order => `
+                <div class="order-item">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                        <span class="order-status status-${order.status}">${getStatusText(order.status)}</span>
+                        <span style="color: #FFD700;">${order.price} ₽</span>
+                    </div>
+                    <div style="font-size: 14px; color: #aaa;">${order.service_type || 'Услуга'}</div>
+                    <div style="font-size: 12px; color: #666;">${order.created_at ? new Date(order.created_at).toLocaleDateString() : ''}</div>
+                </div>
+            `).join('');
         }
-
-        // Отправка команд в бот
+        
+        function getStatusText(status) {
+            const statuses = {
+                pending: 'Ожидает',
+                progress: 'В работе',
+                completed: 'Выполнен',
+                cancelled: 'Отменён'
+            };
+            return statuses[status] || status;
+        }
+        
+        // Загрузка данных пользователя из Supabase
+        async function loadUserData() {
+            if (!user) {
+                document.getElementById('status').innerHTML = '⚠️ Не удалось загрузить данные';
+                document.getElementById('status').className = 'status status-error';
+                return;
+            }
+            
+            document.getElementById('firstName').innerText = user.first_name || user.username || 'Друг';
+            document.getElementById('status').innerHTML = '🔄 Загрузка данных...';
+            document.getElementById('status').className = 'status status-info';
+            
+            try {
+                // Получаем пользователя из базы
+                let { data: dbUser, error } = await supabase
+                    .from('majesty_users')
+                    .select('*')
+                    .eq('telegram_id', user.id)
+                    .single();
+                
+                if (error && error.code !== 'PGRST116') {
+                    console.error('Ошибка:', error);
+                }
+                
+                if (!dbUser) {
+                    // Создаём нового пользователя
+                    const { data: newUser, error: insertError } = await supabase
+                        .from('majesty_users')
+                        .insert({
+                            telegram_id: user.id,
+                            first_name: user.first_name,
+                            username: user.username,
+                            role: 'client',
+                            balance: 0,
+                            bonus_points: 0
+                        })
+                        .select()
+                        .single();
+                    
+                    if (insertError) {
+                        throw insertError;
+                    }
+                    dbUser = newUser;
+                }
+                
+                currentUser = dbUser;
+                
+                // Обновляем отображение
+                document.getElementById('balance').innerText = currentUser.balance || 0;
+                document.getElementById('bonus').innerText = currentUser.bonus_points || 0;
+                document.getElementById('role').innerText = getRoleName(currentUser.role);
+                document.getElementById('status').innerHTML = '✅ Данные загружены';
+                document.getElementById('status').className = 'status status-success';
+                
+                // Загружаем заказы
+                const { data: orders } = await supabase
+                    .from('majesty_orders')
+                    .select('*')
+                    .eq('client_id', user.id)
+                    .order('created_at', { ascending: false })
+                    .limit(5);
+                
+                renderOrders(orders);
+                
+            } catch (error) {
+                console.error('Ошибка:', error);
+                document.getElementById('status').innerHTML = '⚠️ Ошибка загрузки';
+                document.getElementById('status').className = 'status status-error';
+            }
+        }
+        
+        function getRoleName(role) {
+            const roles = {
+                client: 'Клиент',
+                master: 'Мастер',
+                admin: 'Администратор',
+                owner: 'Владелец'
+            };
+            return roles[role] || role;
+        }
+        
+        // Обновление баланса
+        async function refreshBalance() {
+            if (!currentUser) {
+                await loadUserData();
+                return;
+            }
+            
+            document.getElementById('status').innerHTML = '🔄 Обновление...';
+            
+            const { data, error } = await supabase
+                .from('majesty_users')
+                .select('balance, bonus_points')
+                .eq('telegram_id', user.id)
+                .single();
+            
+            if (!error && data) {
+                document.getElementById('balance').innerText = data.balance || 0;
+                document.getElementById('bonus').innerText = data.bonus_points || 0;
+                document.getElementById('status').innerHTML = '✅ Баланс обновлён';
+                setTimeout(() => {
+                    document.getElementById('status').innerHTML = '✅ Данные загружены';
+                }, 2000);
+            } else {
+                document.getElementById('status').innerHTML = '⚠️ Ошибка обновления';
+            }
+        }
+        
+        // Отправка в бота
         function sendToBot(action) {
             tg.sendData(JSON.stringify({ action: action }));
             tg.close();
         }
-
-        function closeApp() {
-            tg.close();
-        }
-
-        // Если бот отправил данные
-        tg.onEvent('mainButtonClicked', () => {});
         
-        // Получение данных от бота
-        Telegram.WebApp.onEvent('popupClosed', () => {});
+        // Кнопки
+        document.getElementById('balanceBtn').onclick = refreshBalance;
+        document.getElementById('supportBtn').onclick = () => sendToBot('support');
+        document.getElementById('closeBtn').onclick = () => tg.close();
         
-        // Загружаем баланс при открытии
-        setTimeout(() => {
-            loadBalance();
-        }, 500);
+        // Запуск
+        renderServices();
+        loadUserData();
     </script>
 </body>
 </html>
