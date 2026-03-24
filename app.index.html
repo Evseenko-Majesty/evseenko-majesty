@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Evseenko Majesty — Личный кабинет</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background: #0A0A0A;
+            color: #FFFFFF;
+            padding: 20px;
+        }
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        .card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .balance {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+        .balance-item {
+            text-align: center;
+            flex: 1;
+        }
+        .balance-value {
+            font-size: 28px;
+            font-weight: bold;
+            color: #FFD700;
+        }
+        .balance-label {
+            font-size: 12px;
+            color: #888;
+        }
+        .button {
+            background: #FFD700;
+            color: #0A0A0A;
+            border: none;
+            border-radius: 30px;
+            padding: 12px 20px;
+            font-size: 16px;
+            font-weight: bold;
+            width: 100%;
+            cursor: pointer;
+            margin-bottom: 10px;
+        }
+        .button-secondary {
+            background: transparent;
+            border: 1px solid #FFD700;
+            color: #FFD700;
+        }
+        h1 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+        .gold {
+            color: #FFD700;
+        }
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        .info-label {
+            color: #888;
+        }
+        .info-value {
+            color: #FFD700;
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="app">
+        <div class="card" style="text-align: center;">
+            <h1>👑 Evseenko <span class="gold">Majesty</span></h1>
+            <p style="color: #888; margin-top: 5px;">Личный кабинет</p>
+        </div>
+
+        <div class="card">
+            <div class="balance">
+                <div class="balance-item">
+                    <div class="balance-value" id="balance">0</div>
+                    <div class="balance-label">₽ Баланс</div>
+                </div>
+                <div class="balance-item">
+                    <div class="balance-value" id="bonus">0</div>
+                    <div class="balance-label">🎁 Бонусы</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="info-row">
+                <span class="info-label">Имя</span>
+                <span class="info-value" id="firstName">—</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">Telegram ID</span>
+                <span class="info-value" id="telegramId">—</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">Роль</span>
+                <span class="info-value" id="role">client</span>
+            </div>
+        </div>
+
+        <div class="card">
+            <button class="button" onclick="sendToBot('balance')">💰 Проверить баланс</button>
+            <button class="button button-secondary" onclick="sendToBot('support')">💬 Поддержка</button>
+            <button class="button button-secondary" onclick="closeApp()">✖️ Закрыть</button>
+        </div>
+
+        <div class="card" style="text-align: center;">
+            <p style="font-size: 12px; color: #444;">Evseenko Majesty — от улицы к мастерству</p>
+        </div>
+    </div>
+
+    <script>
+        // Инициализация Telegram WebApp
+        const tg = window.Telegram.WebApp;
+        tg.expand();
+        tg.ready();
+
+        // Данные пользователя из Telegram
+        const user = tg.initDataUnsafe?.user;
+        
+        // Отображаем данные
+        if (user) {
+            document.getElementById('firstName').innerText = user.first_name || '—';
+            document.getElementById('telegramId').innerText = user.id || '—';
+        }
+
+        // Загружаем баланс из бота (временно)
+        function loadBalance() {
+            // Запрос к боту
+            tg.sendData(JSON.stringify({ action: 'getBalance' }));
+        }
+
+        // Отправка команд в бот
+        function sendToBot(action) {
+            tg.sendData(JSON.stringify({ action: action }));
+            tg.close();
+        }
+
+        function closeApp() {
+            tg.close();
+        }
+
+        // Если бот отправил данные
+        tg.onEvent('mainButtonClicked', () => {});
+        
+        // Получение данных от бота
+        Telegram.WebApp.onEvent('popupClosed', () => {});
+        
+        // Загружаем баланс при открытии
+        setTimeout(() => {
+            loadBalance();
+        }, 500);
+    </script>
+</body>
+</html>
