@@ -8,7 +8,7 @@ require('dotenv').config();
 const BOT_TOKEN = process.env.TOKEN_BOT;
 const SUPABASE_URL = process.env.SUPABASE_URL;
 const SUPABASE_KEY = process.env.SUPABASE_KEY;
-const WEBAPP_URL = 'https://evseenkomajesty.ru/app';
+const WEBAPP_URL = 'https://evseenkomajesty.ru/app/index.html';
 
 // --- ПОДКЛЮЧЕНИЯ ---
 const bot = new Telegraf(BOT_TOKEN);
