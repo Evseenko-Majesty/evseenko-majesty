@@ -136,14 +136,12 @@
             </div>
         </div>
 
-        <!-- Услуги (скоро) -->
         <div class="card" id="servicesCard">
             <h3 style="margin-bottom: 15px;">🛠️ Услуги</h3>
             <div id="servicesList"></div>
             <div class="badge badge-coming" style="margin-top: 10px; text-align: center;">🚧 Новые услуги скоро</div>
         </div>
 
-        <!-- Мои заказы -->
         <div class="card" id="ordersCard">
             <h3 style="margin-bottom: 15px;">📋 Мои заказы</h3>
             <div id="ordersList"></div>
@@ -159,11 +157,11 @@
     </div>
 
     <script>
-        // Supabase настройки (замени на свои)
+        // Supabase настройки (ЗАМЕНИ НА СВОИ)
         const SUPABASE_URL = 'https://dgqlbvajznobyitubazo.supabase.co';
         const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRncWxidmFqem5vYnlpdHViYXpvIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3Mzg1MjcyMSwiZXhwIjoyMDg5NDI4NzIxfQ.iTNnvDhM7cZ5W5oWpTMVNLfbAAtZKZAq_mjhzqSAzUc';
         
-        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+        const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
         
         // Telegram WebApp
         const tg = window.Telegram.WebApp;
@@ -175,7 +173,7 @@
         // Состояние
         let currentUser = null;
         
-        // Услуги (заглушка — потом добавишь)
+        // Услуги (заглушка)
         const services = [
             { name: "🚿 Мойка", price: "скоро", coming: true },
             { name: "🔧 Тюнинг", price: "скоро", coming: true },
@@ -228,7 +226,7 @@
             return statuses[status] || status;
         }
         
-        // Загрузка данных пользователя из Supabase
+        // Загрузка данных пользователя
         async function loadUserData() {
             if (!user) {
                 document.getElementById('status').innerHTML = '⚠️ Не удалось загрузить данные';
@@ -241,8 +239,8 @@
             document.getElementById('status').className = 'status status-info';
             
             try {
-                // Получаем пользователя из базы
-                let { data: dbUser, error } = await supabase
+                // Получаем пользователя
+                let { data: dbUser, error } = await supabaseClient
                     .from('majesty_users')
                     .select('*')
                     .eq('telegram_id', user.id)
@@ -253,8 +251,7 @@
                 }
                 
                 if (!dbUser) {
-                    // Создаём нового пользователя
-                    const { data: newUser, error: insertError } = await supabase
+                    const { data: newUser, error: insertError } = await supabaseClient
                         .from('majesty_users')
                         .insert({
                             telegram_id: user.id,
@@ -275,7 +272,6 @@
                 
                 currentUser = dbUser;
                 
-                // Обновляем отображение
                 document.getElementById('balance').innerText = currentUser.balance || 0;
                 document.getElementById('bonus').innerText = currentUser.bonus_points || 0;
                 document.getElementById('role').innerText = getRoleName(currentUser.role);
@@ -283,7 +279,7 @@
                 document.getElementById('status').className = 'status status-success';
                 
                 // Загружаем заказы
-                const { data: orders } = await supabase
+                const { data: orders } = await supabaseClient
                     .from('majesty_orders')
                     .select('*')
                     .eq('client_id', user.id)
@@ -309,7 +305,6 @@
             return roles[role] || role;
         }
         
-        // Обновление баланса
         async function refreshBalance() {
             if (!currentUser) {
                 await loadUserData();
@@ -318,7 +313,7 @@
             
             document.getElementById('status').innerHTML = '🔄 Обновление...';
             
-            const { data, error } = await supabase
+            const { data, error } = await supabaseClient
                 .from('majesty_users')
                 .select('balance, bonus_points')
                 .eq('telegram_id', user.id)
@@ -336,7 +331,6 @@
             }
         }
         
-        // Отправка в бота
         function sendToBot(action) {
             tg.sendData(JSON.stringify({ action: action }));
             tg.close();
