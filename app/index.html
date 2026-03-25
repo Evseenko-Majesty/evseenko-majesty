@@ -14,7 +14,6 @@
             -webkit-tap-highlight-color: transparent;
         }
 
-        /* === БАЗОВЫЕ ПЕРЕМЕННЫЕ === */
         :root {
             --bg-primary: #ffffff;
             --bg-secondary: #f8f8fa;
@@ -25,13 +24,10 @@
             --accent: #000000;
             --accent-gold: #c4a747;
             --border: #e5e5ea;
-            --shadow-sm: 0 2px 8px rgba(0,0,0,0.04);
-            --shadow-md: 0 4px 16px rgba(0,0,0,0.06);
             --radius: 20px;
-            --transition: all 0.25s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            --transition: all 0.2s ease;
         }
 
-        /* === ТЁМНАЯ ТЕМА (ручная) === */
         body.dark {
             --bg-primary: #000000;
             --bg-secondary: #0c0c0e;
@@ -44,7 +40,6 @@
             --border: #2c2c30;
         }
 
-        /* === AFTERDARK (автоматический ночной режим) === */
         body.afterdark {
             --bg-primary: #030303;
             --bg-secondary: #0a0a0c;
@@ -61,30 +56,28 @@
             font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'SF Pro Display', Helvetica, Arial, sans-serif;
             background: var(--bg-primary);
             color: var(--text-primary);
-            line-height: 1.4;
             transition: var(--transition);
         }
 
-        /* === КОНТЕЙНЕРЫ === */
         .container {
             max-width: 500px;
             margin: 0 auto;
             padding: 20px 16px 90px 16px;
         }
 
-        /* === ВЕКТОРНЫЙ ЛОГОТИП (SVG) === */
+        /* Логотип */
         .hero-logo {
             text-align: center;
             margin: 32px 0 24px 0;
-            animation: fadeUp 0.6s ease;
+            animation: fadeUp 0.5s ease;
         }
         .crown-svg {
-            width: 80px;
-            height: 80px;
-            filter: drop-shadow(0 4px 12px rgba(0,0,0,0.1));
+            width: 72px;
+            height: 72px;
+            filter: drop-shadow(0 4px 12px rgba(0,0,0,0.08));
         }
         .brand-name {
-            font-size: 28px;
+            font-size: 26px;
             font-weight: 600;
             letter-spacing: -0.5px;
             margin-top: 12px;
@@ -94,21 +87,18 @@
             color: transparent;
         }
         .philosophy {
-            font-size: 14px;
+            font-size: 13px;
             color: var(--text-secondary);
-            letter-spacing: 0.3px;
-            margin-top: 8px;
-            font-weight: 400;
+            margin-top: 6px;
         }
 
-        /* === КАРТОЧКИ === */
+        /* Карточки */
         .card {
             background: var(--bg-card);
             border-radius: var(--radius);
             padding: 20px;
             margin-bottom: 16px;
             border: 0.5px solid var(--border);
-            transition: var(--transition);
         }
         .card-header {
             display: flex;
@@ -119,18 +109,24 @@
         .card-title {
             font-size: 17px;
             font-weight: 600;
-            letter-spacing: -0.3px;
+        }
+        .badge-soon {
+            font-size: 12px;
+            color: var(--text-tertiary);
+            background: var(--bg-secondary);
+            padding: 4px 10px;
+            border-radius: 30px;
         }
 
-        /* === БАЛАНС === */
-        .balance-container {
+        /* Баланс */
+        .balance-row {
             display: flex;
             gap: 12px;
             margin-bottom: 16px;
         }
         .balance-block {
             flex: 1;
-            background: rgba(0,0,0,0.02);
+            background: var(--bg-secondary);
             border-radius: 16px;
             padding: 16px;
             text-align: center;
@@ -147,10 +143,10 @@
             margin-top: 6px;
         }
 
-        /* === КНОПКИ === */
+        /* Кнопки */
         .btn {
             width: 100%;
-            padding: 16px;
+            padding: 14px;
             border: none;
             border-radius: 14px;
             font-size: 16px;
@@ -171,146 +167,31 @@
             color: var(--text-primary);
         }
 
-        /* === НОВОСТИ === */
-        .news-item {
-            display: flex;
-            gap: 12px;
-            padding: 12px 0;
-            border-bottom: 0.5px solid var(--border);
-        }
-        .news-date {
-            font-size: 12px;
-            color: var(--accent-gold);
-            font-weight: 500;
-            min-width: 55px;
-        }
-        .news-text {
-            font-size: 14px;
-            color: var(--text-secondary);
-        }
-
-        /* === УСЛУГИ (суббренды) === */
-        .service-category {
-            background: var(--bg-card);
-            border-radius: var(--radius);
-            margin-bottom: 12px;
-            border: 0.5px solid var(--border);
-            overflow: hidden;
-        }
-        .service-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 18px 20px;
-            cursor: pointer;
-            transition: var(--transition);
-        }
-        .service-header:active {
-            background: var(--bg-secondary);
-        }
-        .service-info {
-            display: flex;
-            gap: 14px;
-            align-items: center;
-        }
-        .service-icon {
-            font-size: 32px;
-        }
-        .service-name {
-            font-size: 17px;
-            font-weight: 600;
-        }
-        .service-desc {
-            font-size: 13px;
-            color: var(--text-secondary);
-            margin-top: 2px;
-        }
-        .service-content {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.3s ease;
-            padding: 0 20px;
-        }
-        .service-content.open {
-            max-height: 500px;
-            padding: 0 20px 20px 20px;
-        }
-        .location-item {
-            padding: 12px 0;
-            border-bottom: 0.5px solid var(--border);
-        }
-        .location-name {
-            font-weight: 500;
-            margin-bottom: 4px;
-        }
-        .location-address {
-            font-size: 13px;
-            color: var(--text-secondary);
-            margin-bottom: 8px;
-        }
-        .hours {
-            font-size: 13px;
-            color: var(--accent-gold);
-        }
-        .book-btn {
-            margin-top: 12px;
-            padding: 10px;
-            background: transparent;
-            border: 1px solid var(--accent-gold);
-            border-radius: 12px;
-            color: var(--accent-gold);
-            font-size: 14px;
-            width: 100%;
-            cursor: pointer;
-        }
-
-        /* === ИСТОРИЯ (разделы) === */
-        .history-tabs {
-            display: flex;
-            gap: 8px;
-            margin-bottom: 20px;
-        }
-        .history-tab {
-            flex: 1;
+        /* Секция "Скоро" */
+        .coming-soon {
             text-align: center;
-            padding: 10px;
-            border-radius: 30px;
-            background: var(--bg-secondary);
-            cursor: pointer;
-            font-size: 14px;
+            padding: 32px 20px;
+        }
+        .coming-icon {
+            font-size: 48px;
+            margin-bottom: 12px;
+            opacity: 0.6;
+        }
+        .coming-title {
             font-weight: 500;
-            transition: var(--transition);
-        }
-        .history-tab.active {
-            background: var(--accent-gold);
-            color: #000;
-        }
-        .history-item {
-            padding: 14px 0;
-            border-bottom: 0.5px solid var(--border);
-        }
-        .history-header {
-            display: flex;
-            justify-content: space-between;
             margin-bottom: 6px;
         }
-        .history-title {
-            font-weight: 500;
-        }
-        .history-status {
-            font-size: 12px;
-            padding: 2px 8px;
-            border-radius: 12px;
-            background: rgba(196, 167, 71, 0.15);
-            color: var(--accent-gold);
+        .coming-desc {
+            font-size: 13px;
+            color: var(--text-secondary);
         }
 
-        /* === НАСТРОЙКИ === */
+        /* Настройки */
         .setting-item {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 16px 0;
+            padding: 14px 0;
             border-bottom: 0.5px solid var(--border);
         }
         .theme-options {
@@ -318,18 +199,18 @@
             gap: 12px;
         }
         .theme-btn {
-            padding: 8px 16px;
+            padding: 6px 14px;
             border-radius: 30px;
             background: var(--bg-secondary);
             cursor: pointer;
-            font-size: 14px;
+            font-size: 13px;
         }
         .theme-btn.active {
             background: var(--accent-gold);
             color: #000;
         }
 
-        /* === НАВИГАЦИЯ === */
+        /* Нижняя навигация */
         .bottom-nav {
             position: fixed;
             bottom: 0;
@@ -355,7 +236,7 @@
             font-size: 11px;
             color: var(--text-tertiary);
             cursor: pointer;
-            padding: 8px 16px;
+            padding: 8px 12px;
             border-radius: 30px;
             transition: var(--transition);
         }
@@ -366,17 +247,17 @@
             font-size: 22px;
         }
 
-        /* === ЭКРАНЫ === */
+        /* Экраны */
         .screen {
             display: none;
         }
         .screen.active {
             display: block;
-            animation: fadeIn 0.3s ease;
+            animation: fadeIn 0.25s ease;
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(8px); }
+            from { opacity: 0; transform: translateY(6px); }
             to { opacity: 1; transform: translateY(0); }
         }
         @keyframes fadeUp {
@@ -386,7 +267,7 @@
     </style>
 </head>
 <body>
-    <div class="container" id="appContainer">
+    <div class="container">
         <!-- ГЛАВНАЯ -->
         <div class="screen active" id="screen-home">
             <div class="hero-logo">
@@ -401,7 +282,7 @@
             </div>
 
             <div class="card">
-                <div class="balance-container">
+                <div class="balance-row">
                     <div class="balance-block">
                         <div class="balance-amount" id="balance">0</div>
                         <div class="balance-label">₽ Баланс</div>
@@ -417,45 +298,73 @@
             <div class="card">
                 <div class="card-header">
                     <span class="card-title">📰 События</span>
-                    <span style="font-size: 12px; color: var(--text-tertiary);">Все</span>
+                    <span class="badge-soon">Скоро</span>
                 </div>
-                <div id="newsList">
-                    <div class="news-item"><span class="news-date">25 мар</span><span class="news-text">Открытие цифровой экосистемы</span></div>
-                    <div class="news-item"><span class="news-date">Апрель</span><span class="news-text">Запуск мойки самообслуживания</span></div>
-                    <div class="news-item"><span class="news-date">Май</span><span class="news-text">Majesty: AFTERDARK — закрытый клуб</span></div>
+                <div class="coming-soon">
+                    <div class="coming-icon">✨</div>
+                    <div class="coming-title">Следите за новостями</div>
+                    <div class="coming-desc">Здесь появятся мероприятия, закрытые встречи и трек-дни</div>
                 </div>
             </div>
         </div>
 
-        <!-- УСЛУГИ (суббренды) -->
+        <!-- УСЛУГИ -->
         <div class="screen" id="screen-services">
             <div class="card">
-                <div class="card-header"><span class="card-title">🛠️ Наши услуги</span></div>
-                <div id="servicesContainer"></div>
+                <div class="card-header">
+                    <span class="card-title">🛠️ Услуги</span>
+                    <span class="badge-soon">Скоро</span>
+                </div>
+                <div class="coming-soon">
+                    <div class="coming-icon">🚿</div>
+                    <div class="coming-title">Мойка · Детейлинг · Тюнинг · Сервис</div>
+                    <div class="coming-desc">Полный каталог услуг откроется с запуском первой точки</div>
+                </div>
             </div>
         </div>
 
-        <!-- ИСТОРИЯ (разделы) -->
+        <!-- ИСТОРИЯ -->
         <div class="screen" id="screen-history">
             <div class="card">
-                <div class="card-header"><span class="card-title">📋 История</span></div>
-                <div class="history-tabs">
-                    <div class="history-tab active" data-tab="orders">Заказы</div>
-                    <div class="history-tab" data-tab="services">Услуги</div>
-                    <div class="history-tab" data-tab="purchases">Покупки</div>
+                <div class="card-header">
+                    <span class="card-title">📋 История</span>
+                    <span class="badge-soon">Скоро</span>
                 </div>
-                <div id="historyContent">Нет данных</div>
+                <div class="coming-soon">
+                    <div class="coming-icon">📋</div>
+                    <div class="coming-title">Ваши заказы, услуги и покупки</div>
+                    <div class="coming-desc">После первого обращения вся история будет здесь</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ПРОВЕРКА АВТО / ДЕТАЛИ -->
+        <div class="screen" id="screen-check">
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-title">🔍 Проверка</span>
+                    <span class="badge-soon">Скоро</span>
+                </div>
+                <div class="coming-soon">
+                    <div class="coming-icon">🔍</div>
+                    <div class="coming-title">QR / NFC детали и автомобили</div>
+                    <div class="coming-desc">Сканируйте метки, чтобы увидеть историю и оригинальность</div>
+                </div>
             </div>
         </div>
 
         <!-- ПРОФИЛЬ + НАСТРОЙКИ -->
         <div class="screen" id="screen-profile">
             <div class="card">
-                <div class="card-header"><span class="card-title">👤 Профиль</span></div>
+                <div class="card-header">
+                    <span class="card-title">👤 Профиль</span>
+                </div>
                 <div id="profileInfo"></div>
             </div>
             <div class="card">
-                <div class="card-header"><span class="card-title">⚙️ Настройки</span></div>
+                <div class="card-header">
+                    <span class="card-title">⚙️ Настройки</span>
+                </div>
                 <div class="setting-item">
                     <span>Тема</span>
                     <div class="theme-options">
@@ -477,12 +386,13 @@
         <button class="nav-item" data-screen="home"><span class="nav-icon">🏠</span><span>Главная</span></button>
         <button class="nav-item" data-screen="services"><span class="nav-icon">🛠️</span><span>Услуги</span></button>
         <button class="nav-item" data-screen="history"><span class="nav-icon">📋</span><span>История</span></button>
+        <button class="nav-item" data-screen="check"><span class="nav-icon">🔍</span><span>Проверка</span></button>
         <button class="nav-item" data-screen="profile"><span class="nav-icon">👤</span><span>Профиль</span></button>
     </div>
 
     <script>
         (function() {
-            // === КОНФИГ ===
+            // === SUPABASE ===
             const SUPABASE_URL = 'https://dgqlbvajznobyitubazo.supabase.co';
             const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRncWxidmFqem5vYnlpdHViYXpvIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3Mzg1MjcyMSwiZXhwIjoyMDg5NDI4NzIxfQ.iTNnvDhM7cZ5W5oWpTMVNLfbAAtZKZAq_mjhzqSAzUc';
             const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
@@ -493,9 +403,8 @@
             const user = tg.initDataUnsafe?.user;
             
             let currentUser = null;
-            let currentTab = 'orders';
             
-            // === AFTERDARK (автоматический, без настроек) ===
+            // === AFTERDARK (автоматически) ===
             function checkAfterdark() {
                 const hours = new Date().getHours();
                 if (hours >= 22 || hours < 6) {
@@ -507,7 +416,7 @@
             checkAfterdark();
             setInterval(checkAfterdark, 60000);
             
-            // === ТЕМА (ручная) ===
+            // === ТЕМА ===
             let currentTheme = localStorage.getItem('theme') || 'auto';
             function applyTheme() {
                 document.body.classList.remove('dark');
@@ -532,10 +441,15 @@
             async function loadUser() {
                 if (!user) return;
                 const { data } = await supabase.from('majesty_users').select('*').eq('telegram_id', user.id).single();
-                if (data) currentUser = data;
-                else {
+                if (data) {
+                    currentUser = data;
+                } else {
                     const { data: newUser } = await supabase.from('majesty_users').insert({
-                        telegram_id: user.id, first_name: user.first_name, role: 'client', balance: 0, bonus_points: 0
+                        telegram_id: user.id,
+                        first_name: user.first_name,
+                        role: 'client',
+                        balance: 0,
+                        bonus_points: 0
                     }).select().single();
                     currentUser = newUser;
                 }
@@ -547,62 +461,12 @@
                     <div class="setting-item"><span>Уровень</span><span>${getLevel(currentUser?.bonus_points || 0)}</span></div>
                 `;
             }
-            function getLevel(p) { if(p>=5000) return '👑 Majesty Elite'; if(p>=1000) return '⭐ Премиум'; if(p>=100) return '🌟 Активный'; return '✨ Стандарт'; }
-            
-            // === УСЛУГИ (суббренды) ===
-            const servicesData = [
-                { icon: '🚿', name: 'Мойка', desc: 'Бесконтактная, самообслуживание', locations: [{ name: 'Majesty Wash North', address: 'ул. Северная, 15', hours: '08:00–23:00' }] },
-                { icon: '✨', name: 'Детейлинг', desc: 'Полировка, керамика, химчистка', locations: [{ name: 'Majesty Studio', address: 'пр. Центральный, 42', hours: '10:00–20:00' }] },
-                { icon: '🔧', name: 'Тюнинг', desc: 'Обвесы, чип-тюнинг, аэродинамика', locations: [{ name: 'Majesty Performance', address: 'ул. Инженерная, 7', hours: '09:00–19:00' }] },
-                { icon: '🏭', name: 'Сервис', desc: 'Диагностика, ремонт, обслуживание', locations: [{ name: 'Majesty Service', address: 'ш. Автомобилистов, 8', hours: '09:00–21:00' }] }
-            ];
-            function renderServices() {
-                const container = document.getElementById('servicesContainer');
-                container.innerHTML = servicesData.map((s, i) => `
-                    <div class="service-category">
-                        <div class="service-header" onclick="toggleService(${i})">
-                            <div class="service-info">
-                                <span class="service-icon">${s.icon}</span>
-                                <div><div class="service-name">${s.name}</div><div class="service-desc">${s.desc}</div></div>
-                            </div>
-                            <span>▼</span>
-                        </div>
-                        <div class="service-content" id="service-${i}">
-                            ${s.locations.map(loc => `
-                                <div class="location-item">
-                                    <div class="location-name">${loc.name}</div>
-                                    <div class="location-address">📍 ${loc.address}</div>
-                                    <div class="hours">🕒 ${loc.hours}</div>
-                                    <button class="book-btn" onclick="bookService('${s.name}', '${loc.name}')">Записаться</button>
-                                </div>
-                            `).join('')}
-                        </div>
-                    </div>
-                `).join('');
+            function getLevel(p) {
+                if (p >= 5000) return '👑 Majesty Elite';
+                if (p >= 1000) return '⭐ Премиум';
+                if (p >= 100) return '🌟 Активный';
+                return '✨ Стандарт';
             }
-            window.toggleService = (i) => {
-                const el = document.getElementById(`service-${i}`);
-                el.classList.toggle('open');
-            };
-            window.bookService = (service, location) => {
-                tg.showPopup({ title: 'Запись', message: `Вы выбрали ${service} в ${location}. Скоро появится возможность записи.`, buttons: [{ type: 'close' }] });
-            };
-            
-            // === ИСТОРИЯ ===
-            function renderHistory() {
-                const content = document.getElementById('historyContent');
-                if (currentTab === 'orders') content.innerHTML = `<div class="history-item"><div class="history-header"><span class="history-title">Заказ #001</span><span class="history-status">Выполнен</span></div><div>Мойка | 15.03.2025</div></div><div class="history-item"><div class="history-header"><span class="history-title">Заказ #002</span><span class="history-status">В работе</span></div><div>Детейлинг | 20.03.2025</div></div>`;
-                else if (currentTab === 'services') content.innerHTML = `<div class="history-item"><div>🚿 Мойка</div><div class="history-header">12.03.2025 • 300 ₽</div></div><div class="history-item"><div>✨ Детейлинг</div><div class="history-header">05.03.2025 • 4500 ₽</div></div>`;
-                else content.innerHTML = `<div class="history-item"><div>🧴 Омывайка</div><div class="history-header">10.03.2025 • 150 ₽</div></div><div class="history-item"><div>🧽 Тряпка микрофибра</div><div class="history-header">08.03.2025 • 90 ₽</div></div>`;
-            }
-            document.querySelectorAll('.history-tab').forEach(tab => {
-                tab.addEventListener('click', () => {
-                    document.querySelectorAll('.history-tab').forEach(t => t.classList.remove('active'));
-                    tab.classList.add('active');
-                    currentTab = tab.dataset.tab;
-                    renderHistory();
-                });
-            });
             
             // === НАВИГАЦИЯ ===
             function goToScreen(screenId) {
@@ -610,20 +474,25 @@
                 document.getElementById(`screen-${screenId}`).classList.add('active');
                 document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
                 document.querySelector(`.nav-item[data-screen="${screenId}"]`).classList.add('active');
-                if (screenId === 'services') renderServices();
-                if (screenId === 'history') renderHistory();
             }
             
             // === СОБЫТИЯ ===
-            document.querySelectorAll('.nav-item').forEach(btn => btn.addEventListener('click', () => goToScreen(btn.dataset.screen)));
-            document.querySelectorAll('.theme-btn').forEach(btn => btn.addEventListener('click', () => setTheme(btn.dataset.theme)));
-            document.getElementById('topupBtn')?.addEventListener('click', () => tg.showPopup({ title: 'Пополнение', message: 'Скоро появится', buttons: [{ type: 'close' }] }));
+            document.querySelectorAll('.nav-item').forEach(btn => {
+                btn.addEventListener('click', () => goToScreen(btn.dataset.screen));
+            });
+            document.querySelectorAll('.theme-btn').forEach(btn => {
+                btn.addEventListener('click', () => setTheme(btn.dataset.theme));
+            });
+            document.getElementById('topupBtn')?.addEventListener('click', () => {
+                tg.showPopup({ title: 'Пополнение', message: 'Скоро появится возможность пополнения баланса', buttons: [{ type: 'close' }] });
+            });
             document.getElementById('closeBtn')?.addEventListener('click', () => tg.close());
-            document.getElementById('phoneStatus')?.addEventListener('click', () => tg.showPopup({ title: 'Добавить номер', message: 'Введите номер телефона в поддержке', buttons: [{ type: 'close' }] }));
+            document.getElementById('phoneStatus')?.addEventListener('click', () => {
+                tg.showPopup({ title: 'Добавить номер', message: 'В ближайшее время добавим возможность подтверждения телефона', buttons: [{ type: 'close' }] });
+            });
             
             applyTheme();
             loadUser();
-            renderServices();
         })();
     </script>
 </body>
