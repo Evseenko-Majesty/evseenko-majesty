@@ -378,6 +378,13 @@
                     <span id="phoneStatus" style="color: var(--accent-gold); cursor: pointer;">+ Добавить</span>
                 </div>
             </div>
+            <div class="card">
+    <div class="card-header">
+        <span class="card-title">👤 Профиль</span>
+    </div>
+    <div id="profileInfo"></div>
+    <button class="btn btn-outline" id="staffPanelBtn" style="margin-top: 12px;">🔐 Панель сотрудника</button>
+</div>
             <button class="btn btn-secondary" id="closeBtn">✖️ Закрыть</button>
         </div>
     </div>
@@ -494,6 +501,9 @@
             applyTheme();
             loadUser();
         })();
+        document.getElementById('staffPanelBtn')?.addEventListener('click', () => {
+    tg.openTelegramLink('https://t.me/evseenko_majesty_bot?start=staff');
+});
     </script>
 </body>
 </html>
