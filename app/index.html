@@ -498,11 +498,21 @@
                 tg.showPopup({ title: 'Добавить номер', message: 'В ближайшее время добавим возможность подтверждения телефона', buttons: [{ type: 'close' }] });
             });
             
+// === КНОПКА ПАНЕЛИ СОТРУДНИКА ===
+const tgWebApp = window.Telegram.WebApp;
+const staffBtn = document.getElementById('staffPanelBtn');
+if (staffBtn) {
+    staffBtn.addEventListener('click', () => {
+        tgWebApp.openTelegramLink('https://t.me/evseenko_majesty_bot?start=staff');
+    });
+}
             applyTheme();
             loadUser();
         })();
-        document.getElementById('staffPanelBtn')?.addEventListener('click', () => {
-    tg.openTelegramLink('https://t.me/evseenko_majesty_bot?start=staff');
+       
+const tgWebApp = window.Telegram.WebApp;
+document.getElementById('staffPanelBtn')?.addEventListener('click', () => {
+    tgWebApp.openTelegramLink('https://t.me/evseenko_majesty_bot?start=staff');
 });
     </script>
 </body>
