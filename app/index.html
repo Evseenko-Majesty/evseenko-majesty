@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -15,85 +14,135 @@
             -webkit-tap-highlight-color: transparent;
         }
 
-        /* === ТЕМЫ === */
+        /* === БАЗОВЫЕ ПЕРЕМЕННЫЕ === */
         :root {
-            --bg-page: var(--tg-theme-bg-color, #ffffff);
-            --bg-card: var(--tg-theme-secondary-bg-color, #f5f5f5);
-            --text-primary: var(--tg-theme-text-color, #000000);
-            --text-secondary: var(--tg-theme-hint-color, #8e8e93);
-            --accent: var(--tg-theme-button-color, #007aff);
-            --accent-text: var(--tg-theme-button-text-color, #ffffff);
-            --border: rgba(0, 0, 0, 0.08);
-            --shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8f8fa;
+            --bg-card: #ffffff;
+            --text-primary: #1c1c1e;
+            --text-secondary: #8e8e93;
+            --text-tertiary: #aeaeb2;
+            --accent: #000000;
+            --accent-gold: #c4a747;
+            --border: #e5e5ea;
+            --shadow-sm: 0 2px 8px rgba(0,0,0,0.04);
+            --shadow-md: 0 4px 16px rgba(0,0,0,0.06);
+            --radius: 20px;
+            --transition: all 0.25s cubic-bezier(0.2, 0.9, 0.4, 1.1);
         }
 
-        /* AFTERDARK (золотая ночная тема) */
+        /* === ТЁМНАЯ ТЕМА (ручная) === */
+        body.dark {
+            --bg-primary: #000000;
+            --bg-secondary: #0c0c0e;
+            --bg-card: #141418;
+            --text-primary: #ffffff;
+            --text-secondary: #98989e;
+            --text-tertiary: #6c6c70;
+            --accent: #ffffff;
+            --accent-gold: #d4af37;
+            --border: #2c2c30;
+        }
+
+        /* === AFTERDARK (автоматический ночной режим) === */
         body.afterdark {
-            --bg-page: #0a0a0a;
-            --bg-card: #141414;
-            --text-primary: #e8e8e8;
-            --text-secondary: #8a8a8e;
+            --bg-primary: #030303;
+            --bg-secondary: #0a0a0c;
+            --bg-card: #111114;
+            --text-primary: #f0f0f0;
+            --text-secondary: #9e9ea4;
+            --text-tertiary: #6a6a6e;
             --accent: #d4af37;
-            --accent-text: #0a0a0a;
-            --border: rgba(212, 175, 55, 0.2);
-        }
-
-        /* Ручная тёмная тема */
-        body.dark-theme {
-            --bg-page: #0a0a0a;
-            --bg-card: #141414;
-            --text-primary: #e8e8e8;
-            --text-secondary: #8a8a8e;
-            --accent: #d4af37;
-            --accent-text: #0a0a0a;
-            --border: rgba(212, 175, 55, 0.2);
+            --accent-gold: #e5c158;
+            --border: #252528;
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            background: var(--bg-page);
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'SF Pro Display', Helvetica, Arial, sans-serif;
+            background: var(--bg-primary);
             color: var(--text-primary);
-            min-height: 100vh;
-            transition: background 0.2s ease;
+            line-height: 1.4;
+            transition: var(--transition);
         }
 
+        /* === КОНТЕЙНЕРЫ === */
         .container {
             max-width: 500px;
             margin: 0 auto;
-            padding: 12px 16px 80px 16px;
+            padding: 20px 16px 90px 16px;
+        }
+
+        /* === ВЕКТОРНЫЙ ЛОГОТИП (SVG) === */
+        .hero-logo {
+            text-align: center;
+            margin: 32px 0 24px 0;
+            animation: fadeUp 0.6s ease;
+        }
+        .crown-svg {
+            width: 80px;
+            height: 80px;
+            filter: drop-shadow(0 4px 12px rgba(0,0,0,0.1));
+        }
+        .brand-name {
+            font-size: 28px;
+            font-weight: 600;
+            letter-spacing: -0.5px;
+            margin-top: 12px;
+            background: linear-gradient(135deg, var(--text-primary) 0%, var(--accent-gold) 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .philosophy {
+            font-size: 14px;
+            color: var(--text-secondary);
+            letter-spacing: 0.3px;
+            margin-top: 8px;
+            font-weight: 400;
         }
 
         /* === КАРТОЧКИ === */
         .card {
             background: var(--bg-card);
-            border-radius: 14px;
-            padding: 16px;
-            margin-bottom: 12px;
+            border-radius: var(--radius);
+            padding: 20px;
+            margin-bottom: 16px;
             border: 0.5px solid var(--border);
-            transition: all 0.2s;
+            transition: var(--transition);
+        }
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+        .card-title {
+            font-size: 17px;
+            font-weight: 600;
+            letter-spacing: -0.3px;
         }
 
         /* === БАЛАНС === */
-        .balance-row {
+        .balance-container {
             display: flex;
             gap: 12px;
-            margin: 16px 0;
+            margin-bottom: 16px;
         }
-        .balance-item {
+        .balance-block {
             flex: 1;
             background: rgba(0,0,0,0.02);
-            border-radius: 12px;
-            padding: 12px;
+            border-radius: 16px;
+            padding: 16px;
             text-align: center;
         }
-        .balance-value {
-            font-size: 28px;
-            font-weight: 600;
-            color: var(--accent);
+        .balance-amount {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--accent-gold);
             line-height: 1;
         }
         .balance-label {
-            font-size: 12px;
+            font-size: 13px;
             color: var(--text-secondary);
             margin-top: 6px;
         }
@@ -101,24 +150,20 @@
         /* === КНОПКИ === */
         .btn {
             width: 100%;
-            padding: 14px;
+            padding: 16px;
             border: none;
-            border-radius: 12px;
+            border-radius: 14px;
             font-size: 16px;
             font-weight: 500;
             cursor: pointer;
-            transition: all 0.2s;
+            transition: var(--transition);
             background: var(--accent);
-            color: var(--accent-text);
-        }
-        .btn:active {
-            transform: scale(0.98);
-            opacity: 0.9;
+            color: var(--bg-primary);
         }
         .btn-outline {
             background: transparent;
-            border: 1px solid var(--accent);
-            color: var(--accent);
+            border: 1px solid var(--accent-gold);
+            color: var(--accent-gold);
         }
         .btn-secondary {
             background: transparent;
@@ -126,37 +171,165 @@
             color: var(--text-primary);
         }
 
-        /* === БЫСТРЫЕ ДЕЙСТВИЯ === */
-        .quick-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
-            margin-bottom: 20px;
+        /* === НОВОСТИ === */
+        .news-item {
+            display: flex;
+            gap: 12px;
+            padding: 12px 0;
+            border-bottom: 0.5px solid var(--border);
         }
-        .quick-card {
-            background: var(--bg-card);
-            border-radius: 12px;
-            padding: 12px 8px;
-            text-align: center;
-            cursor: pointer;
-            border: 0.5px solid var(--border);
-            transition: all 0.2s;
-        }
-        .quick-card:active {
-            transform: scale(0.96);
-            background: var(--accent);
-            color: var(--accent-text);
-        }
-        .quick-icon {
-            font-size: 28px;
-            margin-bottom: 6px;
-        }
-        .quick-title {
+        .news-date {
             font-size: 12px;
+            color: var(--accent-gold);
             font-weight: 500;
+            min-width: 55px;
+        }
+        .news-text {
+            font-size: 14px;
+            color: var(--text-secondary);
         }
 
-        /* === НИЖНЯЯ НАВИГАЦИЯ === */
+        /* === УСЛУГИ (суббренды) === */
+        .service-category {
+            background: var(--bg-card);
+            border-radius: var(--radius);
+            margin-bottom: 12px;
+            border: 0.5px solid var(--border);
+            overflow: hidden;
+        }
+        .service-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 18px 20px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        .service-header:active {
+            background: var(--bg-secondary);
+        }
+        .service-info {
+            display: flex;
+            gap: 14px;
+            align-items: center;
+        }
+        .service-icon {
+            font-size: 32px;
+        }
+        .service-name {
+            font-size: 17px;
+            font-weight: 600;
+        }
+        .service-desc {
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin-top: 2px;
+        }
+        .service-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            padding: 0 20px;
+        }
+        .service-content.open {
+            max-height: 500px;
+            padding: 0 20px 20px 20px;
+        }
+        .location-item {
+            padding: 12px 0;
+            border-bottom: 0.5px solid var(--border);
+        }
+        .location-name {
+            font-weight: 500;
+            margin-bottom: 4px;
+        }
+        .location-address {
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+        }
+        .hours {
+            font-size: 13px;
+            color: var(--accent-gold);
+        }
+        .book-btn {
+            margin-top: 12px;
+            padding: 10px;
+            background: transparent;
+            border: 1px solid var(--accent-gold);
+            border-radius: 12px;
+            color: var(--accent-gold);
+            font-size: 14px;
+            width: 100%;
+            cursor: pointer;
+        }
+
+        /* === ИСТОРИЯ (разделы) === */
+        .history-tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 20px;
+        }
+        .history-tab {
+            flex: 1;
+            text-align: center;
+            padding: 10px;
+            border-radius: 30px;
+            background: var(--bg-secondary);
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+        .history-tab.active {
+            background: var(--accent-gold);
+            color: #000;
+        }
+        .history-item {
+            padding: 14px 0;
+            border-bottom: 0.5px solid var(--border);
+        }
+        .history-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 6px;
+        }
+        .history-title {
+            font-weight: 500;
+        }
+        .history-status {
+            font-size: 12px;
+            padding: 2px 8px;
+            border-radius: 12px;
+            background: rgba(196, 167, 71, 0.15);
+            color: var(--accent-gold);
+        }
+
+        /* === НАСТРОЙКИ === */
+        .setting-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 0;
+            border-bottom: 0.5px solid var(--border);
+        }
+        .theme-options {
+            display: flex;
+            gap: 12px;
+        }
+        .theme-btn {
+            padding: 8px 16px;
+            border-radius: 30px;
+            background: var(--bg-secondary);
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .theme-btn.active {
+            background: var(--accent-gold);
+            color: #000;
+        }
+
+        /* === НАВИГАЦИЯ === */
         .bottom-nav {
             position: fixed;
             bottom: 0;
@@ -164,15 +337,15 @@
             right: 0;
             max-width: 500px;
             margin: 0 auto;
-            background: var(--bg-page);
+            background: var(--bg-primary);
             backdrop-filter: blur(20px);
             border-top: 0.5px solid var(--border);
             display: flex;
             justify-content: space-around;
-            padding: 8px 16px 20px 16px;
+            padding: 8px 16px 24px 16px;
             z-index: 100;
         }
-        .nav-btn {
+        .nav-item {
             background: none;
             border: none;
             display: flex;
@@ -180,14 +353,14 @@
             align-items: center;
             gap: 4px;
             font-size: 11px;
-            color: var(--text-secondary);
+            color: var(--text-tertiary);
             cursor: pointer;
-            padding: 8px 12px;
+            padding: 8px 16px;
             border-radius: 30px;
-            transition: all 0.2s;
+            transition: var(--transition);
         }
-        .nav-btn.active {
-            color: var(--accent);
+        .nav-item.active {
+            color: var(--accent-gold);
         }
         .nav-icon {
             font-size: 22px;
@@ -199,177 +372,117 @@
         }
         .screen.active {
             display: block;
-            animation: fadeIn 0.2s ease;
+            animation: fadeIn 0.3s ease;
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(6px); }
+            from { opacity: 0; transform: translateY(8px); }
             to { opacity: 1; transform: translateY(0); }
         }
-
-        /* === НАСТРОЙКИ === */
-        .setting-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 12px 0;
-            border-bottom: 0.5px solid var(--border);
-        }
-        .theme-badge {
-            display: flex;
-            gap: 10px;
-        }
-        .theme-option {
-            padding: 6px 12px;
-            border-radius: 20px;
-            background: var(--bg-card);
-            border: 0.5px solid var(--border);
-            cursor: pointer;
-            font-size: 13px;
-        }
-        .theme-option.active {
-            background: var(--accent);
-            color: var(--accent-text);
-            border-color: var(--accent);
-        }
-
-        /* === ЛОГОТИП === */
-        .logo {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            margin-bottom: 8px;
-        }
-        .logo-icon {
-            font-size: 28px;
-            filter: drop-shadow(0 0 4px var(--accent));
-        }
-        .logo-text {
-            font-size: 20px;
-            font-weight: 600;
-            letter-spacing: 1px;
-            background: linear-gradient(135deg, var(--text-primary), var(--accent));
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-        }
-
-        /* === ПРОФИЛЬ === */
-        .info-row {
-            display: flex;
-            justify-content: space-between;
-            padding: 10px 0;
-            border-bottom: 0.5px solid var(--border);
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
     </style>
 </head>
 <body>
-    <div class="container" id="app">
-        <!-- ЭКРАН 1: ГЛАВНЫЙ -->
-        <div class="screen active" id="screen-main">
-            <div class="card" style="text-align: center;">
-                <div class="logo">
-                    <span class="logo-icon">👑</span>
-                    <span class="logo-text">Evseenko Majesty</span>
-                </div>
-                <div class="balance-row">
-                    <div class="balance-item">
-                        <div class="balance-value" id="balance">0</div>
+    <div class="container" id="appContainer">
+        <!-- ГЛАВНАЯ -->
+        <div class="screen active" id="screen-home">
+            <div class="hero-logo">
+                <svg class="crown-svg" viewBox="0 0 100 100" fill="none">
+                    <path d="M20 65 L32 40 L45 52 L50 30 L55 52 L68 40 L80 65 L75 75 L25 75 L20 65Z" fill="var(--accent-gold)" opacity="0.9"/>
+                    <circle cx="32" cy="40" r="4" fill="white"/>
+                    <circle cx="50" cy="30" r="4" fill="white"/>
+                    <circle cx="68" cy="40" r="4" fill="white"/>
+                </svg>
+                <div class="brand-name">Evseenko Majesty</div>
+                <div class="philosophy">From street passion to true mastery</div>
+            </div>
+
+            <div class="card">
+                <div class="balance-container">
+                    <div class="balance-block">
+                        <div class="balance-amount" id="balance">0</div>
                         <div class="balance-label">₽ Баланс</div>
                     </div>
-                    <div class="balance-item">
-                        <div class="balance-value" id="bonus">0</div>
+                    <div class="balance-block">
+                        <div class="balance-amount" id="bonus">0</div>
                         <div class="balance-label">🎁 Бонусы</div>
                     </div>
                 </div>
                 <button class="btn btn-outline" id="topupBtn">+ Пополнить</button>
             </div>
 
-            <div class="quick-grid">
-                <div class="quick-card" data-action="services">
-                    <div class="quick-icon">🛠️</div>
-                    <div class="quick-title">Услуги</div>
-                </div>
-                <div class="quick-card" data-action="history">
-                    <div class="quick-icon">📋</div>
-                    <div class="quick-title">История</div>
-                </div>
-                <div class="quick-card" data-action="profile">
-                    <div class="quick-icon">👤</div>
-                    <div class="quick-title">Профиль</div>
-                </div>
-            </div>
-
             <div class="card">
-                <h3 style="margin-bottom: 12px;">📋 Активные</h3>
-                <div id="activeOrdersList">Загрузка...</div>
+                <div class="card-header">
+                    <span class="card-title">📰 События</span>
+                    <span style="font-size: 12px; color: var(--text-tertiary);">Все</span>
+                </div>
+                <div id="newsList">
+                    <div class="news-item"><span class="news-date">25 мар</span><span class="news-text">Открытие цифровой экосистемы</span></div>
+                    <div class="news-item"><span class="news-date">Апрель</span><span class="news-text">Запуск мойки самообслуживания</span></div>
+                    <div class="news-item"><span class="news-date">Май</span><span class="news-text">Majesty: AFTERDARK — закрытый клуб</span></div>
+                </div>
             </div>
         </div>
 
-        <!-- ЭКРАН 2: УСЛУГИ -->
+        <!-- УСЛУГИ (суббренды) -->
         <div class="screen" id="screen-services">
             <div class="card">
-                <h3>🛠️ Услуги</h3>
-                <div id="servicesList"></div>
+                <div class="card-header"><span class="card-title">🛠️ Наши услуги</span></div>
+                <div id="servicesContainer"></div>
             </div>
         </div>
 
-        <!-- ЭКРАН 3: ИСТОРИЯ -->
+        <!-- ИСТОРИЯ (разделы) -->
         <div class="screen" id="screen-history">
             <div class="card">
-                <h3>📋 История</h3>
-                <div id="historyList">Нет заказов</div>
+                <div class="card-header"><span class="card-title">📋 История</span></div>
+                <div class="history-tabs">
+                    <div class="history-tab active" data-tab="orders">Заказы</div>
+                    <div class="history-tab" data-tab="services">Услуги</div>
+                    <div class="history-tab" data-tab="purchases">Покупки</div>
+                </div>
+                <div id="historyContent">Нет данных</div>
             </div>
         </div>
 
-        <!-- ЭКРАН 4: ПРОФИЛЬ -->
+        <!-- ПРОФИЛЬ + НАСТРОЙКИ -->
         <div class="screen" id="screen-profile">
             <div class="card">
-                <h3>👤 Профиль</h3>
-                <div class="info-row">
-                    <span>Имя</span>
-                    <span id="profileName">—</span>
-                </div>
-                <div class="info-row">
-                    <span>Роль</span>
-                    <span id="profileRole">Клиент</span>
-                </div>
-                <div class="info-row">
-                    <span>Уровень</span>
-                    <span id="profileLevel">✨ Стандарт</span>
-                </div>
+                <div class="card-header"><span class="card-title">👤 Профиль</span></div>
+                <div id="profileInfo"></div>
             </div>
             <div class="card">
-                <h3>⚙️ Настройки</h3>
-                <div class="setting-row">
+                <div class="card-header"><span class="card-title">⚙️ Настройки</span></div>
+                <div class="setting-item">
                     <span>Тема</span>
-                    <div class="theme-badge">
-                        <span class="theme-option" data-theme="auto">🌓 Авто</span>
-                        <span class="theme-option" data-theme="light">☀️ Светлая</span>
-                        <span class="theme-option" data-theme="dark">🌙 Тёмная</span>
+                    <div class="theme-options">
+                        <span class="theme-btn" data-theme="light">Светлая</span>
+                        <span class="theme-btn" data-theme="dark">Тёмная</span>
+                        <span class="theme-btn" data-theme="auto">Авто</span>
                     </div>
                 </div>
-                <div class="setting-row">
-                    <span>Afterdark</span>
-                    <span id="afterdarkStatus">🌙 22:00–06:00</span>
+                <div class="setting-item">
+                    <span>Телефон</span>
+                    <span id="phoneStatus" style="color: var(--accent-gold); cursor: pointer;">+ Добавить</span>
                 </div>
             </div>
-            <button class="btn btn-secondary" id="closeBtn" style="margin-top: 8px;">✖️ Закрыть</button>
+            <button class="btn btn-secondary" id="closeBtn">✖️ Закрыть</button>
         </div>
     </div>
 
-    <!-- НИЖНЯЯ НАВИГАЦИЯ -->
     <div class="bottom-nav">
-        <button class="nav-btn" data-screen="main"><span class="nav-icon">🏠</span><span>Главная</span></button>
-        <button class="nav-btn" data-screen="services"><span class="nav-icon">🛠️</span><span>Услуги</span></button>
-        <button class="nav-btn" data-screen="history"><span class="nav-icon">📋</span><span>История</span></button>
-        <button class="nav-btn" data-screen="profile"><span class="nav-icon">👤</span><span>Профиль</span></button>
+        <button class="nav-item" data-screen="home"><span class="nav-icon">🏠</span><span>Главная</span></button>
+        <button class="nav-item" data-screen="services"><span class="nav-icon">🛠️</span><span>Услуги</span></button>
+        <button class="nav-item" data-screen="history"><span class="nav-icon">📋</span><span>История</span></button>
+        <button class="nav-item" data-screen="profile"><span class="nav-icon">👤</span><span>Профиль</span></button>
     </div>
 
     <script>
         (function() {
-            // ========== НАСТРОЙКИ ==========
+            // === КОНФИГ ===
             const SUPABASE_URL = 'https://dgqlbvajznobyitubazo.supabase.co';
             const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRncWxidmFqem5vYnlpdHViYXpvIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3Mzg1MjcyMSwiZXhwIjoyMDg5NDI4NzIxfQ.iTNnvDhM7cZ5W5oWpTMVNLfbAAtZKZAq_mjhzqSAzUc';
             const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
@@ -377,157 +490,140 @@
             const tg = window.Telegram.WebApp;
             tg.expand();
             tg.ready();
-            
             const user = tg.initDataUnsafe?.user;
+            
             let currentUser = null;
+            let currentTab = 'orders';
             
-            // ========== ТЕМЫ ==========
-            let currentTheme = localStorage.getItem('theme') || 'auto';
-            
-            function applyTheme() {
-                const isAfterdarkTime = () => {
-                    const hours = new Date().getHours();
-                    return hours >= 22 || hours < 6;
-                };
-                
-                document.body.classList.remove('dark-theme', 'afterdark');
-                
-                if (currentTheme === 'light') {
-                    document.body.style.removeProperty('--bg-page');
-                } else if (currentTheme === 'dark') {
-                    document.body.classList.add('dark-theme');
-                } else if (currentTheme === 'auto') {
-                    if (isAfterdarkTime()) {
-                        document.body.classList.add('afterdark');
-                    }
+            // === AFTERDARK (автоматический, без настроек) ===
+            function checkAfterdark() {
+                const hours = new Date().getHours();
+                if (hours >= 22 || hours < 6) {
+                    document.body.classList.add('afterdark');
+                } else {
+                    document.body.classList.remove('afterdark');
                 }
-                
-                document.querySelectorAll('.theme-option').forEach(opt => {
-                    opt.classList.remove('active');
-                    if (opt.dataset.theme === currentTheme) opt.classList.add('active');
+            }
+            checkAfterdark();
+            setInterval(checkAfterdark, 60000);
+            
+            // === ТЕМА (ручная) ===
+            let currentTheme = localStorage.getItem('theme') || 'auto';
+            function applyTheme() {
+                document.body.classList.remove('dark');
+                if (currentTheme === 'dark') {
+                    document.body.classList.add('dark');
+                } else if (currentTheme === 'auto') {
+                    document.body.classList.remove('dark');
+                    checkAfterdark();
+                }
+                document.querySelectorAll('.theme-btn').forEach(btn => {
+                    btn.classList.remove('active');
+                    if (btn.dataset.theme === currentTheme) btn.classList.add('active');
                 });
             }
-            
             function setTheme(theme) {
                 currentTheme = theme;
                 localStorage.setItem('theme', theme);
                 applyTheme();
             }
             
-            // ========== ПОЛЬЗОВАТЕЛЬ ==========
+            // === ПОЛЬЗОВАТЕЛЬ ===
             async function loadUser() {
                 if (!user) return;
-                
-                const { data } = await supabase
-                    .from('majesty_users')
-                    .select('*')
-                    .eq('telegram_id', user.id)
-                    .single();
-                
-                if (data) {
-                    currentUser = data;
-                } else {
-                    const { data: newUser } = await supabase
-                        .from('majesty_users')
-                        .insert({
-                            telegram_id: user.id,
-                            first_name: user.first_name,
-                            role: 'client',
-                            balance: 0,
-                            bonus_points: 0
-                        })
-                        .select()
-                        .single();
+                const { data } = await supabase.from('majesty_users').select('*').eq('telegram_id', user.id).single();
+                if (data) currentUser = data;
+                else {
+                    const { data: newUser } = await supabase.from('majesty_users').insert({
+                        telegram_id: user.id, first_name: user.first_name, role: 'client', balance: 0, bonus_points: 0
+                    }).select().single();
                     currentUser = newUser;
                 }
-                
                 document.getElementById('balance').innerText = currentUser?.balance || 0;
                 document.getElementById('bonus').innerText = currentUser?.bonus_points || 0;
-                document.getElementById('profileName').innerText = user?.first_name || 'Друг';
-                document.getElementById('profileRole').innerText = currentUser?.role === 'client' ? 'Клиент' : currentUser?.role;
-                
-                const level = getLevel(currentUser?.bonus_points || 0);
-                document.getElementById('profileLevel').innerHTML = level;
+                document.getElementById('profileInfo').innerHTML = `
+                    <div class="setting-item"><span>Имя</span><span>${user?.first_name || 'Друг'}</span></div>
+                    <div class="setting-item"><span>Роль</span><span>${currentUser?.role === 'client' ? 'Клиент' : currentUser?.role}</span></div>
+                    <div class="setting-item"><span>Уровень</span><span>${getLevel(currentUser?.bonus_points || 0)}</span></div>
+                `;
             }
+            function getLevel(p) { if(p>=5000) return '👑 Majesty Elite'; if(p>=1000) return '⭐ Премиум'; if(p>=100) return '🌟 Активный'; return '✨ Стандарт'; }
             
-            function getLevel(points) {
-                if (points >= 5000) return '👑 Majesty Elite';
-                if (points >= 1000) return '⭐ Премиум';
-                if (points >= 100) return '🌟 Активный';
-                return '✨ Стандарт';
-            }
-            
-            // ========== УСЛУГИ (заглушка) ==========
-            const services = [
-                { icon: '🚿', name: 'Мойка', desc: 'Бесконтактная, пена, воск' },
-                { icon: '✨', name: 'Детейлинг', desc: 'Полировка, химчистка' },
-                { icon: '🔧', name: 'Тюнинг', desc: 'Обвесы, чип-тюнинг' },
-                { icon: '🏭', name: 'Сервис', desc: 'Диагностика, ремонт' }
+            // === УСЛУГИ (суббренды) ===
+            const servicesData = [
+                { icon: '🚿', name: 'Мойка', desc: 'Бесконтактная, самообслуживание', locations: [{ name: 'Majesty Wash North', address: 'ул. Северная, 15', hours: '08:00–23:00' }] },
+                { icon: '✨', name: 'Детейлинг', desc: 'Полировка, керамика, химчистка', locations: [{ name: 'Majesty Studio', address: 'пр. Центральный, 42', hours: '10:00–20:00' }] },
+                { icon: '🔧', name: 'Тюнинг', desc: 'Обвесы, чип-тюнинг, аэродинамика', locations: [{ name: 'Majesty Performance', address: 'ул. Инженерная, 7', hours: '09:00–19:00' }] },
+                { icon: '🏭', name: 'Сервис', desc: 'Диагностика, ремонт, обслуживание', locations: [{ name: 'Majesty Service', address: 'ш. Автомобилистов, 8', hours: '09:00–21:00' }] }
             ];
-            
             function renderServices() {
-                const container = document.getElementById('servicesList');
-                if (!container) return;
-                container.innerHTML = services.map(s => `
-                    <div class="service-card" style="display: flex; justify-content: space-between; padding: 14px 0; border-bottom: 0.5px solid var(--border);">
-                        <div style="display: flex; gap: 12px;">
-                            <span style="font-size: 28px;">${s.icon}</span>
-                            <div>
-                                <div style="font-weight: 500;">${s.name}</div>
-                                <div style="font-size: 12px; color: var(--text-secondary);">${s.desc}</div>
+                const container = document.getElementById('servicesContainer');
+                container.innerHTML = servicesData.map((s, i) => `
+                    <div class="service-category">
+                        <div class="service-header" onclick="toggleService(${i})">
+                            <div class="service-info">
+                                <span class="service-icon">${s.icon}</span>
+                                <div><div class="service-name">${s.name}</div><div class="service-desc">${s.desc}</div></div>
                             </div>
+                            <span>▼</span>
                         </div>
-                        <span style="color: var(--accent);">Скоро</span>
+                        <div class="service-content" id="service-${i}">
+                            ${s.locations.map(loc => `
+                                <div class="location-item">
+                                    <div class="location-name">${loc.name}</div>
+                                    <div class="location-address">📍 ${loc.address}</div>
+                                    <div class="hours">🕒 ${loc.hours}</div>
+                                    <button class="book-btn" onclick="bookService('${s.name}', '${loc.name}')">Записаться</button>
+                                </div>
+                            `).join('')}
+                        </div>
                     </div>
                 `).join('');
             }
+            window.toggleService = (i) => {
+                const el = document.getElementById(`service-${i}`);
+                el.classList.toggle('open');
+            };
+            window.bookService = (service, location) => {
+                tg.showPopup({ title: 'Запись', message: `Вы выбрали ${service} в ${location}. Скоро появится возможность записи.`, buttons: [{ type: 'close' }] });
+            };
             
-            // ========== НАВИГАЦИЯ ==========
+            // === ИСТОРИЯ ===
+            function renderHistory() {
+                const content = document.getElementById('historyContent');
+                if (currentTab === 'orders') content.innerHTML = `<div class="history-item"><div class="history-header"><span class="history-title">Заказ #001</span><span class="history-status">Выполнен</span></div><div>Мойка | 15.03.2025</div></div><div class="history-item"><div class="history-header"><span class="history-title">Заказ #002</span><span class="history-status">В работе</span></div><div>Детейлинг | 20.03.2025</div></div>`;
+                else if (currentTab === 'services') content.innerHTML = `<div class="history-item"><div>🚿 Мойка</div><div class="history-header">12.03.2025 • 300 ₽</div></div><div class="history-item"><div>✨ Детейлинг</div><div class="history-header">05.03.2025 • 4500 ₽</div></div>`;
+                else content.innerHTML = `<div class="history-item"><div>🧴 Омывайка</div><div class="history-header">10.03.2025 • 150 ₽</div></div><div class="history-item"><div>🧽 Тряпка микрофибра</div><div class="history-header">08.03.2025 • 90 ₽</div></div>`;
+            }
+            document.querySelectorAll('.history-tab').forEach(tab => {
+                tab.addEventListener('click', () => {
+                    document.querySelectorAll('.history-tab').forEach(t => t.classList.remove('active'));
+                    tab.classList.add('active');
+                    currentTab = tab.dataset.tab;
+                    renderHistory();
+                });
+            });
+            
+            // === НАВИГАЦИЯ ===
             function goToScreen(screenId) {
                 document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-                const target = document.getElementById(`screen-${screenId}`);
-                if (target) target.classList.add('active');
-                
-                document.querySelectorAll('.nav-btn').forEach(btn => {
-                    btn.classList.remove('active');
-                    if (btn.dataset.screen === screenId) btn.classList.add('active');
-                });
-                
+                document.getElementById(`screen-${screenId}`).classList.add('active');
+                document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+                document.querySelector(`.nav-item[data-screen="${screenId}"]`).classList.add('active');
                 if (screenId === 'services') renderServices();
+                if (screenId === 'history') renderHistory();
             }
             
-            // ========== ИНИЦИАЛИЗАЦИЯ ==========
+            // === СОБЫТИЯ ===
+            document.querySelectorAll('.nav-item').forEach(btn => btn.addEventListener('click', () => goToScreen(btn.dataset.screen)));
+            document.querySelectorAll('.theme-btn').forEach(btn => btn.addEventListener('click', () => setTheme(btn.dataset.theme)));
+            document.getElementById('topupBtn')?.addEventListener('click', () => tg.showPopup({ title: 'Пополнение', message: 'Скоро появится', buttons: [{ type: 'close' }] }));
+            document.getElementById('closeBtn')?.addEventListener('click', () => tg.close());
+            document.getElementById('phoneStatus')?.addEventListener('click', () => tg.showPopup({ title: 'Добавить номер', message: 'Введите номер телефона в поддержке', buttons: [{ type: 'close' }] }));
+            
             applyTheme();
             loadUser();
             renderServices();
-            
-            // ========== СОБЫТИЯ ==========
-            document.querySelectorAll('.nav-btn').forEach(btn => {
-                btn.addEventListener('click', () => goToScreen(btn.dataset.screen));
-            });
-            
-            document.querySelectorAll('.quick-card').forEach(card => {
-                card.addEventListener('click', () => {
-                    const action = card.dataset.action;
-                    if (action === 'services') goToScreen('services');
-                    if (action === 'history') goToScreen('history');
-                    if (action === 'profile') goToScreen('profile');
-                });
-            });
-            
-            document.querySelectorAll('.theme-option').forEach(opt => {
-                opt.addEventListener('click', () => setTheme(opt.dataset.theme));
-            });
-            
-            document.getElementById('topupBtn')?.addEventListener('click', () => {
-                tg.showPopup({
-                    title: 'Пополнение',
-                    message: 'Скоро появится',
-                    buttons: [{ type: 'close' }]
-                });
-            });
-            
-            document.getElementById('closeBtn')?.addEventListener('click', () => tg.close());
         })();
     </script>
 </body>
