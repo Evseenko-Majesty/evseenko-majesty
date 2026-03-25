@@ -7,11 +7,19 @@
     {
       "src": "app/index.html",
       "use": "@vercel/static"
+    },
+     {
+      "src": "admin/index.html",
+      "use": "@vercel/static"
     }
   ],
   "routes": [
     {
       "src": "/app",
+      "dest": "/app/index.html"
+    },
+     {
+      "src": "/admin",
       "dest": "/app/index.html"
     },
     { 
