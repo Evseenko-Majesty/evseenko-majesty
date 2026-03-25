@@ -20,43 +20,29 @@
             --bg-card: #ffffff;
             --text-primary: #1c1c1e;
             --text-secondary: #8e8e93;
-            --text-tertiary: #aeaeb2;
             --accent: #000000;
             --accent-gold: #c4a747;
             --border: #e5e5ea;
             --radius: 20px;
-            --transition: all 0.2s ease;
         }
 
-        body.dark {
+        body.dark, body.afterdark {
             --bg-primary: #000000;
             --bg-secondary: #0c0c0e;
             --bg-card: #141418;
             --text-primary: #ffffff;
             --text-secondary: #98989e;
-            --text-tertiary: #6c6c70;
             --accent: #ffffff;
             --accent-gold: #d4af37;
             --border: #2c2c30;
         }
 
-        body.afterdark {
-            --bg-primary: #030303;
-            --bg-secondary: #0a0a0c;
-            --bg-card: #111114;
-            --text-primary: #f0f0f0;
-            --text-secondary: #9e9ea4;
-            --text-tertiary: #6a6a6e;
-            --accent: #d4af37;
-            --accent-gold: #e5c158;
-            --border: #252528;
-        }
-
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'SF Pro Display', Helvetica, Arial, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', Helvetica, Arial, sans-serif;
             background: var(--bg-primary);
             color: var(--text-primary);
-            transition: var(--transition);
+            transition: all 0.2s ease;
+            min-height: 100vh;
         }
 
         .container {
@@ -65,34 +51,6 @@
             padding: 20px 16px 90px 16px;
         }
 
-        /* Логотип */
-        .hero-logo {
-            text-align: center;
-            margin: 32px 0 24px 0;
-            animation: fadeUp 0.5s ease;
-        }
-        .crown-svg {
-            width: 72px;
-            height: 72px;
-            filter: drop-shadow(0 4px 12px rgba(0,0,0,0.08));
-        }
-        .brand-name {
-            font-size: 26px;
-            font-weight: 600;
-            letter-spacing: -0.5px;
-            margin-top: 12px;
-            background: linear-gradient(135deg, var(--text-primary) 0%, var(--accent-gold) 100%);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-        }
-        .philosophy {
-            font-size: 13px;
-            color: var(--text-secondary);
-            margin-top: 6px;
-        }
-
-        /* Карточки */
         .card {
             background: var(--bg-card);
             border-radius: var(--radius);
@@ -100,25 +58,7 @@
             margin-bottom: 16px;
             border: 0.5px solid var(--border);
         }
-        .card-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 16px;
-        }
-        .card-title {
-            font-size: 17px;
-            font-weight: 600;
-        }
-        .badge-soon {
-            font-size: 12px;
-            color: var(--text-tertiary);
-            background: var(--bg-secondary);
-            padding: 4px 10px;
-            border-radius: 30px;
-        }
 
-        /* Баланс */
         .balance-row {
             display: flex;
             gap: 12px;
@@ -131,19 +71,17 @@
             padding: 16px;
             text-align: center;
         }
-        .balance-amount {
+        .balance-value {
             font-size: 32px;
             font-weight: 700;
             color: var(--accent-gold);
-            line-height: 1;
         }
         .balance-label {
-            font-size: 13px;
+            font-size: 12px;
             color: var(--text-secondary);
-            margin-top: 6px;
+            margin-top: 4px;
         }
 
-        /* Кнопки */
         .btn {
             width: 100%;
             padding: 14px;
@@ -152,7 +90,6 @@
             font-size: 16px;
             font-weight: 500;
             cursor: pointer;
-            transition: var(--transition);
             background: var(--accent);
             color: var(--bg-primary);
         }
@@ -161,13 +98,7 @@
             border: 1px solid var(--accent-gold);
             color: var(--accent-gold);
         }
-        .btn-secondary {
-            background: transparent;
-            border: 1px solid var(--border);
-            color: var(--text-primary);
-        }
 
-        /* Секция "Скоро" */
         .coming-soon {
             text-align: center;
             padding: 32px 20px;
@@ -176,38 +107,6 @@
             font-size: 48px;
             margin-bottom: 12px;
             opacity: 0.6;
-        }
-        .coming-title {
-            font-weight: 500;
-            margin-bottom: 6px;
-        }
-        .coming-desc {
-            font-size: 13px;
-            color: var(--text-secondary);
-        }
-
-        /* Настройки */
-        .setting-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 14px 0;
-            border-bottom: 0.5px solid var(--border);
-        }
-        .theme-options {
-            display: flex;
-            gap: 12px;
-        }
-        .theme-btn {
-            padding: 6px 14px;
-            border-radius: 30px;
-            background: var(--bg-secondary);
-            cursor: pointer;
-            font-size: 13px;
-        }
-        .theme-btn.active {
-            background: var(--accent-gold);
-            color: #000;
         }
 
         /* Нижняя навигация */
@@ -234,11 +133,10 @@
             align-items: center;
             gap: 4px;
             font-size: 11px;
-            color: var(--text-tertiary);
+            color: var(--text-secondary);
             cursor: pointer;
             padding: 8px 12px;
             border-radius: 30px;
-            transition: var(--transition);
         }
         .nav-item.active {
             color: var(--accent-gold);
@@ -247,22 +145,24 @@
             font-size: 22px;
         }
 
-        /* Экраны */
         .screen {
             display: none;
         }
         .screen.active {
             display: block;
-            animation: fadeIn 0.25s ease;
+            animation: fadeIn 0.2s ease;
         }
 
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(6px); }
             to { opacity: 1; transform: translateY(0); }
         }
-        @keyframes fadeUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+
+        .setting-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 0.5px solid var(--border);
         }
     </style>
 </head>
@@ -270,25 +170,20 @@
     <div class="container">
         <!-- ГЛАВНАЯ -->
         <div class="screen active" id="screen-home">
-            <div class="hero-logo">
-                <svg class="crown-svg" viewBox="0 0 100 100" fill="none">
-                    <path d="M20 65 L32 40 L45 52 L50 30 L55 52 L68 40 L80 65 L75 75 L25 75 L20 65Z" fill="var(--accent-gold)" opacity="0.9"/>
-                    <circle cx="32" cy="40" r="4" fill="white"/>
-                    <circle cx="50" cy="30" r="4" fill="white"/>
-                    <circle cx="68" cy="40" r="4" fill="white"/>
-                </svg>
-                <div class="brand-name">Evseenko Majesty</div>
-                <div class="philosophy">From street passion to true mastery</div>
+            <div class="card" style="text-align: center;">
+                <div style="font-size: 48px; margin-bottom: 8px;">👑</div>
+                <div style="font-size: 24px; font-weight: 600;">Evseenko Majesty</div>
+                <div style="font-size: 13px; color: var(--text-secondary); margin-top: 4px;">From street passion to true mastery</div>
             </div>
 
             <div class="card">
                 <div class="balance-row">
                     <div class="balance-block">
-                        <div class="balance-amount" id="balance">0</div>
+                        <div class="balance-value" id="balance">0</div>
                         <div class="balance-label">₽ Баланс</div>
                     </div>
                     <div class="balance-block">
-                        <div class="balance-amount" id="bonus">0</div>
+                        <div class="balance-value" id="bonus">0</div>
                         <div class="balance-label">🎁 Бонусы</div>
                     </div>
                 </div>
@@ -296,14 +191,10 @@
             </div>
 
             <div class="card">
-                <div class="card-header">
-                    <span class="card-title">📰 События</span>
-                    <span class="badge-soon">Скоро</span>
-                </div>
                 <div class="coming-soon">
                     <div class="coming-icon">✨</div>
-                    <div class="coming-title">Следите за новостями</div>
-                    <div class="coming-desc">Здесь появятся мероприятия, закрытые встречи и трек-дни</div>
+                    <div style="font-weight: 500;">События и новости</div>
+                    <div style="font-size: 13px; color: var(--text-secondary);">Скоро здесь появятся мероприятия</div>
                 </div>
             </div>
         </div>
@@ -311,14 +202,10 @@
         <!-- УСЛУГИ -->
         <div class="screen" id="screen-services">
             <div class="card">
-                <div class="card-header">
-                    <span class="card-title">🛠️ Услуги</span>
-                    <span class="badge-soon">Скоро</span>
-                </div>
                 <div class="coming-soon">
-                    <div class="coming-icon">🚿</div>
-                    <div class="coming-title">Мойка · Детейлинг · Тюнинг · Сервис</div>
-                    <div class="coming-desc">Полный каталог услуг откроется с запуском первой точки</div>
+                    <div class="coming-icon">🛠️</div>
+                    <div style="font-weight: 500;">Услуги</div>
+                    <div style="font-size: 13px; color: var(--text-secondary);">Мойка · Детейлинг · Тюнинг · Сервис</div>
                 </div>
             </div>
         </div>
@@ -326,82 +213,72 @@
         <!-- ИСТОРИЯ -->
         <div class="screen" id="screen-history">
             <div class="card">
-                <div class="card-header">
-                    <span class="card-title">📋 История</span>
-                    <span class="badge-soon">Скоро</span>
-                </div>
                 <div class="coming-soon">
                     <div class="coming-icon">📋</div>
-                    <div class="coming-title">Ваши заказы, услуги и покупки</div>
-                    <div class="coming-desc">После первого обращения вся история будет здесь</div>
+                    <div style="font-weight: 500;">История</div>
+                    <div style="font-size: 13px; color: var(--text-secondary);">Ваши заказы и услуги</div>
                 </div>
             </div>
         </div>
 
-        <!-- ПРОВЕРКА АВТО / ДЕТАЛИ -->
+        <!-- ПРОВЕРКА -->
         <div class="screen" id="screen-check">
             <div class="card">
-                <div class="card-header">
-                    <span class="card-title">🔍 Проверка</span>
-                    <span class="badge-soon">Скоро</span>
-                </div>
                 <div class="coming-soon">
                     <div class="coming-icon">🔍</div>
-                    <div class="coming-title">QR / NFC детали и автомобили</div>
-                    <div class="coming-desc">Сканируйте метки, чтобы увидеть историю и оригинальность</div>
+                    <div style="font-weight: 500;">Проверка авто / детали</div>
+                    <div style="font-size: 13px; color: var(--text-secondary);">QR / NFC сканирование</div>
                 </div>
             </div>
         </div>
 
-        <!-- ПРОФИЛЬ + НАСТРОЙКИ -->
+        <!-- ПАНЕЛЬ (только для сотрудников) -->
+        <div class="screen" id="screen-staff">
+            <div class="card">
+                <div class="coming-soon">
+                    <div class="coming-icon">🔐</div>
+                    <div style="font-weight: 500;">Панель сотрудника</div>
+                    <div style="font-size: 13px; color: var(--text-secondary);">Управление заказами, сотрудниками, финансами</div>
+                </div>
+                <button class="btn btn-outline" id="openStaffPanelBtn" style="margin-top: 16px;">Открыть панель управления</button>
+            </div>
+        </div>
+
+        <!-- ПРОФИЛЬ -->
         <div class="screen" id="screen-profile">
             <div class="card">
-                <div class="card-header">
-                    <span class="card-title">👤 Профиль</span>
-                </div>
-                <div id="profileInfo"></div>
+                <div class="setting-item"><span>Имя</span><span id="profileName">—</span></div>
+                <div class="setting-item"><span>Роль</span><span id="profileRole">Клиент</span></div>
+                <div class="setting-item"><span>Уровень</span><span id="profileLevel">✨ Стандарт</span></div>
             </div>
             <div class="card">
-                <div class="card-header">
-                    <span class="card-title">⚙️ Настройки</span>
-                </div>
+                <div style="font-weight: 500; margin-bottom: 12px;">⚙️ Настройки</div>
                 <div class="setting-item">
                     <span>Тема</span>
-                    <div class="theme-options">
-                        <span class="theme-btn" data-theme="light">Светлая</span>
-                        <span class="theme-btn" data-theme="dark">Тёмная</span>
-                        <span class="theme-btn" data-theme="auto">Авто</span>
+                    <div style="display: flex; gap: 8px;">
+                        <span class="theme-option" data-theme="light">Светлая</span>
+                        <span class="theme-option" data-theme="dark">Тёмная</span>
+                        <span class="theme-option" data-theme="auto">Авто</span>
                     </div>
                 </div>
-                <div class="setting-item">
-                    <span>Телефон</span>
-                    <span id="phoneStatus" style="color: var(--accent-gold); cursor: pointer;">+ Добавить</span>
-                </div>
             </div>
-            <div class="card">
-    <div class="card-header">
-        <span class="card-title">👤 Профиль</span>
-    </div>
-    <div id="profileInfo"></div>
-    <button class="btn btn-outline" id="staffPanelBtn" style="margin-top: 12px;">🔐 Панель сотрудника</button>
-</div>
             <button class="btn btn-secondary" id="closeBtn">✖️ Закрыть</button>
         </div>
     </div>
 
-    <div class="bottom-nav">
+    <div class="bottom-nav" id="bottomNav">
         <button class="nav-item" data-screen="home"><span class="nav-icon">🏠</span><span>Главная</span></button>
         <button class="nav-item" data-screen="services"><span class="nav-icon">🛠️</span><span>Услуги</span></button>
         <button class="nav-item" data-screen="history"><span class="nav-icon">📋</span><span>История</span></button>
         <button class="nav-item" data-screen="check"><span class="nav-icon">🔍</span><span>Проверка</span></button>
         <button class="nav-item" data-screen="profile"><span class="nav-icon">👤</span><span>Профиль</span></button>
+        <!-- Кнопка панели будет добавлена автоматически для сотрудников -->
     </div>
 
     <script>
         (function() {
-            // === SUPABASE ===
-            const SUPABASE_URL = 'https://dgqlbvajznobyitubazo.supabase.co';
-            const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRncWxidmFqem5vYnlpdHViYXpvIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3Mzg1MjcyMSwiZXhwIjoyMDg5NDI4NzIxfQ.iTNnvDhM7cZ5W5oWpTMVNLfbAAtZKZAq_mjhzqSAzUc';
+            const SUPABASE_URL = 'https://dgqlbvaiznobytitubazo.supabase.co';
+            const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsImV4cCI6MTY0NTM2NzUyNQ';
             const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
             
             const tg = window.Telegram.WebApp;
@@ -410,8 +287,9 @@
             const user = tg.initDataUnsafe?.user;
             
             let currentUser = null;
+            let userRole = 'client';
             
-            // === AFTERDARK (автоматически) ===
+            // === AFTERDARK ===
             function checkAfterdark() {
                 const hours = new Date().getHours();
                 if (hours >= 22 || hours < 6) {
@@ -433,9 +311,9 @@
                     document.body.classList.remove('dark');
                     checkAfterdark();
                 }
-                document.querySelectorAll('.theme-btn').forEach(btn => {
-                    btn.classList.remove('active');
-                    if (btn.dataset.theme === currentTheme) btn.classList.add('active');
+                document.querySelectorAll('.theme-option').forEach(opt => {
+                    opt.classList.remove('active');
+                    if (opt.dataset.theme === currentTheme) opt.classList.add('active');
                 });
             }
             function setTheme(theme) {
@@ -444,34 +322,80 @@
                 applyTheme();
             }
             
-            // === ПОЛЬЗОВАТЕЛЬ ===
+            document.querySelectorAll('.theme-option').forEach(opt => {
+                opt.addEventListener('click', () => setTheme(opt.dataset.theme));
+            });
+            
+            // === ЗАГРУЗКА ПОЛЬЗОВАТЕЛЯ ===
             async function loadUser() {
                 if (!user) return;
-                const { data } = await supabase.from('majesty_users').select('*').eq('telegram_id', user.id).single();
+                
+                const { data } = await supabase
+                    .from('majesty_users')
+                    .select('*')
+                    .eq('telegram_id', user.id)
+                    .single();
+                
                 if (data) {
                     currentUser = data;
                 } else {
-                    const { data: newUser } = await supabase.from('majesty_users').insert({
-                        telegram_id: user.id,
-                        first_name: user.first_name,
-                        role: 'client',
-                        balance: 0,
-                        bonus_points: 0
-                    }).select().single();
+                    const { data: newUser } = await supabase
+                        .from('majesty_users')
+                        .insert({
+                            telegram_id: user.id,
+                            first_name: user.first_name,
+                            role: 'client',
+                            balance: 0,
+                            bonus_points: 0
+                        })
+                        .select()
+                        .single();
                     currentUser = newUser;
                 }
+                
+                userRole = currentUser?.role || 'client';
+                
                 document.getElementById('balance').innerText = currentUser?.balance || 0;
                 document.getElementById('bonus').innerText = currentUser?.bonus_points || 0;
-                document.getElementById('profileInfo').innerHTML = `
-                    <div class="setting-item"><span>Имя</span><span>${user?.first_name || 'Друг'}</span></div>
-                    <div class="setting-item"><span>Роль</span><span>${currentUser?.role === 'client' ? 'Клиент' : currentUser?.role}</span></div>
-                    <div class="setting-item"><span>Уровень</span><span>${getLevel(currentUser?.bonus_points || 0)}</span></div>
-                `;
+                document.getElementById('profileName').innerText = user?.first_name || 'Друг';
+                document.getElementById('profileRole').innerText = getRoleName(userRole);
+                
+                const level = getLevel(currentUser?.bonus_points || 0);
+                document.getElementById('profileLevel').innerHTML = level;
+                
+                // === АВТОМАТИЧЕСКОЕ ДОБАВЛЕНИЕ ПАНЕЛИ ДЛЯ СОТРУДНИКОВ ===
+                const staffRoles = ['master', 'admin', 'owner'];
+                const bottomNav = document.getElementById('bottomNav');
+                
+                if (staffRoles.includes(userRole)) {
+                    // Проверяем, есть ли уже кнопка панели
+                    const existingStaffBtn = document.querySelector('.nav-item[data-screen="staff"]');
+                    if (!existingStaffBtn) {
+                        const staffNavBtn = document.createElement('button');
+                        staffNavBtn.className = 'nav-item';
+                        staffNavBtn.setAttribute('data-screen', 'staff');
+                        staffNavBtn.innerHTML = '<span class="nav-icon">🔐</span><span>Панель</span>';
+                        bottomNav.appendChild(staffNavBtn);
+                        
+                        staffNavBtn.addEventListener('click', () => goToScreen('staff'));
+                    }
+                }
             }
-            function getLevel(p) {
-                if (p >= 5000) return '👑 Majesty Elite';
-                if (p >= 1000) return '⭐ Премиум';
-                if (p >= 100) return '🌟 Активный';
+            
+            function getRoleName(role) {
+                const roles = {
+                    client: 'Клиент',
+                    master: 'Мастер',
+                    admin: 'Администратор',
+                    owner: 'Владелец'
+                };
+                return roles[role] || role;
+            }
+            
+            function getLevel(points) {
+                if (points >= 5000) return '👑 Majesty Elite';
+                if (points >= 1000) return '⭐ Премиум';
+                if (points >= 100) return '🌟 Активный';
                 return '✨ Стандарт';
             }
             
@@ -480,43 +404,31 @@
                 document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
                 document.getElementById(`screen-${screenId}`).classList.add('active');
                 document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-                document.querySelector(`.nav-item[data-screen="${screenId}"]`).classList.add('active');
+                const activeNav = document.querySelector(`.nav-item[data-screen="${screenId}"]`);
+                if (activeNav) activeNav.classList.add('active');
             }
             
-            // === СОБЫТИЯ ===
             document.querySelectorAll('.nav-item').forEach(btn => {
                 btn.addEventListener('click', () => goToScreen(btn.dataset.screen));
             });
-            document.querySelectorAll('.theme-btn').forEach(btn => {
-                btn.addEventListener('click', () => setTheme(btn.dataset.theme));
-            });
+            
+            // === КНОПКИ ===
             document.getElementById('topupBtn')?.addEventListener('click', () => {
-                tg.showPopup({ title: 'Пополнение', message: 'Скоро появится возможность пополнения баланса', buttons: [{ type: 'close' }] });
-            });
-            document.getElementById('closeBtn')?.addEventListener('click', () => tg.close());
-            document.getElementById('phoneStatus')?.addEventListener('click', () => {
-                tg.showPopup({ title: 'Добавить номер', message: 'В ближайшее время добавим возможность подтверждения телефона', buttons: [{ type: 'close' }] });
+                tg.showPopup({ title: 'Пополнение', message: 'Скоро появится', buttons: [{ type: 'close' }] });
             });
             
-// === КНОПКА ПАНЕЛИ СОТРУДНИКА ===
-const staffBtn = document.getElementById('staffPanelBtn');
-if (staffBtn) {
-    staffBtn.addEventListener('click', () => {
-        // Закрываем текущее WebApp
-        window.Telegram.WebApp.close();
-        // Открываем панель как новое WebApp
-        window.Telegram.WebApp.openTelegramLink('https://t.me/evseenko_majesty_bot?start=admin_panel');
-    });
-}
-
+            document.getElementById('closeBtn')?.addEventListener('click', () => tg.close());
+            
+            document.getElementById('openStaffPanelBtn')?.addEventListener('click', () => {
+                tg.close();
+                setTimeout(() => {
+                    window.location.href = 'https://evseenkomajesty.ru/admin';
+                }, 100);
+            });
+            
             applyTheme();
             loadUser();
         })();
-       
-const tgWebApp = window.Telegram.WebApp;
-document.getElementById('staffPanelBtn')?.addEventListener('click', () => {
-    tgWebApp.openTelegramLink('https://t.me/evseenko_majesty_bot?start=staff');
-});
     </script>
 </body>
 </html>
