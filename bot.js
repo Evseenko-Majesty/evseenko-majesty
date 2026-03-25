@@ -46,6 +46,31 @@ bot.start(async (ctx) => {
                 balance: 0,
                 bonus_points: 0
             });
+            bot.command('staff', async (ctx) => {
+    const userId = ctx.from.id;
+    
+    // Проверяем, есть ли у пользователя роль сотрудника
+    const { data: user } = await supabase
+        .from('majesty_users')
+        .select('role')
+        .eq('telegram_id', userId)
+        .single();
+    
+    const staffRoles = ['master', 'admin', 'owner'];
+    
+    if (user && staffRoles.includes(user.role)) {
+        await ctx.replyWithMarkdown(
+            `🔐 *Панель сотрудника*\n\n` +
+            `Вы входите как *${user.role === 'owner' ? 'Владелец' : user.role === 'admin' ? 'Администратор' : 'Мастер'}*\n\n` +
+            `👇 Нажмите кнопку, чтобы открыть панель управления`,
+            Markup.inlineKeyboard([
+                [Markup.button.webApp('🔐 Открыть панель', 'https://evseenkomajesty.ru/admin')]
+            ])
+        );
+    } else {
+        await ctx.reply('⛔ У вас нет доступа к панели сотрудника');
+    }
+});
 
             await ctx.replyWithMarkdown(
                 `👑 *Добро пожаловать в Evseenko Majesty!*\n\n` +
