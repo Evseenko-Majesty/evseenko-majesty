@@ -1,4 +1,3 @@
-
 const { Telegraf, Markup } = require('telegraf');
 const { createClient } = require('@supabase/supabase-js');
 const express = require('express');
@@ -14,7 +13,7 @@ const WEBAPP_URL = 'https://evseenkomajesty.ru/app';
 const bot = new Telegraf(BOT_TOKEN);
 const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 
-// --- ПРОСТОЙ HTTP-СЕРВЕР ДЛЯ RENDER ---
+// --- HTTP-СЕРВЕР ДЛЯ RENDER ---
 const app = express();
 const port = process.env.PORT || 3000;
 
@@ -46,41 +45,6 @@ bot.start(async (ctx) => {
                 balance: 0,
                 bonus_points: 0
             });
-            bot.command('staff', async (ctx) => {
-    const userId = ctx.from.id;
-    
-    // Проверяем, есть ли у пользователя роль сотрудника
-    const { data: user } = await supabase
-        .from('majesty_users')
-        .select('role')
-        .eq('telegram_id', userId)
-        .single();
-    
-   
-bot.command('admin_panel', async (ctx) => {
-    const userId = ctx.from.id;
-    
-    const { data: user } = await supabase
-        .from('majesty_users')
-        .select('role')
-        .eq('telegram_id', userId)
-        .single();
-    
-    const staffRoles = ['master', 'admin', 'owner'];
-    
-    if (user && staffRoles.includes(user.role)) {
-        await ctx.replyWithMarkdown(
-            `🔐 *Панель сотрудника*\n\n` +
-            `👇 Нажмите кнопку, чтобы открыть панель`,
-            Markup.inlineKeyboard([
-                [Markup.button.webApp('🔐 Открыть панель', 'https://evseenkomajesty.ru/admin')]
-            ])
-        );
-    } else {
-        await ctx.reply('⛔ У вас нет доступа');
-    }
-});
-
 
             await ctx.replyWithMarkdown(
                 `👑 *Добро пожаловать в Evseenko Majesty!*\n\n` +
@@ -129,6 +93,31 @@ bot.command('balance', async (ctx) => {
         );
     } catch (error) {
         await ctx.reply('⚠️ Ошибка');
+    }
+});
+
+// --- КОМАНДА /admin_panel ---
+bot.command('admin_panel', async (ctx) => {
+    const userId = ctx.from.id;
+    
+    const { data: user } = await supabase
+        .from('majesty_users')
+        .select('role')
+        .eq('telegram_id', userId)
+        .single();
+    
+    const staffRoles = ['master', 'admin', 'owner'];
+    
+    if (user && staffRoles.includes(user.role)) {
+        await ctx.replyWithMarkdown(
+            `🔐 *Панель сотрудника*\n\n` +
+            `👇 Нажмите кнопку, чтобы открыть панель`,
+            Markup.inlineKeyboard([
+                [Markup.button.webApp('🔐 Открыть панель', 'https://evseenkomajesty.ru/admin')]
+            ])
+        );
+    } else {
+        await ctx.reply('⛔ У вас нет доступа к панели сотрудника');
     }
 });
 
