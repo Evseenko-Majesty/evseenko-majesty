@@ -24,7 +24,6 @@
             --accent: var(--tg-theme-button-color, #007aff);
             --accent-text: var(--tg-theme-button-text-color, #ffffff);
             --border: rgba(0, 0, 0, 0.08);
-            --shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
         }
 
         /* AFTERDARK режим (ночной, 22:00–06:00) */
@@ -54,7 +53,6 @@
             padding: 12px 16px 80px 16px;
         }
 
-        /* Карточки */
         .card {
             background: var(--bg-card);
             border-radius: 16px;
@@ -64,7 +62,6 @@
             border: 1px solid var(--border);
         }
 
-        /* Баланс */
         .balance-row {
             display: flex;
             justify-content: space-between;
@@ -90,7 +87,6 @@
             margin-top: 6px;
         }
 
-        /* Кнопки */
         .btn {
             display: flex;
             align-items: center;
@@ -122,7 +118,6 @@
             color: var(--accent);
         }
 
-        /* Быстрые действия */
         .quick-actions {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -150,7 +145,6 @@
             font-weight: 500;
         }
 
-        /* Услуги */
         .service-card {
             display: flex;
             align-items: center;
@@ -189,7 +183,6 @@
             margin-top: 2px;
         }
 
-        /* Заказы */
         .order-item {
             padding: 12px 0;
             border-bottom: 1px solid var(--border);
@@ -212,7 +205,6 @@
         .status-completed { background: rgba(52, 199, 89, 0.15); color: #34c759; }
         .status-cancelled { background: rgba(255, 59, 48, 0.15); color: #ff3b30; }
 
-        /* Навигация */
         .bottom-nav {
             position: fixed;
             bottom: 0;
@@ -226,7 +218,7 @@
             justify-content: space-around;
             padding: 10px 16px 20px 16px;
             backdrop-filter: blur(20px);
-            background: rgba(var(--bg-page-rgb), 0.95);
+            background: var(--bg-page);
             z-index: 100;
         }
         .nav-item {
@@ -250,7 +242,6 @@
             font-size: 22px;
         }
 
-        /* Экран */
         .screen {
             display: none;
         }
@@ -264,7 +255,6 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Адаптация */
         @media (max-width: 480px) {
             .container {
                 padding: 12px 12px 80px 12px;
@@ -280,7 +270,6 @@
 </head>
 <body>
     <div class="container" id="appContainer">
-        <!-- Главный экран -->
         <div class="screen" id="screen-main">
             <div class="card">
                 <h2 id="greeting" style="margin-bottom: 16px;">Загрузка...</h2>
@@ -318,7 +307,6 @@
             </div>
         </div>
 
-        <!-- Услуги -->
         <div class="screen" id="screen-services">
             <div class="card">
                 <h3>🛠️ Услуги</h3>
@@ -326,7 +314,6 @@
             </div>
         </div>
 
-        <!-- Создание заказа -->
         <div class="screen" id="screen-order">
             <div class="card">
                 <h3 id="orderServiceName">Новый заказ</h3>
@@ -337,7 +324,6 @@
             </div>
         </div>
 
-        <!-- История -->
         <div class="screen" id="screen-history">
             <div class="card">
                 <h3>📋 История заказов</h3>
@@ -345,7 +331,6 @@
             </div>
         </div>
 
-        <!-- Профиль -->
         <div class="screen" id="screen-profile">
             <div class="card">
                 <h3>👤 Профиль</h3>
@@ -381,289 +366,280 @@
     </div>
 
     <script>
-        // --- НАСТРОЙКИ (ЗАМЕНИ НА СВОИ) ---
-        const SUPABASE_URL = 'https://dgqlbvajznobyitubazo.supabase.co';
-        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRncWxidmFqem5vYnlpdHViYXpvIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3Mzg1MjcyMSwiZXhwIjoyMDg5NDI4NzIxfQ.iTNnvDhM7cZ5W5oWpTMVNLfbAAtZKZAq_mjhzqSAzUc';
-        
-        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-        
-        // --- Telegram WebApp ---
-        const tg = window.Telegram.WebApp;
-        tg.expand();
-        tg.ready();
-        
-        // AFTERDARK режим (22:00–06:00 по геопозиции)
-        function checkAfterdark() {
-            const now = new Date();
-            const hours = now.getHours();
-            const isAfterdark = hours >= 22 || hours < 6;
-            if (isAfterdark) {
-                document.body.classList.add('afterdark');
-            } else {
-                document.body.classList.remove('afterdark');
-            }
-        }
-        checkAfterdark();
-        
-        // Автоматическая тема Telegram
-        document.body.style.backgroundColor = 'var(--bg-page)';
-        
-        // Данные пользователя
-        const user = tg.initDataUnsafe?.user;
-        let currentUser = null;
-        let selectedService = null;
-        
-        // Услуги
-        const services = [
-            { id: 'wash', name: '🚿 Мойка', desc: 'Бесконтактная, пена, воск', price: 'от 300 ₽', icon: '🚿' },
-            { id: 'detailing', name: '✨ Детейлинг', desc: 'Полировка, химчистка, керамика', price: 'от 3000 ₽', icon: '✨' },
-            { id: 'tuning', name: '🔧 Тюнинг', desc: 'Обвесы, диски, чип-тюнинг', price: 'от 5000 ₽', icon: '🔧' },
-            { id: 'service', name: '🏭 Сервис', desc: 'Диагностика, ремонт, обслуживание', price: 'от 1000 ₽', icon: '🏭' }
-        ];
-        
-        // Рендер услуг
-        function renderServices() {
-            const container = document.getElementById('servicesList');
-            if (!container) return;
-            container.innerHTML = services.map(s => `
-                <div class="service-card" onclick="selectService('${s.id}', '${s.name}')">
-                    <div class="service-info">
-                        <div class="service-icon">${s.icon}</div>
-                        <div>
-                            <div class="service-name">${s.name}</div>
-                            <div class="service-desc">${s.desc}</div>
-                        </div>
-                    </div>
-                    <div style="color: var(--accent); font-weight: 500;">${s.price}</div>
-                </div>
-            `).join('');
-        }
-        
-        function selectService(id, name) {
-            selectedService = { id, name };
-            document.getElementById('orderServiceName').innerHTML = `📝 ${name}`;
-            goToScreen('order');
-        }
-        
-        // Загрузка данных пользователя
-        async function loadUserData() {
-            if (!user) return;
+        (function() {
+            // --- НАСТРОЙКИ (ЗАМЕНИ НА СВОИ) ---
+            const SUPABASE_URL = 'https://dgqlbvajznobyitubazo.supabase.co';
+            const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRncWxidmFqem5vYnlpdHViYXpvIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3Mzg1MjcyMSwiZXhwIjoyMDg5NDI4NzIxfQ.iTNnvDhM7cZ5W5oWpTMVNLfbAAtZKZAq_mjhzqSAzUc';
             
-            try {
-                let { data: dbUser, error } = await supabase
-                    .from('majesty_users')
-                    .select('*')
-                    .eq('telegram_id', user.id)
-                    .single();
-                
-                if (error && error.code !== 'PGRST116') {
-                    console.error('Ошибка:', error);
+            // Создаём клиент Supabase один раз
+            const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+            
+            // --- Telegram WebApp ---
+            const tg = window.Telegram.WebApp;
+            tg.expand();
+            tg.ready();
+            
+            // AFTERDARK режим
+            function checkAfterdark() {
+                const now = new Date();
+                const hours = now.getHours();
+                const isAfterdark = hours >= 22 || hours < 6;
+                if (isAfterdark) {
+                    document.body.classList.add('afterdark');
+                } else {
+                    document.body.classList.remove('afterdark');
                 }
+            }
+            checkAfterdark();
+            
+            // Данные пользователя
+            const user = tg.initDataUnsafe?.user;
+            let currentUser = null;
+            let selectedService = null;
+            
+            // Услуги
+            const services = [
+                { id: 'wash', name: '🚿 Мойка', desc: 'Бесконтактная, пена, воск', price: 'от 300 ₽', icon: '🚿' },
+                { id: 'detailing', name: '✨ Детейлинг', desc: 'Полировка, химчистка, керамика', price: 'от 3000 ₽', icon: '✨' },
+                { id: 'tuning', name: '🔧 Тюнинг', desc: 'Обвесы, диски, чип-тюнинг', price: 'от 5000 ₽', icon: '🔧' },
+                { id: 'service', name: '🏭 Сервис', desc: 'Диагностика, ремонт, обслуживание', price: 'от 1000 ₽', icon: '🏭' }
+            ];
+            
+            function renderServices() {
+                const container = document.getElementById('servicesList');
+                if (!container) return;
+                container.innerHTML = services.map(s => `
+                    <div class="service-card" onclick="window.selectService('${s.id}', '${s.name.replace(/'/g, "\\'")}')">
+                        <div class="service-info">
+                            <div class="service-icon">${s.icon}</div>
+                            <div>
+                                <div class="service-name">${s.name}</div>
+                                <div class="service-desc">${s.desc}</div>
+                            </div>
+                        </div>
+                        <div style="color: var(--accent); font-weight: 500;">${s.price}</div>
+                    </div>
+                `).join('');
+            }
+            
+            window.selectService = function(id, name) {
+                selectedService = { id, name };
+                document.getElementById('orderServiceName').innerHTML = `📝 ${name}`;
+                goToScreen('order');
+            };
+            
+            async function loadUserData() {
+                if (!user) return;
                 
-                if (!dbUser) {
-                    const { data: newUser, error: insertError } = await supabase
+                try {
+                    let { data: dbUser, error } = await supabaseClient
                         .from('majesty_users')
-                        .insert({
-                            telegram_id: user.id,
-                            first_name: user.first_name,
-                            username: user.username,
-                            role: 'client',
-                            balance: 0,
-                            bonus_points: 0
-                        })
-                        .select()
+                        .select('*')
+                        .eq('telegram_id', user.id)
                         .single();
                     
-                    if (insertError) throw insertError;
-                    dbUser = newUser;
+                    if (error && error.code !== 'PGRST116') {
+                        console.error('Ошибка:', error);
+                    }
+                    
+                    if (!dbUser) {
+                        const { data: newUser, error: insertError } = await supabaseClient
+                            .from('majesty_users')
+                            .insert({
+                                telegram_id: user.id,
+                                first_name: user.first_name,
+                                username: user.username,
+                                role: 'client',
+                                balance: 0,
+                                bonus_points: 0
+                            })
+                            .select()
+                            .single();
+                        
+                        if (insertError) throw insertError;
+                        dbUser = newUser;
+                    }
+                    
+                    currentUser = dbUser;
+                    
+                    document.getElementById('greeting').innerHTML = `👋 Привет, ${user.first_name || 'Друг'}!`;
+                    document.getElementById('balance').innerText = currentUser.balance || 0;
+                    document.getElementById('bonus').innerText = currentUser.bonus_points || 0;
+                    document.getElementById('profileName').innerText = currentUser.first_name || user.first_name;
+                    document.getElementById('profileId').innerText = user.id;
+                    document.getElementById('profileRole').innerText = getRoleName(currentUser.role);
+                    
+                    const level = getLevelByBonus(currentUser.bonus_points);
+                    document.getElementById('profileLevel').innerHTML = `${level.icon} ${level.name}`;
+                    
+                    await loadOrders();
+                    
+                } catch (error) {
+                    console.error('Ошибка:', error);
+                    document.getElementById('greeting').innerHTML = '⚠️ Ошибка загрузки';
+                }
+            }
+            
+            function getRoleName(role) {
+                const roles = { client: 'Клиент', master: 'Мастер', admin: 'Администратор', owner: 'Владелец' };
+                return roles[role] || role;
+            }
+            
+            function getLevelByBonus(points) {
+                if (points >= 5000) return { name: 'Majesty Elite', icon: '👑' };
+                if (points >= 1000) return { name: 'Премиум', icon: '⭐' };
+                if (points >= 100) return { name: 'Активный', icon: '🌟' };
+                return { name: 'Стандарт', icon: '✨' };
+            }
+            
+            async function loadOrders() {
+                if (!user) return;
+                
+                const { data: orders } = await supabaseClient
+                    .from('majesty_orders')
+                    .select('*')
+                    .eq('client_id', user.id)
+                    .order('created_at', { ascending: false });
+                
+                const activeOrders = orders?.filter(o => o.status !== 'completed' && o.status !== 'cancelled') || [];
+                const historyOrders = orders || [];
+                
+                renderActiveOrders(activeOrders);
+                renderHistoryOrders(historyOrders);
+            }
+            
+            function renderActiveOrders(orders) {
+                const container = document.getElementById('activeOrdersList');
+                if (!container) return;
+                
+                if (orders.length === 0) {
+                    container.innerHTML = '<div style="color: var(--text-secondary); text-align: center;">Нет активных заказов</div>';
+                    return;
                 }
                 
-                currentUser = dbUser;
-                
-                // Обновляем UI
-                document.getElementById('greeting').innerHTML = `👋 Привет, ${user.first_name || 'Друг'}!`;
-                document.getElementById('balance').innerText = currentUser.balance || 0;
-                document.getElementById('bonus').innerText = currentUser.bonus_points || 0;
-                document.getElementById('profileName').innerText = currentUser.first_name || user.first_name;
-                document.getElementById('profileId').innerText = user.id;
-                document.getElementById('profileRole').innerText = getRoleName(currentUser.role);
-                
-                // Уровень по бонусам
-                const level = getLevelByBonus(currentUser.bonus_points);
-                document.getElementById('profileLevel').innerHTML = `${level.icon} ${level.name}`;
-                
-                // Загружаем заказы
-                await loadOrders();
-                
-            } catch (error) {
-                console.error('Ошибка:', error);
-                document.getElementById('greeting').innerHTML = '⚠️ Ошибка загрузки';
-            }
-        }
-        
-        function getRoleName(role) {
-            const roles = { client: 'Клиент', master: 'Мастер', admin: 'Администратор', owner: 'Владелец' };
-            return roles[role] || role;
-        }
-        
-        function getLevelByBonus(points) {
-            if (points >= 5000) return { name: 'Majesty Elite', icon: '👑' };
-            if (points >= 1000) return { name: 'Премиум', icon: '⭐' };
-            if (points >= 100) return { name: 'Активный', icon: '🌟' };
-            return { name: 'Стандарт', icon: '✨' };
-        }
-        
-        async function loadOrders() {
-            if (!user) return;
-            
-            const { data: orders } = await supabase
-                .from('majesty_orders')
-                .select('*')
-                .eq('client_id', user.id)
-                .order('created_at', { ascending: false });
-            
-            // Активные заказы (не завершены)
-            const activeOrders = orders?.filter(o => o.status !== 'completed' && o.status !== 'cancelled') || [];
-            const historyOrders = orders || [];
-            
-            renderActiveOrders(activeOrders);
-            renderHistoryOrders(historyOrders);
-        }
-        
-        function renderActiveOrders(orders) {
-            const container = document.getElementById('activeOrdersList');
-            if (!container) return;
-            
-            if (orders.length === 0) {
-                container.innerHTML = '<div style="color: var(--text-secondary); text-align: center;">Нет активных заказов</div>';
-                return;
-            }
-            
-            container.innerHTML = orders.map(order => `
-                <div class="order-item" onclick="alert('Заказ #${order.id}\nУслуга: ${order.service_type}\nСтатус: ${getStatusText(order.status)}')">
-                    <div class="order-header">
-                        <span>${order.service_type}</span>
-                        <span class="order-status status-${order.status}">${getStatusText(order.status)}</span>
+                container.innerHTML = orders.map(order => `
+                    <div class="order-item" onclick="alert('Заказ #${order.id}\\nУслуга: ${order.service_type}\\nСтатус: ${getStatusText(order.status)}')">
+                        <div class="order-header">
+                            <span>${order.service_type}</span>
+                            <span class="order-status status-${order.status}">${getStatusText(order.status)}</span>
+                        </div>
+                        <div style="font-size: 12px; color: var(--text-secondary);">${order.created_at ? new Date(order.created_at).toLocaleDateString() : ''}</div>
                     </div>
-                    <div style="font-size: 12px; color: var(--text-secondary);">${order.created_at ? new Date(order.created_at).toLocaleDateString() : ''}</div>
-                </div>
-            `).join('');
-        }
-        
-        function renderHistoryOrders(orders) {
-            const container = document.getElementById('historyList');
-            if (!container) return;
-            
-            if (orders.length === 0) {
-                container.innerHTML = '<div style="color: var(--text-secondary); text-align: center;">Нет заказов</div>';
-                return;
+                `).join('');
             }
             
-            container.innerHTML = orders.map(order => `
-                <div class="order-item">
-                    <div class="order-header">
-                        <span>${order.service_type}</span>
-                        <span class="order-status status-${order.status}">${getStatusText(order.status)}</span>
+            function renderHistoryOrders(orders) {
+                const container = document.getElementById('historyList');
+                if (!container) return;
+                
+                if (orders.length === 0) {
+                    container.innerHTML = '<div style="color: var(--text-secondary); text-align: center;">Нет заказов</div>';
+                    return;
+                }
+                
+                container.innerHTML = orders.map(order => `
+                    <div class="order-item">
+                        <div class="order-header">
+                            <span>${order.service_type}</span>
+                            <span class="order-status status-${order.status}">${getStatusText(order.status)}</span>
+                        </div>
+                        <div style="font-size: 14px; margin: 8px 0;">${order.description || '—'}</div>
+                        <div style="display: flex; justify-content: space-between;">
+                            <span style="color: var(--accent);">${order.price || 0} ₽</span>
+                            <span style="font-size: 12px; color: var(--text-secondary);">${order.created_at ? new Date(order.created_at).toLocaleDateString() : ''}</span>
+                        </div>
                     </div>
-                    <div style="font-size: 14px; margin: 8px 0;">${order.description || '—'}</div>
-                    <div style="display: flex; justify-content: space-between;">
-                        <span style="color: var(--accent);">${order.price || 0} ₽</span>
-                        <span style="font-size: 12px; color: var(--text-secondary);">${order.created_at ? new Date(order.created_at).toLocaleDateString() : ''}</span>
-                    </div>
-                </div>
-            `).join('');
-        }
-        
-        function getStatusText(status) {
-            const statuses = { pending: 'Ожидает', progress: 'В работе', completed: 'Выполнен', cancelled: 'Отменён' };
-            return statuses[status] || status;
-        }
-        
-        // Создание заказа
-        async function createOrder() {
-            if (!selectedService) {
-                alert('Выберите услугу');
-                return;
+                `).join('');
             }
             
-            const date = document.getElementById('orderDate').value;
-            const comment = document.getElementById('orderComment').value;
-            
-            const { data, error } = await supabase
-                .from('majesty_orders')
-                .insert({
-                    client_id: user.id,
-                    service_type: selectedService.name,
-                    description: comment || 'Без комментария',
-                    status: 'pending',
-                    price: 0
-                })
-                .select();
-            
-            if (error) {
-                alert('Ошибка: ' + error.message);
-            } else {
-                alert('✅ Заказ создан! Мы свяжемся с вами');
-                document.getElementById('orderComment').value = '';
-                document.getElementById('orderDate').value = '';
-                selectedService = null;
-                goToScreen('main');
-                await loadOrders();
+            function getStatusText(status) {
+                const statuses = { pending: 'Ожидает', progress: 'В работе', completed: 'Выполнен', cancelled: 'Отменён' };
+                return statuses[status] || status;
             }
-        }
-        
-        // Навигация
-        function goToScreen(screenId) {
-            document.querySelectorAll('.screen').forEach(screen => {
-                screen.classList.remove('active');
+            
+            async function createOrder() {
+                if (!selectedService) {
+                    alert('Выберите услугу');
+                    return;
+                }
+                
+                const date = document.getElementById('orderDate').value;
+                const comment = document.getElementById('orderComment').value;
+                
+                const { data, error } = await supabaseClient
+                    .from('majesty_orders')
+                    .insert({
+                        client_id: user.id,
+                        service_type: selectedService.name,
+                        description: comment || 'Без комментария',
+                        status: 'pending',
+                        price: 0
+                    })
+                    .select();
+                
+                if (error) {
+                    alert('Ошибка: ' + error.message);
+                } else {
+                    alert('✅ Заказ создан! Мы свяжемся с вами');
+                    document.getElementById('orderComment').value = '';
+                    document.getElementById('orderDate').value = '';
+                    selectedService = null;
+                    goToScreen('main');
+                    await loadOrders();
+                }
+            }
+            
+            function goToScreen(screenId) {
+                document.querySelectorAll('.screen').forEach(screen => {
+                    screen.classList.remove('active');
+                });
+                const targetScreen = document.getElementById(`screen-${screenId}`);
+                if (targetScreen) targetScreen.classList.add('active');
+                
+                document.querySelectorAll('.nav-item').forEach(btn => {
+                    btn.classList.remove('active');
+                    if (btn.dataset.screen === screenId) {
+                        btn.classList.add('active');
+                    }
+                });
+                
+                if (screenId === 'services') renderServices();
+                if (screenId === 'main') loadOrders();
+            }
+            
+            window.goToScreen = goToScreen;
+            
+            // Кнопки
+            document.getElementById('topupBtn')?.addEventListener('click', () => {
+                tg.showPopup({
+                    title: 'Пополнение баланса',
+                    message: 'Скоро здесь появится возможность пополнения. Следите за обновлениями!',
+                    buttons: [{ type: 'close' }]
+                });
             });
-            document.getElementById(`screen-${screenId}`).classList.add('active');
             
+            document.getElementById('notificationsBtn')?.addEventListener('click', () => {
+                tg.showPopup({
+                    title: 'Уведомления',
+                    message: 'Настройки уведомлений будут доступны в ближайшее время',
+                    buttons: [{ type: 'close' }]
+                });
+            });
+            
+            document.getElementById('confirmOrderBtn')?.addEventListener('click', createOrder);
+            document.getElementById('closeBtn')?.addEventListener('click', () => tg.close());
+            
+            // Навигация
             document.querySelectorAll('.nav-item').forEach(btn => {
-                btn.classList.remove('active');
-                if (btn.dataset.screen === screenId) {
-                    btn.classList.add('active');
-                }
+                btn.addEventListener('click', () => {
+                    goToScreen(btn.dataset.screen);
+                });
             });
             
-            if (screenId === 'services') renderServices();
-            if (screenId === 'main') loadOrders();
-        }
-        
-        // Пополнение
-        document.getElementById('topupBtn')?.addEventListener('click', () => {
-            tg.showPopup({
-                title: 'Пополнение баланса',
-                message: 'Скоро здесь появится возможность пополнения. Следите за обновлениями!',
-                buttons: [{ type: 'close' }]
-            });
-        });
-        
-        document.getElementById('notificationsBtn')?.addEventListener('click', () => {
-            tg.showPopup({
-                title: 'Уведомления',
-                message: 'Настройки уведомлений будут доступны в ближайшее время',
-                buttons: [{ type: 'close' }]
-            });
-        });
-        
-        document.getElementById('confirmOrderBtn')?.addEventListener('click', createOrder);
-        document.getElementById('closeBtn')?.addEventListener('click', () => tg.close());
-        
-        // Инициализация
-        renderServices();
-        loadUserData();
-        
-        // Навигация по кликам
-        document.querySelectorAll('.nav-item').forEach(btn => {
-            btn.addEventListener('click', () => {
-                goToScreen(btn.dataset.screen);
-            });
-        });
-        
-        // Экспорт для onclick
-        window.goToScreen = goToScreen;
-        window.selectService = selectService;
+            // Инициализация
+            renderServices();
+            loadUserData();
+        })();
     </script>
 </body>
 </html>
