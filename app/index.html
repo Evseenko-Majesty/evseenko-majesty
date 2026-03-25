@@ -498,14 +498,20 @@
                 tg.showPopup({ title: 'Добавить номер', message: 'В ближайшее время добавим возможность подтверждения телефона', buttons: [{ type: 'close' }] });
             });
             
+
 // === КНОПКА ПАНЕЛИ СОТРУДНИКА ===
-const tgWebApp = window.Telegram.WebApp;
 const staffBtn = document.getElementById('staffPanelBtn');
 if (staffBtn) {
     staffBtn.addEventListener('click', () => {
-        tgWebApp.openTelegramLink('https://t.me/evseenko_majesty_bot?start=staff');
+        // Закрываем текущее WebApp
+        window.Telegram.WebApp.close();
+        // Открываем панель сотрудника в новом WebApp
+        setTimeout(() => {
+            window.Telegram.WebApp.openLink('https://evseenkomajesty.ru/admin');
+        }, 100);
     });
 }
+
             applyTheme();
             loadUser();
         })();
