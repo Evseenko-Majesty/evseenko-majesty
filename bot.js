@@ -1,3 +1,4 @@
+
 const { Telegraf, Markup } = require('telegraf');
 const { createClient } = require('@supabase/supabase-js');
 const express = require('express');
@@ -17,24 +18,74 @@ const port = process.env.PORT || 3000;
 app.get('/', (req, res) => res.send('Bot is running'));
 app.listen(port, () => console.log(`Server on port ${port}`));
 
-// === КОМАНДЫ ===
+// === КОМАНДА /start ===
 bot.start(async (ctx) => {
-    await ctx.reply('👑 Добро пожаловать в Evseenko Majesty!', Markup.inlineKeyboard([
-        [Markup.button.webApp('🚀 Открыть', WEBAPP_URL)]
-    ]));
+    const user = ctx.from;
+    const firstName = user.first_name;
+
+    try {
+        const { data: existingUser } = await supabase
+            .from('majesty_users')
+            .select('*')
+            .eq('telegram_id', user.id)
+            .single();
+
+        if (!existingUser) {
+            await supabase.from('majesty_users').insert({
+                telegram_id: user.id,
+                first_name: firstName,
+                role: 'client',
+                balance: 0,
+                bonus_points: 0
+            });
+        }
+
+        await ctx.replyWithMarkdown(
+            `👑 *Evseenko Majesty*\n\n` +
+            `Привет, ${firstName}!\n\n` +
+            `👇 Открой личный кабинет`,
+            Markup.inlineKeyboard([
+                [Markup.button.webApp('🚀 Открыть', WEBAPP_URL)]
+            ])
+        );
+    } catch (error) {
+        console.error('Ошибка:', error);
+        await ctx.reply('⚠️ Ошибка. Попробуй позже.');
+    }
 });
 
+// === КОМАНДА /balance ===
 bot.command('balance', async (ctx) => {
-    await ctx.reply('💰 Баланс: 0 ₽\n🎁 Бонусы: 0');
-});
+    const telegramId = ctx.from.id;
+    try {
+        const { data: user } = await supabase
+            .from('majesty_users')
+            .select('balance, bonus_points')
+            .eq('telegram_id', telegramId)
+            .single();
 
-bot.command('admin_panel', async (ctx) => {
-    await ctx.reply('🔐 Панель сотрудника', Markup.inlineKeyboard([
-        [Markup.button.webApp('Открыть', 'https://evseenkomajesty.ru/admin')]
-    ]));
+        if (!user) {
+            await ctx.reply('⚠️ Напиши /start');
+            return;
+        }
+
+        await ctx.replyWithMarkdown(
+            `💰 *Баланс:* ${user.balance} ₽\n` +
+            `🎁 *Бонусы:* ${user.bonus_points}`
+        );
+    } catch (error) {
+        await ctx.reply('⚠️ Ошибка');
+    }
 });
 
 // === ЗАПУСК ===
-bot.launch().then(() => console.log('✅ Бот запущен'));
+bot.launch({
+    dropPendingUpdates: true
+}).then(() => {
+    console.log('✅ Бот запущен');
+}).catch((err) => {
+    console.error('❌ Ошибка:', err);
+});
+
 process.once('SIGINT', () => bot.stop('SIGINT'));
 process.once('SIGTERM', () => bot.stop('SIGTERM'));
