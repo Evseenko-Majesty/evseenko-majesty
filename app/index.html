@@ -65,29 +65,7 @@ body.dark::before {
 }
 
         /* === AFTERDARK === */
-       body.afterdark {
-    --bg-primary: #04040C;              /* глубокий синевато-чёрный */
-    --bg-gradient: radial-gradient(circle at 50% 40%, rgba(0, 100, 200, 0.12) 0%, rgba(4, 4, 12, 0.96) 100%);
-    --bg-glow: radial-gradient(circle at 50% 30%, rgba(0, 150, 255, 0.2) 0%, transparent 70%);
-    --text-primary: #F0F0FC;
-    --text-secondary: #A8A8C0;
-    --accent: #E5C158;
-    --accent-glow: rgba(229, 193, 88, 0.35);
-    --accent-light: rgba(229, 193, 88, 0.1);
-    --neon-blue: rgba(0, 120, 220, 0.25);
-}
-        body.afterdark::before {
-    content: '';
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: radial-gradient(circle at 50% 40%, rgba(0, 120, 220, 0.15) 0%, rgba(4, 4, 12, 0.92) 100%);
-    pointer-events: none;
-    z-index: 0;
-    animation: afterdarkBreath 12s ease-in-out infinite;
-}
+
         body.afterdark {
     --bg-primary: #04040C;              /* глубокий синевато-чёрный */
     --bg-gradient: radial-gradient(circle at 50% 40%, rgba(0, 100, 200, 0.12) 0%, rgba(4, 4, 12, 0.96) 100%);
@@ -99,9 +77,6 @@ body.dark::before {
     --accent-light: rgba(229, 193, 88, 0.1);
     --neon-blue: rgba(0, 120, 220, 0.25);
 }
-
-
-
 
 body.afterdark::before {
     content: '';
@@ -115,6 +90,11 @@ body.afterdark::before {
     z-index: 0;
     animation: afterdarkBreath 12s ease-in-out infinite;
 }
+        
+body.afterdark {
+    box-shadow: inset 0 0 80px rgba(0, 80, 160, 0.15);
+}
+
 
 @keyframes afterdarkBreath {
     0% {
