@@ -98,6 +98,11 @@
             border: 1px solid var(--accent-gold);
             color: var(--accent-gold);
         }
+        .btn-secondary {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text-primary);
+        }
 
         .coming-soon {
             text-align: center;
@@ -159,6 +164,33 @@
         }
 
         .setting-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 0.5px solid var(--border);
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        .stat-card {
+            background: var(--bg-secondary);
+            border-radius: 16px;
+            padding: 16px;
+            text-align: center;
+        }
+        .stat-value {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--accent-gold);
+        }
+        .order-item {
+            padding: 12px 0;
+            border-bottom: 0.5px solid var(--border);
+        }
+        .worker-item {
             display: flex;
             justify-content: space-between;
             padding: 12px 0;
@@ -232,16 +264,25 @@
             </div>
         </div>
 
-        <!-- ПАНЕЛЬ (только для сотрудников) -->
+        <!-- ПАНЕЛЬ СОТРУДНИКА (только для мастер/админ/владелец) -->
         <div class="screen" id="screen-staff">
             <div class="card">
-                <div class="coming-soon">
-                    <div class="coming-icon">🔐</div>
-                    <div style="font-weight: 500;">Панель сотрудника</div>
-                    <div style="font-size: 13px; color: var(--text-secondary);">Управление заказами, сотрудниками, финансами</div>
+                <div class="stats-grid">
+                    <div class="stat-card"><div class="stat-value" id="staffOrdersCount">0</div><div class="stat-label">Заказов</div></div>
+                    <div class="stat-card"><div class="stat-value" id="staffRevenue">0 ₽</div><div class="stat-label">Выручка</div></div>
+                    <div class="stat-card"><div class="stat-value" id="staffWorkers">0</div><div class="stat-label">Сотрудники</div></div>
+                    <div class="stat-card"><div class="stat-value" id="staffClients">0</div><div class="stat-label">Клиенты</div></div>
                 </div>
-                <button class="btn btn-outline" id="openStaffPanelBtn" style="margin-top: 16px;">Открыть панель управления</button>
             </div>
+            <div class="card">
+                <div style="font-weight: 500; margin-bottom: 12px;">📋 Последние заказы</div>
+                <div id="staffOrdersList">Загрузка...</div>
+            </div>
+            <div class="card" id="staffWorkersCard" style="display: none;">
+                <div style="font-weight: 500; margin-bottom: 12px;">👥 Сотрудники</div>
+                <div id="staffWorkersList"></div>
+            </div>
+            <button class="btn btn-secondary" id="closeStaffBtn">✖️ Закрыть панель</button>
         </div>
 
         <!-- ПРОФИЛЬ -->
@@ -272,12 +313,12 @@
         <button class="nav-item" data-screen="history"><span class="nav-icon">📋</span><span>История</span></button>
         <button class="nav-item" data-screen="check"><span class="nav-icon">🔍</span><span>Проверка</span></button>
         <button class="nav-item" data-screen="profile"><span class="nav-icon">👤</span><span>Профиль</span></button>
-        <!-- Кнопка панели будет добавлена автоматически для сотрудников -->
+        <!-- Кнопка панели добавится автоматически -->
     </div>
 
     <script>
         (function() {
-            const SUPABASE_URL = 'https://dgqlbvajznobyitubazo.supabase.co';
+            const SUPABASE_URL = 'https//dgqlbvajznobyitubazo.supabase.co';
             const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRncWxidmFqem5vYnlpdHViYXpvIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3Mzg1MjcyMSwiZXhwIjoyMDg5NDI4NzIxfQ.iTNnvDhM7cZ5W5oWpTMVNLfbAAtZKZAq_mjhzqSAzUc';
             const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
             
@@ -363,12 +404,11 @@
                 const level = getLevel(currentUser?.bonus_points || 0);
                 document.getElementById('profileLevel').innerHTML = level;
                 
-                // === АВТОМАТИЧЕСКОЕ ДОБАВЛЕНИЕ ПАНЕЛИ ДЛЯ СОТРУДНИКОВ ===
+                // === АВТОМАТИЧЕСКОЕ ДОБАВЛЕНИЕ ПАНЕЛИ ===
                 const staffRoles = ['master', 'admin', 'owner'];
                 const bottomNav = document.getElementById('bottomNav');
                 
                 if (staffRoles.includes(userRole)) {
-                    // Проверяем, есть ли уже кнопка панели
                     const existingStaffBtn = document.querySelector('.nav-item[data-screen="staff"]');
                     if (!existingStaffBtn) {
                         const staffNavBtn = document.createElement('button');
@@ -376,8 +416,15 @@
                         staffNavBtn.setAttribute('data-screen', 'staff');
                         staffNavBtn.innerHTML = '<span class="nav-icon">🔐</span><span>Панель</span>';
                         bottomNav.appendChild(staffNavBtn);
-                        
                         staffNavBtn.addEventListener('click', () => goToScreen('staff'));
+                    }
+                    
+                    // Загружаем данные для панели
+                    loadStaffData();
+                    
+                    // Показываем сотрудников только админу/владельцу
+                    if (userRole === 'admin' || userRole === 'owner') {
+                        document.getElementById('staffWorkersCard').style.display = 'block';
                     }
                 }
             }
@@ -399,10 +446,31 @@
                 return '✨ Стандарт';
             }
             
+            // === ДАННЫЕ ДЛЯ ПАНЕЛИ ===
+            async function loadStaffData() {
+                // Временные данные — потом из базы
+                document.getElementById('staffOrdersCount').innerText = '24';
+                document.getElementById('staffRevenue').innerText = '127 500 ₽';
+                document.getElementById('staffWorkers').innerText = '4';
+                document.getElementById('staffClients').innerText = '58';
+                
+                document.getElementById('staffOrdersList').innerHTML = `
+                    <div class="order-item">BMW X5 · Диагностика — <span style="color: var(--accent-gold);">В работе</span></div>
+                    <div class="order-item">Audi A6 · Замена масла — <span style="color: #ffa500;">Ожидает</span></div>
+                `;
+                
+                document.getElementById('staffWorkersList').innerHTML = `
+                    <div class="worker-item"><span>Антон (Мастер)</span><span style="color: var(--accent-gold);">+32 000 ₽</span></div>
+                    <div class="worker-item"><span>Михаил (Мастер)</span><span style="color: var(--accent-gold);">+28 500 ₽</span></div>
+                `;
+            }
+            
             // === НАВИГАЦИЯ ===
             function goToScreen(screenId) {
                 document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-                document.getElementById(`screen-${screenId}`).classList.add('active');
+                const target = document.getElementById(`screen-${screenId}`);
+                if (target) target.classList.add('active');
+                
                 document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
                 const activeNav = document.querySelector(`.nav-item[data-screen="${screenId}"]`);
                 if (activeNav) activeNav.classList.add('active');
@@ -418,13 +486,7 @@
             });
             
             document.getElementById('closeBtn')?.addEventListener('click', () => tg.close());
-            
-            document.getElementById('openStaffPanelBtn')?.addEventListener('click', () => {
-                tg.close();
-                setTimeout(() => {
-                    window.location.href = 'https://evseenkomajesty.ru/admin';
-                }, 100);
-            });
+            document.getElementById('closeStaffBtn')?.addEventListener('click', () => goToScreen('home'));
             
             applyTheme();
             loadUser();
