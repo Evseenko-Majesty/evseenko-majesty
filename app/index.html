@@ -6,97 +6,124 @@
 <title>Evseenko Majesty</title>
 
 <style>
-    body {
-        margin: 0;
-        font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        height: 100vh;
-        overflow: hidden;
-        transition: background 0.5s, color 0.5s;
-    }
+body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    overflow: hidden;
+    transition: background 0.6s ease, color 0.6s ease;
+}
 
-    .container {
-        text-align: center;
+/* Центральный блок */
+.container {
+    text-align: center;
+}
+
+/* Анимации */
+.fade-up {
+    opacity: 0;
+    transform: translateY(20px);
+}
+
+.show {
+    animation: fadeUp 0.8s ease forwards;
+}
+
+@keyframes fadeUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Логотип */
+.logo {
+    font-size: 28px;
+    letter-spacing: 6px;
+    margin-bottom: 10px;
+}
+
+/* AFTERDARK */
+.afterdark {
+    font-size: 10px;
+    letter-spacing: 4px;
+    margin-bottom: 20px;
+    opacity: 0.7;
+}
+
+/* Слоган */
+.slogan-main {
+    font-size: 16px;
+    margin-bottom: 4px;
+}
+
+.slogan-sub {
+    font-size: 13px;
+    opacity: 0.6;
+    margin-bottom: 25px;
+}
+
+/* Статус (glass эффект) */
+.status {
+    display: inline-block;
+    padding: 8px 16px;
+    border-radius: 20px;
+    backdrop-filter: blur(12px);
+    background: rgba(255,255,255,0.08);
+    font-size: 12px;
+    opacity: 0;
+    transform: translateY(10px);
+}
+
+/* Низ */
+.footer {
+    position: absolute;
+    bottom: 20px;
+    font-size: 11px;
+    opacity: 0.4;
+}
+
+.bottom-left {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    font-size: 10px;
+    opacity: 0.3;
+}
+
+.bottom-right {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    font-size: 10px;
+    opacity: 0.5;
+}
+
+/* Плавное затемнение перед переходом */
+.fade-out {
+    animation: fadeOut 0.5s ease forwards;
+}
+
+@keyframes fadeOut {
+    to {
         opacity: 0;
-        transform: translateY(10px);
-        animation: fadeIn 1s ease forwards;
+        transform: scale(0.98);
     }
-
-    .logo {
-        font-size: 28px;
-        letter-spacing: 6px;
-        margin-bottom: 12px;
-    }
-
-    .afterdark {
-        font-size: 10px;
-        letter-spacing: 4px;
-        margin-bottom: 20px;
-        opacity: 0.7;
-    }
-
-    .slogan-main {
-        font-size: 16px;
-        margin-bottom: 4px;
-    }
-
-    .slogan-sub {
-        font-size: 13px;
-        opacity: 0.6;
-        margin-bottom: 20px;
-    }
-
-    .status {
-        display: inline-block;
-        padding: 6px 14px;
-        border-radius: 20px;
-        backdrop-filter: blur(10px);
-        font-size: 12px;
-        opacity: 0.8;
-    }
-
-    .footer {
-        position: absolute;
-        bottom: 20px;
-        font-size: 11px;
-        opacity: 0.4;
-    }
-
-    .bottom-left {
-        position: absolute;
-        bottom: 20px;
-        left: 20px;
-        font-size: 10px;
-        opacity: 0.3;
-    }
-
-    .bottom-right {
-        position: absolute;
-        bottom: 20px;
-        right: 20px;
-        font-size: 10px;
-        opacity: 0.5;
-    }
-
-    @keyframes fadeIn {
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
+}
 </style>
 </head>
 
 <body>
 
 <div class="container">
-    <div class="logo">EVSEENKO MAJESTY</div>
-    <div id="afterdarkLabel" class="afterdark"></div>
+    <div id="logo" class="logo fade-up">EVSEENKO MAJESTY</div>
+    <div id="afterdarkLabel" class="afterdark fade-up"></div>
 
-    <div id="sloganMain" class="slogan-main"></div>
-    <div id="sloganSub" class="slogan-sub"></div>
+    <div id="sloganMain" class="slogan-main fade-up"></div>
+    <div id="sloganSub" class="slogan-sub fade-up"></div>
 
     <div id="status" class="status"></div>
 </div>
@@ -106,60 +133,80 @@
 <div id="footer" class="footer"></div>
 
 <script>
-    const hour = new Date().getHours();
+const hour = new Date().getHours();
 
-    let mode = "DAY";
-    if (hour >= 19) mode = "NIGHT";
-    if (hour >= 0 && hour < 6) mode = "AFTERDARK";
+// Режим
+let mode = "DAY";
+if (hour >= 19) mode = "NIGHT";
+if (hour >= 0 && hour < 6) mode = "AFTERDARK";
 
-    const lang = navigator.language.startsWith('ru') ? 'ru' : 'en';
+// Язык
+const lang = navigator.language.startsWith('ru') ? 'ru' : 'en';
 
-    const body = document.body;
-    const afterdarkLabel = document.getElementById("afterdarkLabel");
-    const sloganMain = document.getElementById("sloganMain");
-    const sloganSub = document.getElementById("sloganSub");
-    const status = document.getElementById("status");
-    const footer = document.getElementById("footer");
-    const modeLabel = document.getElementById("modeLabel");
+// Элементы
+const body = document.body;
+const afterdarkLabel = document.getElementById("afterdarkLabel");
+const sloganMain = document.getElementById("sloganMain");
+const sloganSub = document.getElementById("sloganSub");
+const status = document.getElementById("status");
+const footer = document.getElementById("footer");
+const modeLabel = document.getElementById("modeLabel");
 
-    // THEMES
-    if (mode === "DAY") {
-        body.style.background = "#F4F6F8";
-        body.style.color = "#111";
-    } else {
-        body.style.background = "#0B0B0C";
-        body.style.color = "#fff";
-    }
+// Темы
+if (mode === "DAY") {
+    body.style.background = "#F4F6F8";
+    body.style.color = "#111";
+} else {
+    body.style.background = "#0B0B0C";
+    body.style.color = "#fff";
+}
 
-    if (mode === "AFTERDARK") {
-        afterdarkLabel.textContent = "AFTERDARK";
-        afterdarkLabel.style.color = "#ccc";
-    }
+// AFTERDARK
+if (mode === "AFTERDARK") {
+    afterdarkLabel.textContent = "AFTERDARK";
+}
 
-    // LANGUAGE
-    if (lang === "ru") {
-        sloganMain.textContent = "Двигайся за пределами";
-        sloganSub.textContent = "Drive Beyond Limits";
+// Язык
+if (lang === "ru") {
+    sloganMain.textContent = "Двигайся за пределами";
+    sloganSub.textContent = "Drive Beyond Limits";
+    status.textContent = mode === "AFTERDARK" ? "AFTERDARK АКТИВЕН" : "Система готова";
+    footer.textContent = "Evseenko Majesty © 2026 — Все права защищены";
+} else {
+    sloganMain.textContent = "Drive Beyond Limits";
+    sloganSub.textContent = "Двигайся за пределами";
+    status.textContent = mode === "AFTERDARK" ? "AFTERDARK ACTIVE" : "System Ready";
+    footer.textContent = "Evseenko Majesty © 2026 — All Rights Reserved";
+}
 
-        status.textContent = mode === "AFTERDARK" ? "AFTERDARK АКТИВЕН" : "Система готова";
+// Режим подпись
+modeLabel.textContent = mode === "AFTERDARK" ? "AFTERDARK" : "ONLINE";
 
-        footer.textContent = "Evseenko Majesty © 2026 — Все права защищены";
-    } else {
-        sloganMain.textContent = "Drive Beyond Limits";
-        sloganSub.textContent = "Двигайся за пределами";
+// АНИМАЦИЯ ПО ЭТАПАМ
+const elements = document.querySelectorAll(".fade-up");
 
-        status.textContent = mode === "AFTERDARK" ? "AFTERDARK ACTIVE" : "System Ready";
-
-        footer.textContent = "Evseenko Majesty © 2026 — All Rights Reserved";
-    }
-
-    // MODE LABEL
-    modeLabel.textContent = mode === "AFTERDARK" ? "AFTERDARK" : "ONLINE";
-
-    // AUTO REDIRECT (пример)
+elements.forEach((el, i) => {
     setTimeout(() => {
-        console.log("Go to main app...");
-    }, 2600);
+        el.classList.add("show");
+    }, i * 250);
+});
+
+// Статус появляется отдельно (как уведомление)
+setTimeout(() => {
+    status.style.opacity = "1";
+    status.style.transform = "translateY(0)";
+    status.style.transition = "all 0.5s ease";
+}, 1200);
+
+// Переход дальше
+setTimeout(() => {
+    document.body.classList.add("fade-out");
+}, 2400);
+
+// Тут потом переход на главную
+setTimeout(() => {
+    console.log("OPEN MAIN APP");
+}, 2900);
 
 </script>
 
