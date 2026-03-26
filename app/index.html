@@ -14,15 +14,16 @@
         }
 
         /* === ПРЕМИУМ ПЕРЕМЕННЫЕ === */
-        :root {
-            --bg-primary: #FEFEFE;
-            --bg-glow: radial-gradient(circle at 50% 30%, rgba(196, 167, 71, 0.08) 0%, transparent 70%);
-            --text-primary: #1C1C1E;
-            --text-secondary: #6C6C70;
-            --accent: #C4A747;
-            --accent-glow: rgba(196, 167, 71, 0.25);
-            --accent-light: rgba(196, 167, 71, 0.1);
-        }
+       :root {
+    --bg-primary: #FEFCF5;      /* молочный, тёплый */
+    --bg-gradient: radial-gradient(circle at 50% 30%, rgba(196, 167, 71, 0.03) 0%, rgba(250, 245, 235, 0.8) 100%);
+    --bg-glow: radial-gradient(circle at 50% 30%, rgba(196, 167, 71, 0.08) 0%, transparent 70%);
+    --text-primary: #1C1C1E;
+    --text-secondary: #6C6C70;
+    --accent: #C4A747;
+    --accent-glow: rgba(196, 167, 71, 0.2);
+    --accent-light: rgba(196, 167, 71, 0.08);
+}
 
         /* === ТЁМНАЯ ТЕМА === */
         body.dark {
@@ -58,14 +59,14 @@
         body::before {
             content: '';
             position: fixed;
-            top: -20%;
-            left: -20%;
-            width: 140%;
-            height: 140%;
-            background: var(--bg-glow);
+            top: 0%;
+            left: 0%;
+            width: 100%;
+            height: 100%;
+            background: var(--bg-gradient);
             pointer-events: none;
             z-index: 0;
-            animation: slowPulse 8s ease-in-out infinite;
+            animation: none;
         }
 
         @keyframes slowPulse {
