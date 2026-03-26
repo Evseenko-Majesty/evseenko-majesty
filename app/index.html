@@ -222,15 +222,11 @@
     <!-- ЗАГРУЗОЧНЫЙ ЭКРАН -->
     <div id="splashScreen" style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: var(--bg-primary); z-index: 1000; display: flex; align-items: center; justify-content: center; transition: opacity 0.3s ease;">
         <div style="text-align: center; max-width: 280px; margin: 0 20px;">
-            <!-- Логотип -->
-            <div id="splashLogo" style="opacity: 0; transform: scale(0.9); transition: all 0.4s ease;">
-                <svg width="80" height="80" viewBox="0 0 100 100" fill="none">
-                    <path d="M20 65 L32 40 L45 52 L50 30 L55 52 L68 40 L80 65 L75 75 L25 75 L20 65Z" fill="var(--accent-gold)" opacity="0.9"/>
-                    <circle cx="32" cy="40" r="4" fill="white"/>
-                    <circle cx="50" cy="30" r="4" fill="white"/>
-                    <circle cx="68" cy="40" r="4" fill="white"/>
-                </svg>
-            </div>
+           
+<!-- Логотип (твой SVG) -->
+<div id="splashLogo" style="opacity: 0; transform: scale(0.9); transition: all 0.4s ease;">
+    <img src="/images/logo.svg" alt="Evseenko Majesty" style="width: 80px; height: auto;">
+</div>
             
             <!-- Название -->
             <div id="splashTitle" style="opacity: 0; margin-top: 20px;">
@@ -397,16 +393,6 @@
         </div>
     </div>
     
-    <!-- Симуляция AFTERDARK -->
-    <div class="setting-item">
-        <span>🌙 AFTERDARK</span>
-        <div style="display: flex; gap: 8px;">
-            <button class="dev-btn" data-afterdark="on">🔮 Включить</button>
-            <button class="dev-btn" data-afterdark="off">✨ Выключить</button>
-            <button class="dev-btn" data-afterdark="auto">⏱️ Авто (22-06)</button>
-        </div>
-    </div>
-    
     <!-- Симуляция роли -->
     <div class="setting-item">
         <span>👤 Симуляция роли</span>
@@ -466,18 +452,15 @@
     </div>
 </div>
 
-<!-- AFTERDARK ручное управление -->
+<!-- Настройки темы (сохраняется) -->
 <div class="setting-item">
-    <span>🌙 AFTERDARK (для своих)</span>
+    <span>🎨 Тема</span>
     <div style="display: flex; gap: 8px;">
-        <button class="dev-btn" onclick="setAfterdarkMode(true)">🔮 Включить</button>
-        <button class="dev-btn" onclick="setAfterdarkMode(false)">✨ Выключить</button>
-    </div>
-    <div style="font-size: 10px; color: var(--text-secondary); margin-top: 8px;">
-        🔒 Режим для участников сообщества
+        <button class="dev-btn" onclick="setManualTheme('light')">☀️ Светлая</button>
+        <button class="dev-btn" onclick="setManualTheme('dark')">🌙 Тёмная</button>
+        <button class="dev-btn" onclick="setManualTheme('auto')">🔄 Авто</button>
     </div>
 </div>
-
 
     <script>
         (function() {
@@ -506,31 +489,6 @@
             }
             checkAfterdark();
             setInterval(checkAfterdark, 60000);
-            
-            // === ТЕМА ===
-            let currentTheme = localStorage.getItem('theme') || 'auto';
-            function applyTheme() {
-                document.body.classList.remove('dark');
-                if (currentTheme === 'dark') {
-                    document.body.classList.add('dark');
-                } else if (currentTheme === 'auto') {
-                    document.body.classList.remove('dark');
-                    checkAfterdark();
-                }
-                document.querySelectorAll('.theme-option').forEach(opt => {
-                    opt.classList.remove('active');
-                    if (opt.dataset.theme === currentTheme) opt.classList.add('active');
-                });
-            }
-            function setTheme(theme) {
-                currentTheme = theme;
-                localStorage.setItem('theme', theme);
-                applyTheme();
-            }
-            
-            document.querySelectorAll('.theme-option').forEach(opt => {
-                opt.addEventListener('click', () => setTheme(opt.dataset.theme));
-            });
             
             // === ЗАГРУЗКА ПОЛЬЗОВАТЕЛЯ ===
             async function loadUser() {
@@ -846,55 +804,29 @@ setTimeout(() => initDevPanel(), 1000);
             
             applyTheme();
             loadUser();
-            // === ЗАГРУЗОЧНЫЙ ЭКРАН ===
+         // === ЗАГРУЗОЧНЫЙ ЭКРАН ===
     let userLanguage = localStorage.getItem('userLanguage') || 'ru';
-    let isAfterdarkMode = localStorage.getItem('afterdarkMode') === 'true';
+    let manualTheme = localStorage.getItem('manualTheme') || null; // 'light', 'dark', или null для авто
+    let manualAfterdark = localStorage.getItem('manualAfterdark') === 'true'; // ручное включение AFTERDARK
     
-    // Функция определения активной темы
+    // Функция определения активной темы (с учётом ручных настроек)
     function getActiveTheme() {
-        if (isAfterdarkMode) return 'afterdark';
-        if (currentTheme === 'dark') return 'dark';
+        // 1. Если AFTERDARK включён вручную — приоритет
+        if (manualAfterdark) return 'afterdark';
+        
+        // 2. Если ручная тема установлена — используем её
+        if (manualTheme === 'light') return 'light';
+        if (manualTheme === 'dark') return 'dark';
+        
+        // 3. Авторежим: проверяем время
+        const hours = new Date().getHours();
+        if (hours >= 0 && hours < 7) return 'afterdark';
+        if (manualTheme === null && (hours >= 22 || hours < 7)) return 'afterdark';
+        
         return 'light';
     }
     
-    // Функция обновления слогана
-    function updateTagline() {
-        const primary = document.getElementById('taglinePrimary');
-        const secondary = document.getElementById('taglineSecondary');
-        
-        if (userLanguage === 'ru') {
-            primary.textContent = 'Двигайся за пределами';
-            secondary.textContent = 'Drive Beyond Limits';
-        } else {
-            primary.textContent = 'Drive Beyond Limits';
-            secondary.textContent = 'Двигайся за пределами';
-        }
-    }
-    
-    // Функция обновления статуса
-    function updateStatus() {
-        const statusEl = document.getElementById('splashStatus');
-        if (isAfterdarkMode) {
-            statusEl.textContent = userLanguage === 'ru' ? 'AFTERDARK АКТИВЕН' : 'AFTERDARK ACTIVE';
-        } else {
-            statusEl.textContent = userLanguage === 'ru' ? 'Система готова' : 'System Ready';
-        }
-    }
-    
-    // Функция обновления копирайта
-    function updateCopyright() {
-        const line1 = document.getElementById('copyrightLine1');
-        const line2 = document.getElementById('copyrightLine2');
-        
-        line1.textContent = '© 2026 Evseenko Majesty';
-        if (userLanguage === 'ru') {
-            line2.textContent = 'Все права защищены';
-        } else {
-            line2.textContent = 'All Rights Reserved';
-        }
-    }
-    
-    // Функция применения темы к загрузочному экрану
+    // Применение темы к загрузочному экрану
     function applySplashTheme() {
         const splash = document.getElementById('splashScreen');
         const theme = getActiveTheme();
@@ -915,12 +847,110 @@ setTimeout(() => initDevPanel(), 1000);
         updateCopyright();
     }
     
+    // Применение темы к основному приложению
+    function applyAppTheme() {
+        const theme = getActiveTheme();
+        
+        if (theme === 'afterdark') {
+            document.body.classList.add('afterdark');
+            document.body.classList.remove('dark');
+        } else if (theme === 'dark') {
+            document.body.classList.add('dark');
+            document.body.classList.remove('afterdark');
+        } else {
+            document.body.classList.remove('dark', 'afterdark');
+        }
+    }
+    
+    // Сохранение ручной темы
+    window.setManualTheme = (theme) => {
+        if (theme === 'auto') {
+            manualTheme = null;
+            localStorage.removeItem('manualTheme');
+        } else {
+            manualTheme = theme;
+            localStorage.setItem('manualTheme', theme);
+        }
+        applySplashTheme();
+        applyAppTheme();
+        // Обновляем отображение в настройках
+        document.querySelectorAll('.theme-option').forEach(opt => {
+            opt.classList.remove('active');
+            if ((theme === 'light' && opt.dataset.theme === 'light') ||
+                (theme === 'dark' && opt.dataset.theme === 'dark') ||
+                (theme === 'auto' && opt.dataset.theme === 'auto')) {
+                opt.classList.add('active');
+            }
+        });
+    };
+    
+    // Сохранение AFTERDARK
+    window.setManualAfterdark = (enabled) => {
+        manualAfterdark = enabled;
+        localStorage.setItem('manualAfterdark', enabled);
+        applySplashTheme();
+        applyAppTheme();
+        // Обновляем отображение в тестовой панели
+        const afterdarkBtns = document.querySelectorAll('[data-afterdark]');
+        afterdarkBtns.forEach(btn => {
+            btn.classList.remove('active');
+            if ((enabled && btn.dataset.afterdark === 'on') ||
+                (!enabled && btn.dataset.afterdark === 'off')) {
+                btn.classList.add('active');
+            }
+        });
+    };
+    
+    // Функции обновления текста
+    function updateTagline() {
+        const primary = document.getElementById('taglinePrimary');
+        const secondary = document.getElementById('taglineSecondary');
+        
+        if (userLanguage === 'ru') {
+            primary.textContent = 'Двигайся за пределами';
+            secondary.textContent = 'Drive Beyond Limits';
+        } else {
+            primary.textContent = 'Drive Beyond Limits';
+            secondary.textContent = 'Двигайся за пределами';
+        }
+    }
+    
+    function updateStatus() {
+        const statusEl = document.getElementById('splashStatus');
+        const isAfterdarkActive = getActiveTheme() === 'afterdark';
+        if (isAfterdarkActive) {
+            statusEl.textContent = userLanguage === 'ru' ? 'AFTERDARK АКТИВЕН' : 'AFTERDARK ACTIVE';
+        } else {
+            statusEl.textContent = userLanguage === 'ru' ? 'Система готова' : 'System Ready';
+        }
+    }
+    
+    function updateCopyright() {
+        const line1 = document.getElementById('copyrightLine1');
+        const line2 = document.getElementById('copyrightLine2');
+        
+        line1.textContent = '© 2026 Evseenko Majesty';
+        if (userLanguage === 'ru') {
+            line2.textContent = 'Все права защищены';
+        } else {
+            line2.textContent = 'All Rights Reserved';
+        }
+    }
+    
+    // Сохранение языка
+    window.saveLanguage = (lang) => {
+        userLanguage = lang;
+        localStorage.setItem('userLanguage', lang);
+        applySplashTheme();
+        updateTagline();
+        updateStatus();
+        updateCopyright();
+    };
+    
     // Запуск анимации загрузки
     function startSplashAnimation() {
-        // Применяем тему
         applySplashTheme();
         
-        // Анимация появления
         setTimeout(() => {
             document.getElementById('splashLogo').style.opacity = '1';
             document.getElementById('splashLogo').style.transform = 'scale(1)';
@@ -947,32 +977,13 @@ setTimeout(() => initDevPanel(), 1000);
         }, 2600);
     }
     
-    // Сохраняем настройки языка и AFTERDARK
-    window.saveLanguage = (lang) => {
-        userLanguage = lang;
-        localStorage.setItem('userLanguage', lang);
-        applySplashTheme();
-        updateTagline();
-        updateStatus();
-        updateCopyright();
-    };
-    
-    window.setAfterdarkMode = (enabled) => {
-        isAfterdarkMode = enabled;
-        localStorage.setItem('afterdarkMode', enabled);
-        applySplashTheme();
-        updateStatus();
-        // Если AFTERDARK включён — применяем тему к основному приложению
-        if (enabled) {
-            document.body.classList.add('afterdark');
-        } else {
-            document.body.classList.remove('afterdark');
-            applyTheme();
-        }
-    };
-    
     // Запускаем загрузку
     startSplashAnimation();
+    
+    // Применяем тему к основному приложению после загрузки
+    setTimeout(() => {
+        applyAppTheme();
+    }, 2700);
 
         })();
     </script>
