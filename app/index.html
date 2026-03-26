@@ -1,290 +1,50 @@
-
 <!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Evseenko Majesty — Developer Suite</title>
+    <title>Evseenko Majesty</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            -webkit-tap-highlight-color: transparent;
         }
 
-        /* === ПРЕМИАЛЬНЫЕ ПЕРЕМЕННЫЕ === */
+        /* === ПЕРЕМЕННЫЕ === */
         :root {
-            --bg-primary: #0A0A0A;
-            --bg-secondary: #111111;
-            --bg-card: #141414;
-            --bg-elevated: #1A1A1A;
-            --text-primary: #FFFFFF;
-            --text-secondary: #9E9E9E;
-            --text-tertiary: #6B6B6B;
-            --accent: #D4AF37;
-            --accent-dark: #9E7B2E;
-            --accent-glow: rgba(212, 175, 55, 0.2);
-            --border: rgba(212, 175, 55, 0.15);
-            --border-light: rgba(255, 255, 255, 0.05);
-            --radius-sm: 12px;
-            --radius-md: 20px;
-            --radius-lg: 28px;
-            --shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-            --transition: all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
-        }
-
-        /* === ТЁМНАЯ ТЕМА (по умолчанию) === */
-        body.light {
-            --bg-primary: #F5F5F7;
-            --bg-secondary: #FFFFFF;
-            --bg-card: #FFFFFF;
-            --bg-elevated: #F8F8FA;
+            --bg-primary: #FFFFFF;
             --text-primary: #1C1C1E;
-            --text-secondary: #6C6C70;
-            --text-tertiary: #8E8E93;
+            --text-secondary: #8E8E93;
             --accent: #C4A747;
-            --accent-dark: #9E7B2E;
-            --accent-glow: rgba(196, 167, 71, 0.1);
-            --border: rgba(196, 167, 71, 0.2);
-            --border-light: rgba(0, 0, 0, 0.05);
-            --shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+            --accent-glow: rgba(196, 167, 71, 0.2);
         }
 
-        /* === AFTERDARK (эксклюзивный режим) === */
+        /* === ТЁМНАЯ ТЕМА === */
+        body.dark {
+            --bg-primary: #000000;
+            --text-primary: #FFFFFF;
+            --text-secondary: #98989E;
+            --accent: #D4AF37;
+            --accent-glow: rgba(212, 175, 55, 0.15);
+        }
+
+        /* === AFTERDARK === */
         body.afterdark {
             --bg-primary: #03030A;
-            --bg-secondary: #0A0A12;
-            --bg-card: #0F0F18;
-            --bg-elevated: #14141E;
             --text-primary: #F0F0F0;
-            --text-secondary: #A0A0B0;
+            --text-secondary: #9E9EAE;
             --accent: #E5C158;
-            --accent-dark: #B88F30;
-            --accent-glow: rgba(229, 193, 88, 0.15);
-            --border: rgba(229, 193, 88, 0.25);
+            --accent-glow: rgba(229, 193, 88, 0.2);
         }
 
         body {
-            font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
             background: var(--bg-primary);
             color: var(--text-primary);
-            transition: var(--transition);
             min-height: 100vh;
-            font-weight: 400;
-            line-height: 1.4;
-        }
-
-        /* === КОНТЕЙНЕР === */
-        .container {
-            max-width: 500px;
-            margin: 0 auto;
-            padding: 20px 20px 90px 20px;
-        }
-
-        /* === ПРЕМИУМ КАРТОЧКИ === */
-        .card {
-            background: var(--bg-card);
-            border-radius: var(--radius-md);
-            padding: 24px;
-            margin-bottom: 16px;
-            border: 1px solid var(--border);
-            backdrop-filter: blur(10px);
-            transition: var(--transition);
-        }
-        .card:hover {
-            border-color: var(--accent);
-            box-shadow: var(--shadow);
-        }
-
-        /* === БАЛАНС === */
-        .balance-section {
-            background: linear-gradient(135deg, var(--bg-elevated), var(--bg-card));
-            border: 1px solid var(--border);
-            border-radius: var(--radius-lg);
-            padding: 24px;
-            margin-bottom: 24px;
-        }
-        .balance-row {
-            display: flex;
-            gap: 20px;
-            justify-content: center;
-        }
-        .balance-item {
-            text-align: center;
-            flex: 1;
-        }
-        .balance-value {
-            font-size: 40px;
-            font-weight: 700;
-            color: var(--accent);
-            letter-spacing: -1px;
-        }
-        .balance-label {
-            font-size: 13px;
-            color: var(--text-secondary);
-            margin-top: 6px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        /* === КНОПКИ === */
-        .btn {
-            width: 100%;
-            padding: 16px;
-            border: none;
-            border-radius: var(--radius-sm);
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: var(--transition);
-            background: var(--accent);
-            color: #000;
-            letter-spacing: 0.5px;
-        }
-        .btn:hover {
-            transform: translateY(-2px);
-            filter: brightness(1.05);
-            box-shadow: 0 8px 20px var(--accent-glow);
-        }
-        .btn-outline {
-            background: transparent;
-            border: 1px solid var(--accent);
-            color: var(--accent);
-        }
-        .btn-outline:hover {
-            background: var(--accent);
-            color: #000;
-        }
-
-        /* === НИЖНЯЯ НАВИГАЦИЯ === */
-        .bottom-nav {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            max-width: 500px;
-            margin: 0 auto;
-            background: var(--bg-card);
-            backdrop-filter: blur(20px);
-            border-top: 1px solid var(--border);
-            display: flex;
-            justify-content: space-around;
-            padding: 12px 16px 28px 16px;
-            z-index: 100;
-        }
-        .nav-item {
-            background: none;
-            border: none;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 6px;
-            font-size: 11px;
-            font-weight: 500;
-            color: var(--text-tertiary);
-            cursor: pointer;
-            padding: 8px 16px;
-            border-radius: 40px;
-            transition: var(--transition);
-        }
-        .nav-item.active {
-            color: var(--accent);
-        }
-        .nav-icon {
-            font-size: 22px;
-        }
-
-        /* === ЭКРАНЫ === */
-        .screen {
-            display: none;
-            animation: fadeIn 0.4s ease;
-        }
-        .screen.active {
-            display: block;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* === ПРЕМИУМ СПИСКИ === */
-        .list-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 16px 0;
-            border-bottom: 1px solid var(--border-light);
-        }
-        .list-item:last-child {
-            border-bottom: none;
-        }
-        .list-title {
-            font-weight: 500;
-        }
-        .list-value {
-            color: var(--accent);
-            font-family: monospace;
-            font-size: 14px;
-        }
-        .badge {
-            background: var(--accent-glow);
-            padding: 4px 12px;
-            border-radius: 40px;
-            font-size: 11px;
-            font-weight: 500;
-            color: var(--accent);
-        }
-
-        /* === ТЕСТОВАЯ ПАНЕЛЬ === */
-        .dev-card {
-            background: var(--bg-elevated);
-            border: 1px solid var(--accent);
-            border-radius: var(--radius-md);
-            padding: 20px;
-            margin-top: 20px;
-        }
-        .dev-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 16px;
-            padding-bottom: 12px;
-            border-bottom: 1px solid var(--border);
-        }
-        .dev-title {
-            font-weight: 600;
-            letter-spacing: 1px;
-        }
-        .dev-badge {
-            background: var(--accent);
-            color: #000;
-            font-size: 10px;
-            padding: 2px 10px;
-            border-radius: 20px;
-            font-weight: 600;
-        }
-        .dev-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 12px;
-            margin-top: 16px;
-        }
-        .dev-btn {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            padding: 10px;
-            border-radius: var(--radius-sm);
-            font-size: 13px;
-            cursor: pointer;
-            transition: var(--transition);
-            color: var(--text-primary);
-        }
-        .dev-btn:hover {
-            border-color: var(--accent);
-            background: var(--accent-glow);
+            transition: background 0.3s ease;
         }
 
         /* === ЗАГРУЗОЧНЫЙ ЭКРАН === */
@@ -299,401 +59,269 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: opacity 0.6s ease;
+            transition: opacity 0.5s ease;
         }
+
         .splash-content {
             text-align: center;
-            max-width: 280px;
+            max-width: 320px;
+            padding: 20px;
         }
+
         .splash-logo {
-            width: 100px;
+            width: 90px;
             height: auto;
-            filter: drop-shadow(0 0 20px var(--accent-glow));
-            margin-bottom: 24px;
+            margin-bottom: 28px;
             opacity: 0;
             transform: scale(0.9);
-            transition: all 0.5s ease;
+            transition: all 0.5s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            filter: drop-shadow(0 0 20px var(--accent-glow));
         }
+
         .splash-title {
             font-size: 20px;
             font-weight: 600;
             letter-spacing: 4px;
             opacity: 0;
-            transition: opacity 0.4s ease 0.2s;
+            transition: opacity 0.4s ease;
+            position: relative;
+            display: inline-block;
         }
-        .splash-sub {
-            font-size: 12px;
-            color: var(--text-secondary);
-            letter-spacing: 1px;
-            margin-top: 8px;
-            opacity: 0;
-            transition: opacity 0.4s ease 0.4s;
-        }
-        .splash-status {
-            margin-top: 40px;
-            font-size: 10px;
+
+        .splash-afterdark-badge {
+            display: inline-block;
+            font-size: 9px;
+            font-weight: 400;
             letter-spacing: 2px;
-            opacity: 0;
-            transition: opacity 0.4s ease 0.6s;
+            margin-left: 8px;
+            vertical-align: middle;
+            opacity: 0.8;
         }
+
+        .splash-tagline {
+            margin-top: 32px;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+        .splash-tagline-primary {
+            font-size: 18px;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+        }
+        .splash-tagline-secondary {
+            font-size: 13px;
+            opacity: 0.6;
+            margin-top: 6px;
+            letter-spacing: 0.3px;
+        }
+
+        .splash-status {
+            margin-top: 48px;
+            font-size: 11px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
         .splash-line {
             width: 40px;
             height: 1px;
             background: var(--accent);
-            margin: 20px auto 0;
+            margin: 24px auto 0;
             opacity: 0;
-            transition: opacity 0.4s ease 0.8s;
+            transition: opacity 0.4s ease;
+        }
+
+        .splash-copyright {
+            position: absolute;
+            bottom: 30px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            font-size: 10px;
+            opacity: 0.4;
+            letter-spacing: 0.5px;
+            transition: opacity 0.4s ease;
+        }
+        .splash-copyright div:first-child {
+            margin-bottom: 4px;
         }
     </style>
 </head>
 <body>
-    <!-- ЗАГРУЗОЧНЫЙ ЭКРАН -->
     <div id="splash" class="splash">
         <div class="splash-content">
-            <img src="/images/logo.svg" alt="Majesty" class="splash-logo" id="splashLogo">
-            <div class="splash-title" id="splashTitle">EVSEENKO MAJESTY</div>
-            <div class="splash-sub" id="splashSub"></div>
+            <!-- Логотип -->
+            <img src="/images/logo.svg" alt="Evseenko Majesty" class="splash-logo" id="splashLogo">
+            
+            <!-- Название + AFTERDARK бейдж -->
+            <div id="splashTitleWrapper" style="opacity: 0; transition: opacity 0.4s ease;">
+                <span class="splash-title">EVSEENKO MAJESTY</span>
+                <span id="afterdarkBadge" class="splash-afterdark-badge" style="display: none;">AFTERDARK</span>
+            </div>
+            
+            <!-- Слоган (две строки) -->
+            <div class="splash-tagline" id="splashTagline">
+                <div class="splash-tagline-primary" id="taglinePrimary"></div>
+                <div class="splash-tagline-secondary" id="taglineSecondary"></div>
+            </div>
+            
+            <!-- Статус -->
             <div class="splash-status" id="splashStatus">СИСТЕМА ГОТОВА</div>
             <div class="splash-line"></div>
         </div>
-    </div>
-
-    <!-- ОСНОВНОЙ ИНТЕРФЕЙС -->
-    <div id="mainApp" style="display: none;">
-        <div class="container">
-            <!-- ЭКРАН: ДАШБОРД -->
-            <div class="screen active" id="screen-dashboard">
-                <div class="balance-section">
-                    <div class="balance-row">
-                        <div class="balance-item">
-                            <div class="balance-value" id="balance">0</div>
-                            <div class="balance-label">БАЛАНС</div>
-                        </div>
-                        <div class="balance-item">
-                            <div class="balance-value" id="bonus">0</div>
-                            <div class="balance-label">БОНУСЫ</div>
-                        </div>
-                    </div>
-                    <button class="btn btn-outline" id="topupBtn" style="margin-top: 20px;">+ ПОПОЛНИТЬ</button>
-                </div>
-
-                <div class="card">
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
-                        <span style="font-weight: 600;">АКТИВНОСТЬ</span>
-                        <span class="badge" id="roleBadge">КЛИЕНТ</span>
-                    </div>
-                    <div class="list-item">
-                        <span class="list-title">Заказов в работе</span>
-                        <span class="list-value" id="activeOrders">0</span>
-                    </div>
-                    <div class="list-item">
-                        <span class="list-title">Уровень</span>
-                        <span class="list-value" id="levelBadge">✨ СТАНДАРТ</span>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <div style="font-weight: 600; margin-bottom: 12px;">БЫСТРЫЙ ДОСТУП</div>
-                    <div class="dev-grid">
-                        <button class="dev-btn" data-screen="services">🛠️ УСЛУГИ</button>
-                        <button class="dev-btn" data-screen="history">📋 ИСТОРИЯ</button>
-                        <button class="dev-btn" data-screen="check">🔍 ПРОВЕРКА</button>
-                        <button class="dev-btn" data-screen="profile">👤 ПРОФИЛЬ</button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- ЭКРАН: УСЛУГИ -->
-            <div class="screen" id="screen-services">
-                <div class="card">
-                    <div style="font-weight: 600; margin-bottom: 16px;">🛠️ УСЛУГИ</div>
-                    <div class="list-item"><span>🚿 Мойка</span><span class="badge">СКОРО</span></div>
-                    <div class="list-item"><span>✨ Детейлинг</span><span class="badge">СКОРО</span></div>
-                    <div class="list-item"><span>🔧 Тюнинг</span><span class="badge">СКОРО</span></div>
-                    <div class="list-item"><span>🏭 Сервис</span><span class="badge">СКОРО</span></div>
-                </div>
-            </div>
-
-            <!-- ЭКРАН: ИСТОРИЯ -->
-            <div class="screen" id="screen-history">
-                <div class="card">
-                    <div style="font-weight: 600; margin-bottom: 16px;">📋 ИСТОРИЯ</div>
-                    <div id="historyList" style="color: var(--text-secondary); text-align: center; padding: 20px;">Нет заказов</div>
-                </div>
-            </div>
-
-            <!-- ЭКРАН: ПРОВЕРКА -->
-            <div class="screen" id="screen-check">
-                <div class="card">
-                    <div style="font-weight: 600; margin-bottom: 16px;">🔍 ПРОВЕРКА</div>
-                    <div style="text-align: center; padding: 20px; color: var(--text-secondary);">QR / NFC сканирование — скоро</div>
-                </div>
-            </div>
-
-            <!-- ЭКРАН: ПАНЕЛЬ (ДЛЯ СОТРУДНИКОВ) -->
-            <div class="screen" id="screen-staff">
-                <div class="card">
-                    <div style="font-weight: 600; margin-bottom: 16px;">📊 СТАТИСТИКА</div>
-                    <div class="dev-grid">
-                        <div class="list-item"><span>Заказов</span><span id="staffOrders" class="list-value">0</span></div>
-                        <div class="list-item"><span>Выручка</span><span id="staffRevenue" class="list-value">0 ₽</span></div>
-                        <div class="list-item"><span>Сотрудники</span><span id="staffWorkers" class="list-value">0</span></div>
-                        <div class="list-item"><span>Клиенты</span><span id="staffClients" class="list-value">0</span></div>
-                    </div>
-                </div>
-                <div class="card">
-                    <div style="font-weight: 600; margin-bottom: 16px;">📋 ПОСЛЕДНИЕ ЗАКАЗЫ</div>
-                    <div id="staffOrdersList">—</div>
-                </div>
-            </div>
-
-            <!-- ЭКРАН: ПРОФИЛЬ + НАСТРОЙКИ -->
-            <div class="screen" id="screen-profile">
-                <div class="card">
-                    <div style="font-weight: 600; margin-bottom: 16px;">👤 ПРОФИЛЬ</div>
-                    <div class="list-item"><span>Имя</span><span id="profileName">—</span></div>
-                    <div class="list-item"><span>Роль</span><span id="profileRole">Клиент</span></div>
-                    <div class="list-item"><span>Уровень</span><span id="profileLevel">✨ Стандарт</span></div>
-                </div>
-
-                <div class="card">
-                    <div style="font-weight: 600; margin-bottom: 16px;">⚙️ НАСТРОЙКИ</div>
-                    <div class="list-item">
-                        <span>Тема</span>
-                        <div style="display: flex; gap: 8px;">
-                            <span class="dev-btn theme-opt" data-theme="dark">🌙 Тёмная</span>
-                            <span class="dev-btn theme-opt" data-theme="light">☀️ Светлая</span>
-                            <span class="dev-btn theme-opt" data-theme="auto">🔄 Авто</span>
-                        </div>
-                    </div>
-                    <div class="list-item">
-                        <span>Язык</span>
-                        <div style="display: flex; gap: 8px;">
-                            <span class="dev-btn" onclick="saveLanguage('ru')">🇷🇺 RU</span>
-                            <span class="dev-btn" onclick="saveLanguage('en')">🇬🇧 EN</span>
-                        </div>
-                    </div>
-                    <div class="list-item">
-                        <span>AFTERDARK</span>
-                        <div style="display: flex; gap: 8px;">
-                            <span class="dev-btn" onclick="setAfterdark(true)">🔮 ВКЛ</span>
-                            <span class="dev-btn" onclick="setAfterdark(false)">✨ ВЫКЛ</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- ТЕСТОВАЯ ПАНЕЛЬ (ТОЛЬКО ДЛЯ ВЛАДЕЛЬЦА) -->
-                <div id="devPanel" class="dev-card" style="display: none;">
-                    <div class="dev-header">
-                        <span class="dev-title">🛠️ DEVELOPMENT KIT</span>
-                        <span class="dev-badge">DEV</span>
-                    </div>
-                    <div class="list-item"><span>Реальная роль</span><span id="realRole" class="list-value">—</span></div>
-                    <div class="list-item"><span>Afterdark статус</span><span id="afterdarkStatus" class="list-value">—</span></div>
-                    <div class="list-item"><span>Тема системы</span><span id="systemTheme" class="list-value">—</span></div>
-                    <div class="dev-grid">
-                        <button class="dev-btn" data-role="client">👤 Клиент</button>
-                        <button class="dev-btn" data-role="master">🔧 Мастер</button>
-                        <button class="dev-btn" data-role="admin">⚙️ Админ</button>
-                        <button class="dev-btn" data-role="owner">👑 Владелец</button>
-                        <button class="dev-btn" data-balance="1000">💰 +1000₽</button>
-                        <button class="dev-btn" data-balance="reset">🔄 Сброс</button>
-                    </div>
-                </div>
-
-                <button class="btn btn-outline" id="closeBtn" style="margin-top: 20px;">✖️ ЗАКРЫТЬ</button>
-            </div>
-        </div>
-
-        <div class="bottom-nav">
-            <button class="nav-item" data-screen="dashboard"><span class="nav-icon">🏠</span><span>Главная</span></button>
-            <button class="nav-item" data-screen="services"><span class="nav-icon">🛠️</span><span>Услуги</span></button>
-            <button class="nav-item" data-screen="history"><span class="nav-icon">📋</span><span>История</span></button>
-            <button class="nav-item" data-screen="check"><span class="nav-icon">🔍</span><span>Проверка</span></button>
-            <button class="nav-item" data-screen="profile"><span class="nav-icon">👤</span><span>Профиль</span></button>
+        
+        <!-- Копирайт -->
+        <div class="splash-copyright" id="splashCopyright">
+            <div>© 2026 Evseenko Majesty</div>
+            <div id="copyrightLine2">Все права защищены</div>
         </div>
     </div>
 
     <script>
         (function() {
-            // === SUPABASE ===
-            const SUPABASE_URL = 'https://dgqlbvajznobyitubazo.supabase.co';
-            const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRncWxidmFqem5vYnlpdHViYXpvIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3Mzg1MjcyMSwiZXhwIjoyMDg5NDI4NzIxfQ.iTNnvDhM7cZ5W5oWpTMVNLfbAAtZKZAq_mjhzqSAzUc';
-            const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-            
+            // === TELEGRAM ===
             const tg = window.Telegram.WebApp;
             tg.expand();
             tg.ready();
-            const user = tg.initDataUnsafe?.user;
-            
-            let currentUser = null;
-            let userRole = 'client';
             
             // === НАСТРОЙКИ ===
             let userLanguage = localStorage.getItem('userLanguage') || 'ru';
-            let manualTheme = localStorage.getItem('manualTheme') || null;
-            let manualAfterdark = localStorage.getItem('manualAfterdark') === 'true';
+            let isAfterdarkActive = false;
             
-            // === ОПРЕДЕЛЕНИЕ ТЕМЫ ===
+            // === ОПРЕДЕЛЕНИЕ AFTERDARK (00:00 - 06:00) ===
+            function isAfterdarkTime() {
+                const now = new Date();
+                const hours = now.getHours();
+                return hours >= 0 && hours < 6;
+            }
+            
+            // === ОПРЕДЕЛЕНИЕ ТЕМЫ (авто + AFTERDARK) ===
             function getActiveTheme() {
-                if (manualAfterdark) return 'afterdark';
-                if (manualTheme === 'light') return 'light';
-                if (manualTheme === 'dark') return 'dark';
+                if (isAfterdarkTime()) return 'afterdark';
                 const tgTheme = tg.colorScheme;
                 return tgTheme === 'dark' ? 'dark' : 'light';
             }
             
-           // === ПРИМЕНЕНИЕ ТЕМЫ ===
+            // === ПРИМЕНЕНИЕ ТЕМЫ ===
             function applyTheme() {
                 const theme = getActiveTheme();
-                document.body.classList.remove('light', 'afterdark');
+                isAfterdarkActive = (theme === 'afterdark');
+                document.body.classList.remove('dark', 'afterdark');
                 if (theme === 'afterdark') {
                     document.body.classList.add('afterdark');
-                    document.documentElement.style.setProperty('--bg-primary', '#03030A');
-                } else if (theme === 'light') {
-                    document.body.classList.add('light');
+                } else if (theme === 'dark') {
+                    document.body.classList.add('dark');
+                }
+            }
+            
+            // === ОБНОВЛЕНИЕ ТЕКСТОВ ===
+            function updateTexts() {
+                const primary = document.getElementById('taglinePrimary');
+                const secondary = document.getElementById('taglineSecondary');
+                const status = document.getElementById('splashStatus');
+                const copyrightLine2 = document.getElementById('copyrightLine2');
+                const afterdarkBadge = document.getElementById('afterdarkBadge');
+                
+                // AFTERDARK бейдж
+                if (isAfterdarkActive) {
+                    afterdarkBadge.style.display = 'inline-block';
+                    afterdarkBadge.textContent = userLanguage === 'ru' ? 'AFTERDARK' : 'AFTERDARK';
                 } else {
-                    document.body.classList.remove('light', 'afterdark');
+                    afterdarkBadge.style.display = 'none';
                 }
                 
-                // Обновляем отображение в тестовой панели
-                if (document.getElementById('systemTheme')) {
-                    document.getElementById('systemTheme').innerText = manualTheme === 'light' ? 'Светлая' : manualTheme === 'dark' ? 'Тёмная' : 'Авто';
+                // Слоган
+                if (userLanguage === 'ru') {
+                    primary.textContent = 'Двигайся за пределами';
+                    secondary.textContent = 'Drive Beyond Limits';
+                } else {
+                    primary.textContent = 'Drive Beyond Limits';
+                    secondary.textContent = 'Двигайся за пределами';
                 }
-                if (document.getElementById('afterdarkStatus')) {
-                    document.getElementById('afterdarkStatus').innerText = manualAfterdark ? 'Активен (ручной)' : (theme === 'afterdark' ? 'Активен (авто)' : 'Неактивен');
+                
+                // Статус
+                if (isAfterdarkActive) {
+                    status.textContent = userLanguage === 'ru' ? 'AFTERDARK АКТИВЕН' : 'AFTERDARK ACTIVE';
+                } else {
+                    status.textContent = userLanguage === 'ru' ? 'СИСТЕМА ГОТОВА' : 'SYSTEM READY';
                 }
+                
+                // Копирайт
+                copyrightLine2.textContent = userLanguage === 'ru' ? 'Все права защищены' : 'All Rights Reserved';
             }
             
-            // === ЗАГРУЗКА ПОЛЬЗОВАТЕЛЯ ===
-            async function loadUser() {
-                if (!user) return;
-                const { data } = await supabase.from('majesty_users').select('*').eq('telegram_id', user.id).single();
-                if (data) currentUser = data;
-                else {
-                    const { data: newUser } = await supabase.from('majesty_users').insert({
-                        telegram_id: user.id, first_name: user.first_name, role: 'client', balance: 0, bonus_points: 0
-                    }).select().single();
-                    currentUser = newUser;
+            // === СЛУШАЕМ ИЗМЕНЕНИЕ ТЕМЫ TELEGRAM ===
+            tg.onEvent('themeChanged', () => {
+                if (!isAfterdarkTime()) {
+                    applyTheme();
+                    updateTexts();
                 }
-                userRole = currentUser?.role || 'client';
-                document.getElementById('balance').innerText = currentUser?.balance || 0;
-                document.getElementById('bonus').innerText = currentUser?.bonus_points || 0;
-                document.getElementById('profileName').innerText = user?.first_name || 'Друг';
-                document.getElementById('profileRole').innerText = userRole === 'client' ? 'Клиент' : userRole === 'master' ? 'Мастер' : userRole === 'admin' ? 'Администратор' : 'Владелец';
-                document.getElementById('roleBadge').innerText = userRole === 'client' ? 'КЛИЕНТ' : userRole === 'master' ? 'МАСТЕР' : userRole === 'admin' ? 'АДМИН' : 'ВЛАДЕЛЕЦ';
-                
-                const level = (currentUser?.bonus_points >= 5000) ? '👑 MAJESTY ELITE' : (currentUser?.bonus_points >= 1000) ? '⭐ ПРЕМИУМ' : (currentUser?.bonus_points >= 100) ? '🌟 АКТИВНЫЙ' : '✨ СТАНДАРТ';
-                document.getElementById('levelBadge').innerHTML = level;
-                document.getElementById('profileLevel').innerHTML = level;
-                document.getElementById('activeOrders').innerText = '0';
-                
-                // Панель для сотрудников
-                if (['master', 'admin', 'owner'].includes(userRole)) {
-                    const bottomNav = document.querySelector('.bottom-nav');
-                    if (!document.querySelector('.nav-item[data-screen="staff"]')) {
-                        const staffBtn = document.createElement('button');
-                        staffBtn.className = 'nav-item';
-                        staffBtn.setAttribute('data-screen', 'staff');
-                        staffBtn.innerHTML = '<span class="nav-icon">🔐</span><span>Панель</span>';
-                        staffBtn.onclick = () => goToScreen('staff');
-                        bottomNav.appendChild(staffBtn);
-                    }
-                    document.getElementById('staffOrders').innerText = '24';
-                    document.getElementById('staffRevenue').innerText = '127 500 ₽';
-                    document.getElementById('staffWorkers').innerText = '4';
-                    document.getElementById('staffClients').innerText = '58';
-                    document.getElementById('staffOrdersList').innerHTML = '<div class="list-item">BMW X5 · Диагностика <span class="badge">В работе</span></div>';
+            });
+            
+            // === ПРОВЕРКА ВРЕМЕНИ КАЖДУЮ МИНУТУ ===
+            setInterval(() => {
+                const wasAfterdark = isAfterdarkActive;
+                applyTheme();
+                if (wasAfterdark !== isAfterdarkActive || getActiveTheme() !== (document.body.classList.contains('afterdark') ? 'afterdark' : document.body.classList.contains('dark') ? 'dark' : 'light')) {
+                    updateTexts();
                 }
-                
-                // Показываем тестовую панель только владельцу
-                if (userRole === 'owner') {
-                    document.getElementById('devPanel').style.display = 'block';
-                    document.getElementById('realRole').innerText = userRole;
-                    document.getElementById('afterdarkStatus').innerText = manualAfterdark ? 'Активен' : 'Неактивен';
-                    document.getElementById('systemTheme').innerText = manualTheme === 'light' ? 'Светлая' : manualTheme === 'dark' ? 'Тёмная' : 'Авто';
-                    
-                    // Тестовые кнопки
-                    document.querySelectorAll('[data-role]').forEach(btn => btn.onclick = () => {
-                        const role = btn.dataset.role;
-                        userRole = role;
-                        document.getElementById('profileRole').innerText = role === 'client' ? 'Клиент' : role === 'master' ? 'Мастер' : role === 'admin' ? 'Администратор' : 'Владелец';
-                        document.getElementById('roleBadge').innerText = role === 'client' ? 'КЛИЕНТ' : role === 'master' ? 'МАСТЕР' : role === 'admin' ? 'АДМИН' : 'ВЛАДЕЛЕЦ';
-                        const staffBtn = document.querySelector('.nav-item[data-screen="staff"]');
-                        if (['master', 'admin', 'owner'].includes(role) && !staffBtn) {
-                            const bottomNav = document.querySelector('.bottom-nav');
-                            const newBtn = document.createElement('button');
-                            newBtn.className = 'nav-item';
-                            newBtn.setAttribute('data-screen', 'staff');
-                            newBtn.innerHTML = '<span class="nav-icon">🔐</span><span>Панель</span>';
-                            newBtn.onclick = () => goToScreen('staff');
-                            bottomNav.appendChild(newBtn);
-                        } else if (!['master', 'admin', 'owner'].includes(role) && staffBtn) staffBtn.remove();
-                    });
-                    document.querySelectorAll('[data-balance]').forEach(btn => btn.onclick = () => {
-                        const val = btn.dataset.balance;
-                        document.getElementById('balance').innerText = val === 'reset' ? (currentUser?.balance || 0) : parseInt(val);
-                    });
-                }
-            }
+            }, 60000);
             
-            // === НАВИГАЦИЯ ===
-            function goToScreen(screenId) {
-                document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-                document.getElementById(`screen-${screenId}`)?.classList.add('active');
-                document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-                document.querySelector(`.nav-item[data-screen="${screenId}"]`)?.classList.add('active');
-            }
-            
-            document.querySelectorAll('.nav-item').forEach(btn => btn.addEventListener('click', () => goToScreen(btn.dataset.screen)));
-            document.querySelectorAll('[data-screen]').forEach(btn => btn.addEventListener('click', () => goToScreen(btn.dataset.screen)));
-            document.querySelectorAll('.theme-opt').forEach(opt => opt.addEventListener('click', () => setTheme(opt.dataset.theme)));
-            document.getElementById('topupBtn')?.addEventListener('click', () => tg.showPopup({ title: 'Пополнение', message: 'Скоро', buttons: [{ type: 'close' }] }));
-            document.getElementById('closeBtn')?.addEventListener('click', () => tg.close());
-            
-            // === ЗАГРУЗОЧНЫЙ ЭКРАН ===
+            // === АНИМАЦИЯ ЗАГРУЗОЧНОГО ЭКРАНА ===
             function startSplash() {
-                const splash = document.getElementById('splash');
+                applyTheme();
+                updateTexts();
+                
                 const logo = document.getElementById('splashLogo');
-                const title = document.getElementById('splashTitle');
-                const sub = document.getElementById('splashSub');
+                const titleWrapper = document.getElementById('splashTitleWrapper');
+                const tagline = document.getElementById('splashTagline');
                 const status = document.getElementById('splashStatus');
                 const line = document.querySelector('.splash-line');
+                const copyright = document.querySelector('.splash-copyright');
                 
-                sub.innerText = userLanguage === 'ru' ? 'от улицы к мастерству' : 'from street to mastery';
-                status.innerText = userLanguage === 'ru' ? 'СИСТЕМА ГОТОВА' : 'SYSTEM READY';
-                
-                setTimeout(() => { logo.style.opacity = '1'; logo.style.transform = 'scale(1)'; }, 200);
-                setTimeout(() => { title.style.opacity = '1'; }, 600);
-                setTimeout(() => { sub.style.opacity = '1'; }, 1000);
-                setTimeout(() => { status.style.opacity = '1'; }, 1400);
-                setTimeout(() => { line.style.opacity = '1'; }, 1800);
+                // 1. Логотип (0.3с)
                 setTimeout(() => {
+                    logo.style.opacity = '1';
+                    logo.style.transform = 'scale(1)';
+                }, 300);
+                
+                // 2. Название (1.2с)
+                setTimeout(() => {
+                    titleWrapper.style.opacity = '1';
+                }, 1200);
+                
+                // 3. Слоган (2.4с)
+                setTimeout(() => {
+                    tagline.style.opacity = '1';
+                }, 2400);
+                
+                // 4. Статус и линия (3.6с)
+                setTimeout(() => {
+                    status.style.opacity = '1';
+                    line.style.opacity = '1';
+                }, 3600);
+                
+                // 5. Копирайт появляется (4.5с)
+                setTimeout(() => {
+                    copyright.style.opacity = '0.4';
+                }, 4500);
+                
+                // 6. Переход на главную (7с)
+                setTimeout(() => {
+                    const splash = document.getElementById('splash');
                     splash.style.opacity = '0';
                     setTimeout(() => {
                         splash.style.display = 'none';
-                        document.getElementById('mainApp').style.display = 'block';
-                        applyTheme();
-                        loadUser();
-                    }, 400);
-                }, 2600);
+                        // Здесь будет переход на главный экран приложения
+                        console.log('Переход на главный экран');
+                        // Пока оставляем пустым — добавим позже
+                    }, 500);
+                }, 7000);
             }
-            // === СЛУШАЕМ ИЗМЕНЕНИЕ ТЕМЫ ===
-            tg.onEvent('themeChanged', () => {
-                if (manualTheme === null && !manualAfterdark) {
-                    applyTheme();
-                }
-            });
-
-            startSplash();
             
-            // === СЛУШАЕМ ИЗМЕНЕНИЕ ТЕМЫ В TELEGRAM ===
-            tg.onEvent('themeChanged', () => {
-                console.log('Theme changed by Telegram');
-                if (manualTheme === null && !manualAfterdark) {
-                    applyTheme();
-                }
-            });
+            startSplash();
         })();
     </script>
 </body>
