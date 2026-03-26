@@ -468,269 +468,139 @@
             const SUPABASE_URL = 'https://dgqlbvajznobyitubazo.supabase.co';
             const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRncWxidmFqem5vYnlpdHViYXpvIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3Mzg1MjcyMSwiZXhwIjoyMDg5NDI4NzIxfQ.iTNnvDhM7cZ5W5oWpTMVNLfbAAtZKZAq_mjhzqSAzUc';
             
-            const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-            
-            const tg = window.Telegram.WebApp;
-            tg.expand();
-            tg.ready();
-            const user = tg.initDataUnsafe?.user;
-            
-            let currentUser = null;
-            let userRole = 'client';
-            
-            // === AFTERDARK ===
-            function checkAfterdark() {
-                const hours = new Date().getHours();
-                if (hours >= 22 || hours < 6) {
-                    document.body.classList.add('afterdark');
-                } else {
-                    document.body.classList.remove('afterdark');
-                }
-            }
-            checkAfterdark();
-            setInterval(checkAfterdark, 60000);
-            
-            // === ЗАГРУЗКА ПОЛЬЗОВАТЕЛЯ ===
-            async function loadUser() {
-                if (!user) return;
-                
-                const { data, error } = await supabase
-                    .from('majesty_users')
-                    .select('*')
-                    .eq('telegram_id', user.id)
-                    .single();
-                
-                if (error && error.code !== 'PGRST116') {
-                    console.error('Ошибка загрузки:', error);
-                }
-                
-                if (data) {
-                    currentUser = data;
-                } else {
-                    const { data: newUser, error: insertError } = await supabase
-                        .from('majesty_users')
-                        .insert({
-                            telegram_id: user.id,
-                            first_name: user.first_name,
-                            role: 'client',
-                            balance: 0,
-                            bonus_points: 0
-                        })
-                        .select()
-                        .single();
-                    
-                    if (insertError) {
-                        console.error('Ошибка создания:', insertError);
-                        return;
-                    }
-                    currentUser = newUser;
-                }
-                
-                userRole = currentUser?.role || 'client';
-                
-                document.getElementById('balance').innerText = currentUser?.balance || 0;
-                document.getElementById('bonus').innerText = currentUser?.bonus_points || 0;
-                document.getElementById('profileName').innerText = user?.first_name || 'Друг';
-                document.getElementById('profileRole').innerText = getRoleName(userRole);
-                
-                const level = getLevel(currentUser?.bonus_points || 0);
-                document.getElementById('profileLevel').innerHTML = level;
-                
-                // === АВТОМАТИЧЕСКОЕ ДОБАВЛЕНИЕ ПАНЕЛИ ===
-                const staffRoles = ['master', 'admin', 'owner'];
-                const bottomNav = document.getElementById('bottomNav');
-                
-                if (staffRoles.includes(userRole)) {
-                    const existingStaffBtn = document.querySelector('.nav-item[data-screen="staff"]');
-                    if (!existingStaffBtn) {
-                        const staffNavBtn = document.createElement('button');
-                        staffNavBtn.className = 'nav-item';
-                        staffNavBtn.setAttribute('data-screen', 'staff');
-                        staffNavBtn.innerHTML = '<span class="nav-icon">🔐</span><span>Панель</span>';
-                        bottomNav.appendChild(staffNavBtn);
-                        staffNavBtn.addEventListener('click', () => goToScreen('staff'));
-                    }
-                    
-                    loadStaffData();
-                    
-                    if (userRole === 'admin' || userRole === 'owner') {
-                        document.getElementById('staffWorkersCard').style.display = 'block';
-                    }
-                }
-            }
-            
-            function getRoleName(role) {
-                const roles = {
-                    client: 'Клиент',
-                    master: 'Мастер',
-                    admin: 'Администратор',
-                    owner: 'Владелец'
-                };
-                return roles[role] || role;
-            }
-            
-            function getLevel(points) {
-                if (points >= 5000) return '👑 Majesty Elite';
-                if (points >= 1000) return '⭐ Премиум';
-                if (points >= 100) return '🌟 Активный';
-                return '✨ Стандарт';
-            }
-            
-            // === ДАННЫЕ ДЛЯ ПАНЕЛИ ===
-            function loadStaffData() {
-                document.getElementById('staffOrdersCount').innerText = '24';
-                document.getElementById('staffRevenue').innerText = '127 500 ₽';
-                document.getElementById('staffWorkers').innerText = '4';
-                document.getElementById('staffClients').innerText = '58';
-                
-                document.getElementById('staffOrdersList').innerHTML = `
-                    <div class="order-item">BMW X5 · Диагностика — <span style="color: var(--accent-gold);">В работе</span></div>
-                    <div class="order-item">Audi A6 · Замена масла — <span style="color: #ffa500;">Ожидает</span></div>
-                `;
-                
-                document.getElementById('staffWorkersList').innerHTML = `
-                    <div class="worker-item"><span>Антон (Мастер)</span><span style="color: var(--accent-gold);">+32 000 ₽</span></div>
-                    <div class="worker-item"><span>Михаил (Мастер)</span><span style="color: var(--accent-gold);">+28 500 ₽</span></div>
-                `;
-            }
-            
-            // === НАВИГАЦИЯ ===
-            function goToScreen(screenId) {
-                document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-                const target = document.getElementById(`screen-${screenId}`);
-                if (target) target.classList.add('active');
-                
-                document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-                const activeNav = document.querySelector(`.nav-item[data-screen="${screenId}"]`);
-                if (activeNav) activeNav.classList.add('active');
-            }
-            
-            document.querySelectorAll('.nav-item').forEach(btn => {
-                btn.addEventListener('click', () => goToScreen(btn.dataset.screen));
-            });
-            
-            // === КНОПКИ ===
-            document.getElementById('topupBtn')?.addEventListener('click', () => {
-                tg.showPopup({ title: 'Пополнение', message: 'Скоро появится', buttons: [{ type: 'close' }] });
-            });
-            
-            document.getElementById('closeBtn')?.addEventListener('click', () => tg.close());
-            document.getElementById('closeStaffBtn')?.addEventListener('click', () => goToScreen('home'));
-            // === ТЕСТОВАЯ ПАНЕЛЬ (только для владельца) ===
-function initDevPanel() {
-    const devPanel = document.getElementById('devPanel');
-    if (!devPanel) return;
-    
-    // Показываем панель только владельцу
-    if (userRole === 'owner') {
-        devPanel.style.display = 'block';
-    }
-    
-    // Отображаем реальную роль
-    document.getElementById('realRoleText').innerText = userRole;
-    document.getElementById('afterdarkStatusText').innerText = document.body.classList.contains('afterdark') ? 'Да' : 'Нет';
-    document.getElementById('tgThemeText').innerText = currentTheme;
-    
-    // Обновляем время
-    function updateTime() {
-        const now = new Date();
-        document.getElementById('currentTimeText').innerText = now.toLocaleTimeString();
-    }
-    updateTime();
-    setInterval(updateTime, 1000);
-    
-    // === СИМУЛЯЦИЯ ВРЕМЕНИ ===
-    document.querySelectorAll('[data-time]').forEach(btn => {
-        btn.addEventListener('click', () => {
-            const time = btn.dataset.time;
-            let hours;
-            switch(time) {
-                case 'morning': hours = 10; break;
-                case 'day': hours = 14; break;
-                case 'evening': hours = 19; break;
-                case 'night': hours = 23; break;
-                default: return;
-            }
-            // Временно меняем час для теста
-            const mockDate = new Date();
-            mockDate.setHours(hours);
-            tg.showPopup({
-                title: 'Симуляция времени',
-                message: `Время установлено: ${mockDate.toLocaleTimeString()}\nПроверьте AFTERDARK`,
-                buttons: [{ type: 'close' }]
-            });
-            // Принудительно проверяем AFTERDARK
-            const isAfterdark = hours >= 22 || hours < 6;
-            if (isAfterdark) {
+              const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+        
+        const tg = window.Telegram.WebApp;
+        tg.expand();
+        tg.ready();
+        const user = tg.initDataUnsafe?.user;
+        
+        let currentUser = null;
+        let userRole = 'client';
+        
+        // === НАСТРОЙКИ ТЕМЫ (сохраняются) ===
+        let userLanguage = localStorage.getItem('userLanguage') || 'ru';
+        let manualTheme = localStorage.getItem('manualTheme') || null;
+        let manualAfterdark = localStorage.getItem('manualAfterdark') === 'true';
+        
+        // Функция определения активной темы
+        function getActiveTheme() {
+            if (manualAfterdark) return 'afterdark';
+            if (manualTheme === 'light') return 'light';
+            if (manualTheme === 'dark') return 'dark';
+            const hours = new Date().getHours();
+            if (hours >= 0 && hours < 7) return 'afterdark';
+            if (hours >= 22 || hours < 7) return 'afterdark';
+            return 'light';
+        }
+        
+        // Применение темы к основному приложению
+        function applyAppTheme() {
+            const theme = getActiveTheme();
+            if (theme === 'afterdark') {
                 document.body.classList.add('afterdark');
-                document.getElementById('afterdarkStatusText').innerText = 'Да (тест)';
-            } else {
-                document.body.classList.remove('afterdark');
-                document.getElementById('afterdarkStatusText').innerText = 'Нет (тест)';
-            }
-        });
-    });
-    
-    // === СИМУЛЯЦИЯ ТЕМЫ TELEGRAM ===
-    document.querySelectorAll('[data-theme]').forEach(btn => {
-        btn.addEventListener('click', () => {
-            const theme = btn.dataset.theme;
-            if (theme === 'light') {
-                document.body.classList.remove('dark', 'afterdark');
-                currentTheme = 'light';
+                document.body.classList.remove('dark');
             } else if (theme === 'dark') {
                 document.body.classList.add('dark');
                 document.body.classList.remove('afterdark');
-                currentTheme = 'dark';
-            } else if (theme === 'auto') {
-                currentTheme = 'auto';
-                applyTheme();
-            }
-            document.getElementById('tgThemeText').innerText = theme;
-            tg.showPopup({
-                title: 'Тема изменена',
-                message: `Тема: ${theme === 'light' ? 'Светлая' : theme === 'dark' ? 'Тёмная' : 'Авто'}`,
-                buttons: [{ type: 'close' }]
-            });
-        });
-    });
-    
-    // === СИМУЛЯЦИЯ AFTERDARK ===
-    document.querySelectorAll('[data-afterdark]').forEach(btn => {
-        btn.addEventListener('click', () => {
-            const mode = btn.dataset.afterdark;
-            if (mode === 'on') {
-                document.body.classList.add('afterdark');
-                document.getElementById('afterdarkStatusText').innerText = 'Включён (тест)';
-            } else if (mode === 'off') {
-                document.body.classList.remove('afterdark');
-                document.getElementById('afterdarkStatusText').innerText = 'Выключен (тест)';
-            } else if (mode === 'auto') {
-                checkAfterdark();
-                document.getElementById('afterdarkStatusText').innerText = document.body.classList.contains('afterdark') ? 'Да (авто)' : 'Нет (авто)';
-            }
-        });
-    });
-    
-    // === СИМУЛЯЦИЯ РОЛИ ===
-    document.querySelectorAll('[data-role]').forEach(btn => {
-        btn.addEventListener('click', () => {
-            const role = btn.dataset.role;
-            if (role === 'reset') {
-                userRole = currentUser?.role || 'client';
             } else {
-                userRole = role;
+                document.body.classList.remove('dark', 'afterdark');
+            }
+        }
+        
+        // Сохранение ручной темы
+        window.setManualTheme = (theme) => {
+            if (theme === 'auto') {
+                manualTheme = null;
+                localStorage.removeItem('manualTheme');
+            } else {
+                manualTheme = theme;
+                localStorage.setItem('manualTheme', theme);
+            }
+            applyAppTheme();
+            document.querySelectorAll('.theme-option').forEach(opt => {
+                opt.classList.remove('active');
+                if ((theme === 'light' && opt.dataset.theme === 'light') ||
+                    (theme === 'dark' && opt.dataset.theme === 'dark') ||
+                    (theme === 'auto' && opt.dataset.theme === 'auto')) {
+                    opt.classList.add('active');
+                }
+            });
+        };
+        
+        // Сохранение AFTERDARK
+        window.setManualAfterdark = (enabled) => {
+            manualAfterdark = enabled;
+            localStorage.setItem('manualAfterdark', enabled);
+            applyAppTheme();
+            const afterdarkBtns = document.querySelectorAll('[data-afterdark]');
+            afterdarkBtns.forEach(btn => {
+                btn.classList.remove('active');
+                if ((enabled && btn.dataset.afterdark === 'on') ||
+                    (!enabled && btn.dataset.afterdark === 'off')) {
+                    btn.classList.add('active');
+                }
+            });
+        };
+        
+        // Сохранение языка
+        window.saveLanguage = (lang) => {
+            userLanguage = lang;
+            localStorage.setItem('userLanguage', lang);
+        };
+        
+        // === ЗАГРУЗКА ПОЛЬЗОВАТЕЛЯ ===
+        async function loadUser() {
+            if (!user) return;
+            
+            const { data, error } = await supabase
+                .from('majesty_users')
+                .select('*')
+                .eq('telegram_id', user.id)
+                .single();
+            
+            if (error && error.code !== 'PGRST116') {
+                console.error('Ошибка загрузки:', error);
             }
             
-            // Обновляем отображение
+            if (data) {
+                currentUser = data;
+            } else {
+                const { data: newUser, error: insertError } = await supabase
+                    .from('majesty_users')
+                    .insert({
+                        telegram_id: user.id,
+                        first_name: user.first_name,
+                        role: 'client',
+                        balance: 0,
+                        bonus_points: 0
+                    })
+                    .select()
+                    .single();
+                
+                if (insertError) {
+                    console.error('Ошибка создания:', insertError);
+                    return;
+                }
+                currentUser = newUser;
+            }
+            
+            userRole = currentUser?.role || 'client';
+            
+            document.getElementById('balance').innerText = currentUser?.balance || 0;
+            document.getElementById('bonus').innerText = currentUser?.bonus_points || 0;
+            document.getElementById('profileName').innerText = user?.first_name || 'Друг';
             document.getElementById('profileRole').innerText = getRoleName(userRole);
             
-            // Перестраиваем навигацию
-            const bottomNav = document.getElementById('bottomNav');
-            const existingStaffBtn = document.querySelector('.nav-item[data-screen="staff"]');
+            const level = getLevel(currentUser?.bonus_points || 0);
+            document.getElementById('profileLevel').innerHTML = level;
+            
+            // Автоматическое добавление панели для сотрудников
             const staffRoles = ['master', 'admin', 'owner'];
+            const bottomNav = document.getElementById('bottomNav');
             
             if (staffRoles.includes(userRole)) {
+                const existingStaffBtn = document.querySelector('.nav-item[data-screen="staff"]');
                 if (!existingStaffBtn) {
                     const staffNavBtn = document.createElement('button');
                     staffNavBtn.className = 'nav-item';
@@ -739,253 +609,229 @@ function initDevPanel() {
                     bottomNav.appendChild(staffNavBtn);
                     staffNavBtn.addEventListener('click', () => goToScreen('staff'));
                 }
+                loadStaffData();
                 if (userRole === 'admin' || userRole === 'owner') {
                     document.getElementById('staffWorkersCard').style.display = 'block';
                 }
-            } else {
-                if (existingStaffBtn) existingStaffBtn.remove();
-                document.getElementById('staffWorkersCard').style.display = 'none';
+            }
+        }
+        
+        function getRoleName(role) {
+            const roles = {
+                client: 'Клиент',
+                master: 'Мастер',
+                admin: 'Администратор',
+                owner: 'Владелец'
+            };
+            return roles[role] || role;
+        }
+        
+        function getLevel(points) {
+            if (points >= 5000) return '👑 Majesty Elite';
+            if (points >= 1000) return '⭐ Премиум';
+            if (points >= 100) return '🌟 Активный';
+            return '✨ Стандарт';
+        }
+        
+        function loadStaffData() {
+            document.getElementById('staffOrdersCount').innerText = '24';
+            document.getElementById('staffRevenue').innerText = '127 500 ₽';
+            document.getElementById('staffWorkers').innerText = '4';
+            document.getElementById('staffClients').innerText = '58';
+            
+            document.getElementById('staffOrdersList').innerHTML = `
+                <div class="order-item">BMW X5 · Диагностика — <span style="color: var(--accent-gold);">В работе</span></div>
+                <div class="order-item">Audi A6 · Замена масла — <span style="color: #ffa500;">Ожидает</span></div>
+            `;
+            
+            document.getElementById('staffWorkersList').innerHTML = `
+                <div class="worker-item"><span>Антон (Мастер)</span><span style="color: var(--accent-gold);">+32 000 ₽</span></div>
+                <div class="worker-item"><span>Михаил (Мастер)</span><span style="color: var(--accent-gold);">+28 500 ₽</span></div>
+            `;
+        }
+        
+        function goToScreen(screenId) {
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            const target = document.getElementById(`screen-${screenId}`);
+            if (target) target.classList.add('active');
+            
+            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+            const activeNav = document.querySelector(`.nav-item[data-screen="${screenId}"]`);
+            if (activeNav) activeNav.classList.add('active');
+        }
+        
+        document.querySelectorAll('.nav-item').forEach(btn => {
+            btn.addEventListener('click', () => goToScreen(btn.dataset.screen));
+        });
+        
+        document.getElementById('topupBtn')?.addEventListener('click', () => {
+            tg.showPopup({ title: 'Пополнение', message: 'Скоро появится', buttons: [{ type: 'close' }] });
+        });
+        
+        document.getElementById('closeBtn')?.addEventListener('click', () => tg.close());
+        document.getElementById('closeStaffBtn')?.addEventListener('click', () => goToScreen('home'));
+        
+        // === ТЕСТОВАЯ ПАНЕЛЬ ===
+        function initDevPanel() {
+            const devPanel = document.getElementById('devPanel');
+            if (!devPanel) return;
+            
+            if (userRole === 'owner') {
+                devPanel.style.display = 'block';
             }
             
-            tg.showPopup({
-                title: 'Роль изменена (тест)',
-                message: `Текущая роль: ${getRoleName(userRole)}\nРеальная роль в базе: ${getRoleName(currentUser?.role)}`,
-                buttons: [{ type: 'close' }]
-            });
-        });
-    });
-    
-    // === СИМУЛЯЦИЯ БАЛАНСА ===
-    document.querySelectorAll('[data-balance]').forEach(btn => {
-        btn.addEventListener('click', () => {
-            const balance = btn.dataset.balance;
-            let newBalance = 0;
-            if (balance === 'reset') {
-                newBalance = currentUser?.balance || 0;
-            } else {
-                newBalance = parseInt(balance);
-            }
-            document.getElementById('balance').innerText = newBalance;
-            tg.showPopup({
-                title: 'Баланс изменён (тест)',
-                message: `Новый баланс: ${newBalance} ₽\nРеальный баланс в базе: ${currentUser?.balance} ₽`,
-                buttons: [{ type: 'close' }]
-            });
-        });
-    });
-    
-    // === ТЕСТ УВЕДОМЛЕНИЙ ===
-    document.getElementById('testNotificationBtn')?.addEventListener('click', () => {
-        tg.showPopup({
-            title: '🔔 Тестовое уведомление',
-            message: 'Это тестовое уведомление из панели разработчика!\n\nЗдесь будут появляться уведомления о заказах, акциях и статусах.',
-            buttons: [
-                { type: 'default', text: 'Понятно' },
-                { type: 'close' }
-            ]
-        });
-    });
-    
-    // === ТЕСТ ОШИБОК ===
-    document.getElementById('testErrorBtn')?.addEventListener('click', () => {
-        tg.showPopup({
-            title: '⚠️ Тест ошибки',
-            message: 'Это тестовое сообщение об ошибке.\n\nВ реальной работе здесь будет информация о проблеме и варианты решения.',
-            buttons: [
-                { type: 'default', text: 'Понятно' },
-                { type: 'close' }
-            ]
-        });
-    });
-}
-
-// Вызываем после загрузки пользователя
-setTimeout(() => initDevPanel(), 1000);
+            document.getElementById('realRoleText').innerText = userRole;
+            document.getElementById('afterdarkStatusText').innerText = document.body.classList.contains('afterdark') ? 'Да' : 'Нет';
+            document.getElementById('tgThemeText').innerText = manualTheme === 'light' ? 'Светлая' : manualTheme === 'dark' ? 'Тёмная' : 'Авто';
             
-            applyTheme();
-            loadUser();
-         // === ЗАГРУЗОЧНЫЙ ЭКРАН ===
-    let userLanguage = localStorage.getItem('userLanguage') || 'ru';
-    let manualTheme = localStorage.getItem('manualTheme') || null; // 'light', 'dark', или null для авто
-    let manualAfterdark = localStorage.getItem('manualAfterdark') === 'true'; // ручное включение AFTERDARK
-    
-    // Функция определения активной темы (с учётом ручных настроек)
-    function getActiveTheme() {
-        // 1. Если AFTERDARK включён вручную — приоритет
-        if (manualAfterdark) return 'afterdark';
-        
-        // 2. Если ручная тема установлена — используем её
-        if (manualTheme === 'light') return 'light';
-        if (manualTheme === 'dark') return 'dark';
-        
-        // 3. Авторежим: проверяем время
-        const hours = new Date().getHours();
-        if (hours >= 0 && hours < 7) return 'afterdark';
-        if (manualTheme === null && (hours >= 22 || hours < 7)) return 'afterdark';
-        
-        return 'light';
-    }
-    
-    // Применение темы к загрузочному экрану
-    function applySplashTheme() {
-        const splash = document.getElementById('splashScreen');
-        const theme = getActiveTheme();
-        
-        if (theme === 'afterdark') {
-            splash.style.setProperty('--bg-primary', '#030303');
-            document.getElementById('splashAfterdarkBadge').style.display = 'block';
-        } else if (theme === 'dark') {
-            splash.style.setProperty('--bg-primary', '#000000');
-            document.getElementById('splashAfterdarkBadge').style.display = 'none';
-        } else {
-            splash.style.setProperty('--bg-primary', '#ffffff');
-            document.getElementById('splashAfterdarkBadge').style.display = 'none';
-        }
-        
-        updateTagline();
-        updateStatus();
-        updateCopyright();
-    }
-    
-    // Применение темы к основному приложению
-    function applyAppTheme() {
-        const theme = getActiveTheme();
-        
-        if (theme === 'afterdark') {
-            document.body.classList.add('afterdark');
-            document.body.classList.remove('dark');
-        } else if (theme === 'dark') {
-            document.body.classList.add('dark');
-            document.body.classList.remove('afterdark');
-        } else {
-            document.body.classList.remove('dark', 'afterdark');
-        }
-    }
-    
-    // Сохранение ручной темы
-    window.setManualTheme = (theme) => {
-        if (theme === 'auto') {
-            manualTheme = null;
-            localStorage.removeItem('manualTheme');
-        } else {
-            manualTheme = theme;
-            localStorage.setItem('manualTheme', theme);
-        }
-        applySplashTheme();
-        applyAppTheme();
-        // Обновляем отображение в настройках
-        document.querySelectorAll('.theme-option').forEach(opt => {
-            opt.classList.remove('active');
-            if ((theme === 'light' && opt.dataset.theme === 'light') ||
-                (theme === 'dark' && opt.dataset.theme === 'dark') ||
-                (theme === 'auto' && opt.dataset.theme === 'auto')) {
-                opt.classList.add('active');
+            function updateTime() {
+                document.getElementById('currentTimeText').innerText = new Date().toLocaleTimeString();
             }
-        });
-    };
-    
-    // Сохранение AFTERDARK
-    window.setManualAfterdark = (enabled) => {
-        manualAfterdark = enabled;
-        localStorage.setItem('manualAfterdark', enabled);
-        applySplashTheme();
-        applyAppTheme();
-        // Обновляем отображение в тестовой панели
-        const afterdarkBtns = document.querySelectorAll('[data-afterdark]');
-        afterdarkBtns.forEach(btn => {
-            btn.classList.remove('active');
-            if ((enabled && btn.dataset.afterdark === 'on') ||
-                (!enabled && btn.dataset.afterdark === 'off')) {
-                btn.classList.add('active');
-            }
-        });
-    };
-    
-    // Функции обновления текста
-    function updateTagline() {
-        const primary = document.getElementById('taglinePrimary');
-        const secondary = document.getElementById('taglineSecondary');
-        
-        if (userLanguage === 'ru') {
-            primary.textContent = 'Двигайся за пределами';
-            secondary.textContent = 'Drive Beyond Limits';
-        } else {
-            primary.textContent = 'Drive Beyond Limits';
-            secondary.textContent = 'Двигайся за пределами';
+            updateTime();
+            setInterval(updateTime, 1000);
+            
+            document.querySelectorAll('[data-time]').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const hours = { morning: 10, day: 14, evening: 19, night: 23 }[btn.dataset.time];
+                    if (hours) {
+                        tg.showPopup({
+                            title: 'Симуляция времени',
+                            message: `Время: ${hours}:00`,
+                            buttons: [{ type: 'close' }]
+                        });
+                        const isAfterdark = hours >= 22 || hours < 6;
+                        if (isAfterdark) {
+                            document.body.classList.add('afterdark');
+                            document.getElementById('afterdarkStatusText').innerText = 'Да (тест)';
+                        } else {
+                            document.body.classList.remove('afterdark');
+                            document.getElementById('afterdarkStatusText').innerText = 'Нет (тест)';
+                        }
+                    }
+                });
+            });
+            
+            document.querySelectorAll('[data-theme]').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const theme = btn.dataset.theme;
+                    if (theme === 'light') setManualTheme('light');
+                    else if (theme === 'dark') setManualTheme('dark');
+                    else if (theme === 'auto') setManualTheme('auto');
+                    document.getElementById('tgThemeText').innerText = theme === 'light' ? 'Светлая' : theme === 'dark' ? 'Тёмная' : 'Авто';
+                });
+            });
+            
+            document.querySelectorAll('[data-afterdark]').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    if (btn.dataset.afterdark === 'on') setManualAfterdark(true);
+                    else if (btn.dataset.afterdark === 'off') setManualAfterdark(false);
+                    else if (btn.dataset.afterdark === 'auto') {
+                        setManualAfterdark(false);
+                        setManualTheme('auto');
+                    }
+                    document.getElementById('afterdarkStatusText').innerText = manualAfterdark ? 'Да (ручной)' : (document.body.classList.contains('afterdark') ? 'Да (авто)' : 'Нет');
+                });
+            });
+            
+            document.querySelectorAll('[data-role]').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const role = btn.dataset.role;
+                    if (role === 'reset') userRole = currentUser?.role || 'client';
+                    else userRole = role;
+                    document.getElementById('profileRole').innerText = getRoleName(userRole);
+                    
+                    const bottomNav = document.getElementById('bottomNav');
+                    const existingStaffBtn = document.querySelector('.nav-item[data-screen="staff"]');
+                    const staffRoles = ['master', 'admin', 'owner'];
+                    
+                    if (staffRoles.includes(userRole)) {
+                        if (!existingStaffBtn) {
+                            const staffNavBtn = document.createElement('button');
+                            staffNavBtn.className = 'nav-item';
+                            staffNavBtn.setAttribute('data-screen', 'staff');
+                            staffNavBtn.innerHTML = '<span class="nav-icon">🔐</span><span>Панель</span>';
+                            bottomNav.appendChild(staffNavBtn);
+                            staffNavBtn.addEventListener('click', () => goToScreen('staff'));
+                        }
+                        if (userRole === 'admin' || userRole === 'owner') {
+                            document.getElementById('staffWorkersCard').style.display = 'block';
+                        }
+                    } else {
+                        if (existingStaffBtn) existingStaffBtn.remove();
+                        document.getElementById('staffWorkersCard').style.display = 'none';
+                    }
+                });
+            });
+            
+            document.querySelectorAll('[data-balance]').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const balance = btn.dataset.balance;
+                    let newBalance = balance === 'reset' ? (currentUser?.balance || 0) : parseInt(balance);
+                    document.getElementById('balance').innerText = newBalance;
+                });
+            });
+            
+            document.getElementById('testNotificationBtn')?.addEventListener('click', () => {
+                tg.showPopup({ title: '🔔 Уведомление', message: 'Тест', buttons: [{ type: 'close' }] });
+            });
+            
+            document.getElementById('testErrorBtn')?.addEventListener('click', () => {
+                tg.showPopup({ title: '⚠️ Ошибка', message: 'Тест', buttons: [{ type: 'close' }] });
+            });
         }
-    }
-    
-    function updateStatus() {
-        const statusEl = document.getElementById('splashStatus');
-        const isAfterdarkActive = getActiveTheme() === 'afterdark';
-        if (isAfterdarkActive) {
-            statusEl.textContent = userLanguage === 'ru' ? 'AFTERDARK АКТИВЕН' : 'AFTERDARK ACTIVE';
-        } else {
-            statusEl.textContent = userLanguage === 'ru' ? 'Система готова' : 'System Ready';
-        }
-    }
-    
-    function updateCopyright() {
-        const line1 = document.getElementById('copyrightLine1');
-        const line2 = document.getElementById('copyrightLine2');
         
-        line1.textContent = '© 2026 Evseenko Majesty';
-        if (userLanguage === 'ru') {
-            line2.textContent = 'Все права защищены';
-        } else {
-            line2.textContent = 'All Rights Reserved';
-        }
-    }
-    
-    // Сохранение языка
-    window.saveLanguage = (lang) => {
-        userLanguage = lang;
-        localStorage.setItem('userLanguage', lang);
-        applySplashTheme();
-        updateTagline();
-        updateStatus();
-        updateCopyright();
-    };
-    
-    // Запуск анимации загрузки
-    function startSplashAnimation() {
-        applySplashTheme();
-        
-        setTimeout(() => {
-            document.getElementById('splashLogo').style.opacity = '1';
-            document.getElementById('splashLogo').style.transform = 'scale(1)';
-        }, 300);
-        
-        setTimeout(() => {
-            document.getElementById('splashTitle').style.opacity = '1';
-        }, 800);
-        
-        setTimeout(() => {
-            document.getElementById('splashTagline').style.opacity = '1';
-        }, 1300);
-        
-        setTimeout(() => {
-            document.getElementById('splashStatus').style.opacity = '1';
-        }, 1800);
-        
-        setTimeout(() => {
+        // === ЗАГРУЗОЧНЫЙ ЭКРАН ===
+        function applySplashTheme() {
             const splash = document.getElementById('splashScreen');
-            splash.style.opacity = '0';
+            const theme = getActiveTheme();
+            if (theme === 'afterdark') {
+                splash.style.setProperty('--bg-primary', '#030303');
+                document.getElementById('splashAfterdarkBadge').style.display = 'block';
+            } else if (theme === 'dark') {
+                splash.style.setProperty('--bg-primary', '#000000');
+                document.getElementById('splashAfterdarkBadge').style.display = 'none';
+            } else {
+                splash.style.setProperty('--bg-primary', '#ffffff');
+                document.getElementById('splashAfterdarkBadge').style.display = 'none';
+            }
+            
+            const primary = document.getElementById('taglinePrimary');
+            const secondary = document.getElementById('taglineSecondary');
+            if (userLanguage === 'ru') {
+                primary.textContent = 'Двигайся за пределами';
+                secondary.textContent = 'Drive Beyond Limits';
+            } else {
+                primary.textContent = 'Drive Beyond Limits';
+                secondary.textContent = 'Двигайся за пределами';
+            }
+            
+            const statusEl = document.getElementById('splashStatus');
+            const isAfterdark = getActiveTheme() === 'afterdark';
+            statusEl.textContent = isAfterdark ? (userLanguage === 'ru' ? 'AFTERDARK АКТИВЕН' : 'AFTERDARK ACTIVE') : (userLanguage === 'ru' ? 'Система готова' : 'System Ready');
+            
+            document.getElementById('copyrightLine1').textContent = '© 2026 Evseenko Majesty';
+            document.getElementById('copyrightLine2').textContent = userLanguage === 'ru' ? 'Все права защищены' : 'All Rights Reserved';
+        }
+        
+        function startSplashAnimation() {
+            applySplashTheme();
+            setTimeout(() => { document.getElementById('splashLogo').style.opacity = '1'; document.getElementById('splashLogo').style.transform = 'scale(1)'; }, 300);
+            setTimeout(() => { document.getElementById('splashTitle').style.opacity = '1'; }, 800);
+            setTimeout(() => { document.getElementById('splashTagline').style.opacity = '1'; }, 1300);
+            setTimeout(() => { document.getElementById('splashStatus').style.opacity = '1'; }, 1800);
             setTimeout(() => {
-                splash.style.display = 'none';
-            }, 300);
-        }, 2600);
-    }
-    
-    // Запускаем загрузку
-    startSplashAnimation();
-    
-    // Применяем тему к основному приложению после загрузки
-    setTimeout(() => {
-        applyAppTheme();
-    }, 2700);
+                const splash = document.getElementById('splashScreen');
+                splash.style.opacity = '0';
+                setTimeout(() => { splash.style.display = 'none'; }, 300);
+            }, 2600);
+        }
+        
+        startSplashAnimation();
+        setTimeout(() => { applyAppTheme(); }, 2700);
+        loadUser();
+        setTimeout(() => { initDevPanel(); }, 1500);
+    })();
+</script>
 
-        })();
-    </script>
 </body>
 </html>
