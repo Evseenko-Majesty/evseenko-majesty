@@ -49,18 +49,12 @@ body.dark::before {
     z-index: 0;
     animation: darkBreath 10s ease-in-out infinite;
 }
-          @keyframes darkBreath {
-    0% {
-        opacity: 0.3;
-        background: radial-gradient(circle at 50% 40%, rgba(212, 175, 55, 0.02) 0%, rgba(10, 10, 12, 0.9) 100%);
+        @keyframes darkBreath {
+    0%, 100% {
+        background: radial-gradient(circle at 50% 40%, rgba(212, 175, 55, 0.02) 0%, rgba(12, 12, 14, 0.85) 100%);
     }
     50% {
-        opacity: 1.5;
-        background: radial-gradient(circle at 50% 40%, rgba(212, 175, 55, 0.17) 0%, rgba(12, 12, 14, 0.98) 100%);
-    }
-    100% {
-        opacity: 0.3;
-        background: radial-gradient(circle at 50% 40%, rgba(212, 175, 55, 0.02) 0%, rgba(10, 10, 12, 0.9) 100%);
+        background: radial-gradient(circle at 50% 40%, rgba(212, 175, 55, 0.12) 0%, rgba(16, 16, 18, 0.96) 100%);
     }
 }
 
@@ -94,23 +88,14 @@ body.afterdark::before {
 body.afterdark {
     box-shadow: inset 0 0 80px rgba(0, 80, 160, 0.15);
 }
-
-
 @keyframes afterdarkBreath {
-    0% {
-        opacity: 0.5;
-        background: radial-gradient(circle at 50% 40%, rgba(0, 100, 200, 0.08) 0%, rgba(4, 4, 12, 0.9) 100%);
+    0%, 100% {
+        background: radial-gradient(circle at 50% 40%, rgba(0, 100, 200, 0.05) 0%, rgba(4, 4, 12, 0.85) 100%);
     }
     50% {
-        opacity: 1;
-        background: radial-gradient(circle at 50% 40%, rgba(0, 150, 255, 0.25) 0%, rgba(4, 4, 12, 0.98) 100%);
-    }
-    100% {
-        opacity: 0.5;
-        background: radial-gradient(circle at 50% 40%, rgba(0, 100, 200, 0.08) 0%, rgba(4, 4, 12, 0.9) 100%);
+        background: radial-gradient(circle at 50% 40%, rgba(0, 150, 255, 0.22) 0%, rgba(4, 4, 12, 0.96) 100%);
     }
 }
-
         body {
             font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
             background: var(--bg-primary);
@@ -120,23 +105,14 @@ body.afterdark {
             position: relative;
             overflow: hidden;
         }
-
-      
 @keyframes softBreath {
-    0% {
-        opacity: 0.3;
-        background: radial-gradient(circle at 50% 30%, rgba(196, 167, 80, 0.02) 0%, rgba(255, 255, 245, 0.6) 100%);
+    0%, 100% {
+        background: radial-gradient(circle at 50% 30%, rgba(196, 167, 71, 0.02) 0%, rgba(255, 252, 245, 0.6) 100%);
     }
     50% {
-        opacity: 1.2;
-        background: radial-gradient(circle at 50% 30%, rgba(196, 167, 80, 0.1) 0%, rgba(250, 245, 235, 0.95) 100%);
-    }
-    100% {
-        opacity: 0.3;
-        background: radial-gradient(circle at 50% 30%, rgba(196, 167, 80, 0.02) 0%, rgba(255, 255, 245, 0.6) 100%);
+        background: radial-gradient(circle at 50% 30%, rgba(196, 167, 71, 0.12) 0%, rgba(250, 245, 235, 0.9) 100%);
     }
 }
-
 body::before {
     content: '';
     position: fixed;
