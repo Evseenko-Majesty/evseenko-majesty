@@ -114,7 +114,6 @@
             opacity: 0.6;
         }
 
-        /* Нижняя навигация */
         .bottom-nav {
             position: fixed;
             bottom: 0;
@@ -264,7 +263,7 @@
             </div>
         </div>
 
-        <!-- ПАНЕЛЬ СОТРУДНИКА (только для мастер/админ/владелец) -->
+        <!-- ПАНЕЛЬ СОТРУДНИКА -->
         <div class="screen" id="screen-staff">
             <div class="card">
                 <div class="stats-grid">
@@ -313,13 +312,14 @@
         <button class="nav-item" data-screen="history"><span class="nav-icon">📋</span><span>История</span></button>
         <button class="nav-item" data-screen="check"><span class="nav-icon">🔍</span><span>Проверка</span></button>
         <button class="nav-item" data-screen="profile"><span class="nav-icon">👤</span><span>Профиль</span></button>
-        <!-- Кнопка панели добавится автоматически -->
     </div>
 
     <script>
         (function() {
-            const SUPABASE_URL = 'https//dgqlbvajznobyitubazo.supabase.co';
+            // === НАСТРОЙКИ SUPABASE ===
+            const SUPABASE_URL = 'https://dgqlbvajznobyitubazo.supabase.co';
             const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRncWxidmFqem5vYnlpdHViYXpvIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3Mzg1MjcyMSwiZXhwIjoyMDg5NDI4NzIxfQ.iTNnvDhM7cZ5W5oWpTMVNLfbAAtZKZAq_mjhzqSAzUc';
+            
             const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
             
             const tg = window.Telegram.WebApp;
@@ -371,16 +371,20 @@
             async function loadUser() {
                 if (!user) return;
                 
-                const { data } = await supabase
+                const { data, error } = await supabase
                     .from('majesty_users')
                     .select('*')
                     .eq('telegram_id', user.id)
                     .single();
                 
+                if (error && error.code !== 'PGRST116') {
+                    console.error('Ошибка загрузки:', error);
+                }
+                
                 if (data) {
                     currentUser = data;
                 } else {
-                    const { data: newUser } = await supabase
+                    const { data: newUser, error: insertError } = await supabase
                         .from('majesty_users')
                         .insert({
                             telegram_id: user.id,
@@ -391,6 +395,11 @@
                         })
                         .select()
                         .single();
+                    
+                    if (insertError) {
+                        console.error('Ошибка создания:', insertError);
+                        return;
+                    }
                     currentUser = newUser;
                 }
                 
@@ -419,10 +428,8 @@
                         staffNavBtn.addEventListener('click', () => goToScreen('staff'));
                     }
                     
-                    // Загружаем данные для панели
                     loadStaffData();
                     
-                    // Показываем сотрудников только админу/владельцу
                     if (userRole === 'admin' || userRole === 'owner') {
                         document.getElementById('staffWorkersCard').style.display = 'block';
                     }
@@ -447,8 +454,7 @@
             }
             
             // === ДАННЫЕ ДЛЯ ПАНЕЛИ ===
-            async function loadStaffData() {
-                // Временные данные — потом из базы
+            function loadStaffData() {
                 document.getElementById('staffOrdersCount').innerText = '24';
                 document.getElementById('staffRevenue').innerText = '127 500 ₽';
                 document.getElementById('staffWorkers').innerText = '4';
