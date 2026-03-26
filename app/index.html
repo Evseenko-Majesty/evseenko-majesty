@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -10,41 +11,71 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
         }
 
-        /* === ПЕРЕМЕННЫЕ === */
+        /* === ПРЕМИУМ ПЕРЕМЕННЫЕ === */
         :root {
-            --bg-primary: #FFFFFF;
+            --bg-primary: #FEFEFE;
+            --bg-glow: radial-gradient(circle at 50% 30%, rgba(196, 167, 71, 0.08) 0%, transparent 70%);
             --text-primary: #1C1C1E;
-            --text-secondary: #8E8E93;
+            --text-secondary: #6C6C70;
             --accent: #C4A747;
-            --accent-glow: rgba(196, 167, 71, 0.2);
+            --accent-glow: rgba(196, 167, 71, 0.25);
+            --accent-light: rgba(196, 167, 71, 0.1);
+            --shadow: 0 20px 40px rgba(0, 0, 0, 0.02);
         }
 
         /* === ТЁМНАЯ ТЕМА === */
         body.dark {
-            --bg-primary: #000000;
-            --text-primary: #FFFFFF;
-            --text-secondary: #98989E;
+            --bg-primary: #050505;
+            --bg-glow: radial-gradient(circle at 50% 30%, rgba(212, 175, 55, 0.12) 0%, transparent 70%);
+            --text-primary: #F5F5F5;
+            --text-secondary: #9E9E9E;
             --accent: #D4AF37;
-            --accent-glow: rgba(212, 175, 55, 0.15);
+            --accent-glow: rgba(212, 175, 55, 0.35);
+            --shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
         }
 
-        /* === AFTERDARK === */
+        /* === AFTERDARK (эксклюзив) === */
         body.afterdark {
-            --bg-primary: #03030A;
-            --text-primary: #F0F0F0;
-            --text-secondary: #9E9EAE;
+            --bg-primary: #03030C;
+            --bg-glow: radial-gradient(circle at 50% 30%, rgba(229, 193, 88, 0.2) 0%, transparent 70%);
+            --text-primary: #F8F8FC;
+            --text-secondary: #A8A8B8;
             --accent: #E5C158;
-            --accent-glow: rgba(229, 193, 88, 0.2);
+            --accent-glow: rgba(229, 193, 88, 0.45);
+            --accent-light: rgba(229, 193, 88, 0.08);
+            --shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
             background: var(--bg-primary);
             color: var(--text-primary);
             min-height: 100vh;
-            transition: background 0.3s ease;
+            transition: background 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* === ДИНАМИЧЕСКИЙ ФОН (эффект свечения) === */
+        body::before {
+            content: '';
+            position: fixed;
+            top: -20%;
+            left: -20%;
+            width: 140%;
+            height: 140%;
+            background: var(--bg-glow);
+            pointer-events: none;
+            z-index: 0;
+            animation: slowPulse 8s ease-in-out infinite;
+        }
+
+        @keyframes slowPulse {
+            0%, 100% { opacity: 0.6; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.02); }
         }
 
         /* === ЗАГРУЗОЧНЫЙ ЭКРАН === */
@@ -55,124 +86,229 @@
             right: 0;
             bottom: 0;
             background: var(--bg-primary);
-            z-index: 1000;
+            z-index: 2000;
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: opacity 0.5s ease;
+            transition: opacity 0.6s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            backdrop-filter: blur(0px);
         }
 
         .splash-content {
             text-align: center;
-            max-width: 320px;
+            max-width: 340px;
             padding: 20px;
+            position: relative;
+            z-index: 10;
         }
 
-        .splash-logo {
-            width: 90px;
-            height: auto;
+        /* === ЛОГОТИП С ЭФФЕКТОМ === */
+        .splash-logo-wrapper {
+            position: relative;
+            display: inline-block;
             margin-bottom: 28px;
+        }
+        .splash-logo {
+            width: 110px;
+            height: auto;
+            display: block;
+            margin: 0 auto;
             opacity: 0;
-            transform: scale(0.9);
-            transition: all 0.5s cubic-bezier(0.2, 0.9, 0.4, 1.1);
-            filter: drop-shadow(0 0 20px var(--accent-glow));
+            transform: scale(0.85) rotate(-2deg);
+            transition: all 0.7s cubic-bezier(0.2, 0.9, 0.4, 1.2);
+            filter: drop-shadow(0 0 25px var(--accent-glow));
+        }
+        .splash-logo::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 120%;
+            height: 120%;
+            transform: translate(-50%, -50%);
+            background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
+            border-radius: 50%;
+            opacity: 0;
+            transition: opacity 0.6s ease;
+        }
+        .splash-logo-wrapper:hover .splash-logo {
+            filter: drop-shadow(0 0 35px var(--accent));
+            transform: scale(1.02);
         }
 
-        .splash-title {
-            font-size: 20px;
-            font-weight: 600;
-            letter-spacing: 4px;
+        /* === НАЗВАНИЕ БРЕНДА === */
+        .splash-brand {
+            margin-top: 8px;
             opacity: 0;
-            transition: opacity 0.4s ease;
+            transform: translateY(15px);
+            transition: all 0.6s cubic-bezier(0.2, 0.9, 0.4, 1.1) 0.1s;
+        }
+        .brand-name {
+            font-size: 26px;
+            font-weight: 600;
+            letter-spacing: 6px;
+            text-transform: uppercase;
+            background: linear-gradient(135deg, var(--text-primary) 0%, var(--accent) 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
             position: relative;
             display: inline-block;
         }
-
-        .splash-afterdark-badge {
-            display: inline-block;
-            font-size: 9px;
-            font-weight: 400;
-            letter-spacing: 2px;
-            margin-left: 8px;
-            vertical-align: middle;
-            opacity: 0.8;
-        }
-
-        .splash-tagline {
-            margin-top: 32px;
-            opacity: 0;
-            transition: opacity 0.4s ease;
-        }
-        .splash-tagline-primary {
-            font-size: 18px;
-            font-weight: 500;
-            letter-spacing: 0.5px;
-        }
-        .splash-tagline-secondary {
-            font-size: 13px;
-            opacity: 0.6;
-            margin-top: 6px;
-            letter-spacing: 0.3px;
-        }
-
-        .splash-status {
-            margin-top: 48px;
-            font-size: 11px;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            opacity: 0;
-            transition: opacity 0.4s ease;
-        }
-
-        .splash-line {
-            width: 40px;
-            height: 1px;
+        .brand-name::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 2px;
             background: var(--accent);
-            margin: 24px auto 0;
-            opacity: 0;
-            transition: opacity 0.4s ease;
+            transition: width 0.5s ease 0.8s;
         }
 
+        /* === AFTERDARK БЕЙДЖ === */
+        .afterdark-badge {
+            display: inline-block;
+            font-size: 10px;
+            font-weight: 500;
+            letter-spacing: 2.5px;
+            margin-left: 10px;
+            vertical-align: middle;
+            color: var(--accent);
+            background: var(--accent-light);
+            padding: 2px 10px;
+            border-radius: 30px;
+            opacity: 0;
+            transform: scale(0.9);
+            transition: all 0.4s ease 0.3s;
+        }
+
+        /* === СЛОГАН === */
+        .splash-tagline {
+            margin-top: 48px;
+            opacity: 0;
+            transform: translateY(12px);
+            transition: all 0.5s cubic-bezier(0.2, 0.9, 0.4, 1.1) 0.2s;
+        }
+        .tagline-primary {
+            font-size: 20px;
+            font-weight: 500;
+            letter-spacing: 1px;
+            background: linear-gradient(135deg, var(--text-primary) 0%, var(--accent) 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        .tagline-secondary {
+            font-size: 13px;
+            opacity: 0.55;
+            margin-top: 8px;
+            letter-spacing: 0.3px;
+            color: var(--text-secondary);
+        }
+
+        /* === СТАТУС === */
+        .splash-status {
+            margin-top: 52px;
+            font-size: 11px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            font-weight: 500;
+            opacity: 0;
+            transform: translateY(8px);
+            transition: all 0.4s ease 0.3s;
+            color: var(--accent);
+        }
+        .status-line {
+            width: 45px;
+            height: 2px;
+            background: var(--accent);
+            margin: 20px auto 0;
+            opacity: 0;
+            transform: scaleX(0);
+            transition: all 0.5s cubic-bezier(0.2, 0.9, 0.4, 1.1) 0.4s;
+        }
+
+        /* === КОПИРАЙТ === */
         .splash-copyright {
             position: absolute;
-            bottom: 30px;
+            bottom: 35px;
             left: 0;
             right: 0;
             text-align: center;
             font-size: 10px;
-            opacity: 0.4;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 0.5s ease 0.5s;
+            color: var(--text-secondary);
             letter-spacing: 0.5px;
-            transition: opacity 0.4s ease;
         }
         .splash-copyright div:first-child {
             margin-bottom: 4px;
+            font-weight: 500;
+        }
+
+        /* === АКТИВНЫЕ СОСТОЯНИЯ === */
+        .splash-logo.active {
+            opacity: 1;
+            transform: scale(1) rotate(0deg);
+        }
+        .splash-brand.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .splash-brand.active .brand-name::after {
+            width: 60%;
+        }
+        .splash-tagline.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .splash-status.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .status-line.active {
+            opacity: 1;
+            transform: scaleX(1);
+        }
+        .splash-copyright.active {
+            opacity: 0.5;
+            transform: translateY(0);
+        }
+        .afterdark-badge.active {
+            opacity: 1;
+            transform: scale(1);
         }
     </style>
 </head>
 <body>
     <div id="splash" class="splash">
         <div class="splash-content">
-            <!-- Логотип -->
-            <img src="/images/logo.svg" alt="Evseenko Majesty" class="splash-logo" id="splashLogo">
-            
-            <!-- Название + AFTERDARK бейдж -->
-            <div id="splashTitleWrapper" style="opacity: 0; transition: opacity 0.4s ease;">
-                <span class="splash-title">EVSEENKO MAJESTY</span>
-                <span id="afterdarkBadge" class="splash-afterdark-badge" style="display: none;">AFTERDARK</span>
+            <!-- ЛОГОТИП -->
+            <div class="splash-logo-wrapper">
+                <img src="logo.svg" alt="Evseenko Majesty" class="splash-logo" id="splashLogo">
             </div>
             
-            <!-- Слоган (две строки) -->
+            <!-- НАЗВАНИЕ БРЕНДА + AFTERDARK БЕЙДЖ -->
+            <div class="splash-brand" id="splashBrand">
+                <span class="brand-name">EVSEENKO MAJESTY</span>
+                <span id="afterdarkBadge" class="afterdark-badge">AFTERDARK</span>
+            </div>
+            
+            <!-- СЛОГАН (билингва) -->
             <div class="splash-tagline" id="splashTagline">
-                <div class="splash-tagline-primary" id="taglinePrimary"></div>
-                <div class="splash-tagline-secondary" id="taglineSecondary"></div>
+                <div class="tagline-primary" id="taglinePrimary"></div>
+                <div class="tagline-secondary" id="taglineSecondary"></div>
             </div>
             
-            <!-- Статус -->
+            <!-- СТАТУС -->
             <div class="splash-status" id="splashStatus">СИСТЕМА ГОТОВА</div>
-            <div class="splash-line"></div>
+            <div class="status-line" id="statusLine"></div>
         </div>
         
-        <!-- Копирайт -->
+        <!-- КОПИРАЙТ -->
         <div class="splash-copyright" id="splashCopyright">
             <div>© 2026 Evseenko Majesty</div>
             <div id="copyrightLine2">Все права защищены</div>
@@ -190,14 +326,14 @@
             let userLanguage = localStorage.getItem('userLanguage') || 'ru';
             let isAfterdarkActive = false;
             
-            // === ОПРЕДЕЛЕНИЕ AFTERDARK (00:00 - 06:00) ===
+            // === AFTERDARK (00:00 - 06:00) ===
             function isAfterdarkTime() {
                 const now = new Date();
                 const hours = now.getHours();
                 return hours >= 0 && hours < 6;
             }
             
-            // === ОПРЕДЕЛЕНИЕ ТЕМЫ (авто + AFTERDARK) ===
+            // === ОПРЕДЕЛЕНИЕ ТЕМЫ ===
             function getActiveTheme() {
                 if (isAfterdarkTime()) return 'afterdark';
                 const tgTheme = tg.colorScheme;
@@ -222,14 +358,13 @@
                 const secondary = document.getElementById('taglineSecondary');
                 const status = document.getElementById('splashStatus');
                 const copyrightLine2 = document.getElementById('copyrightLine2');
-                const afterdarkBadge = document.getElementById('afterdarkBadge');
+                const badge = document.getElementById('afterdarkBadge');
                 
                 // AFTERDARK бейдж
                 if (isAfterdarkActive) {
-                    afterdarkBadge.style.display = 'inline-block';
-                    afterdarkBadge.textContent = userLanguage === 'ru' ? 'AFTERDARK' : 'AFTERDARK';
+                    badge.style.display = 'inline-block';
                 } else {
-                    afterdarkBadge.style.display = 'none';
+                    badge.style.display = 'none';
                 }
                 
                 // Слоган
@@ -252,7 +387,7 @@
                 copyrightLine2.textContent = userLanguage === 'ru' ? 'Все права защищены' : 'All Rights Reserved';
             }
             
-            // === СЛУШАЕМ ИЗМЕНЕНИЕ ТЕМЫ TELEGRAM ===
+            // === СЛУШАЕМ ИЗМЕНЕНИЕ ТЕМЫ ===
             tg.onEvent('themeChanged', () => {
                 if (!isAfterdarkTime()) {
                     applyTheme();
@@ -260,64 +395,64 @@
                 }
             });
             
-            // === ПРОВЕРКА ВРЕМЕНИ КАЖДУЮ МИНУТУ ===
+            // === ПРОВЕРКА ВРЕМЕНИ ===
             setInterval(() => {
                 const wasAfterdark = isAfterdarkActive;
                 applyTheme();
-                if (wasAfterdark !== isAfterdarkActive || getActiveTheme() !== (document.body.classList.contains('afterdark') ? 'afterdark' : document.body.classList.contains('dark') ? 'dark' : 'light')) {
+                if (wasAfterdark !== isAfterdarkActive) {
                     updateTexts();
                 }
             }, 60000);
             
-            // === АНИМАЦИЯ ЗАГРУЗОЧНОГО ЭКРАНА ===
+            // === АНИМАЦИЯ ЗАГРУЗКИ (премиум) ===
             function startSplash() {
                 applyTheme();
                 updateTexts();
                 
                 const logo = document.getElementById('splashLogo');
-                const titleWrapper = document.getElementById('splashTitleWrapper');
+                const brand = document.getElementById('splashBrand');
                 const tagline = document.getElementById('splashTagline');
                 const status = document.getElementById('splashStatus');
-                const line = document.querySelector('.splash-line');
-                const copyright = document.querySelector('.splash-copyright');
+                const line = document.getElementById('statusLine');
+                const copyright = document.getElementById('splashCopyright');
+                const badge = document.getElementById('afterdarkBadge');
                 
-                // 1. Логотип (0.3с)
+                // 1. Логотип (0.4с)
                 setTimeout(() => {
-                    logo.style.opacity = '1';
-                    logo.style.transform = 'scale(1)';
-                }, 300);
+                    logo.classList.add('active');
+                }, 400);
                 
-                // 2. Название (1.2с)
+                // 2. Название бренда + бейдж (1.4с)
                 setTimeout(() => {
-                    titleWrapper.style.opacity = '1';
-                }, 1200);
+                    brand.classList.add('active');
+                    if (isAfterdarkActive) badge.classList.add('active');
+                }, 1400);
                 
                 // 3. Слоган (2.4с)
                 setTimeout(() => {
-                    tagline.style.opacity = '1';
+                    tagline.classList.add('active');
                 }, 2400);
                 
                 // 4. Статус и линия (3.6с)
                 setTimeout(() => {
-                    status.style.opacity = '1';
-                    line.style.opacity = '1';
+                    status.classList.add('active');
+                    line.classList.add('active');
                 }, 3600);
                 
-                // 5. Копирайт появляется (4.5с)
+                // 5. Копирайт (4.8с)
                 setTimeout(() => {
-                    copyright.style.opacity = '0.4';
-                }, 4500);
+                    copyright.classList.add('active');
+                }, 4800);
                 
-                // 6. Переход на главную (7с)
+                // 6. Переход на главный экран (7с)
                 setTimeout(() => {
                     const splash = document.getElementById('splash');
                     splash.style.opacity = '0';
                     setTimeout(() => {
                         splash.style.display = 'none';
                         // Здесь будет переход на главный экран приложения
-                        console.log('Переход на главный экран');
-                        // Пока оставляем пустым — добавим позже
-                    }, 500);
+                        console.log('✨ Majesty ready — переход на главный экран');
+                    }, 600);
                 }, 7000);
             }
             
