@@ -543,41 +543,27 @@
                 return tgTheme === 'dark' ? 'dark' : 'light';
             }
             
-            // === ПРИМЕНЕНИЕ ТЕМЫ ===
+           // === ПРИМЕНЕНИЕ ТЕМЫ ===
             function applyTheme() {
                 const theme = getActiveTheme();
                 document.body.classList.remove('light', 'afterdark');
-                if (theme === 'afterdark') document.body.classList.add('afterdark');
-                else if (theme === 'light') document.body.classList.add('light');
-            }
-            
-            window.setTheme = (theme) => {
-                if (theme === 'auto') { manualTheme = null; localStorage.removeItem('manualTheme'); }
-                else { manualTheme = theme; localStorage.setItem('manualTheme', theme); }
-                applyTheme();
-                document.querySelectorAll('.theme-opt').forEach(opt => {
-                    opt.classList.remove('active');
-                    if ((theme === 'light' && opt.dataset.theme === 'light') ||
-                        (theme === 'dark' && opt.dataset.theme === 'dark') ||
-                        (theme === 'auto' && opt.dataset.theme === 'auto')) opt.classList.add('active');
-                });
-                if (document.getElementById('systemTheme')) 
+                if (theme === 'afterdark') {
+                    document.body.classList.add('afterdark');
+                    document.documentElement.style.setProperty('--bg-primary', '#03030A');
+                } else if (theme === 'light') {
+                    document.body.classList.add('light');
+                } else {
+                    document.body.classList.remove('light', 'afterdark');
+                }
+                
+                // Обновляем отображение в тестовой панели
+                if (document.getElementById('systemTheme')) {
                     document.getElementById('systemTheme').innerText = manualTheme === 'light' ? 'Светлая' : manualTheme === 'dark' ? 'Тёмная' : 'Авто';
-            };
-            
-            window.setAfterdark = (enabled) => {
-                manualAfterdark = enabled;
-                localStorage.setItem('manualAfterdark', enabled);
-                applyTheme();
-                if (document.getElementById('afterdarkStatus'))
-                    document.getElementById('afterdarkStatus').innerText = enabled ? 'Активен' : 'Неактивен';
-            };
-            
-            window.saveLanguage = (lang) => {
-                userLanguage = lang;
-                localStorage.setItem('userLanguage', lang);
-                location.reload();
-            };
+                }
+                if (document.getElementById('afterdarkStatus')) {
+                    document.getElementById('afterdarkStatus').innerText = manualAfterdark ? 'Активен (ручной)' : (theme === 'afterdark' ? 'Активен (авто)' : 'Неактивен');
+                }
+            }
             
             // === ЗАГРУЗКА ПОЛЬЗОВАТЕЛЯ ===
             async function loadUser() {
@@ -692,8 +678,22 @@
                     }, 400);
                 }, 2600);
             }
-            
+            // === СЛУШАЕМ ИЗМЕНЕНИЕ ТЕМЫ ===
+            tg.onEvent('themeChanged', () => {
+                if (manualTheme === null && !manualAfterdark) {
+                    applyTheme();
+                }
+            });
+
             startSplash();
+            
+            // === СЛУШАЕМ ИЗМЕНЕНИЕ ТЕМЫ В TELEGRAM ===
+            tg.onEvent('themeChanged', () => {
+                console.log('Theme changed by Telegram');
+                if (manualTheme === null && !manualAfterdark) {
+                    applyTheme();
+                }
+            });
         })();
     </script>
 </body>
