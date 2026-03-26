@@ -37,18 +37,7 @@
     --accent-glow: rgba(212, 175, 55, 0.3);
     --accent-light: rgba(212, 175, 55, 0.08);
 }
-body.dark::before {
-    content: '';
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: radial-gradient(circle at 50% 40%, rgba(212, 175, 55, 0.02) 0%, rgba(12, 12, 14, 0.9) 100%);
-    pointer-events: none;
-    z-index: 0;
-    animation: darkBreath 10s ease-in-out infinite;
-}
+
         @keyframes darkBreath {
     0%, 100% {
         background: radial-gradient(circle at 50% 40%, rgba(212, 175, 55, 0.02) 0%, rgba(12, 12, 14, 0.85) 100%);
@@ -72,18 +61,6 @@ body.dark::before {
     --neon-blue: rgba(0, 120, 220, 0.25);
 }
 
-body.afterdark::before {
-    content: '';
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: radial-gradient(circle at 50% 40%, rgba(0, 120, 220, 0.15) 0%, rgba(4, 4, 12, 0.92) 100%);
-    pointer-events: none;
-    z-index: 0;
-    animation: afterdarkBreath 12s ease-in-out infinite;
-}
         
 body.afterdark {
     box-shadow: inset 0 0 80px rgba(0, 80, 160, 0.15);
@@ -120,10 +97,9 @@ body::before {
     left: 0;
     width: 100%;
     height: 100%;
-    background: radial-gradient(circle at 50% 30%, rgba(196, 167, 71, 0.02) 0%, rgba(255, 255, 245, 0.6) 100%);
     pointer-events: none;
     z-index: 0;
-    animation: softBreath 8s ease-in-out infinite;
+    transition: background 0.5s ease;
 }
 
         @keyframes slowPulse {
@@ -364,16 +340,35 @@ body::before {
                 return tgTheme === 'dark' ? 'dark' : 'light';
             }
             
-            function applyTheme() {
-                const theme = getActiveTheme();
-                isAfterdarkActive = (theme === 'afterdark');
-                document.body.classList.remove('dark', 'afterdark');
-                if (theme === 'afterdark') {
-                    document.body.classList.add('afterdark');
-                } else if (theme === 'dark') {
-                    document.body.classList.add('dark');
-                }
-            }
+           function applyTheme() {
+    const theme = getActiveTheme();
+    isAfterdarkActive = (theme === 'afterdark');
+    document.body.classList.remove('dark', 'afterdark');
+    
+    let gradient;
+    
+    if (theme === 'afterdark') {
+        document.body.classList.add('afterdark');
+        gradient = `radial-gradient(circle at 50% 40%, rgba(0, 120, 220, 0.12) 0%, rgba(4, 4, 12, 0.85) 100%)`;
+    } else if (theme === 'dark') {
+        document.body.classList.add('dark');
+        gradient = `radial-gradient(circle at 50% 40%, rgba(212, 175, 55, 0.05) 0%, rgba(12, 12, 14, 0.85) 100%)`;
+    } else {
+        document.body.classList.remove('dark', 'afterdark');
+        gradient = `radial-gradient(circle at 50% 30%, rgba(196, 167, 71, 0.03) 0%, rgba(255, 252, 245, 0.7) 100%)`;
+    }
+    
+    // Применяем градиент к body::before
+    const style = document.createElement('style');
+    style.textContent = `body::before { background: ${gradient}; animation: ${getAnimationName(theme)} 10s ease-in-out infinite; }`;
+    document.head.appendChild(style);
+}
+
+function getAnimationName(theme) {
+    if (theme === 'afterdark') return 'afterdarkBreath';
+    if (theme === 'dark') return 'darkBreath';
+    return 'softBreath';
+}
             
             function updateTexts() {
                 const primary = document.getElementById('taglinePrimary');
