@@ -26,14 +26,44 @@
 }
 
         /* === ТЁМНАЯ ТЕМА === */
-        body.dark {
-            --bg-primary: #050505;
-            --bg-glow: radial-gradient(circle at 50% 30%, rgba(212, 175, 55, 0.12) 0%, transparent 70%);
-            --text-primary: #F5F5F5;
-            --text-secondary: #9E9E9E;
-            --accent: #D4AF37;
-            --accent-glow: rgba(212, 175, 55, 0.35);
-        }
+
+        @keyframes darkBreath {
+    0% {
+        opacity: 0.3;
+        background: radial-gradient(circle at 50% 40%, rgba(212, 175, 55, 0.02) 0%, rgba(10, 10, 12, 0.9) 100%);
+    }
+    50% {
+        opacity: 0.8;
+        background: radial-gradient(circle at 50% 40%, rgba(212, 175, 55, 0.1) 0%, rgba(12, 12, 14, 0.98) 100%);
+    }
+    100% {
+        opacity: 0.3;
+        background: radial-gradient(circle at 50% 40%, rgba(212, 175, 55, 0.02) 0%, rgba(10, 10, 12, 0.9) 100%);
+    }
+}
+
+       body.dark {
+    --bg-primary: #0C0C0E;           /* глубокий графит */
+    --bg-gradient: radial-gradient(circle at 50% 40%, rgba(212, 175, 55, 0.05) 0%, rgba(8, 8, 10, 0.95) 100%);
+    --bg-glow: radial-gradient(circle at 50% 30%, rgba(212, 175, 55, 0.12) 0%, transparent 70%);
+    --text-primary: #F5F5F7;
+    --text-secondary: #9E9EA4;
+    --accent: #D4AF37;
+    --accent-glow: rgba(212, 175, 55, 0.3);
+    --accent-light: rgba(212, 175, 55, 0.08);
+}
+body.dark::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at 50% 40%, rgba(212, 175, 55, 0.02) 0%, rgba(12, 12, 14, 0.9) 100%);
+    pointer-events: none;
+    z-index: 0;
+    animation: darkBreath 10s ease-in-out infinite;
+}
 
         /* === AFTERDARK === */
         body.afterdark {
