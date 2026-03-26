@@ -219,37 +219,46 @@
     </style>
 </head>
 <body>
-    <!-- ЗАГРУЗОЧНЫЙ ЭКРАН -->
-    <div id="splashScreen" style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: var(--bg-primary); z-index: 1000; display: flex; align-items: center; justify-content: center; transition: opacity 0.3s ease;">
-        <div style="text-align: center; max-width: 280px; margin: 0 20px;">
-           
-<!-- Логотип (твой SVG) -->
-<div id="splashLogo" style="opacity: 0; transform: scale(0.9); transition: all 0.4s ease;">
-    <img src="/images/logo.svg" alt="Evseenko Majesty" style="width: 80px; height: auto;">
-</div>
-            
-            <!-- Название -->
-            <div id="splashTitle" style="opacity: 0; margin-top: 20px;">
-                <div style="font-size: 20px; font-weight: 600; letter-spacing: 3px;">EVSEENKO MAJESTY</div>
-                <div id="splashAfterdarkBadge" style="display: none; font-size: 11px; letter-spacing: 2px; margin-top: 6px; color: var(--accent-gold);">AFTERDARK</div>
+
+<!-- ЗАГРУЗОЧНЫЙ ЭКРАН — Majesty Style -->
+    <div id="splashScreen" style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: var(--bg-primary); z-index: 1000; display: flex; align-items: center; justify-content: center; transition: opacity 0.5s cubic-bezier(0.2, 0.9, 0.4, 1.1); overflow: hidden;">
+        
+        <!-- Фоновые эффекты -->
+        <div id="splashBgGlow" style="position: absolute; width: 150%; height: 150%; top: -25%; left: -25%; background: radial-gradient(circle at 50% 50%, var(--glow-color) 0%, transparent 70%); opacity: 0; transition: opacity 1s ease;"></div>
+        <div id="splashParticles" style="position: absolute; width: 100%; height: 100%; pointer-events: none;"></div>
+        
+        <div style="text-align: center; max-width: 320px; margin: 0 20px; position: relative; z-index: 10;">
+            <!-- Логотип с эффектом свечения -->
+            <div id="splashLogo" style="opacity: 0; transform: scale(0.85); transition: all 0.5s cubic-bezier(0.34, 1.2, 0.64, 1);">
+                <img src="/images/logo.svg" alt="Evseenko Majesty" style="width: 100px; height: auto; filter: drop-shadow(0 0 15px var(--glow-color));">
             </div>
             
-            <!-- Слоган (билингвальный) -->
-            <div id="splashTagline" style="opacity: 0; margin-top: 24px;">
-                <div id="taglinePrimary" style="font-size: 16px; font-weight: 500; letter-spacing: 1px;"></div>
-                <div id="taglineSecondary" style="font-size: 12px; opacity: 0.6; margin-top: 4px;"></div>
+            <!-- Название с премиальным интервалом -->
+            <div id="splashTitle" style="opacity: 0; margin-top: 24px; transition: opacity 0.4s ease 0.2s;">
+                <div style="font-size: 22px; font-weight: 600; letter-spacing: 4px; text-transform: uppercase;">EVSEENKO MAJESTY</div>
+                <div id="splashAfterdarkBadge" style="display: none; font-size: 11px; letter-spacing: 3px; margin-top: 8px; font-weight: 400; opacity: 0.8;"></div>
             </div>
             
-            <!-- Статус системы -->
-            <div id="splashStatus" style="opacity: 0; margin-top: 32px; font-size: 12px; letter-spacing: 1px;"></div>
+            <!-- Слоган с билингвальным эффектом -->
+            <div id="splashTagline" style="opacity: 0; margin-top: 32px; transition: opacity 0.4s ease 0.4s;">
+                <div id="taglinePrimary" style="font-size: 18px; font-weight: 500; letter-spacing: 1px; transition: all 0.3s;"></div>
+                <div id="taglineSecondary" style="font-size: 13px; opacity: 0.55; margin-top: 6px; letter-spacing: 0.5px;"></div>
+            </div>
+            
+            <!-- Статус с тонкой линией -->
+            <div id="splashStatusWrapper" style="opacity: 0; margin-top: 48px; transition: opacity 0.4s ease 0.6s;">
+                <div style="width: 40px; height: 1px; background: currentColor; margin: 0 auto 12px auto; opacity: 0.3;"></div>
+                <div id="splashStatus" style="font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase;"></div>
+            </div>
             
             <!-- Копирайт -->
-            <div id="splashCopyright" style="position: absolute; bottom: 30px; left: 0; right: 0; text-align: center; font-size: 10px; opacity: 0.5;">
+            <div id="splashCopyright" style="position: absolute; bottom: -80px; left: 0; right: 0; text-align: center; font-size: 10px; opacity: 0.4; letter-spacing: 0.5px;">
                 <div id="copyrightLine1">© 2026 Evseenko Majesty</div>
                 <div id="copyrightLine2" style="margin-top: 4px;">Все права защищены</div>
             </div>
         </div>
     </div>
+
     <div class="container">
         <!-- ГЛАВНАЯ -->
         <div class="screen active" id="screen-home">
@@ -483,16 +492,22 @@
         let manualTheme = localStorage.getItem('manualTheme') || null;
         let manualAfterdark = localStorage.getItem('manualAfterdark') === 'true';
         
-        // Функция определения активной темы
-        function getActiveTheme() {
-            if (manualAfterdark) return 'afterdark';
-            if (manualTheme === 'light') return 'light';
-            if (manualTheme === 'dark') return 'dark';
-            const hours = new Date().getHours();
-            if (hours >= 0 && hours < 7) return 'afterdark';
-            if (hours >= 22 || hours < 7) return 'afterdark';
-            return 'light';
-        }
+       // Функция определения активной темы (с учётом Telegram)
+    function getActiveTheme() {
+        // 1. Если AFTERDARK включён вручную — приоритет
+        if (manualAfterdark) return 'afterdark';
+        
+        // 2. Если ручная тема установлена — используем её
+        if (manualTheme === 'light') return 'light';
+        if (manualTheme === 'dark') return 'dark';
+        
+        // 3. Авторежим: берём тему из Telegram
+        const tgTheme = window.Telegram.WebApp.colorScheme; // 'light' или 'dark'
+        if (tgTheme === 'dark') return 'dark';
+        
+        return 'light';
+    }
+
         
         // Применение темы к основному приложению
         function applyAppTheme() {
@@ -779,57 +794,115 @@
                 tg.showPopup({ title: '⚠️ Ошибка', message: 'Тест', buttons: [{ type: 'close' }] });
             });
         }
-        
-        // === ЗАГРУЗОЧНЫЙ ЭКРАН ===
-        function applySplashTheme() {
-            const splash = document.getElementById('splashScreen');
-            const theme = getActiveTheme();
-            if (theme === 'afterdark') {
-                splash.style.setProperty('--bg-primary', '#030303');
-                document.getElementById('splashAfterdarkBadge').style.display = 'block';
-            } else if (theme === 'dark') {
-                splash.style.setProperty('--bg-primary', '#000000');
-                document.getElementById('splashAfterdarkBadge').style.display = 'none';
-            } else {
-                splash.style.setProperty('--bg-primary', '#ffffff');
-                document.getElementById('splashAfterdarkBadge').style.display = 'none';
-            }
-            
-            const primary = document.getElementById('taglinePrimary');
-            const secondary = document.getElementById('taglineSecondary');
-            if (userLanguage === 'ru') {
-                primary.textContent = 'Двигайся за пределами';
-                secondary.textContent = 'Drive Beyond Limits';
-            } else {
-                primary.textContent = 'Drive Beyond Limits';
-                secondary.textContent = 'Двигайся за пределами';
-            }
-            
-            const statusEl = document.getElementById('splashStatus');
-            const isAfterdark = getActiveTheme() === 'afterdark';
-            statusEl.textContent = isAfterdark ? (userLanguage === 'ru' ? 'AFTERDARK АКТИВЕН' : 'AFTERDARK ACTIVE') : (userLanguage === 'ru' ? 'Система готова' : 'System Ready');
-            
-            document.getElementById('copyrightLine1').textContent = '© 2026 Evseenko Majesty';
-            document.getElementById('copyrightLine2').textContent = userLanguage === 'ru' ? 'Все права защищены' : 'All Rights Reserved';
-        }
-        
-        function startSplashAnimation() {
-            applySplashTheme();
-            setTimeout(() => { document.getElementById('splashLogo').style.opacity = '1'; document.getElementById('splashLogo').style.transform = 'scale(1)'; }, 300);
-            setTimeout(() => { document.getElementById('splashTitle').style.opacity = '1'; }, 800);
-            setTimeout(() => { document.getElementById('splashTagline').style.opacity = '1'; }, 1300);
-            setTimeout(() => { document.getElementById('splashStatus').style.opacity = '1'; }, 1800);
+        // === ЗАГРУЗОЧНЫЙ ЭКРАН (Majesty Style) ===
+    
+    // Партиклы для эффекта
+    function createParticles() {
+        const container = document.getElementById('splashParticles');
+        if (!container) return;
+        container.innerHTML = '';
+        for (let i = 0; i < 24; i++) {
+            const particle = document.createElement('div');
+            particle.style.position = 'absolute';
+            particle.style.width = '2px';
+            particle.style.height = '2px';
+            particle.style.background = 'var(--accent-gold)';
+            particle.style.borderRadius = '50%';
+            particle.style.opacity = '0';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.top = Math.random() * 100 + '%';
+            particle.style.transition = 'all 3s ease';
+            container.appendChild(particle);
             setTimeout(() => {
-                const splash = document.getElementById('splashScreen');
-                splash.style.opacity = '0';
-                setTimeout(() => { splash.style.display = 'none'; }, 300);
-            }, 2600);
+                particle.style.opacity = '0.15';
+                particle.style.transform = `translate(${(Math.random() - 0.5) * 40}px, ${(Math.random() - 0.5) * 40}px)`;
+            }, i * 100);
+        }
+    }
+    
+    // Применение темы к загрузочному экрану (с эффектами)
+    function applySplashTheme() {
+        const splash = document.getElementById('splashScreen');
+        const glow = document.getElementById('splashBgGlow');
+        const badge = document.getElementById('splashAfterdarkBadge');
+        const theme = getActiveTheme();
+        
+        // Устанавливаем цвета
+        if (theme === 'afterdark') {
+            splash.style.setProperty('--bg-primary', '#030303');
+            splash.style.setProperty('--glow-color', 'rgba(212, 175, 55, 0.25)');
+            badge.style.display = 'block';
+            badge.innerHTML = 'AFTERDARK';
+            badge.style.color = '#d4af37';
+            badge.style.textShadow = '0 0 8px rgba(212, 175, 55, 0.5)';
+        } else if (theme === 'dark') {
+            splash.style.setProperty('--bg-primary', '#000000');
+            splash.style.setProperty('--glow-color', 'rgba(212, 175, 55, 0.15)');
+            badge.style.display = 'none';
+        } else {
+            splash.style.setProperty('--bg-primary', '#ffffff');
+            splash.style.setProperty('--glow-color', 'rgba(196, 167, 71, 0.2)');
+            badge.style.display = 'none';
         }
         
-        startSplashAnimation();
-        setTimeout(() => { applyAppTheme(); }, 2700);
-        loadUser();
-        setTimeout(() => { initDevPanel(); }, 1500);
+        // Обновляем тексты
+        const primary = document.getElementById('taglinePrimary');
+        const secondary = document.getElementById('taglineSecondary');
+        if (userLanguage === 'ru') {
+            primary.textContent = 'Двигайся за пределами';
+            secondary.textContent = 'Drive Beyond Limits';
+        } else {
+            primary.textContent = 'Drive Beyond Limits';
+            secondary.textContent = 'Двигайся за пределами';
+        }
+        
+        const statusEl = document.getElementById('splashStatus');
+        const isAfterdark = getActiveTheme() === 'afterdark';
+        statusEl.textContent = isAfterdark ? (userLanguage === 'ru' ? 'AFTERDARK АКТИВЕН' : 'AFTERDARK ACTIVE') : (userLanguage === 'ru' ? 'СИСТЕМА ГОТОВА' : 'SYSTEM READY');
+        
+        document.getElementById('copyrightLine1').textContent = '© 2026 Evseenko Majesty';
+        document.getElementById('copyrightLine2').textContent = userLanguage === 'ru' ? 'Все права защищены' : 'All Rights Reserved';
+    }
+    
+    // Анимация свечения
+    function animateGlow() {
+        const glow = document.getElementById('splashBgGlow');
+        if (glow) {
+            glow.style.opacity = '1';
+            let intensity = 0.4;
+            const interval = setInterval(() => {
+                intensity = intensity === 0.4 ? 0.7 : 0.4;
+                glow.style.opacity = intensity;
+            }, 3000);
+        }
+    }
+    
+    // Запуск анимации
+    function startSplashAnimation() {
+        applySplashTheme();
+        createParticles();
+        
+        setTimeout(() => { animateGlow(); }, 200);
+        setTimeout(() => {
+            document.getElementById('splashLogo').style.opacity = '1';
+            document.getElementById('splashLogo').style.transform = 'scale(1)';
+        }, 200);
+        setTimeout(() => { document.getElementById('splashTitle').style.opacity = '1'; }, 600);
+        setTimeout(() => { document.getElementById('splashTagline').style.opacity = '1'; }, 1000);
+        setTimeout(() => { document.getElementById('splashStatusWrapper').style.opacity = '1'; }, 1400);
+        setTimeout(() => {
+            const splash = document.getElementById('splashScreen');
+            splash.style.opacity = '0';
+            setTimeout(() => {
+                splash.style.display = 'none';
+                applyAppTheme();
+            }, 500);
+        }, 2800);
+    }
+    
+    startSplashAnimation();
+
+     
     })();
 </script>
 
