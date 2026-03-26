@@ -195,6 +195,27 @@
             padding: 12px 0;
             border-bottom: 0.5px solid var(--border);
         }
+        .dev-btn {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.2s;
+    color: var(--text-primary);
+}
+.dev-btn:hover {
+    background: var(--accent-gold);
+    color: #000;
+    border-color: var(--accent-gold);
+}
+.dev-btn.active {
+    background: var(--accent-gold);
+    color: #000;
+    border-color: var(--accent-gold);
+}
+
     </style>
 </head>
 <body>
@@ -313,6 +334,95 @@
         <button class="nav-item" data-screen="check"><span class="nav-icon">🔍</span><span>Проверка</span></button>
         <button class="nav-item" data-screen="profile"><span class="nav-icon">👤</span><span>Профиль</span></button>
     </div>
+    <!-- ТЕСТОВАЯ ПАНЕЛЬ РАЗРАБОТЧИКА (видна только владельцу) -->
+<div class="card" id="devPanel" style="display: none; border: 1px solid var(--accent-gold);">
+    <div class="card-header">
+        <span class="card-title">🛠️ Тестовая панель</span>
+        <span style="font-size: 10px; background: var(--accent-gold); color: #000; padding: 2px 8px; border-radius: 20px;">DEV</span>
+    </div>
+    
+    <!-- Симуляция времени -->
+    <div class="setting-item">
+        <span>⏰ Симуляция времени</span>
+        <div style="display: flex; gap: 8px;">
+            <button class="dev-btn" data-time="morning">🌅 Утро</button>
+            <button class="dev-btn" data-time="day">☀️ День</button>
+            <button class="dev-btn" data-time="evening">🌙 Вечер</button>
+            <button class="dev-btn" data-time="night">🌚 Ночь</button>
+        </div>
+    </div>
+    
+    <!-- Симуляция темы Telegram -->
+    <div class="setting-item">
+        <span>🎨 Тема Telegram</span>
+        <div style="display: flex; gap: 8px;">
+            <button class="dev-btn" data-theme="light">☀️ Светлая</button>
+            <button class="dev-btn" data-theme="dark">🌙 Тёмная</button>
+            <button class="dev-btn" data-theme="auto">🔄 Авто</button>
+        </div>
+    </div>
+    
+    <!-- Симуляция AFTERDARK -->
+    <div class="setting-item">
+        <span>🌙 AFTERDARK</span>
+        <div style="display: flex; gap: 8px;">
+            <button class="dev-btn" data-afterdark="on">🔮 Включить</button>
+            <button class="dev-btn" data-afterdark="off">✨ Выключить</button>
+            <button class="dev-btn" data-afterdark="auto">⏱️ Авто (22-06)</button>
+        </div>
+    </div>
+    
+    <!-- Симуляция роли -->
+    <div class="setting-item">
+        <span>👤 Симуляция роли</span>
+        <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+            <button class="dev-btn" data-role="client">👤 Клиент</button>
+            <button class="dev-btn" data-role="master">🔧 Мастер</button>
+            <button class="dev-btn" data-role="admin">⚙️ Админ</button>
+            <button class="dev-btn" data-role="owner">👑 Владелец</button>
+            <button class="dev-btn" data-role="reset">🔄 Сброс</button>
+        </div>
+        <div style="font-size: 10px; color: var(--text-secondary); margin-top: 8px;">
+            ⚠️ Только для теста! Реальная роль в базе не меняется
+        </div>
+    </div>
+    
+    <!-- Симуляция данных -->
+    <div class="setting-item">
+        <span>💰 Симуляция баланса</span>
+        <div style="display: flex; gap: 8px;">
+            <button class="dev-btn" data-balance="0">0 ₽</button>
+            <button class="dev-btn" data-balance="1000">1000 ₽</button>
+            <button class="dev-btn" data-balance="5000">5000 ₽</button>
+            <button class="dev-btn" data-balance="10000">10000 ₽</button>
+            <button class="dev-btn" data-balance="reset">🔄 Сброс</button>
+        </div>
+    </div>
+    
+    <!-- Симуляция уведомлений -->
+    <div class="setting-item">
+        <span>🔔 Тест уведомлений</span>
+        <button class="dev-btn" id="testNotificationBtn">📱 Показать тестовое уведомление</button>
+    </div>
+    
+    <!-- Симуляция ошибок -->
+    <div class="setting-item">
+        <span>⚠️ Тест ошибок</span>
+        <button class="dev-btn" id="testErrorBtn">❌ Симулировать ошибку</button>
+    </div>
+    
+    <!-- Информация о системе -->
+    <div class="setting-item">
+        <span>📊 Система</span>
+        <div style="font-size: 12px;">
+            <div>Роль в базе: <span id="realRoleText">—</span></div>
+            <div>Afterdark активен: <span id="afterdarkStatusText">—</span></div>
+            <div>Тема Telegram: <span id="tgThemeText">—</span></div>
+            <div>Время: <span id="currentTimeText">—</span></div>
+        </div>
+    </div>
+</div>
+
 
     <script>
         (function() {
@@ -493,6 +603,191 @@
             
             document.getElementById('closeBtn')?.addEventListener('click', () => tg.close());
             document.getElementById('closeStaffBtn')?.addEventListener('click', () => goToScreen('home'));
+            // === ТЕСТОВАЯ ПАНЕЛЬ (только для владельца) ===
+function initDevPanel() {
+    const devPanel = document.getElementById('devPanel');
+    if (!devPanel) return;
+    
+    // Показываем панель только владельцу
+    if (userRole === 'owner') {
+        devPanel.style.display = 'block';
+    }
+    
+    // Отображаем реальную роль
+    document.getElementById('realRoleText').innerText = userRole;
+    document.getElementById('afterdarkStatusText').innerText = document.body.classList.contains('afterdark') ? 'Да' : 'Нет';
+    document.getElementById('tgThemeText').innerText = currentTheme;
+    
+    // Обновляем время
+    function updateTime() {
+        const now = new Date();
+        document.getElementById('currentTimeText').innerText = now.toLocaleTimeString();
+    }
+    updateTime();
+    setInterval(updateTime, 1000);
+    
+    // === СИМУЛЯЦИЯ ВРЕМЕНИ ===
+    document.querySelectorAll('[data-time]').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const time = btn.dataset.time;
+            let hours;
+            switch(time) {
+                case 'morning': hours = 10; break;
+                case 'day': hours = 14; break;
+                case 'evening': hours = 19; break;
+                case 'night': hours = 23; break;
+                default: return;
+            }
+            // Временно меняем час для теста
+            const mockDate = new Date();
+            mockDate.setHours(hours);
+            tg.showPopup({
+                title: 'Симуляция времени',
+                message: `Время установлено: ${mockDate.toLocaleTimeString()}\nПроверьте AFTERDARK`,
+                buttons: [{ type: 'close' }]
+            });
+            // Принудительно проверяем AFTERDARK
+            const isAfterdark = hours >= 22 || hours < 6;
+            if (isAfterdark) {
+                document.body.classList.add('afterdark');
+                document.getElementById('afterdarkStatusText').innerText = 'Да (тест)';
+            } else {
+                document.body.classList.remove('afterdark');
+                document.getElementById('afterdarkStatusText').innerText = 'Нет (тест)';
+            }
+        });
+    });
+    
+    // === СИМУЛЯЦИЯ ТЕМЫ TELEGRAM ===
+    document.querySelectorAll('[data-theme]').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const theme = btn.dataset.theme;
+            if (theme === 'light') {
+                document.body.classList.remove('dark', 'afterdark');
+                currentTheme = 'light';
+            } else if (theme === 'dark') {
+                document.body.classList.add('dark');
+                document.body.classList.remove('afterdark');
+                currentTheme = 'dark';
+            } else if (theme === 'auto') {
+                currentTheme = 'auto';
+                applyTheme();
+            }
+            document.getElementById('tgThemeText').innerText = theme;
+            tg.showPopup({
+                title: 'Тема изменена',
+                message: `Тема: ${theme === 'light' ? 'Светлая' : theme === 'dark' ? 'Тёмная' : 'Авто'}`,
+                buttons: [{ type: 'close' }]
+            });
+        });
+    });
+    
+    // === СИМУЛЯЦИЯ AFTERDARK ===
+    document.querySelectorAll('[data-afterdark]').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const mode = btn.dataset.afterdark;
+            if (mode === 'on') {
+                document.body.classList.add('afterdark');
+                document.getElementById('afterdarkStatusText').innerText = 'Включён (тест)';
+            } else if (mode === 'off') {
+                document.body.classList.remove('afterdark');
+                document.getElementById('afterdarkStatusText').innerText = 'Выключен (тест)';
+            } else if (mode === 'auto') {
+                checkAfterdark();
+                document.getElementById('afterdarkStatusText').innerText = document.body.classList.contains('afterdark') ? 'Да (авто)' : 'Нет (авто)';
+            }
+        });
+    });
+    
+    // === СИМУЛЯЦИЯ РОЛИ ===
+    document.querySelectorAll('[data-role]').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const role = btn.dataset.role;
+            if (role === 'reset') {
+                userRole = currentUser?.role || 'client';
+            } else {
+                userRole = role;
+            }
+            
+            // Обновляем отображение
+            document.getElementById('profileRole').innerText = getRoleName(userRole);
+            
+            // Перестраиваем навигацию
+            const bottomNav = document.getElementById('bottomNav');
+            const existingStaffBtn = document.querySelector('.nav-item[data-screen="staff"]');
+            const staffRoles = ['master', 'admin', 'owner'];
+            
+            if (staffRoles.includes(userRole)) {
+                if (!existingStaffBtn) {
+                    const staffNavBtn = document.createElement('button');
+                    staffNavBtn.className = 'nav-item';
+                    staffNavBtn.setAttribute('data-screen', 'staff');
+                    staffNavBtn.innerHTML = '<span class="nav-icon">🔐</span><span>Панель</span>';
+                    bottomNav.appendChild(staffNavBtn);
+                    staffNavBtn.addEventListener('click', () => goToScreen('staff'));
+                }
+                if (userRole === 'admin' || userRole === 'owner') {
+                    document.getElementById('staffWorkersCard').style.display = 'block';
+                }
+            } else {
+                if (existingStaffBtn) existingStaffBtn.remove();
+                document.getElementById('staffWorkersCard').style.display = 'none';
+            }
+            
+            tg.showPopup({
+                title: 'Роль изменена (тест)',
+                message: `Текущая роль: ${getRoleName(userRole)}\nРеальная роль в базе: ${getRoleName(currentUser?.role)}`,
+                buttons: [{ type: 'close' }]
+            });
+        });
+    });
+    
+    // === СИМУЛЯЦИЯ БАЛАНСА ===
+    document.querySelectorAll('[data-balance]').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const balance = btn.dataset.balance;
+            let newBalance = 0;
+            if (balance === 'reset') {
+                newBalance = currentUser?.balance || 0;
+            } else {
+                newBalance = parseInt(balance);
+            }
+            document.getElementById('balance').innerText = newBalance;
+            tg.showPopup({
+                title: 'Баланс изменён (тест)',
+                message: `Новый баланс: ${newBalance} ₽\nРеальный баланс в базе: ${currentUser?.balance} ₽`,
+                buttons: [{ type: 'close' }]
+            });
+        });
+    });
+    
+    // === ТЕСТ УВЕДОМЛЕНИЙ ===
+    document.getElementById('testNotificationBtn')?.addEventListener('click', () => {
+        tg.showPopup({
+            title: '🔔 Тестовое уведомление',
+            message: 'Это тестовое уведомление из панели разработчика!\n\nЗдесь будут появляться уведомления о заказах, акциях и статусах.',
+            buttons: [
+                { type: 'default', text: 'Понятно' },
+                { type: 'close' }
+            ]
+        });
+    });
+    
+    // === ТЕСТ ОШИБОК ===
+    document.getElementById('testErrorBtn')?.addEventListener('click', () => {
+        tg.showPopup({
+            title: '⚠️ Тест ошибки',
+            message: 'Это тестовое сообщение об ошибке.\n\nВ реальной работе здесь будет информация о проблеме и варианты решения.',
+            buttons: [
+                { type: 'default', text: 'Понятно' },
+                { type: 'close' }
+            ]
+        });
+    });
+}
+
+// Вызываем после загрузки пользователя
+setTimeout(() => initDevPanel(), 1000);
             
             applyTheme();
             loadUser();
