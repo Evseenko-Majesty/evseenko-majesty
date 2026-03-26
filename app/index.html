@@ -1,430 +1,167 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Evseenko Majesty</title>
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Evseenko Majesty</title>
 
 <style>
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-    }
-
-    :root {
-        --bg-primary: #FEFCF5;
-        --text-primary: #1C1C1E;
-        --text-secondary: #6C6C70;
-        --accent: #C4A747;
-        --accent-glow: rgba(196, 167, 71, 0.25);
-    }
-
-    body.dark {
-        --bg-primary: #0C0C0E;
-        --text-primary: #F5F5F7;
-        --text-secondary: #9E9EA4;
-        --accent: #D4AF37;
-        --accent-glow: rgba(212, 175, 55, 0.3);
-    }
-
-    body.afterdark {
-        --bg-primary: #04040C;
-        --text-primary: #F0F0FC;
-        --text-secondary: #A8A8C0;
-        --accent: #E5C158;
-        --accent-glow: rgba(229, 193, 88, 0.35);
-    }
-
     body {
-        font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-        background: var(--bg-primary);
-        color: var(--text-primary);
-        min-height: 100vh;
-        transition: background 0.3s ease;
-        position: relative;
-    }
-
-    /* === ЕДИНЫЙ ПСЕВДОЭЛЕМЕНТ ДЛЯ ВСЕХ ТЕМ === */
-    body::before {
-        content: '';
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        pointer-events: none;
-        z-index: 0;
-        transition: background 0.5s ease;
-    }
-
-    /* СВЕТЛАЯ ТЕМА */
-    body:not(.dark):not(.afterdark)::before {
-        background: radial-gradient(circle at 50% 30%, rgba(196, 167, 71, 0.04) 0%, rgba(255, 252, 245, 0.7) 100%);
-        animation: softBreath 8s ease-in-out infinite;
-    }
-
-    /* ТЁМНАЯ ТЕМА */
-    body.dark::before {
-        background: radial-gradient(circle at 50% 40%, rgba(212, 175, 55, 0.06) 0%, rgba(12, 12, 14, 0.85) 100%);
-        animation: darkBreath 10s ease-in-out infinite;
-    }
-
-    /* AFTERDARK */
-    body.afterdark::before {
-        background: radial-gradient(circle at 50% 40%, rgba(0, 120, 220, 0.12) 0%, rgba(4, 4, 12, 0.85) 100%);
-        animation: afterdarkBreath 12s ease-in-out infinite;
-    }
-
-    @keyframes softBreath {
-        0%, 100% { opacity: 0.5; }
-        50% { opacity: 0.9; }
-    }
-
-    @keyframes darkBreath {
-        0%, 100% { opacity: 0.4; }
-        50% { opacity: 0.8; }
-    }
-
-    @keyframes afterdarkBreath {
-        0%, 100% { opacity: 0.4; }
-        50% { opacity: 0.9; }
-    }
-
-    /* === ОСТАЛЬНЫЕ СТИЛИ (СПЛЭШ ЭКРАН) === */
-    .splash {
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: var(--bg-primary);
-        z-index: 2000;
+        margin: 0;
+        font-family: -apple-system, BlinkMacSystemFont, sans-serif;
         display: flex;
         align-items: center;
         justify-content: center;
-        transition: opacity 0.6s ease;
+        height: 100vh;
+        overflow: hidden;
+        transition: background 0.5s, color 0.5s;
     }
 
-    .splash-content {
+    .container {
         text-align: center;
-        max-width: 340px;
-        padding: 20px;
-        position: relative;
-        z-index: 10;
-    }
-
-    .splash-logo-emoji {
-        font-size: 100px;
-        display: block;
-        margin: 0 auto;
-        text-align: center;
-        opacity: 0;
-        transform: scale(0.85) rotate(-5deg);
-        transition: all 0.7s cubic-bezier(0.2, 0.9, 0.4, 1.2);
-        filter: drop-shadow(0 0 20px var(--accent-glow));
-        line-height: 1;
-    }
-
-    .splash-logo-emoji.active {
-        opacity: 1;
-        transform: scale(1) rotate(0deg);
-    }
-
-    .splash-brand {
-        margin-top: 8px;
-        opacity: 0;
-        transform: translateY(15px);
-        transition: all 0.6s ease 0.1s;
-    }
-
-    .splash-brand.active {
-        opacity: 1;
-        transform: translateY(0);
-    }
-
-    .brand-name {
-        font-size: 26px;
-        font-weight: 600;
-        letter-spacing: 6px;
-        text-transform: uppercase;
-        background: linear-gradient(135deg, var(--text-primary) 0%, var(--accent) 100%);
-        -webkit-background-clip: text;
-        background-clip: text;
-        color: transparent;
-    }
-
-    .afterdark-badge {
-        display: inline-block;
-        font-size: 10px;
-        font-weight: 500;
-        letter-spacing: 2.5px;
-        margin-left: 10px;
-        vertical-align: middle;
-        color: var(--accent);
-        background: var(--accent-glow);
-        padding: 2px 10px;
-        border-radius: 30px;
-        opacity: 0;
-        transform: scale(0.9);
-        transition: all 0.4s ease 0.3s;
-    }
-
-    .afterdark-badge.active {
-        opacity: 1;
-        transform: scale(1);
-    }
-
-    .splash-tagline {
-        margin-top: 48px;
-        opacity: 0;
-        transform: translateY(12px);
-        transition: all 0.5s ease 0.2s;
-    }
-
-    .splash-tagline.active {
-        opacity: 1;
-        transform: translateY(0);
-    }
-
-    .tagline-primary {
-        font-size: 20px;
-        font-weight: 500;
-        letter-spacing: 1px;
-        background: linear-gradient(135deg, var(--text-primary) 0%, var(--accent) 100%);
-        -webkit-background-clip: text;
-        background-clip: text;
-        color: transparent;
-    }
-
-    .tagline-secondary {
-        font-size: 13px;
-        opacity: 0.55;
-        margin-top: 8px;
-        letter-spacing: 0.3px;
-        color: var(--text-secondary);
-    }
-
-    .splash-status {
-        margin-top: 52px;
-        font-size: 11px;
-        letter-spacing: 3px;
-        text-transform: uppercase;
-        font-weight: 500;
-        opacity: 0;
-        transform: translateY(8px);
-        transition: all 0.4s ease 0.3s;
-        color: var(--accent);
-    }
-
-    .splash-status.active {
-        opacity: 1;
-        transform: translateY(0);
-    }
-
-    .status-line {
-        width: 45px;
-        height: 2px;
-        background: var(--accent);
-        margin: 20px auto 0;
-        opacity: 0;
-        transform: scaleX(0);
-        transition: all 0.5s ease 0.4s;
-    }
-
-    .status-line.active {
-        opacity: 1;
-        transform: scaleX(1);
-    }
-
-    .splash-copyright {
-        position: absolute;
-        bottom: 35px;
-        left: 0;
-        right: 0;
-        text-align: center;
-        font-size: 10px;
         opacity: 0;
         transform: translateY(10px);
-        transition: all 0.5s ease 0.5s;
-        color: var(--text-secondary);
+        animation: fadeIn 1s ease forwards;
     }
 
-    .splash-copyright.active {
+    .logo {
+        font-size: 28px;
+        letter-spacing: 6px;
+        margin-bottom: 12px;
+    }
+
+    .afterdark {
+        font-size: 10px;
+        letter-spacing: 4px;
+        margin-bottom: 20px;
+        opacity: 0.7;
+    }
+
+    .slogan-main {
+        font-size: 16px;
+        margin-bottom: 4px;
+    }
+
+    .slogan-sub {
+        font-size: 13px;
+        opacity: 0.6;
+        margin-bottom: 20px;
+    }
+
+    .status {
+        display: inline-block;
+        padding: 6px 14px;
+        border-radius: 20px;
+        backdrop-filter: blur(10px);
+        font-size: 12px;
+        opacity: 0.8;
+    }
+
+    .footer {
+        position: absolute;
+        bottom: 20px;
+        font-size: 11px;
+        opacity: 0.4;
+    }
+
+    .bottom-left {
+        position: absolute;
+        bottom: 20px;
+        left: 20px;
+        font-size: 10px;
+        opacity: 0.3;
+    }
+
+    .bottom-right {
+        position: absolute;
+        bottom: 20px;
+        right: 20px;
+        font-size: 10px;
         opacity: 0.5;
-        transform: translateY(0);
+    }
+
+    @keyframes fadeIn {
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
     }
 </style>
 </head>
+
 <body>
-    <div id="splash" class="splash">
-        <div class="splash-content">
-            
-            <!-- логотип -->
-          <div class="splash-logo-wrapper">
-    <div class="splash-logo-emoji" id="splashLogo">👑</div>
+
+<div class="container">
+    <div class="logo">EVSEENKO MAJESTY</div>
+    <div id="afterdarkLabel" class="afterdark"></div>
+
+    <div id="sloganMain" class="slogan-main"></div>
+    <div id="sloganSub" class="slogan-sub"></div>
+
+    <div id="status" class="status"></div>
 </div>
 
+<div id="systemLabel" class="bottom-left">MAJESTY SYSTEM</div>
+<div id="modeLabel" class="bottom-right"></div>
+<div id="footer" class="footer"></div>
 
-            <!-- НАЗВАНИЕ БРЕНДА -->
-            <div class="splash-brand" id="splashBrand">
-                <span class="brand-name">EVSEENKO MAJESTY</span>
-                <span id="afterdarkBadge" class="afterdark-badge">AFTERDARK</span>
-            </div>
-            
-            <!-- СЛОГАН -->
-            <div class="splash-tagline" id="splashTagline">
-                <div class="tagline-primary" id="taglinePrimary"></div>
-                <div class="tagline-secondary" id="taglineSecondary"></div>
-            </div>
-            
-            <!-- СТАТУС -->
-            <div class="splash-status" id="splashStatus">СИСТЕМА ГОТОВА</div>
-            <div class="status-line" id="statusLine"></div>
-        </div>
-        
-        <!-- КОПИРАЙТ -->
-        <div class="splash-copyright" id="splashCopyright">
-            <div>© 2026 Evseenko Majesty</div>
-            <div id="copyrightLine2">Все права защищены</div>
-        </div>
-    </div>
+<script>
+    const hour = new Date().getHours();
 
-    <script>
-        (function() {
-            const tg = window.Telegram.WebApp;
-            tg.expand();
-            tg.ready();
-            
-            let userLanguage = localStorage.getItem('userLanguage') || 'ru';
-            let isAfterdarkActive = false;
-            
-            function isAfterdarkTime() {
-                const now = new Date();
-                const hours = now.getHours();
-                return hours >= 0 && hours < 6;
-            }
-            
-            function getActiveTheme() {
-                if (isAfterdarkTime()) return 'afterdark';
-                const tgTheme = tg.colorScheme;
-                return tgTheme === 'dark' ? 'dark' : 'light';
-            }
-            
-           function applyTheme() {
-    const theme = getActiveTheme();
-    isAfterdarkActive = (theme === 'afterdark');
-    document.body.classList.remove('dark', 'afterdark');
-    
-    let gradient;
-    
-    if (theme === 'afterdark') {
-        document.body.classList.add('afterdark');
-        gradient = `radial-gradient(circle at 50% 40%, rgba(0, 120, 220, 0.12) 0%, rgba(4, 4, 12, 0.85) 100%)`;
-    } else if (theme === 'dark') {
-        document.body.classList.add('dark');
-        gradient = `radial-gradient(circle at 50% 40%, rgba(212, 175, 55, 0.05) 0%, rgba(12, 12, 14, 0.85) 100%)`;
+    let mode = "DAY";
+    if (hour >= 19) mode = "NIGHT";
+    if (hour >= 0 && hour < 6) mode = "AFTERDARK";
+
+    const lang = navigator.language.startsWith('ru') ? 'ru' : 'en';
+
+    const body = document.body;
+    const afterdarkLabel = document.getElementById("afterdarkLabel");
+    const sloganMain = document.getElementById("sloganMain");
+    const sloganSub = document.getElementById("sloganSub");
+    const status = document.getElementById("status");
+    const footer = document.getElementById("footer");
+    const modeLabel = document.getElementById("modeLabel");
+
+    // THEMES
+    if (mode === "DAY") {
+        body.style.background = "#F4F6F8";
+        body.style.color = "#111";
     } else {
-        document.body.classList.remove('dark', 'afterdark');
-        gradient = `radial-gradient(circle at 50% 30%, rgba(196, 167, 71, 0.03) 0%, rgba(255, 252, 245, 0.7) 100%)`;
+        body.style.background = "#0B0B0C";
+        body.style.color = "#fff";
     }
-    
-    // Применяем градиент к body::before
-    const style = document.createElement('style');
-    style.textContent = `body::before { background: ${gradient}; animation: ${getAnimationName(theme)} 10s ease-in-out infinite; }`;
-    document.head.appendChild(style);
-}
 
-function getAnimationName(theme) {
-    if (theme === 'afterdark') return 'afterdarkBreath';
-    if (theme === 'dark') return 'darkBreath';
-    return 'softBreath';
-}
-            
-            function updateTexts() {
-                const primary = document.getElementById('taglinePrimary');
-                const secondary = document.getElementById('taglineSecondary');
-                const status = document.getElementById('splashStatus');
-                const copyrightLine2 = document.getElementById('copyrightLine2');
-                const badge = document.getElementById('afterdarkBadge');
-                
-                if (isAfterdarkActive) {
-                    badge.style.display = 'inline-block';
-                } else {
-                    badge.style.display = 'none';
-                }
-                
-                if (userLanguage === 'ru') {
-                    primary.textContent = 'Двигайся за пределами';
-                    secondary.textContent = 'Drive Beyond Limits';
-                } else {
-                    primary.textContent = 'Drive Beyond Limits';
-                    secondary.textContent = 'Двигайся за пределами';
-                }
-                
-                if (isAfterdarkActive) {
-                    status.textContent = userLanguage === 'ru' ? 'AFTERDARK АКТИВЕН' : 'AFTERDARK ACTIVE';
-                } else {
-                    status.textContent = userLanguage === 'ru' ? 'СИСТЕМА ГОТОВА' : 'SYSTEM READY';
-                }
-                
-                copyrightLine2.textContent = userLanguage === 'ru' ? 'Все права защищены' : 'All Rights Reserved';
-            }
-            
-            tg.onEvent('themeChanged', () => {
-                if (!isAfterdarkTime()) {
-                    applyTheme();
-                    updateTexts();
-                }
-            });
-            
-            setInterval(() => {
-                const wasAfterdark = isAfterdarkActive;
-                applyTheme();
-                if (wasAfterdark !== isAfterdarkActive) {
-                    updateTexts();
-                }
-            }, 60000);
-            
-            function startSplash() {
-                applyTheme();
-                updateTexts();
-                // Принудительно применяем градиент сразу
-const style = document.createElement('style');
-style.textContent = `body::before { background: radial-gradient(circle at 50% 30%, rgba(196, 167, 71, 0.05) 0%, rgba(255, 252, 245, 0.7) 100%); animation: softBreath 8s ease-in-out infinite; }`;
-document.head.appendChild(style);
-                const logo = document.getElementById('splashLogo');
-                const brand = document.getElementById('splashBrand');
-                const tagline = document.getElementById('splashTagline');
-                const status = document.getElementById('splashStatus');
-                const line = document.getElementById('statusLine');
-                const copyright = document.getElementById('splashCopyright');
-                const badge = document.getElementById('afterdarkBadge');
-                
-                setTimeout(() => { logo.classList.add('active'); }, 400);
-                setTimeout(() => { 
-                    brand.classList.add('active'); 
-                    if (isAfterdarkActive) badge.classList.add('active');
-                }, 1400);
-                setTimeout(() => { tagline.classList.add('active'); }, 2400);
-                setTimeout(() => { 
-                    status.classList.add('active'); 
-                    line.classList.add('active'); 
-                }, 3600);
-                setTimeout(() => { copyright.classList.add('active'); }, 4800);
-                setTimeout(() => {
-                    const splash = document.getElementById('splash');
-                    splash.style.opacity = '0';
-                    setTimeout(() => {
-                        splash.style.display = 'none';
-                        console.log('✨ Majesty ready');
-                    }, 600);
-                }, 7000);
-            }
-            
-            startSplash();
-        })();
-    </script>
+    if (mode === "AFTERDARK") {
+        afterdarkLabel.textContent = "AFTERDARK";
+        afterdarkLabel.style.color = "#ccc";
+    }
+
+    // LANGUAGE
+    if (lang === "ru") {
+        sloganMain.textContent = "Двигайся за пределами";
+        sloganSub.textContent = "Drive Beyond Limits";
+
+        status.textContent = mode === "AFTERDARK" ? "AFTERDARK АКТИВЕН" : "Система готова";
+
+        footer.textContent = "Evseenko Majesty © 2026 — Все права защищены";
+    } else {
+        sloganMain.textContent = "Drive Beyond Limits";
+        sloganSub.textContent = "Двигайся за пределами";
+
+        status.textContent = mode === "AFTERDARK" ? "AFTERDARK ACTIVE" : "System Ready";
+
+        footer.textContent = "Evseenko Majesty © 2026 — All Rights Reserved";
+    }
+
+    // MODE LABEL
+    modeLabel.textContent = mode === "AFTERDARK" ? "AFTERDARK" : "ONLINE";
+
+    // AUTO REDIRECT (пример)
+    setTimeout(() => {
+        console.log("Go to main app...");
+    }, 2600);
+
+</script>
+
 </body>
 </html>
