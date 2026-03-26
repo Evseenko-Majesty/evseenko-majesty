@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -24,9 +25,10 @@
             --accent-gold: #c4a747;
             --border: #e5e5ea;
             --radius: 20px;
+            --glow-color: rgba(196, 167, 71, 0.3);
         }
 
-        body.dark, body.afterdark {
+        body.dark {
             --bg-primary: #000000;
             --bg-secondary: #0c0c0e;
             --bg-card: #141418;
@@ -35,6 +37,19 @@
             --accent: #ffffff;
             --accent-gold: #d4af37;
             --border: #2c2c30;
+            --glow-color: rgba(212, 175, 55, 0.25);
+        }
+
+        body.afterdark {
+            --bg-primary: #030303;
+            --bg-secondary: #0a0a0c;
+            --bg-card: #111114;
+            --text-primary: #f0f0f0;
+            --text-secondary: #9e9ea4;
+            --accent: #d4af37;
+            --accent-gold: #e5c158;
+            --border: #252528;
+            --glow-color: rgba(212, 175, 55, 0.4);
         }
 
         body {
@@ -196,70 +211,50 @@
             border-bottom: 0.5px solid var(--border);
         }
         .dev-btn {
-    background: var(--bg-secondary);
-    border: 1px solid var(--border);
-    padding: 6px 12px;
-    border-radius: 20px;
-    font-size: 12px;
-    cursor: pointer;
-    transition: all 0.2s;
-    color: var(--text-primary);
-}
-.dev-btn:hover {
-    background: var(--accent-gold);
-    color: #000;
-    border-color: var(--accent-gold);
-}
-.dev-btn.active {
-    background: var(--accent-gold);
-    color: #000;
-    border-color: var(--accent-gold);
-}
-
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: var(--text-primary);
+        }
+        .dev-btn:hover {
+            background: var(--accent-gold);
+            color: #000;
+            border-color: var(--accent-gold);
+        }
     </style>
 </head>
 <body>
-
-<!-- ЗАГРУЗОЧНЫЙ ЭКРАН — Majesty Style -->
-    <div id="splashScreen" style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: var(--bg-primary); z-index: 1000; display: flex; align-items: center; justify-content: center; transition: opacity 0.5s cubic-bezier(0.2, 0.9, 0.4, 1.1); overflow: hidden;">
-        
-        <!-- Фоновые эффекты -->
-        <div id="splashBgGlow" style="position: absolute; width: 150%; height: 150%; top: -25%; left: -25%; background: radial-gradient(circle at 50% 50%, var(--glow-color) 0%, transparent 70%); opacity: 0; transition: opacity 1s ease;"></div>
-        <div id="splashParticles" style="position: absolute; width: 100%; height: 100%; pointer-events: none;"></div>
-        
+    <!-- ЗАГРУЗОЧНЫЙ ЭКРАН -->
+    <div id="splashScreen" style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: var(--bg-primary); z-index: 1000; display: flex; align-items: center; justify-content: center; transition: opacity 0.5s ease; overflow: hidden;">
+        <div id="splashBgGlow" style="position: absolute; width: 100%; height: 100%; background: radial-gradient(circle at 50% 50%, var(--glow-color) 0%, transparent 70%); opacity: 0; transition: opacity 1s ease;"></div>
         <div style="text-align: center; max-width: 320px; margin: 0 20px; position: relative; z-index: 10;">
-            <!-- Логотип с эффектом свечения -->
-            <div id="splashLogo" style="opacity: 0; transform: scale(0.85); transition: all 0.5s cubic-bezier(0.34, 1.2, 0.64, 1);">
-                <img src="/images/logo.svg" alt="Evseenko Majesty" style="width: 100px; height: auto; filter: drop-shadow(0 0 15px var(--glow-color));">
+            <div id="splashLogo" style="opacity: 0; transform: scale(0.9); transition: all 0.5s ease;">
+                <img src="/images/logo.svg" alt="Evseenko Majesty" style="width: 90px; height: auto; filter: drop-shadow(0 0 15px var(--accent-gold));">
             </div>
-            
-            <!-- Название с премиальным интервалом -->
-            <div id="splashTitle" style="opacity: 0; margin-top: 24px; transition: opacity 0.4s ease 0.2s;">
-                <div style="font-size: 22px; font-weight: 600; letter-spacing: 4px; text-transform: uppercase;">EVSEENKO MAJESTY</div>
-                <div id="splashAfterdarkBadge" style="display: none; font-size: 11px; letter-spacing: 3px; margin-top: 8px; font-weight: 400; opacity: 0.8;"></div>
+            <div id="splashTitle" style="opacity: 0; margin-top: 24px;">
+                <div style="font-size: 20px; font-weight: 600; letter-spacing: 3px;">EVSEENKO MAJESTY</div>
+                <div id="splashAfterdarkBadge" style="display: none; font-size: 11px; letter-spacing: 2px; margin-top: 6px; color: var(--accent-gold);"></div>
             </div>
-            
-            <!-- Слоган с билингвальным эффектом -->
-            <div id="splashTagline" style="opacity: 0; margin-top: 32px; transition: opacity 0.4s ease 0.4s;">
-                <div id="taglinePrimary" style="font-size: 18px; font-weight: 500; letter-spacing: 1px; transition: all 0.3s;"></div>
-                <div id="taglineSecondary" style="font-size: 13px; opacity: 0.55; margin-top: 6px; letter-spacing: 0.5px;"></div>
+            <div id="splashTagline" style="opacity: 0; margin-top: 28px;">
+                <div id="taglinePrimary" style="font-size: 16px; font-weight: 500;"></div>
+                <div id="taglineSecondary" style="font-size: 12px; opacity: 0.6; margin-top: 4px;"></div>
             </div>
-            
-            <!-- Статус с тонкой линией -->
-            <div id="splashStatusWrapper" style="opacity: 0; margin-top: 48px; transition: opacity 0.4s ease 0.6s;">
-                <div style="width: 40px; height: 1px; background: currentColor; margin: 0 auto 12px auto; opacity: 0.3;"></div>
-                <div id="splashStatus" style="font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase;"></div>
+            <div id="splashStatusWrapper" style="opacity: 0; margin-top: 40px;">
+                <div style="width: 40px; height: 1px; background: var(--accent-gold); margin: 0 auto 12px auto; opacity: 0.5;"></div>
+                <div id="splashStatus" style="font-size: 11px; letter-spacing: 1px;"></div>
             </div>
-            
-            <!-- Копирайт -->
-            <div id="splashCopyright" style="position: absolute; bottom: -80px; left: 0; right: 0; text-align: center; font-size: 10px; opacity: 0.4; letter-spacing: 0.5px;">
-                <div id="copyrightLine1">© 2026 Evseenko Majesty</div>
-                <div id="copyrightLine2" style="margin-top: 4px;">Все права защищены</div>
+            <div id="splashCopyright" style="position: absolute; bottom: -60px; left: 0; right: 0; text-align: center; font-size: 10px; opacity: 0.5;">
+                <div>© 2026 Evseenko Majesty</div>
+                <div id="splashCopyrightLine2" style="margin-top: 4px;">Все права защищены</div>
             </div>
         </div>
     </div>
 
-    <div class="container">
+    <div class="container" style="display: none;" id="mainApp">
         <!-- ГЛАВНАЯ -->
         <div class="screen active" id="screen-home">
             <div class="card" style="text-align: center;">
@@ -267,7 +262,6 @@
                 <div style="font-size: 24px; font-weight: 600;">Evseenko Majesty</div>
                 <div style="font-size: 13px; color: var(--text-secondary); margin-top: 4px;">From street passion to true mastery</div>
             </div>
-
             <div class="card">
                 <div class="balance-row">
                     <div class="balance-block">
@@ -281,7 +275,6 @@
                 </div>
                 <button class="btn btn-outline" id="topupBtn">+ Пополнить</button>
             </div>
-
             <div class="card">
                 <div class="coming-soon">
                     <div class="coming-icon">✨</div>
@@ -357,11 +350,52 @@
                 <div class="setting-item">
                     <span>Тема</span>
                     <div style="display: flex; gap: 8px;">
-                        <span class="theme-option" data-theme="light">Светлая</span>
-                        <span class="theme-option" data-theme="dark">Тёмная</span>
-                        <span class="theme-option" data-theme="auto">Авто</span>
+                        <span class="dev-btn theme-option" data-theme="light">☀️ Светлая</span>
+                        <span class="dev-btn theme-option" data-theme="dark">🌙 Тёмная</span>
+                        <span class="dev-btn theme-option" data-theme="auto">🔄 Авто</span>
                     </div>
                 </div>
+                <div class="setting-item">
+                    <span>🌐 Язык</span>
+                    <div style="display: flex; gap: 8px;">
+                        <span class="dev-btn" onclick="saveLanguage('ru')">🇷🇺 Русский</span>
+                        <span class="dev-btn" onclick="saveLanguage('en')">🇬🇧 English</span>
+                    </div>
+                </div>
+                <div class="setting-item">
+                    <span>🌙 AFTERDARK (VIP)</span>
+                    <div style="display: flex; gap: 8px;">
+                        <span class="dev-btn" onclick="setManualAfterdark(true)">🔮 Включить</span>
+                        <span class="dev-btn" onclick="setManualAfterdark(false)">✨ Выключить</span>
+                    </div>
+                </div>
+            </div>
+            <div id="devPanel" class="card" style="display: none; border: 1px solid var(--accent-gold);">
+                <div class="card-header">
+                    <span class="card-title">🛠️ Тестовая панель</span>
+                    <span style="font-size: 10px; background: var(--accent-gold); color: #000; padding: 2px 8px; border-radius: 20px;">DEV</span>
+                </div>
+                <div class="setting-item"><span>👤 Роль</span><div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                    <span class="dev-btn" data-role="client">👤 Клиент</span>
+                    <span class="dev-btn" data-role="master">🔧 Мастер</span>
+                    <span class="dev-btn" data-role="admin">⚙️ Админ</span>
+                    <span class="dev-btn" data-role="owner">👑 Владелец</span>
+                    <span class="dev-btn" data-role="reset">🔄 Сброс</span>
+                </div></div>
+                <div class="setting-item"><span>💰 Баланс</span><div style="display: flex; gap: 8px;">
+                    <span class="dev-btn" data-balance="0">0 ₽</span>
+                    <span class="dev-btn" data-balance="1000">1000 ₽</span>
+                    <span class="dev-btn" data-balance="5000">5000 ₽</span>
+                    <span class="dev-btn" data-balance="reset">Сброс</span>
+                </div></div>
+                <div class="setting-item"><span>⏰ Время</span><div style="display: flex; gap: 8px;">
+                    <span class="dev-btn" data-time="morning">🌅 Утро</span>
+                    <span class="dev-btn" data-time="day">☀️ День</span>
+                    <span class="dev-btn" data-time="evening">🌙 Вечер</span>
+                    <span class="dev-btn" data-time="night">🌚 Ночь</span>
+                </div></div>
+                <div class="setting-item"><span>🔔 Уведомления</span><button class="dev-btn" id="testNotificationBtn">Тест</button></div>
+                <div class="setting-item"><span>📊 Система</span><div id="systemInfo" style="font-size: 12px;">Роль: <span id="realRoleText">—</span><br>Afterdark: <span id="afterdarkStatusText">—</span><br>Тема: <span id="tgThemeText">—</span><br>Время: <span id="currentTimeText">—</span></div></div>
             </div>
             <button class="btn btn-secondary" id="closeBtn">✖️ Закрыть</button>
         </div>
@@ -374,537 +408,213 @@
         <button class="nav-item" data-screen="check"><span class="nav-icon">🔍</span><span>Проверка</span></button>
         <button class="nav-item" data-screen="profile"><span class="nav-icon">👤</span><span>Профиль</span></button>
     </div>
-    <!-- ТЕСТОВАЯ ПАНЕЛЬ РАЗРАБОТЧИКА (видна только владельцу) -->
-<div class="card" id="devPanel" style="display: none; border: 1px solid var(--accent-gold);">
-    <div class="card-header">
-        <span class="card-title">🛠️ Тестовая панель</span>
-        <span style="font-size: 10px; background: var(--accent-gold); color: #000; padding: 2px 8px; border-radius: 20px;">DEV</span>
-    </div>
-    
-    <!-- Симуляция времени -->
-    <div class="setting-item">
-        <span>⏰ Симуляция времени</span>
-        <div style="display: flex; gap: 8px;">
-            <button class="dev-btn" data-time="morning">🌅 Утро</button>
-            <button class="dev-btn" data-time="day">☀️ День</button>
-            <button class="dev-btn" data-time="evening">🌙 Вечер</button>
-            <button class="dev-btn" data-time="night">🌚 Ночь</button>
-        </div>
-    </div>
-    
-    <!-- Симуляция темы Telegram -->
-    <div class="setting-item">
-        <span>🎨 Тема Telegram</span>
-        <div style="display: flex; gap: 8px;">
-            <button class="dev-btn" data-theme="light">☀️ Светлая</button>
-            <button class="dev-btn" data-theme="dark">🌙 Тёмная</button>
-            <button class="dev-btn" data-theme="auto">🔄 Авто</button>
-        </div>
-    </div>
-    
-    <!-- Симуляция роли -->
-    <div class="setting-item">
-        <span>👤 Симуляция роли</span>
-        <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-            <button class="dev-btn" data-role="client">👤 Клиент</button>
-            <button class="dev-btn" data-role="master">🔧 Мастер</button>
-            <button class="dev-btn" data-role="admin">⚙️ Админ</button>
-            <button class="dev-btn" data-role="owner">👑 Владелец</button>
-            <button class="dev-btn" data-role="reset">🔄 Сброс</button>
-        </div>
-        <div style="font-size: 10px; color: var(--text-secondary); margin-top: 8px;">
-            ⚠️ Только для теста! Реальная роль в базе не меняется
-        </div>
-    </div>
-    
-    <!-- Симуляция данных -->
-    <div class="setting-item">
-        <span>💰 Симуляция баланса</span>
-        <div style="display: flex; gap: 8px;">
-            <button class="dev-btn" data-balance="0">0 ₽</button>
-            <button class="dev-btn" data-balance="1000">1000 ₽</button>
-            <button class="dev-btn" data-balance="5000">5000 ₽</button>
-            <button class="dev-btn" data-balance="10000">10000 ₽</button>
-            <button class="dev-btn" data-balance="reset">🔄 Сброс</button>
-        </div>
-    </div>
-    
-    <!-- Симуляция уведомлений -->
-    <div class="setting-item">
-        <span>🔔 Тест уведомлений</span>
-        <button class="dev-btn" id="testNotificationBtn">📱 Показать тестовое уведомление</button>
-    </div>
-    
-    <!-- Симуляция ошибок -->
-    <div class="setting-item">
-        <span>⚠️ Тест ошибок</span>
-        <button class="dev-btn" id="testErrorBtn">❌ Симулировать ошибку</button>
-    </div>
-    
-    <!-- Информация о системе -->
-    <div class="setting-item">
-        <span>📊 Система</span>
-        <div style="font-size: 12px;">
-            <div>Роль в базе: <span id="realRoleText">—</span></div>
-            <div>Afterdark активен: <span id="afterdarkStatusText">—</span></div>
-            <div>Тема Telegram: <span id="tgThemeText">—</span></div>
-            <div>Время: <span id="currentTimeText">—</span></div>
-        </div>
-    </div>
-</div>
-<!-- Настройки языка -->
-<div class="setting-item">
-    <span>🌐 Язык</span>
-    <div style="display: flex; gap: 8px;">
-        <button class="dev-btn" onclick="saveLanguage('ru')">🇷🇺 Русский</button>
-        <button class="dev-btn" onclick="saveLanguage('en')">🇬🇧 English</button>
-    </div>
-</div>
-
-<!-- Настройки темы (сохраняется) -->
-<div class="setting-item">
-    <span>🎨 Тема</span>
-    <div style="display: flex; gap: 8px;">
-        <button class="dev-btn" onclick="setManualTheme('light')">☀️ Светлая</button>
-        <button class="dev-btn" onclick="setManualTheme('dark')">🌙 Тёмная</button>
-        <button class="dev-btn" onclick="setManualTheme('auto')">🔄 Авто</button>
-    </div>
-</div>
 
     <script>
         (function() {
             // === НАСТРОЙКИ SUPABASE ===
-            const SUPABASE_URL = 'https://dgqlbvajznobyitubazo.supabase.co';
-            const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRncWxidmFqem5vYnlpdHViYXpvIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3Mzg1MjcyMSwiZXhwIjoyMDg5NDI4NzIxfQ.iTNnvDhM7cZ5W5oWpTMVNLfbAAtZKZAq_mjhzqSAzUc';
+            const SUPABASE_URL = 'https://dgqlbvaiznobytitubazo.supabase.co';
+            const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsImV4cCI6MTY0NTM2NzUyNQ';
+            const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
             
-              const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-        
-        const tg = window.Telegram.WebApp;
-        tg.expand();
-        tg.ready();
-        const user = tg.initDataUnsafe?.user;
-        
-        let currentUser = null;
-        let userRole = 'client';
-        
-        // === НАСТРОЙКИ ТЕМЫ (сохраняются) ===
-        let userLanguage = localStorage.getItem('userLanguage') || 'ru';
-        let manualTheme = localStorage.getItem('manualTheme') || null;
-        let manualAfterdark = localStorage.getItem('manualAfterdark') === 'true';
-        
-       // Функция определения активной темы (с учётом Telegram)
-    function getActiveTheme() {
-        // 1. Если AFTERDARK включён вручную — приоритет
-        if (manualAfterdark) return 'afterdark';
-        
-        // 2. Если ручная тема установлена — используем её
-        if (manualTheme === 'light') return 'light';
-        if (manualTheme === 'dark') return 'dark';
-        
-        // 3. Авторежим: берём тему из Telegram
-        const tgTheme = window.Telegram.WebApp.colorScheme; // 'light' или 'dark'
-        if (tgTheme === 'dark') return 'dark';
-        
-        return 'light';
-    }
-
-        
-        // Применение темы к основному приложению
-        function applyAppTheme() {
-            const theme = getActiveTheme();
-            if (theme === 'afterdark') {
-                document.body.classList.add('afterdark');
-                document.body.classList.remove('dark');
-            } else if (theme === 'dark') {
-                document.body.classList.add('dark');
-                document.body.classList.remove('afterdark');
-            } else {
+            const tg = window.Telegram.WebApp;
+            tg.expand();
+            tg.ready();
+            const user = tg.initDataUnsafe?.user;
+            
+            let currentUser = null;
+            let userRole = 'client';
+            
+            // === НАСТРОЙКИ ===
+            let userLanguage = localStorage.getItem('userLanguage') || 'ru';
+            let manualTheme = localStorage.getItem('manualTheme') || null;
+            let manualAfterdark = localStorage.getItem('manualAfterdark') === 'true';
+            
+            // === ОПРЕДЕЛЕНИЕ ТЕМЫ ===
+            function getActiveTheme() {
+                if (manualAfterdark) return 'afterdark';
+                if (manualTheme === 'light') return 'light';
+                if (manualTheme === 'dark') return 'dark';
+                const tgTheme = tg.colorScheme;
+                return tgTheme === 'dark' ? 'dark' : 'light';
+            }
+            
+            // === ПРИМЕНЕНИЕ ТЕМЫ ===
+            function applyAppTheme() {
+                const theme = getActiveTheme();
                 document.body.classList.remove('dark', 'afterdark');
-            }
-        }
-        
-        // Сохранение ручной темы
-        window.setManualTheme = (theme) => {
-            if (theme === 'auto') {
-                manualTheme = null;
-                localStorage.removeItem('manualTheme');
-            } else {
-                manualTheme = theme;
-                localStorage.setItem('manualTheme', theme);
-            }
-            applyAppTheme();
-            document.querySelectorAll('.theme-option').forEach(opt => {
-                opt.classList.remove('active');
-                if ((theme === 'light' && opt.dataset.theme === 'light') ||
-                    (theme === 'dark' && opt.dataset.theme === 'dark') ||
-                    (theme === 'auto' && opt.dataset.theme === 'auto')) {
-                    opt.classList.add('active');
-                }
-            });
-        };
-        
-        // Сохранение AFTERDARK
-        window.setManualAfterdark = (enabled) => {
-            manualAfterdark = enabled;
-            localStorage.setItem('manualAfterdark', enabled);
-            applyAppTheme();
-            const afterdarkBtns = document.querySelectorAll('[data-afterdark]');
-            afterdarkBtns.forEach(btn => {
-                btn.classList.remove('active');
-                if ((enabled && btn.dataset.afterdark === 'on') ||
-                    (!enabled && btn.dataset.afterdark === 'off')) {
-                    btn.classList.add('active');
-                }
-            });
-        };
-        
-        // Сохранение языка
-        window.saveLanguage = (lang) => {
-            userLanguage = lang;
-            localStorage.setItem('userLanguage', lang);
-        };
-        
-        // === ЗАГРУЗКА ПОЛЬЗОВАТЕЛЯ ===
-        async function loadUser() {
-            if (!user) return;
-            
-            const { data, error } = await supabase
-                .from('majesty_users')
-                .select('*')
-                .eq('telegram_id', user.id)
-                .single();
-            
-            if (error && error.code !== 'PGRST116') {
-                console.error('Ошибка загрузки:', error);
+                if (theme === 'afterdark') document.body.classList.add('afterdark');
+                else if (theme === 'dark') document.body.classList.add('dark');
             }
             
-            if (data) {
-                currentUser = data;
-            } else {
-                const { data: newUser, error: insertError } = await supabase
-                    .from('majesty_users')
-                    .insert({
-                        telegram_id: user.id,
-                        first_name: user.first_name,
-                        role: 'client',
-                        balance: 0,
-                        bonus_points: 0
-                    })
-                    .select()
-                    .single();
-                
-                if (insertError) {
-                    console.error('Ошибка создания:', insertError);
-                    return;
-                }
-                currentUser = newUser;
-            }
-            
-            userRole = currentUser?.role || 'client';
-            
-            document.getElementById('balance').innerText = currentUser?.balance || 0;
-            document.getElementById('bonus').innerText = currentUser?.bonus_points || 0;
-            document.getElementById('profileName').innerText = user?.first_name || 'Друг';
-            document.getElementById('profileRole').innerText = getRoleName(userRole);
-            
-            const level = getLevel(currentUser?.bonus_points || 0);
-            document.getElementById('profileLevel').innerHTML = level;
-            
-            // Автоматическое добавление панели для сотрудников
-            const staffRoles = ['master', 'admin', 'owner'];
-            const bottomNav = document.getElementById('bottomNav');
-            
-            if (staffRoles.includes(userRole)) {
-                const existingStaffBtn = document.querySelector('.nav-item[data-screen="staff"]');
-                if (!existingStaffBtn) {
-                    const staffNavBtn = document.createElement('button');
-                    staffNavBtn.className = 'nav-item';
-                    staffNavBtn.setAttribute('data-screen', 'staff');
-                    staffNavBtn.innerHTML = '<span class="nav-icon">🔐</span><span>Панель</span>';
-                    bottomNav.appendChild(staffNavBtn);
-                    staffNavBtn.addEventListener('click', () => goToScreen('staff'));
-                }
-                loadStaffData();
-                if (userRole === 'admin' || userRole === 'owner') {
-                    document.getElementById('staffWorkersCard').style.display = 'block';
-                }
-            }
-        }
-        
-        function getRoleName(role) {
-            const roles = {
-                client: 'Клиент',
-                master: 'Мастер',
-                admin: 'Администратор',
-                owner: 'Владелец'
-            };
-            return roles[role] || role;
-        }
-        
-        function getLevel(points) {
-            if (points >= 5000) return '👑 Majesty Elite';
-            if (points >= 1000) return '⭐ Премиум';
-            if (points >= 100) return '🌟 Активный';
-            return '✨ Стандарт';
-        }
-        
-        function loadStaffData() {
-            document.getElementById('staffOrdersCount').innerText = '24';
-            document.getElementById('staffRevenue').innerText = '127 500 ₽';
-            document.getElementById('staffWorkers').innerText = '4';
-            document.getElementById('staffClients').innerText = '58';
-            
-            document.getElementById('staffOrdersList').innerHTML = `
-                <div class="order-item">BMW X5 · Диагностика — <span style="color: var(--accent-gold);">В работе</span></div>
-                <div class="order-item">Audi A6 · Замена масла — <span style="color: #ffa500;">Ожидает</span></div>
-            `;
-            
-            document.getElementById('staffWorkersList').innerHTML = `
-                <div class="worker-item"><span>Антон (Мастер)</span><span style="color: var(--accent-gold);">+32 000 ₽</span></div>
-                <div class="worker-item"><span>Михаил (Мастер)</span><span style="color: var(--accent-gold);">+28 500 ₽</span></div>
-            `;
-        }
-        
-        function goToScreen(screenId) {
-            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-            const target = document.getElementById(`screen-${screenId}`);
-            if (target) target.classList.add('active');
-            
-            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-            const activeNav = document.querySelector(`.nav-item[data-screen="${screenId}"]`);
-            if (activeNav) activeNav.classList.add('active');
-        }
-        
-        document.querySelectorAll('.nav-item').forEach(btn => {
-            btn.addEventListener('click', () => goToScreen(btn.dataset.screen));
-        });
-        
-        document.getElementById('topupBtn')?.addEventListener('click', () => {
-            tg.showPopup({ title: 'Пополнение', message: 'Скоро появится', buttons: [{ type: 'close' }] });
-        });
-        
-        document.getElementById('closeBtn')?.addEventListener('click', () => tg.close());
-        document.getElementById('closeStaffBtn')?.addEventListener('click', () => goToScreen('home'));
-        
-        // === ТЕСТОВАЯ ПАНЕЛЬ ===
-        function initDevPanel() {
-            const devPanel = document.getElementById('devPanel');
-            if (!devPanel) return;
-            
-            if (userRole === 'owner') {
-                devPanel.style.display = 'block';
-            }
-            
-            document.getElementById('realRoleText').innerText = userRole;
-            document.getElementById('afterdarkStatusText').innerText = document.body.classList.contains('afterdark') ? 'Да' : 'Нет';
-            document.getElementById('tgThemeText').innerText = manualTheme === 'light' ? 'Светлая' : manualTheme === 'dark' ? 'Тёмная' : 'Авто';
-            
-            function updateTime() {
-                document.getElementById('currentTimeText').innerText = new Date().toLocaleTimeString();
-            }
-            updateTime();
-            setInterval(updateTime, 1000);
-            
-            document.querySelectorAll('[data-time]').forEach(btn => {
-                btn.addEventListener('click', () => {
-                    const hours = { morning: 10, day: 14, evening: 19, night: 23 }[btn.dataset.time];
-                    if (hours) {
-                        tg.showPopup({
-                            title: 'Симуляция времени',
-                            message: `Время: ${hours}:00`,
-                            buttons: [{ type: 'close' }]
-                        });
-                        const isAfterdark = hours >= 22 || hours < 6;
-                        if (isAfterdark) {
-                            document.body.classList.add('afterdark');
-                            document.getElementById('afterdarkStatusText').innerText = 'Да (тест)';
-                        } else {
-                            document.body.classList.remove('afterdark');
-                            document.getElementById('afterdarkStatusText').innerText = 'Нет (тест)';
-                        }
-                    }
-                });
-            });
-            
-            document.querySelectorAll('[data-theme]').forEach(btn => {
-                btn.addEventListener('click', () => {
-                    const theme = btn.dataset.theme;
-                    if (theme === 'light') setManualTheme('light');
-                    else if (theme === 'dark') setManualTheme('dark');
-                    else if (theme === 'auto') setManualTheme('auto');
-                    document.getElementById('tgThemeText').innerText = theme === 'light' ? 'Светлая' : theme === 'dark' ? 'Тёмная' : 'Авто';
-                });
-            });
-            
-            document.querySelectorAll('[data-afterdark]').forEach(btn => {
-                btn.addEventListener('click', () => {
-                    if (btn.dataset.afterdark === 'on') setManualAfterdark(true);
-                    else if (btn.dataset.afterdark === 'off') setManualAfterdark(false);
-                    else if (btn.dataset.afterdark === 'auto') {
-                        setManualAfterdark(false);
-                        setManualTheme('auto');
-                    }
-                    document.getElementById('afterdarkStatusText').innerText = manualAfterdark ? 'Да (ручной)' : (document.body.classList.contains('afterdark') ? 'Да (авто)' : 'Нет');
-                });
-            });
-            
-            document.querySelectorAll('[data-role]').forEach(btn => {
-                btn.addEventListener('click', () => {
-                    const role = btn.dataset.role;
-                    if (role === 'reset') userRole = currentUser?.role || 'client';
-                    else userRole = role;
-                    document.getElementById('profileRole').innerText = getRoleName(userRole);
-                    
-                    const bottomNav = document.getElementById('bottomNav');
-                    const existingStaffBtn = document.querySelector('.nav-item[data-screen="staff"]');
-                    const staffRoles = ['master', 'admin', 'owner'];
-                    
-                    if (staffRoles.includes(userRole)) {
-                        if (!existingStaffBtn) {
-                            const staffNavBtn = document.createElement('button');
-                            staffNavBtn.className = 'nav-item';
-                            staffNavBtn.setAttribute('data-screen', 'staff');
-                            staffNavBtn.innerHTML = '<span class="nav-icon">🔐</span><span>Панель</span>';
-                            bottomNav.appendChild(staffNavBtn);
-                            staffNavBtn.addEventListener('click', () => goToScreen('staff'));
-                        }
-                        if (userRole === 'admin' || userRole === 'owner') {
-                            document.getElementById('staffWorkersCard').style.display = 'block';
-                        }
-                    } else {
-                        if (existingStaffBtn) existingStaffBtn.remove();
-                        document.getElementById('staffWorkersCard').style.display = 'none';
-                    }
-                });
-            });
-            
-            document.querySelectorAll('[data-balance]').forEach(btn => {
-                btn.addEventListener('click', () => {
-                    const balance = btn.dataset.balance;
-                    let newBalance = balance === 'reset' ? (currentUser?.balance || 0) : parseInt(balance);
-                    document.getElementById('balance').innerText = newBalance;
-                });
-            });
-            
-            document.getElementById('testNotificationBtn')?.addEventListener('click', () => {
-                tg.showPopup({ title: '🔔 Уведомление', message: 'Тест', buttons: [{ type: 'close' }] });
-            });
-            
-            document.getElementById('testErrorBtn')?.addEventListener('click', () => {
-                tg.showPopup({ title: '⚠️ Ошибка', message: 'Тест', buttons: [{ type: 'close' }] });
-            });
-        }
-        // === ЗАГРУЗОЧНЫЙ ЭКРАН (Majesty Style) ===
-    
-    // Партиклы для эффекта
-    function createParticles() {
-        const container = document.getElementById('splashParticles');
-        if (!container) return;
-        container.innerHTML = '';
-        for (let i = 0; i < 24; i++) {
-            const particle = document.createElement('div');
-            particle.style.position = 'absolute';
-            particle.style.width = '2px';
-            particle.style.height = '2px';
-            particle.style.background = 'var(--accent-gold)';
-            particle.style.borderRadius = '50%';
-            particle.style.opacity = '0';
-            particle.style.left = Math.random() * 100 + '%';
-            particle.style.top = Math.random() * 100 + '%';
-            particle.style.transition = 'all 3s ease';
-            container.appendChild(particle);
-            setTimeout(() => {
-                particle.style.opacity = '0.15';
-                particle.style.transform = `translate(${(Math.random() - 0.5) * 40}px, ${(Math.random() - 0.5) * 40}px)`;
-            }, i * 100);
-        }
-    }
-    
-    // Применение темы к загрузочному экрану (с эффектами)
-    function applySplashTheme() {
-        const splash = document.getElementById('splashScreen');
-        const glow = document.getElementById('splashBgGlow');
-        const badge = document.getElementById('splashAfterdarkBadge');
-        const theme = getActiveTheme();
-        
-        // Устанавливаем цвета
-        if (theme === 'afterdark') {
-            splash.style.setProperty('--bg-primary', '#030303');
-            splash.style.setProperty('--glow-color', 'rgba(212, 175, 55, 0.25)');
-            badge.style.display = 'block';
-            badge.innerHTML = 'AFTERDARK';
-            badge.style.color = '#d4af37';
-            badge.style.textShadow = '0 0 8px rgba(212, 175, 55, 0.5)';
-        } else if (theme === 'dark') {
-            splash.style.setProperty('--bg-primary', '#000000');
-            splash.style.setProperty('--glow-color', 'rgba(212, 175, 55, 0.15)');
-            badge.style.display = 'none';
-        } else {
-            splash.style.setProperty('--bg-primary', '#ffffff');
-            splash.style.setProperty('--glow-color', 'rgba(196, 167, 71, 0.2)');
-            badge.style.display = 'none';
-        }
-        
-        // Обновляем тексты
-        const primary = document.getElementById('taglinePrimary');
-        const secondary = document.getElementById('taglineSecondary');
-        if (userLanguage === 'ru') {
-            primary.textContent = 'Двигайся за пределами';
-            secondary.textContent = 'Drive Beyond Limits';
-        } else {
-            primary.textContent = 'Drive Beyond Limits';
-            secondary.textContent = 'Двигайся за пределами';
-        }
-        
-        const statusEl = document.getElementById('splashStatus');
-        const isAfterdark = getActiveTheme() === 'afterdark';
-        statusEl.textContent = isAfterdark ? (userLanguage === 'ru' ? 'AFTERDARK АКТИВЕН' : 'AFTERDARK ACTIVE') : (userLanguage === 'ru' ? 'СИСТЕМА ГОТОВА' : 'SYSTEM READY');
-        
-        document.getElementById('copyrightLine1').textContent = '© 2026 Evseenko Majesty';
-        document.getElementById('copyrightLine2').textContent = userLanguage === 'ru' ? 'Все права защищены' : 'All Rights Reserved';
-    }
-    
-    // Анимация свечения
-    function animateGlow() {
-        const glow = document.getElementById('splashBgGlow');
-        if (glow) {
-            glow.style.opacity = '1';
-            let intensity = 0.4;
-            const interval = setInterval(() => {
-                intensity = intensity === 0.4 ? 0.7 : 0.4;
-                glow.style.opacity = intensity;
-            }, 3000);
-        }
-    }
-    
-    // Запуск анимации
-    function startSplashAnimation() {
-        applySplashTheme();
-        createParticles();
-        
-        setTimeout(() => { animateGlow(); }, 200);
-        setTimeout(() => {
-            document.getElementById('splashLogo').style.opacity = '1';
-            document.getElementById('splashLogo').style.transform = 'scale(1)';
-        }, 200);
-        setTimeout(() => { document.getElementById('splashTitle').style.opacity = '1'; }, 600);
-        setTimeout(() => { document.getElementById('splashTagline').style.opacity = '1'; }, 1000);
-        setTimeout(() => { document.getElementById('splashStatusWrapper').style.opacity = '1'; }, 1400);
-        setTimeout(() => {
-            const splash = document.getElementById('splashScreen');
-            splash.style.opacity = '0';
-            setTimeout(() => {
-                splash.style.display = 'none';
+            window.setManualTheme = (theme) => {
+                if (theme === 'auto') { manualTheme = null; localStorage.removeItem('manualTheme'); }
+                else { manualTheme = theme; localStorage.setItem('manualTheme', theme); }
                 applyAppTheme();
-            }, 500);
-        }, 2800);
-    }
-    
-    startSplashAnimation();
-
-     
-    })();
-</script>
-
+                document.querySelectorAll('.theme-option').forEach(opt => {
+                    opt.classList.remove('active');
+                    if ((theme === 'light' && opt.dataset.theme === 'light') ||
+                        (theme === 'dark' && opt.dataset.theme === 'dark') ||
+                        (theme === 'auto' && opt.dataset.theme === 'auto')) opt.classList.add('active');
+                });
+                if (document.getElementById('tgThemeText')) 
+                    document.getElementById('tgThemeText').innerText = manualTheme === 'light' ? 'Светлая' : manualTheme === 'dark' ? 'Тёмная' : 'Авто';
+            };
+            
+            window.setManualAfterdark = (enabled) => {
+                manualAfterdark = enabled;
+                localStorage.setItem('manualAfterdark', enabled);
+                applyAppTheme();
+                if (document.getElementById('afterdarkStatusText'))
+                    document.getElementById('afterdarkStatusText').innerText = enabled ? 'Да (ручной)' : 'Нет';
+            };
+            
+            window.saveLanguage = (lang) => {
+                userLanguage = lang;
+                localStorage.setItem('userLanguage', lang);
+                location.reload();
+            };
+            
+            // === ЗАГРУЗКА ПОЛЬЗОВАТЕЛЯ ===
+            async function loadUser() {
+                if (!user) return;
+                const { data } = await supabase.from('majesty_users').select('*').eq('telegram_id', user.id).single();
+                if (data) currentUser = data;
+                else {
+                    const { data: newUser } = await supabase.from('majesty_users').insert({
+                        telegram_id: user.id, first_name: user.first_name, role: 'client', balance: 0, bonus_points: 0
+                    }).select().single();
+                    currentUser = newUser;
+                }
+                userRole = currentUser?.role || 'client';
+                document.getElementById('balance').innerText = currentUser?.balance || 0;
+                document.getElementById('bonus').innerText = currentUser?.bonus_points || 0;
+                document.getElementById('profileName').innerText = user?.first_name || 'Друг';
+                document.getElementById('profileRole').innerText = userRole === 'client' ? 'Клиент' : userRole === 'master' ? 'Мастер' : userRole === 'admin' ? 'Администратор' : 'Владелец';
+                const level = (currentUser?.bonus_points >= 5000) ? '👑 Majesty Elite' : (currentUser?.bonus_points >= 1000) ? '⭐ Премиум' : (currentUser?.bonus_points >= 100) ? '🌟 Активный' : '✨ Стандарт';
+                document.getElementById('profileLevel').innerHTML = level;
+                
+                // Кнопка панели для сотрудников
+                if (['master', 'admin', 'owner'].includes(userRole)) {
+                    const bottomNav = document.getElementById('bottomNav');
+                    if (!document.querySelector('.nav-item[data-screen="staff"]')) {
+                        const btn = document.createElement('button');
+                        btn.className = 'nav-item';
+                        btn.setAttribute('data-screen', 'staff');
+                        btn.innerHTML = '<span class="nav-icon">🔐</span><span>Панель</span>';
+                        btn.onclick = () => goToScreen('staff');
+                        bottomNav.appendChild(btn);
+                    }
+                    document.getElementById('staffOrdersCount').innerText = '24';
+                    document.getElementById('staffRevenue').innerText = '127 500 ₽';
+                    document.getElementById('staffWorkers').innerText = '4';
+                    document.getElementById('staffClients').innerText = '58';
+                    document.getElementById('staffOrdersList').innerHTML = '<div class="order-item">BMW X5 · Диагностика — <span style="color: var(--accent-gold);">В работе</span></div>';
+                    document.getElementById('staffWorkersList').innerHTML = '<div class="worker-item"><span>Антон (Мастер)</span><span style="color: var(--accent-gold);">+32 000 ₽</span></div>';
+                    if (userRole === 'admin' || userRole === 'owner') document.getElementById('staffWorkersCard').style.display = 'block';
+                }
+            }
+            
+            function goToScreen(screenId) {
+                document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+                document.getElementById(`screen-${screenId}`)?.classList.add('active');
+                document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+                document.querySelector(`.nav-item[data-screen="${screenId}"]`)?.classList.add('active');
+            }
+            
+            document.querySelectorAll('.nav-item').forEach(btn => btn.addEventListener('click', () => goToScreen(btn.dataset.screen)));
+            document.getElementById('topupBtn')?.addEventListener('click', () => tg.showPopup({ title: 'Пополнение', message: 'Скоро появится', buttons: [{ type: 'close' }] }));
+            document.getElementById('closeBtn')?.addEventListener('click', () => tg.close());
+            document.getElementById('closeStaffBtn')?.addEventListener('click', () => goToScreen('home'));
+            
+            // === ЗАГРУЗОЧНЫЙ ЭКРАН ===
+            function applySplashTheme() {
+                const splash = document.getElementById('splashScreen');
+                const theme = getActiveTheme();
+                const gold = theme === 'afterdark' ? '#e5c158' : '#c4a747';
+                if (theme === 'afterdark') {
+                    splash.style.background = '#030303';
+                    document.getElementById('splashAfterdarkBadge').style.display = 'block';
+                    document.getElementById('splashAfterdarkBadge').innerHTML = 'AFTERDARK';
+                } else if (theme === 'dark') {
+                    splash.style.background = '#000000';
+                    document.getElementById('splashAfterdarkBadge').style.display = 'none';
+                } else {
+                    splash.style.background = '#ffffff';
+                    document.getElementById('splashAfterdarkBadge').style.display = 'none';
+                }
+                const primary = document.getElementById('taglinePrimary');
+                const secondary = document.getElementById('taglineSecondary');
+                if (userLanguage === 'ru') {
+                    primary.textContent = 'Двигайся за пределами';
+                    secondary.textContent = 'Drive Beyond Limits';
+                } else {
+                    primary.textContent = 'Drive Beyond Limits';
+                    secondary.textContent = 'Двигайся за пределами';
+                }
+                const statusEl = document.getElementById('splashStatus');
+                const isAfterdark = getActiveTheme() === 'afterdark';
+                statusEl.textContent = isAfterdark ? (userLanguage === 'ru' ? 'AFTERDARK АКТИВЕН' : 'AFTERDARK ACTIVE') : (userLanguage === 'ru' ? 'СИСТЕМА ГОТОВА' : 'SYSTEM READY');
+                document.getElementById('splashCopyrightLine2').textContent = userLanguage === 'ru' ? 'Все права защищены' : 'All Rights Reserved';
+            }
+            
+            function startSplash() {
+                applySplashTheme();
+                setTimeout(() => { document.getElementById('splashLogo').style.opacity = '1'; document.getElementById('splashLogo').style.transform = 'scale(1)'; }, 200);
+                setTimeout(() => { document.getElementById('splashTitle').style.opacity = '1'; }, 600);
+                setTimeout(() => { document.getElementById('splashTagline').style.opacity = '1'; }, 1000);
+                setTimeout(() => { document.getElementById('splashStatusWrapper').style.opacity = '1'; }, 1400);
+                setTimeout(() => {
+                    const splash = document.getElementById('splashScreen');
+                    splash.style.opacity = '0';
+                    setTimeout(() => {
+                        splash.style.display = 'none';
+                        document.getElementById('mainApp').style.display = 'block';
+                        applyAppTheme();
+                        loadUser();
+                        setTimeout(() => {
+                            const devPanel = document.getElementById('devPanel');
+                            if (userRole === 'owner') devPanel.style.display = 'block';
+                            document.getElementById('realRoleText').innerText = userRole;
+                            document.getElementById('afterdarkStatusText').innerText = manualAfterdark ? 'Да (ручной)' : (document.body.classList.contains('afterdark') ? 'Да (авто)' : 'Нет');
+                            document.getElementById('tgThemeText').innerText = manualTheme === 'light' ? 'Светлая' : manualTheme === 'dark' ? 'Тёмная' : 'Авто';
+                            function updateTime() { document.getElementById('currentTimeText').innerText = new Date().toLocaleTimeString(); }
+                            updateTime(); setInterval(updateTime, 1000);
+                            // Тестовая панель
+                            document.querySelectorAll('[data-role]').forEach(btn => btn.onclick = () => {
+                                const role = btn.dataset.role;
+                                if (role === 'reset') userRole = currentUser?.role || 'client';
+                                else userRole = role;
+                                document.getElementById('profileRole').innerText = userRole === 'client' ? 'Клиент' : userRole === 'master' ? 'Мастер' : userRole === 'admin' ? 'Администратор' : 'Владелец';
+                                const staffBtn = document.querySelector('.nav-item[data-screen="staff"]');
+                                if (['master', 'admin', 'owner'].includes(userRole) && !staffBtn) {
+                                    const bottomNav = document.getElementById('bottomNav');
+                                    const newBtn = document.createElement('button');
+                                    newBtn.className = 'nav-item';
+                                    newBtn.setAttribute('data-screen', 'staff');
+                                    newBtn.innerHTML = '<span class="nav-icon">🔐</span><span>Панель</span>';
+                                    newBtn.onclick = () => goToScreen('staff');
+                                    bottomNav.appendChild(newBtn);
+                                } else if (!['master', 'admin', 'owner'].includes(userRole) && staffBtn) staffBtn.remove();
+                                if (userRole === 'admin' || userRole === 'owner') document.getElementById('staffWorkersCard').style.display = 'block';
+                                else document.getElementById('staffWorkersCard').style.display = 'none';
+                            });
+                            document.querySelectorAll('[data-balance]').forEach(btn => btn.onclick = () => {
+                                const val = btn.dataset.balance;
+                                document.getElementById('balance').innerText = val === 'reset' ? (currentUser?.balance || 0) : parseInt(val);
+                            });
+                            document.querySelectorAll('[data-time]').forEach(btn => btn.onclick = () => {
+                                const hours = { morning: 10, day: 14, evening: 19, night: 23 }[btn.dataset.time];
+                                if (hours) tg.showPopup({ title: 'Симуляция', message: `Время: ${hours}:00`, buttons: [{ type: 'close' }] });
+                            });
+                            document.getElementById('testNotificationBtn')?.addEventListener('click', () => tg.showPopup({ title: 'Тест', message: 'Уведомление', buttons: [{ type: 'close' }] }));
+                        }, 100);
+                    }, 300);
+                }, 2800);
+            }
+            
+            document.querySelectorAll('.theme-option').forEach(opt => opt.addEventListener('click', () => setManualTheme(opt.dataset.theme)));
+            startSplash();
+        })();
+    </script>
 </body>
 </html>
