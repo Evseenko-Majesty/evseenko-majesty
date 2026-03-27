@@ -139,6 +139,39 @@
         .nav-item.active {
             color: var(--accent);
         }
+        .setting-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 0.5px solid var(--border);
+}
+
+.setting-item:last-child {
+    border-bottom: none;
+}
+
+.lang-buttons {
+    display: flex;
+    gap: 8px;
+}
+
+.lang-btn {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 13px;
+    cursor: pointer;
+    color: var(--text-primary);
+    transition: all 0.2s;
+}
+
+.lang-btn.active {
+    background: var(--accent);
+    color: #000;
+    border-color: var(--accent);
+}
         
     </style>
 </head>
@@ -165,6 +198,13 @@
             <div class="screen" id="screen-settings">
                 <div class="card">
                     <h1>Настройки</h1>
+                    <div class="setting-item">
+    <span>🌐 Язык / Language</span>
+    <div class="lang-buttons">
+        <button class="lang-btn" data-lang="ru">🇷🇺 Русский</button>
+        <button class="lang-btn" data-lang="en">🇬🇧 English</button>
+    </div>
+</div>
                 </div>
             </div>
         </div>
@@ -177,6 +217,52 @@
     </div>
 
     <script>
+    // === ЯЗЫК ===
+let currentLang = localStorage.getItem('app_lang') || detectLanguage();
+
+function detectLanguage() {
+    const tgLang = tg.initDataUnsafe?.user?.language_code || 'en';
+    if (tgLang === 'ru') return 'ru';
+    return 'en';
+}
+
+function updateLanguage() {
+    // Обновляем текст на всех экранах
+    const texts = {
+        ru: {
+            home: 'Главная',
+            settings: 'Настройки',
+            settingsTitle: '⚙️ НАСТРОЙКИ',
+            language: '🌐 Язык / Language'
+        },
+        en: {
+            home: 'Home',
+            settings: 'Settings',
+            settingsTitle: '⚙️ SETTINGS',
+            language: '🌐 Language / Язык'
+        }
+    };
+    
+    const t = texts[currentLang];
+    
+    document.getElementById('screen-home').querySelector('h1').innerText = t.home;
+    document.getElementById('screen-settings').querySelector('h1').innerText = t.settingsTitle;
+    document.querySelector('.setting-item span').innerText = t.language;
+    
+    // Обновляем активную кнопку
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.classList.remove('active');
+        if (btn.dataset.lang === currentLang) {
+            btn.classList.add('active');
+        }
+    });
+}
+
+function setLanguage(lang) {
+    currentLang = lang;
+    localStorage.setItem('app_lang', lang);
+    updateLanguage();
+}
         (function() {
             // === TELEGRAM ===
             const tg = window.Telegram.WebApp;
@@ -197,6 +283,10 @@
             tg.onEvent('themeChanged', () => {
                 applyTheme();
             });
+            function startSplash() {
+    applyTheme();
+    updateLanguage();
+}
             
             // === АНИМАЦИЯ ЗАГРУЗКИ ===
             function startSplash() {
@@ -229,7 +319,11 @@
             document.querySelectorAll('.nav-item').forEach(btn => {
                 btn.addEventListener('click', () => goToScreen(btn.dataset.screen));
             });
-            
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+        setLanguage(btn.dataset.lang);
+    });
+});
             startSplash();
         })();
     </script>
