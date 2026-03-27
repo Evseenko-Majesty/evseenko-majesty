@@ -1,353 +1,502 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Evseenko Majesty</title>
-
-<style>
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-    }
-
-    :root {
-        --bg-primary: #FEFCF5;
-        --text-primary: #1C1C1E;
-        --text-secondary: #6C6C70;
-        --accent: #C4A747;
-        --accent-glow: rgba(196, 167, 71, 0.25);
-    }
-
-    body.dark {
-        --bg-primary: #0C0C0E;
-        --text-primary: #F5F5F7;
-        --text-secondary: #9E9EA4;
-        --accent: #D4AF37;
-        --accent-glow: rgba(212, 175, 55, 0.3);
-    }
-
-    body.afterdark {
-        --bg-primary: #04040C;
-        --text-primary: #F0F0FC;
-        --text-secondary: #A8A8C0;
-        --accent: #E5C158;
-        --accent-glow: rgba(229, 193, 88, 0.35);
-    }
-
-    body {
-        font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-        background: var(--bg-primary);
-        color: var(--text-primary);
-        min-height: 100vh;
-        transition: background 0.3s ease;
-        position: relative;
-    }
-
-    /* === ЕДИНЫЙ ПСЕВДОЭЛЕМЕНТ === */
-    body::before {
-        content: '';
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        pointer-events: none;
-        z-index: 0;
-        transition: background 0.5s ease;
-        animation: pulseGlow 6s ease-in-out infinite;
-    }
-
-    /* СВЕТЛАЯ ТЕМА */
-    body:not(.dark):not(.afterdark)::before {
-        background: radial-gradient(circle at 50% 30%, rgba(196, 167, 71, 0.08) 0%, rgba(255, 252, 245, 0.9) 100%);
-        opacity: 0.5;
-    }
-
-    /* ТЁМНАЯ ТЕМА */
-    body.dark::before {
-        background: radial-gradient(circle at 50% 40%, rgba(212, 175, 55, 0.1) 0%, rgba(12, 12, 14, 0.9) 100%);
-        opacity: 0.4;
-    }
-
-    /* AFTERDARK */
-    body.afterdark::before {
-        background: radial-gradient(circle at 50% 40%, rgba(0, 120, 220, 0.18) 0%, rgba(4, 4, 12, 0.9) 100%);
-        opacity: 0.45;
-    }
-
-    @keyframes pulseGlow {
-        0% {
-            opacity: 0.4;
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Премиум Бизнес | Ваш Бренд</title>
+    <!-- Подключаем Telegram WebApp SDK -->
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            user-select: none; /* Для премиального ощущения приложения */
         }
-        50% {
-            opacity: 0.85;
+
+        body {
+            min-height: 100vh;
+            background: var(--bg-gradient);
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.5s cubic-bezier(0.2, 0.9, 0.4, 1.1), color 0.3s ease;
+            padding: 20px;
         }
-        100% {
-            opacity: 0.4;
+
+        /* Основной контейнер с эффектом стекла (glassmorphism) для премиальности */
+        .card {
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 48px;
+            padding: 32px 24px;
+            max-width: 420px;
+            width: 100%;
+            box-shadow: var(--card-shadow);
+            border: 1px solid var(--border-color);
+            transition: all 0.4s ease;
+            text-align: center;
         }
-    }
 
-    /* === ОСТАЛЬНЫЕ СТИЛИ === */
-    .splash {
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: var(--bg-primary);
-        z-index: 2000;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        transition: opacity 0.6s ease;
-    }
+        /* Анимация появления */
+        .animate-fade {
+            animation: fadeSlideUp 0.6s ease-out forwards;
+        }
 
-    .splash-content {
-        text-align: center;
-        max-width: 340px;
-        padding: 20px;
-        position: relative;
-        z-index: 10;
-    }
+        @keyframes fadeSlideUp {
+            0% {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
 
-    .splash-logo-emoji {
-        font-size: 100px;
-        display: block;
-        margin: 0 auto;
-        text-align: center;
-        opacity: 0;
-        transform: scale(0.85) rotate(-5deg);
-        transition: all 0.7s cubic-bezier(0.2, 0.9, 0.4, 1.2);
-        filter: drop-shadow(0 0 20px var(--accent-glow));
-        line-height: 1;
-    }
+        /* Типографика */
+        h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            letter-spacing: -0.3px;
+            background: var(--title-gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 12px;
+        }
 
-    .splash-logo-emoji.active {
-        opacity: 1;
-        transform: scale(1) rotate(0deg);
-    }
+        .subtitle {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            margin-bottom: 32px;
+            font-weight: 500;
+            border-bottom: 1px solid var(--border-light);
+            display: inline-block;
+            padding-bottom: 6px;
+        }
 
-    .splash-brand {
-        margin-top: 8px;
-        opacity: 0;
-        transform: translateY(15px);
-        transition: all 0.6s ease 0.1s;
-    }
+        .status-badge {
+            background: var(--badge-bg);
+            padding: 8px 18px;
+            border-radius: 60px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 28px;
+            color: var(--badge-text);
+            backdrop-filter: blur(4px);
+            transition: all 0.2s;
+        }
 
-    .splash-brand.active {
-        opacity: 1;
-        transform: translateY(0);
-    }
+        .feature-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+            margin: 28px 0;
+            text-align: left;
+        }
 
-    .brand-name {
-        font-size: 26px;
-        font-weight: 600;
-        letter-spacing: 6px;
-        text-transform: uppercase;
-        background: linear-gradient(135deg, var(--text-primary) 0%, var(--accent) 100%);
-        -webkit-background-clip: text;
-        background-clip: text;
-        color: transparent;
-    }
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            background: var(--feature-bg);
+            padding: 14px 18px;
+            border-radius: 28px;
+            transition: transform 0.2s, background 0.2s;
+            backdrop-filter: blur(4px);
+        }
 
-    .afterdark-badge {
-        display: inline-block;
-        font-size: 10px;
-        font-weight: 500;
-        letter-spacing: 2.5px;
-        margin-left: 10px;
-        vertical-align: middle;
-        color: var(--accent);
-        background: var(--accent-glow);
-        padding: 2px 10px;
-        border-radius: 30px;
-        opacity: 0;
-        transform: scale(0.9);
-        transition: all 0.4s ease 0.3s;
-    }
+        .feature-item:hover {
+            transform: scale(1.02);
+            background: var(--feature-hover);
+        }
 
-    .afterdark-badge.active {
-        opacity: 1;
-        transform: scale(1);
-    }
+        .feature-icon {
+            font-size: 28px;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+        }
 
-    .splash-tagline {
-        margin-top: 48px;
-        opacity: 0;
-        transform: translateY(12px);
-        transition: all 0.5s ease 0.2s;
-    }
+        .feature-text {
+            font-weight: 500;
+            color: var(--text-primary);
+            font-size: 1rem;
+        }
 
-    .splash-tagline.active {
-        opacity: 1;
-        transform: translateY(0);
-    }
+        .feature-desc {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            margin-top: 4px;
+        }
 
-    .tagline-primary {
-        font-size: 20px;
-        font-weight: 500;
-        letter-spacing: 1px;
-        background: linear-gradient(135deg, var(--text-primary) 0%, var(--accent) 100%);
-        -webkit-background-clip: text;
-        background-clip: text;
-        color: transparent;
-    }
+        /* Премиум кнопка */
+        .action-button {
+            background: var(--button-bg);
+            border: none;
+            padding: 16px 28px;
+            width: 100%;
+            border-radius: 60px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--button-text);
+            margin-top: 20px;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            box-shadow: var(--button-shadow);
+            backdrop-filter: blur(8px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
 
-    .tagline-secondary {
-        font-size: 13px;
-        opacity: 0.55;
-        margin-top: 8px;
-        letter-spacing: 0.3px;
-        color: var(--text-secondary);
-    }
+        .action-button:active {
+            transform: scale(0.97);
+        }
 
-    .splash-status {
-        margin-top: 52px;
-        font-size: 11px;
-        letter-spacing: 3px;
-        text-transform: uppercase;
-        font-weight: 500;
-        opacity: 0;
-        transform: translateY(8px);
-        transition: all 0.4s ease 0.3s;
-        color: var(--accent);
-    }
+        /* Стили для скролла и адаптивности */
+        @media (max-width: 480px) {
+            .card {
+                padding: 24px 18px;
+                border-radius: 36px;
+            }
+            h1 {
+                font-size: 1.9rem;
+            }
+        }
 
-    .splash-status.active {
-        opacity: 1;
-        transform: translateY(0);
-    }
+        /* ТЕМЫ: Светлая (как в Telegram) */
+        .theme-light {
+            --bg-gradient: linear-gradient(135deg, #ffffff 0%, #fff9ef 100%);
+            --card-bg: rgba(255, 255, 245, 0.75);
+            --card-shadow: 0 25px 45px -12px rgba(0, 0, 0, 0.08), 0 0 0 1px rgba(212, 175, 55, 0.2);
+            --border-color: rgba(212, 175, 55, 0.4);
+            --border-light: rgba(212, 175, 55, 0.3);
+            --title-gradient: linear-gradient(135deg, #B57C1C, #E4B363);
+            --text-primary: #1f1f1f;
+            --text-secondary: #6b5a3a;
+            --badge-bg: rgba(212, 175, 55, 0.18);
+            --badge-text: #b57c1c;
+            --feature-bg: rgba(255, 248, 235, 0.7);
+            --feature-hover: rgba(212, 175, 55, 0.15);
+            --button-bg: linear-gradient(95deg, #E4B363, #C9892A);
+            --button-text: #2c2418;
+            --button-shadow: 0 8px 18px rgba(212, 175, 55, 0.25);
+        }
 
-    .status-line {
-        width: 45px;
-        height: 2px;
-        background: var(--accent);
-        margin: 20px auto 0;
-        opacity: 0;
-        transform: scaleX(0);
-        transition: all 0.5s ease 0.4s;
-    }
+        /* Темная тема (как в Telegram Dark + золото) */
+        .theme-dark {
+            --bg-gradient: linear-gradient(145deg, #0f0f12 0%, #1a1610 100%);
+            --card-bg: rgba(22, 22, 28, 0.8);
+            --card-shadow: 0 25px 45px -12px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(212, 175, 55, 0.3);
+            --border-color: rgba(212, 175, 55, 0.5);
+            --border-light: rgba(212, 175, 55, 0.25);
+            --title-gradient: linear-gradient(135deg, #F3C26B, #C9A03D);
+            --text-primary: #f2eee9;
+            --text-secondary: #c9b28b;
+            --badge-bg: rgba(212, 175, 55, 0.22);
+            --badge-text: #e6bc7e;
+            --feature-bg: rgba(30, 28, 33, 0.7);
+            --feature-hover: rgba(212, 175, 55, 0.2);
+            --button-bg: linear-gradient(95deg, #D4AF37, #B8860B);
+            --button-text: #0f0e0a;
+            --button-shadow: 0 8px 20px rgba(0, 0, 0, 0.4), 0 0 6px rgba(212, 175, 55, 0.4);
+        }
 
-    .status-line.active {
-        opacity: 1;
-        transform: scaleX(1);
-    }
+        /* AFTERDARK — специальный режим с синим оттенком, глубокий премиум */
+        .theme-afterdark {
+            --bg-gradient: linear-gradient(135deg, #030318 0%, #0a1028 45%, #001f3f 100%);
+            --card-bg: rgba(8, 12, 28, 0.78);
+            --card-shadow: 0 25px 45px -8px rgba(0, 30, 60, 0.7), 0 0 0 1px rgba(70, 130, 200, 0.6);
+            --border-color: rgba(70, 130, 200, 0.7);
+            --border-light: rgba(100, 150, 220, 0.4);
+            --title-gradient: linear-gradient(135deg, #C0D9FF, #5F9EFF);
+            --text-primary: #eef4ff;
+            --text-secondary: #a6c1ff;
+            --badge-bg: rgba(30, 80, 150, 0.55);
+            --badge-text: #b8d4ff;
+            --feature-bg: rgba(12, 20, 45, 0.7);
+            --feature-hover: rgba(0, 100, 200, 0.35);
+            --button-bg: linear-gradient(95deg, #2F539B, #1E3A8A);
+            --button-text: #eef4ff;
+            --button-shadow: 0 8px 24px rgba(0, 80, 200, 0.5), 0 0 8px rgba(70, 150, 255, 0.3);
+        }
 
-    .splash-copyright {
-        position: absolute;
-        bottom: 35px;
-        left: 0;
-        right: 0;
-        text-align: center;
-        font-size: 10px;
-        opacity: 0;
-        transform: translateY(10px);
-        transition: all 0.5s ease 0.5s;
-        color: var(--text-secondary);
-    }
-
-    .splash-copyright.active {
-        opacity: 0.5;
-        transform: translateY(0);
-    }
-</style>
+        /* Анимация золотого сияния для светлой темы */
+        @keyframes goldShine {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        .theme-light .action-button {
+            background-size: 150% auto;
+            animation: goldShine 4s ease infinite;
+        }
+        
+        /* Небольшой индикатор "премиум" */
+        .premium-glow {
+            transition: all 0.3s;
+        }
+    </style>
 </head>
-
 <body>
+    <div class="card animate-fade" id="appRoot">
+        <div class="status-badge" id="themeBadge">
+            ✨ АКТИВНАЯ ТЕМА ✨
+        </div>
+        <h1 id="brandTitle">GOLDEN EDGE</h1>
+        <div class="subtitle">Премиум сервис / Ваш бренд</div>
+        
+        <div class="feature-grid">
+            <div class="feature-item">
+                <div class="feature-icon">⚡</div>
+                <div>
+                    <div class="feature-text">Мгновенный отклик</div>
+                    <div class="feature-desc">Адаптация под Telegram и Afterdark</div>
+                </div>
+            </div>
+            <div class="feature-item">
+                <div class="feature-icon">🌙✨</div>
+                <div>
+                    <div class="feature-text">Afterdark 00:00–06:00</div>
+                    <div class="feature-desc">Автоматический синий режим роскоши</div>
+                </div>
+            </div>
+            <div class="feature-item">
+                <div class="feature-icon">🎨</div>
+                <div>
+                    <div class="feature-text">Золотой градиент</div>
+                    <div class="feature-desc">Светлая/Темная/Ночная философия</div>
+                </div>
+            </div>
+        </div>
 
-<div class="container">
-    <div id="logo" class="logo fade-up">EVSEENKO MAJESTY</div>
-    <div id="afterdarkLabel" class="afterdark fade-up"></div>
+        <button class="action-button" id="switchThemeBtn">
+            🔄 Ручной режим: Следующая тема
+        </button>
+        <div style="font-size: 12px; margin-top: 20px; color: var(--text-secondary); opacity: 0.7;">
+            ✨ Премиум-интерфейс • Динамический стиль
+        </div>
+    </div>
 
-    <div id="sloganMain" class="slogan-main fade-up"></div>
-    <div id="sloganSub" class="slogan-sub fade-up"></div>
+    <script>
+        // 1. Инициализация Telegram WebApp
+        const tg = window.Telegram.WebApp;
+        tg.expand();  // Растягиваем на весь экран
+        tg.enableClosingConfirmation(); // Премиальная деталь: подтверждение закрытия
 
-    <div id="status" class="status"></div>
-</div>
+        // 2. Определяем режимы тем
+        const THEMES = {
+            LIGHT: 'light',
+            DARK: 'dark',
+            AFTERDARK: 'afterdark'
+        };
 
-<div id="systemLabel" class="bottom-left">MAJESTY SYSTEM</div>
-<div id="modeLabel" class="bottom-right"></div>
-<div id="footer" class="footer"></div>
+        // Текущий активный режим (управляемый)
+        let currentTheme = THEMES.LIGHT;
+        // Флаг, было ли автоопределение по времени (для того чтобы ручное переключение отключало автоподстройку до след загрузки)
+        let autoTimeActive = true;
+        
+        // Элементы DOM
+        const rootElement = document.body;
+        const themeBadge = document.getElementById('themeBadge');
+        const brandTitle = document.getElementById('brandTitle');
+        const switchBtn = document.getElementById('switchThemeBtn');
 
-<script>
-const hour = new Date().getHours();
+        // 3. Функция применения класса темы на body
+        function applyTheme(theme) {
+            // Удаляем все старые классы тем
+            rootElement.classList.remove('theme-light', 'theme-dark', 'theme-afterdark');
+            switch (theme) {
+                case THEMES.LIGHT:
+                    rootElement.classList.add('theme-light');
+                    themeBadge.innerHTML = '☀️ СВЕТЛАЯ ТЕМА • ЗОЛОТОЙ ГРАДИЕНТ ☀️';
+                    brandTitle.style.background = "linear-gradient(135deg, #B57C1C, #E4B363)";
+                    brandTitle.style.webkitBackgroundClip = "text";
+                    brandTitle.style.backgroundClip = "text";
+                    break;
+                case THEMES.DARK:
+                    rootElement.classList.add('theme-dark');
+                    themeBadge.innerHTML = '🌑 ТЕМНАЯ ТЕМА • ЧЕРНОЕ ЗОЛОТО 🌑';
+                    brandTitle.style.background = "linear-gradient(135deg, #F3C26B, #C9A03D)";
+                    break;
+                case THEMES.AFTERDARK:
+                    rootElement.classList.add('theme-afterdark');
+                    themeBadge.innerHTML = '🌌 AFTERDARK MODE • СИНЯЯ ГЛУБИНА 🌌';
+                    brandTitle.style.background = "linear-gradient(135deg, #C0D9FF, #5F9EFF)";
+                    break;
+                default:
+                    rootElement.classList.add('theme-light');
+            }
+            // Обновляем прозрачность текста для заголовка (перезапись стиля)
+            brandTitle.style.color = "transparent";
+            brandTitle.style.webkitBackgroundClip = "text";
+            brandTitle.style.backgroundClip = "text";
+            
+            // Сохраняем тему в data атрибут для дополнительных стилей
+            rootElement.setAttribute('data-theme', theme);
+            
+            // Отправляем событие в Telegram (для Main Button если нужно)
+            tg.setHeaderColor(theme === THEMES.LIGHT ? '#ffffff' : (theme === THEMES.AFTERDARK ? '#030318' : '#0f0f12'));
+            tg.setBackgroundColor(theme === THEMES.LIGHT ? '#fff9ef' : (theme === THEMES.AFTERDARK ? '#030318' : '#0f0f12'));
+        }
 
-// Режим
-let mode = "DAY";
-if (hour >= 19) mode = "NIGHT";
-if (hour >= 0 && hour < 6) mode = "AFTERDARK";
+        // 4. Определение текущего времени и проверка Afterdark (00:00 - 06:00)
+        function isAfterdarkTime() {
+            const now = new Date();
+            const hours = now.getHours();
+            // С 0 до 6 утра (00:00 inclusive до 06:00 exclusive, но до 6:00, чтобы в 6:01 уже не работал)
+            return hours >= 0 && hours < 6;
+        }
+        
+        // 5. Определение базовой темы от Telegram + коррекция Afterdark (приоритет времени)
+        function getBaseThemeFromTelegram() {
+            const tgScheme = tg.colorScheme; // 'light' или 'dark'
+            // Если сейчас время Afterdark — принудительно включаем его, игнорируя тему Telegram
+            if (isAfterdarkTime()) {
+                return THEMES.AFTERDARK;
+            }
+            // Иначе отображаем тему, которую выбрал пользователь в Telegram (светлая/темная)
+            if (tgScheme === 'light') {
+                return THEMES.LIGHT;
+            } else {
+                return THEMES.DARK;
+            }
+        }
+        
+        // 6. Функция обновления темы с учётом авто-режима (время или ручное)
+        function refreshTheme(manualOverride = false, forcedTheme = null) {
+            if (manualOverride && forcedTheme) {
+                // Пользователь нажал кнопку: выбираем следующую тему по циклу
+                autoTimeActive = false;   // Ручной режим отключает автоопределение по времени до перезагрузки страницы
+                currentTheme = forcedTheme;
+                applyTheme(currentTheme);
+                // Показываем в консоли (для разработки)
+                console.log(`[РУЧНОЙ РЕЖИМ] Тема установлена: ${currentTheme}`);
+                return;
+            }
+            
+            // Автоматический режим (при загрузке или если авто активно)
+            if (autoTimeActive) {
+                let newTheme;
+                // Сначала проверяем время Afterdark (этот режим имеет приоритет над темой Telegram)
+                if (isAfterdarkTime()) {
+                    newTheme = THEMES.AFTERDARK;
+                } else {
+                    // Если не Afterdark, берем тему Telegram (светлая или темная)
+                    const tgScheme = tg.colorScheme;
+                    newTheme = tgScheme === 'light' ? THEMES.LIGHT : THEMES.DARK;
+                }
+                currentTheme = newTheme;
+                applyTheme(currentTheme);
+                console.log(`[АВТО] Активна тема: ${currentTheme} (Telegram: ${tg.colorScheme}, Afterdark: ${isAfterdarkTime()})`);
+            } else {
+                // Если авто выключен, но мы вызвали refresh (например при изменении времени? Не трогаем ручной выбор)
+                // Просто применяем текущий currentTheme который был установлен вручную
+                applyTheme(currentTheme);
+            }
+        }
+        
+        // 7. Обработчик кнопки: циклическое переключение тем (Светлая -> Темная -> Afterdark -> Светлая)
+        function cycleThemes() {
+            let nextTheme;
+            switch (currentTheme) {
+                case THEMES.LIGHT:
+                    nextTheme = THEMES.DARK;
+                    break;
+                case THEMES.DARK:
+                    nextTheme = THEMES.AFTERDARK;
+                    break;
+                case THEMES.AFTERDARK:
+                    nextTheme = THEMES.LIGHT;
+                    break;
+                default:
+                    nextTheme = THEMES.LIGHT;
+            }
+            // Принудительно устанавливаем следующую тему, отключая автовыбор по времени
+            refreshTheme(true, nextTheme);
+        }
+        
+        // 8. Слушатель нажатия кнопки
+        switchBtn.addEventListener('click', cycleThemes);
+        
+        // 9. Наблюдение за изменением темы в Telegram (если пользователь переключил в самом Telegram)
+        // При изменении цветовой схемы в настройках Telegram, обновляем наше приложение,
+        // но только если автоTimeActive активно (т.е. не было ручного переключения)
+        tg.onEvent('themeChanged', () => {
+            if (autoTimeActive) {
+                // Если время Afterdark, мы всё равно должны сохранять приоритет за AFTERDARK, даже если тема Telegram сменилась
+                if (isAfterdarkTime()) {
+                    currentTheme = THEMES.AFTERDARK;
+                    applyTheme(currentTheme);
+                } else {
+                    const newTgTheme = tg.colorScheme === 'light' ? THEMES.LIGHT : THEMES.DARK;
+                    currentTheme = newTgTheme;
+                    applyTheme(currentTheme);
+                }
+                console.log('Telegram theme changed, авто-обновление:', currentTheme);
+            }
+        });
+        
+        // Дополнительная функция: если приложение активно, и наступает 00:00 или 6:00, нужно динамически сменить тему
+        // проверяем каждую минуту изменение часа для плавного перехода в Afterdark/выход из него
+        let lastHour = new Date().getHours();
+        setInterval(() => {
+            const nowHour = new Date().getHours();
+            if (lastHour !== nowHour) {
+                lastHour = nowHour;
+                // Если мы в авто-режиме (autoTimeActive = true), то проверяем границы времени
+                if (autoTimeActive) {
+                    const isDarkTimeNow = isAfterdarkTime();
+                    const shouldBeAfterdark = isDarkTimeNow;
+                    const currentIsAfterdark = (currentTheme === THEMES.AFTERDARK);
+                    
+                    if (shouldBeAfterdark && !currentIsAfterdark) {
+                        // Время вошло в Afterdark
+                        currentTheme = THEMES.AFTERDARK;
+                        applyTheme(currentTheme);
+                        console.log("⏰ Авто-вход в AFTERDARK (00:00-06:00)");
+                    } else if (!shouldBeAfterdark && currentIsAfterdark) {
+                        // Время вышло из Afterdark, возвращаемся к теме Telegram
+                        const newStandard = tg.colorScheme === 'light' ? THEMES.LIGHT : THEMES.DARK;
+                        currentTheme = newStandard;
+                        applyTheme(currentTheme);
+                        console.log("⏰ Выход из AFTERDARK, возврат к теме Telegram");
+                    }
+                }
+            }
+        }, 30000); // проверка каждые 30 секунд, чтобы не нагружать
+        
+        // 10. Финальная инициализация: запускаем определение темы при загрузке
+        // Сначала выставляем первоначальную тему, основываясь на времени и Telegram
+        (function init() {
+            if (isAfterdarkTime()) {
+                currentTheme = THEMES.AFTERDARK;
+                autoTimeActive = true;
+                applyTheme(currentTheme);
+            } else {
+                const initTheme = tg.colorScheme === 'light' ? THEMES.LIGHT : THEMES.DARK;
+                currentTheme = initTheme;
+                autoTimeActive = true;
+                applyTheme(currentTheme);
+            }
+            // Сообщаем Telegram, что приложение готово
+            tg.ready();
+            // Скрываем кнопку загрузки (необязательно)
+            console.log("Премиум апп готов | Afterdark активен:", isAfterdarkTime());
+        })();
 
-// Язык
-const lang = navigator.language.startsWith('ru') ? 'ru' : 'en';
-
-// Элементы
-const body = document.body;
-const afterdarkLabel = document.getElementById("afterdarkLabel");
-const sloganMain = document.getElementById("sloganMain");
-const sloganSub = document.getElementById("sloganSub");
-const status = document.getElementById("status");
-const footer = document.getElementById("footer");
-const modeLabel = document.getElementById("modeLabel");
-
-// Темы
-if (mode === "DAY") {
-    body.style.background = "#F4F6F8";
-    body.style.color = "#111";
-} else {
-    body.style.background = "#0B0B0C";
-    body.style.color = "#fff";
-}
-
-// AFTERDARK
-if (mode === "AFTERDARK") {
-    afterdarkLabel.textContent = "AFTERDARK";
-}
-
-// Язык
-if (lang === "ru") {
-    sloganMain.textContent = "Двигайся за пределами";
-    sloganSub.textContent = "Drive Beyond Limits";
-    status.textContent = mode === "AFTERDARK" ? "AFTERDARK АКТИВЕН" : "Система готова";
-    footer.textContent = "Evseenko Majesty © 2026 — Все права защищены";
-} else {
-    sloganMain.textContent = "Drive Beyond Limits";
-    sloganSub.textContent = "Двигайся за пределами";
-    status.textContent = mode === "AFTERDARK" ? "AFTERDARK ACTIVE" : "System Ready";
-    footer.textContent = "Evseenko Majesty © 2026 — All Rights Reserved";
-}
-
-// Режим подпись
-modeLabel.textContent = mode === "AFTERDARK" ? "AFTERDARK" : "ONLINE";
-
-// АНИМАЦИЯ ПО ЭТАПАМ
-const elements = document.querySelectorAll(".fade-up");
-
-elements.forEach((el, i) => {
-    setTimeout(() => {
-        el.classList.add("show");
-    }, i * 250);
-});
-
-// Статус появляется отдельно (как уведомление)
-setTimeout(() => {
-    status.style.opacity = "1";
-    status.style.transform = "translateY(0)";
-    status.style.transition = "all 0.5s ease";
-}, 1200);
-
-// Переход дальше
-setTimeout(() => {
-    document.body.classList.add("fade-out");
-}, 2400);
-
-// Тут потом переход на главную
-setTimeout(() => {
-    console.log("OPEN MAIN APP");
-}, 2900);
-
-</script>
-
+        // Добавляем небольшую обработку для жеста pull-to-refresh не мешал
+        tg.expand();
+        
+        // Бонус: адаптация под динамические размеры окна
+        window.addEventListener('resize', () => tg.expand());
+    </script>
 </body>
 </html>
