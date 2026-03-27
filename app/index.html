@@ -13,39 +13,32 @@
             box-sizing: border-box;
         }
 
-        /* === ПЕРЕМЕННЫЕ === */
+        /* === ПЕРЕМЕННЫЕ СВЕТЛОЙ ТЕМЫ === */
         :root {
-            --bg-primary: #FFFFFF;
-            --text-primary: #1C1C1E;
-            --text-secondary: #8E8E93;
-            --accent: #C4A747;
-            --accent-glow: rgba(196, 167, 71, 0.2);
+            --bg-primary: #ffffff;
+            --bg-secondary: #f5f5f5;
+            --text-primary: #000000;
+            --text-secondary: #8e8e93;
+            --accent: #c4a747;
+            --border: #e5e5ea;
         }
 
-        /* ТЁМНАЯ ТЕМА (авто или ручная) */
+        /* === ТЁМНАЯ ТЕМА === */
         body.dark {
-            --bg-primary: #142259;
-            --text-primary: #FFFFFF;
-            --text-secondary: #98989E;
-            --accent: #D4AF37;
-            --accent-glow: rgba(212, 175, 55, 0.2);
+            --bg-primary: #000000;
+            --bg-secondary: #1c1c1e;
+            --text-primary: #ffffff;
+            --text-secondary: #98989e;
+            --accent: #d4af37;
+            --border: #2c2c30;
         }
-
-        /* AFTERDARK (00:00–06:00) */
-        body.afterdark {
-    --bg-primary: #0B1330;          /* глубокий тёмно-синий */
-    --text-primary: #F0F0FC;
-    --text-secondary: #A8A8C0;
-    --accent: #E5C158;
-    --accent-glow: rgba(229, 193, 88, 0.25);
-}
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
             background: var(--bg-primary);
             color: var(--text-primary);
             min-height: 100vh;
-            transition: background 0.3s ease;
+            transition: background 0.2s ease, color 0.2s ease;
         }
 
         /* === ЗАГРУЗОЧНЫЙ ЭКРАН === */
@@ -60,7 +53,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: opacity 0.5s ease;
+            transition: opacity 0.4s ease;
         }
 
         .splash-content {
@@ -68,18 +61,32 @@
             padding: 20px;
         }
 
-        /* === ОСНОВНОЙ КОНТЕНТ (ПОКА ПУСТОЙ) === */
+        .splash-logo {
+            font-size: 80px;
+            margin-bottom: 20px;
+        }
+
+        .splash-title {
+            font-size: 20px;
+            font-weight: 600;
+            letter-spacing: 4px;
+        }
+
+        /* === ОСНОВНОЙ КОНТЕНТ === */
         .main {
             display: none;
             padding: 40px 20px;
             text-align: center;
         }
+
         .main h1 {
             font-size: 28px;
             margin-bottom: 16px;
         }
+
         .main p {
             color: var(--text-secondary);
+            margin-bottom: 8px;
         }
     </style>
 </head>
@@ -87,8 +94,8 @@
     <!-- ЗАГРУЗОЧНЫЙ ЭКРАН -->
     <div id="splash" class="splash">
         <div class="splash-content">
-            <div style="font-size: 80px; margin-bottom: 20px;">👑</div>
-            <div style="font-size: 20px; letter-spacing: 4px;">EVSEENKO MAJESTY</div>
+            <div class="splash-logo">👑</div>
+            <div class="splash-title">EVSEENKO MAJESTY</div>
         </div>
     </div>
 
@@ -106,50 +113,20 @@
             tg.expand();
             tg.ready();
             
-            // === НАСТРОЙКИ ===
-            let isAfterdarkActive = false;
-            
-            // === AFTERDARK (00:00 - 06:00) ===
-            function isAfterdarkTime() {
-                const now = new Date();
-                const hours = now.getHours();
-                return hours >= 0 && hours < 6;
-            }
-            
-            // === ОПРЕДЕЛЕНИЕ ТЕМЫ ===
-            function getActiveTheme() {
-                if (isAfterdarkTime()) return 'afterdark';
-                const tgTheme = tg.colorScheme;
-                return tgTheme === 'dark' ? 'dark' : 'light';
-            }
-            
             // === ПРИМЕНЕНИЕ ТЕМЫ ===
             function applyTheme() {
-                const theme = getActiveTheme();
-                document.body.classList.remove('dark', 'afterdark');
-                if (theme === 'afterdark') {
-                    document.body.classList.add('afterdark');
-                } else if (theme === 'dark') {
+                const theme = tg.colorScheme;
+                if (theme === 'dark') {
                     document.body.classList.add('dark');
+                } else {
+                    document.body.classList.remove('dark');
                 }
             }
             
             // === СЛУШАЕМ ИЗМЕНЕНИЕ ТЕМЫ ===
             tg.onEvent('themeChanged', () => {
-                if (!isAfterdarkTime()) {
-                    applyTheme();
-                }
+                applyTheme();
             });
-            
-            // === ПРОВЕРКА ВРЕМЕНИ КАЖДУЮ МИНУТУ ===
-            setInterval(() => {
-                const wasAfterdark = isAfterdarkActive;
-                const nowAfterdark = isAfterdarkTime();
-                if (wasAfterdark !== nowAfterdark) {
-                    isAfterdarkActive = nowAfterdark;
-                    applyTheme();
-                }
-            }, 60000);
             
             // === АНИМАЦИЯ ЗАГРУЗКИ ===
             function startSplash() {
@@ -163,8 +140,8 @@
                     setTimeout(() => {
                         splash.style.display = 'none';
                         main.style.display = 'block';
-                    }, 500);
-                }, 2000);
+                    }, 400);
+                }, 1500);
             }
             
             startSplash();
