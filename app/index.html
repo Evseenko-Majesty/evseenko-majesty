@@ -204,31 +204,45 @@
                 const tgLang = tg.initDataUnsafe?.user?.language_code || 'en';
                 return tgLang === 'ru' ? 'ru' : 'en';
             }
-
-            function updateLanguage() {
-                const texts = {
-                    ru: {
-                        home: 'Главная',
-                        settingsTitle: 'Настройки',
-                        language: '🌐 Язык / Language'
-                    },
-                    en: {
-                        home: 'Home',
-                        settingsTitle: 'Settings',
-                        language: '🌐 Language / Язык'
-                    }
-                };
-                
-                const t = texts[currentLang];
-                document.getElementById('screen-home').querySelector('h1').innerText = t.home;
-                document.getElementById('screen-settings').querySelector('h1').innerText = t.settingsTitle;
-                document.querySelector('.setting-item span').innerText = t.language;
-                
-                document.querySelectorAll('.lang-btn').forEach(btn => {
-                    btn.classList.remove('active');
-                    if (btn.dataset.lang === currentLang) btn.classList.add('active');
-                });
-            }
+function updateLanguage() {
+    const texts = {
+        ru: {
+            home: 'Главная',
+            settingsTitle: 'Настройки',
+            language: '🌐 Язык / Language',
+            navHome: 'Главная',
+            navSettings: 'Настройки'
+        },
+        en: {
+            home: 'Home',
+            settingsTitle: 'Settings',
+            language: '🌐 Language / Язык',
+            navHome: 'Home',
+            navSettings: 'Settings'
+        }
+    };
+    
+    const t = texts[currentLang];
+    
+    // Заголовки экранов
+    document.getElementById('screen-home').querySelector('h1').innerText = t.home;
+    document.getElementById('screen-settings').querySelector('h1').innerText = t.settingsTitle;
+    document.querySelector('.setting-item span').innerText = t.language;
+    
+    // Нижняя навигация
+    const navItems = document.querySelectorAll('.nav-item');
+    if (navItems.length >= 2) {
+        navItems[0].innerHTML = '🏠 ' + t.navHome;
+        navItems[1].innerHTML = '⚙️ ' + t.navSettings;
+    }
+    
+    // Обновляем активную кнопку языка
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.classList.remove('active');
+        if (btn.dataset.lang === currentLang) btn.classList.add('active');
+    });
+}
+            
 
             function setLanguage(lang) {
                 currentLang = lang;
