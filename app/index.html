@@ -153,6 +153,24 @@
             color: #000;
             border-color: var(--accent);
         }
+        .splash-copyright {
+    position: absolute;
+    bottom: 20px;
+    left: 0;
+    right: 0;
+    text-align: center;
+    font-size: 10px;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: all 0.5s ease 0.3s;
+    color: var(--text-secondary);
+    letter-spacing: 0.3px;
+}
+
+.splash-copyright.active {
+    opacity: 0.4;
+    transform: translateY(0);
+}
     </style>
 </head>
 <body>
@@ -160,6 +178,8 @@
         <div class="splash-content">
             <div class="splash-logo">👑</div>
             <div class="splash-title">EVSEENKO MAJESTY</div>
+            <div class="splash-copyright" id="splashCopyright">
+    <div>Evseenko Majesty © 2026 Все права защищены</div>
         </div>
     </div>
 
@@ -219,7 +239,14 @@ function updateLanguage() {
             language: '🌐 Language / Язык',
             navHome: 'Home',
             navSettings: 'Settings'
-        }
+        },
+        const copyrightText = document.getElementById('splashCopyright');
+if (copyrightText) {
+    const text = currentLang === 'ru' 
+        ? 'Evseenko Majesty © 2026 Все права защищены'
+        : 'Evseenko Majesty © 2026 All Rights Reserved';
+    copyrightText.innerHTML = `<div>${text}</div>`;
+}
     };
     
     const t = texts[currentLang];
@@ -294,8 +321,12 @@ function updateLanguage() {
                         splash.style.display = 'none';
                         main.style.display = 'block';
                     }, 400);
-                }, 1500);
+                }, 5000);
             }
+            setTimeout(() => {
+    const copyright = document.getElementById('splashCopyright');
+    if (copyright) copyright.classList.add('active');
+}, 3500);
 
             startSplash();
         })();
