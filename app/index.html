@@ -6,14 +6,12 @@
     <title>Evseenko Majesty</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
-        /* ========== БАЗОВЫЕ СТИЛИ ========== */
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
 
-        /* === ПЕРЕМЕННЫЕ СВЕТЛОЙ ТЕМЫ === */
         :root {
             --bg-primary: #ffffff;
             --bg-secondary: #f5f5f5;
@@ -23,7 +21,6 @@
             --border: #e5e5ea;
         }
 
-        /* === ТЁМНАЯ ТЕМА === */
         body.dark {
             --bg-primary: #0B0F14;
             --bg-secondary: #1c1c1e;
@@ -41,7 +38,6 @@
             transition: background 0.2s ease, color 0.2s ease;
         }
 
-        /* === ЗАГРУЗОЧНЫЙ ЭКРАН === */
         .splash {
             position: fixed;
             top: 0;
@@ -72,22 +68,6 @@
             letter-spacing: 4px;
         }
 
-        /* === ОСНОВНОЙ КОНТЕНТ === */
-        .main {
-            display: none;
-            padding: 40px 20px;
-            text-align: center;
-        }
-
-        .main h1 {
-            font-size: 28px;
-            margin-bottom: 16px;
-        }
-
-        .main p {
-            color: var(--text-secondary);
-            margin-bottom: 8px;
-        }
         .container {
             max-width: 500px;
             margin: 0 auto;
@@ -139,77 +119,72 @@
         .nav-item.active {
             color: var(--accent);
         }
+
         .setting-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 12px 0;
-    border-bottom: 0.5px solid var(--border);
-}
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 0.5px solid var(--border);
+        }
 
-.setting-item:last-child {
-    border-bottom: none;
-}
+        .setting-item:last-child {
+            border-bottom: none;
+        }
 
-.lang-buttons {
-    display: flex;
-    gap: 8px;
-}
+        .lang-buttons {
+            display: flex;
+            gap: 8px;
+        }
 
-.lang-btn {
-    background: var(--bg-secondary);
-    border: 1px solid var(--border);
-    padding: 6px 12px;
-    border-radius: 20px;
-    font-size: 13px;
-    cursor: pointer;
-    color: var(--text-primary);
-    transition: all 0.2s;
-}
+        .lang-btn {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 13px;
+            cursor: pointer;
+            color: var(--text-primary);
+            transition: all 0.2s;
+        }
 
-.lang-btn.active {
-    background: var(--accent);
-    color: #000;
-    border-color: var(--accent);
-}
-        
+        .lang-btn.active {
+            background: var(--accent);
+            color: #000;
+            border-color: var(--accent);
+        }
     </style>
 </head>
 <body>
-    <!-- ЗАГРУЗОЧНЫЙ ЭКРАН -->
     <div id="splash" class="splash">
         <div class="splash-content">
             <div class="splash-logo">👑</div>
             <div class="splash-title">EVSEENKO MAJESTY</div>
         </div>
     </div>
-    
- 
-            
-            <!-- ГЛАВНЫЙ ЭКРАН -->
-               <div id="main" class="main">
+
+    <div id="main" style="display: none;">
+        <div class="container">
             <div class="screen active" id="screen-home">
                 <div class="card">
                     <h1>Главная</h1>
                 </div>
             </div>
 
-            <!-- ЭКРАН НАСТРОЕК -->
             <div class="screen" id="screen-settings">
                 <div class="card">
                     <h1>Настройки</h1>
                     <div class="setting-item">
-    <span>🌐 Язык / Language</span>
-    <div class="lang-buttons">
-        <button class="lang-btn" data-lang="ru">🇷🇺 Русский</button>
-        <button class="lang-btn" data-lang="en">🇬🇧 English</button>
-    </div>
-</div>
+                        <span>🌐 Язык / Language</span>
+                        <div class="lang-buttons">
+                            <button class="lang-btn" data-lang="ru">🇷🇺 Русский</button>
+                            <button class="lang-btn" data-lang="en">🇬🇧 English</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <!-- НИЖНЯЯ НАВИГАЦИЯ -->
         <div class="bottom-nav">
             <button class="nav-item active" data-screen="home">🏠 Главная</button>
             <button class="nav-item" data-screen="settings">⚙️ Настройки</button>
@@ -217,59 +192,51 @@
     </div>
 
     <script>
-    // === ЯЗЫК ===
-let currentLang = localStorage.getItem('app_lang') || detectLanguage();
-
-function detectLanguage() {
-    const tgLang = tg.initDataUnsafe?.user?.language_code || 'en';
-    if (tgLang === 'ru') return 'ru';
-    return 'en';
-}
-
-function updateLanguage() {
-    // Обновляем текст на всех экранах
-    const texts = {
-        ru: {
-            home: 'Главная',
-            settings: 'Настройки',
-            settingsTitle: '⚙️ НАСТРОЙКИ',
-            language: '🌐 Язык / Language'
-        },
-        en: {
-            home: 'Home',
-            settings: 'Settings',
-            settingsTitle: '⚙️ SETTINGS',
-            language: '🌐 Language / Язык'
-        }
-    };
-    
-    const t = texts[currentLang];
-    
-    document.getElementById('screen-home').querySelector('h1').innerText = t.home;
-    document.getElementById('screen-settings').querySelector('h1').innerText = t.settingsTitle;
-    document.querySelector('.setting-item span').innerText = t.language;
-    
-    // Обновляем активную кнопку
-    document.querySelectorAll('.lang-btn').forEach(btn => {
-        btn.classList.remove('active');
-        if (btn.dataset.lang === currentLang) {
-            btn.classList.add('active');
-        }
-    });
-}
-
-function setLanguage(lang) {
-    currentLang = lang;
-    localStorage.setItem('app_lang', lang);
-    updateLanguage();
-}
         (function() {
-            // === TELEGRAM ===
             const tg = window.Telegram.WebApp;
             tg.expand();
             tg.ready();
-            
-            // === ПРИМЕНЕНИЕ ТЕМЫ ===
+
+            // === ЯЗЫК ===
+            let currentLang = localStorage.getItem('app_lang') || detectLanguage();
+
+            function detectLanguage() {
+                const tgLang = tg.initDataUnsafe?.user?.language_code || 'en';
+                return tgLang === 'ru' ? 'ru' : 'en';
+            }
+
+            function updateLanguage() {
+                const texts = {
+                    ru: {
+                        home: 'Главная',
+                        settingsTitle: 'Настройки',
+                        language: '🌐 Язык / Language'
+                    },
+                    en: {
+                        home: 'Home',
+                        settingsTitle: 'Settings',
+                        language: '🌐 Language / Язык'
+                    }
+                };
+                
+                const t = texts[currentLang];
+                document.getElementById('screen-home').querySelector('h1').innerText = t.home;
+                document.getElementById('screen-settings').querySelector('h1').innerText = t.settingsTitle;
+                document.querySelector('.setting-item span').innerText = t.language;
+                
+                document.querySelectorAll('.lang-btn').forEach(btn => {
+                    btn.classList.remove('active');
+                    if (btn.dataset.lang === currentLang) btn.classList.add('active');
+                });
+            }
+
+            function setLanguage(lang) {
+                currentLang = lang;
+                localStorage.setItem('app_lang', lang);
+                updateLanguage();
+            }
+
+            // === ТЕМА ===
             function applyTheme() {
                 const theme = tg.colorScheme;
                 if (theme === 'dark') {
@@ -278,19 +245,31 @@ function setLanguage(lang) {
                     document.body.classList.remove('dark');
                 }
             }
-            
-            // === СЛУШАЕМ ИЗМЕНЕНИЕ ТЕМЫ ===
-            tg.onEvent('themeChanged', () => {
-                applyTheme();
+
+            tg.onEvent('themeChanged', () => applyTheme());
+
+            // === НАВИГАЦИЯ ===
+            function goToScreen(screenId) {
+                document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+                document.getElementById(`screen-${screenId}`).classList.add('active');
+                document.querySelectorAll('.nav-item').forEach(btn => {
+                    btn.classList.remove('active');
+                    if (btn.dataset.screen === screenId) btn.classList.add('active');
+                });
+            }
+
+            document.querySelectorAll('.nav-item').forEach(btn => {
+                btn.addEventListener('click', () => goToScreen(btn.dataset.screen));
             });
-            function startSplash() {
-    applyTheme();
-    updateLanguage();
-}
-            
-            // === АНИМАЦИЯ ЗАГРУЗКИ ===
+
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.addEventListener('click', () => setLanguage(btn.dataset.lang));
+            });
+
+            // === ЗАГРУЗКА ===
             function startSplash() {
                 applyTheme();
+                updateLanguage();
                 
                 const splash = document.getElementById('splash');
                 const main = document.getElementById('main');
@@ -303,27 +282,7 @@ function setLanguage(lang) {
                     }, 400);
                 }, 1500);
             }
-            // === НАВИГАЦИЯ ===
-            function goToScreen(screenId) {
-                document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-                document.getElementById(`screen-${screenId}`).classList.add('active');
-                
-                document.querySelectorAll('.nav-item').forEach(btn => {
-                    btn.classList.remove('active');
-                    if (btn.dataset.screen === screenId) {
-                        btn.classList.add('active');
-                    }
-                });
-            }
-            
-            document.querySelectorAll('.nav-item').forEach(btn => {
-                btn.addEventListener('click', () => goToScreen(btn.dataset.screen));
-            });
-            document.querySelectorAll('.lang-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-        setLanguage(btn.dataset.lang);
-    });
-});
+
             startSplash();
         })();
     </script>
