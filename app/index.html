@@ -88,6 +88,58 @@
             color: var(--text-secondary);
             margin-bottom: 8px;
         }
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 20px 16px 80px 16px;
+        }
+
+        .screen {
+            display: none;
+        }
+
+        .screen.active {
+            display: block;
+        }
+
+        .card {
+            background: var(--bg-secondary);
+            border-radius: 14px;
+            padding: 20px;
+            margin-bottom: 16px;
+            border: 0.5px solid var(--border);
+        }
+
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            max-width: 500px;
+            margin: 0 auto;
+            background: var(--bg-primary);
+            border-top: 0.5px solid var(--border);
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 16px 20px 16px;
+            z-index: 100;
+        }
+
+        .nav-item {
+            background: none;
+            border: none;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-secondary);
+            cursor: pointer;
+            padding: 8px 20px;
+            border-radius: 30px;
+        }
+
+        .nav-item.active {
+            color: var(--accent);
+        }
+        
     </style>
 </head>
 <body>
@@ -104,6 +156,30 @@
         <h1>Evseenko Majesty</h1>
         <p>Приложение готово к работе</p>
         <p style="margin-top: 20px; font-size: 12px;">Дальнейшие модули будут добавляться постепенно</p>
+    </div>
+    <div id="main" style="display: none;">
+        <div class="container">
+            
+            <!-- ГЛАВНЫЙ ЭКРАН -->
+            <div class="screen active" id="screen-home">
+                <div class="card">
+                    <h1>Главная</h1>
+                </div>
+            </div>
+
+            <!-- ЭКРАН НАСТРОЕК -->
+            <div class="screen" id="screen-settings">
+                <div class="card">
+                    <h1>Настройки</h1>
+                </div>
+            </div>
+        </div>
+
+        <!-- НИЖНЯЯ НАВИГАЦИЯ -->
+        <div class="bottom-nav">
+            <button class="nav-item active" data-screen="home">🏠 Главная</button>
+            <button class="nav-item" data-screen="settings">⚙️ Настройки</button>
+        </div>
     </div>
 
     <script>
@@ -143,6 +219,22 @@
                     }, 400);
                 }, 1500);
             }
+            // === НАВИГАЦИЯ ===
+            function goToScreen(screenId) {
+                document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+                document.getElementById(`screen-${screenId}`).classList.add('active');
+                
+                document.querySelectorAll('.nav-item').forEach(btn => {
+                    btn.classList.remove('active');
+                    if (btn.dataset.screen === screenId) {
+                        btn.classList.add('active');
+                    }
+                });
+            }
+            
+            document.querySelectorAll('.nav-item').forEach(btn => {
+                btn.addEventListener('click', () => goToScreen(btn.dataset.screen));
+            });
             
             startSplash();
         })();
