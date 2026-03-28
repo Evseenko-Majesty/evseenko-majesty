@@ -6,7 +6,7 @@ require('dotenv').config();
 const BOT_TOKEN = process.env.BOT_TOKEN;
 const SUPABASE_URL = process.env.SUPABASE_URL;
 const SUPABASE_KEY = process.env.SUPABASE_KEY;
-const WEBAPP_URL = 'https://evseenkomajesty.ru/app?mode=fullscreen';
+const WEBAPP_URL = 'https://evseenkomajesty.ru/app';
 
 if (!BOT_TOKEN) {
     console.error('❌ BOT_TOKEN not set');
