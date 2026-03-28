@@ -366,29 +366,34 @@
 
     <script>
         // === TELEGRAM WEBAPP ===
-        const tg = window.Telegram.WebApp;
-        
-        // Принудительное раскрытие на весь экран
-        tg.expand();
-        
-        // Повторное раскрытие после загрузки
-        setTimeout(() => {
-            tg.expand();
-        }, 100);
-        
-        // Слушаем изменения размера
-        window.addEventListener('resize', () => {
-            setTimeout(() => {
-                tg.expand();
-            }, 50);
-        });
-        
-        // Для iOS Safari
-        document.body.addEventListener('touchstart', () => {
-            tg.expand();
-        }, { once: true });
-        
-        tg.ready();
+const tg = window.Telegram.WebApp;
+
+// Принудительное раскрытие
+function forceExpand() {
+    tg.expand();
+    tg.expand();
+    tg.expand(); // трижды для надёжности
+}
+
+// Вызываем сразу
+forceExpand();
+
+// После загрузки
+setTimeout(forceExpand, 100);
+setTimeout(forceExpand, 500);
+
+// Слушаем изменения размера
+window.addEventListener('resize', forceExpand);
+
+// Для iOS
+document.body.addEventListener('touchstart', forceExpand, { once: true });
+
+// Для кнопки на клавиатуре (открытие из чата)
+document.addEventListener('click', (e) => {
+    forceExpand();
+});
+
+tg.ready();
 
         // === API ===
         const API_URL = 'https://evseenko-majesty-bot.onrender.com';
