@@ -290,13 +290,7 @@
             color: #000;
             border-color: var(--accent);
         }
-        .body {
-    height: 100vh;
-    overflow: hidden;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
+    
 }
     </style>
 </head>
@@ -373,48 +367,9 @@
     </div>
 
     <script>
-    // Проверяем, есть ли параметр fullscreen в URL
-const urlParams = new URLSearchParams(window.location.search);
-if (urlParams.get('mode') === 'fullscreen') {
-    setTimeout(() => {
-        window.Telegram.WebApp.expand();
-    }, 50);
-}
-
-// Принудительное раскрытие с задержкой
-setTimeout(() => {
-    if (window.Telegram?.WebApp) {
-        window.Telegram.WebApp.expand();
-    }
-}, 200);
+    
         // === TELEGRAM WEBAPP ===
-const tg = window.Telegram.WebApp;
-
-// Принудительное раскрытие
-function forceExpand() {
-    tg.expand();
-    tg.expand();
-    tg.expand(); // трижды для надёжности
-}
-
-// Вызываем сразу
-forceExpand();
-
-// После загрузки
-setTimeout(forceExpand, 100);
-setTimeout(forceExpand, 500);
-
-// Слушаем изменения размера
-window.addEventListener('resize', forceExpand);
-
-// Для iOS
-document.body.addEventListener('touchstart', forceExpand, { once: true });
-
-// Для кнопки на клавиатуре (открытие из чата)
-document.addEventListener('click', (e) => {
-    forceExpand();
-});
-
+const tg = window.Telegram.WebApp
 tg.ready();
 
         // === API ===
