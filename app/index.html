@@ -285,6 +285,14 @@
             color: #000;
             border-color: var(--accent);
         }
+        body {
+    height: 100vh;
+    overflow-x: hidden;
+}
+
+.container {
+    min-height: calc(100vh - 80px);
+}
     </style>
 </head>
 <body>
@@ -421,8 +429,14 @@
         // Основной код приложения
         (function() {
             const tg = window.Telegram.WebApp;
-            tg.expand();
-            tg.ready();
+            // Принудительное раскрытие на весь экран
+tg.expand();
+tg.ready();
+
+// Слушаем изменение размера окна
+window.addEventListener('resize', () => {
+    tg.expand();
+});
 
             let currentLang = localStorage.getItem('app_lang') || detectLanguage();
 
