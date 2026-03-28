@@ -292,6 +292,14 @@
         }
     
 }
+/* Принудительное раскрытие на весь экран */
+body {
+    min-height: 100vh;
+    min-height: -webkit-fill-available;
+}
+html {
+    height: -webkit-fill-available;
+}
     </style>
 </head>
 <body>
@@ -371,6 +379,21 @@
         // === TELEGRAM WEBAPP ===
 const tg = window.Telegram.WebApp
 tg.ready();
+// === ПРИНУДИТЕЛЬНОЕ РАСКРЫТИЕ ===
+function expandWebApp() {
+    try {
+        tg.expand();
+        tg.expand(); // повтор для надёжности
+    } catch(e) {}
+}
+
+// Вызываем сразу
+expandWebApp();
+
+// После загрузки страницы
+window.addEventListener('load', expandWebApp);
+setTimeout(expandWebApp, 100);
+setTimeout(expandWebApp, 300);
 
         // === API ===
         const API_URL = 'https://evseenko-majesty-bot.onrender.com';
