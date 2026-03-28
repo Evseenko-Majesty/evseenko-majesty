@@ -156,18 +156,17 @@
         }
 
         .splash-copyright {
-            position: absolute;
-            bottom: -40px;
-            left: 0;
-            right: 0;
-            text-align: center;
-            font-size: 10px;
-            opacity: 0;
-            transform: translateY(10px);
-            transition: all 0.5s ease;
-            color: var(--text-secondary);
-            letter-spacing: 0.3px;
-        }
+    position: absolute;
+    bottom: 20px;
+    left: 0;
+    right: 0;
+    text-align: center;
+    font-size: 13px;
+    opacity: 0.4;
+    color: var(--text-secondary);
+    letter-spacing: 0.3px;
+    line-height: 1.4;
+}
 
         .splash-copyright.active {
             opacity: 0.4;
@@ -181,7 +180,8 @@
             <div class="splash-logo">👑</div>
             <div class="splash-title">EVSEENKO MAJESTY</div>
             <div class="splash-copyright" id="splashCopyright">
-                <div>Evseenko Majesty © 2026 Все права защищены</div>
+                <div>Evseenko Majesty © 2026</div>
+                <div id="copyrightLine2">Все права защищены</div>
             </div>
         </div>
     </div>
@@ -229,47 +229,53 @@
             }
 
             function updateLanguage() {
-                const texts = {
-                    ru: {
-                        home: 'Главная',
-                        settingsTitle: 'Настройки',
-                        language: '🌐 Язык / Language',
-                        navHome: 'Главная',
-                        navSettings: 'Настройки',
-                        copyright: 'Evseenko Majesty © 2026 Все права защищены'
-                    },
-                    en: {
-                        home: 'Home',
-                        settingsTitle: 'Settings',
-                        language: '🌐 Language / Язык',
-                        navHome: 'Home',
-                        navSettings: 'Settings',
-                        copyright: 'Evseenko Majesty © 2026 All Rights Reserved'
-                    }
-                };
-                
-                const t = texts[currentLang];
-                
-                document.getElementById('screen-home').querySelector('h1').innerText = t.home;
-                document.getElementById('screen-settings').querySelector('h1').innerText = t.settingsTitle;
-                document.querySelector('.setting-item span').innerText = t.language;
-                
-                const navItems = document.querySelectorAll('.nav-item');
-                if (navItems.length >= 2) {
-                    navItems[0].innerHTML = '🏠 ' + t.navHome;
-                    navItems[1].innerHTML = '⚙️ ' + t.navSettings;
-                }
-                
-                const copyrightDiv = document.getElementById('splashCopyright');
-                if (copyrightDiv) {
-                    copyrightDiv.innerHTML = `<div>${t.copyright}</div>`;
-                }
-                
-                document.querySelectorAll('.lang-btn').forEach(btn => {
-                    btn.classList.remove('active');
-                    if (btn.dataset.lang === currentLang) btn.classList.add('active');
-                });
-            }
+    const texts = {
+        ru: {
+            home: 'Главная',
+            settingsTitle: 'Настройки',
+            language: '🌐 Язык / Language',
+            navHome: 'Главная',
+            navSettings: 'Настройки',
+            copyrightLine1: 'Evseenko Majesty © 2026',
+            copyrightLine2: 'Все права защищены'
+        },
+        en: {
+            home: 'Home',
+            settingsTitle: 'Settings',
+            language: '🌐 Language / Язык',
+            navHome: 'Home',
+            navSettings: 'Settings',
+            copyrightLine1: 'Evseenko Majesty © 2026',
+            copyrightLine2: 'All Rights Reserved'
+        }
+    };
+    
+    const t = texts[currentLang];
+    
+    document.getElementById('screen-home').querySelector('h1').innerText = t.home;
+    document.getElementById('screen-settings').querySelector('h1').innerText = t.settingsTitle;
+    document.querySelector('.setting-item span').innerText = t.language;
+    
+    const navItems = document.querySelectorAll('.nav-item');
+    if (navItems.length >= 2) {
+        navItems[0].innerHTML = '🏠 ' + t.navHome;
+        navItems[1].innerHTML = '⚙️ ' + t.navSettings;
+    }
+    
+    // Копирайт две строки
+    const copyrightDiv = document.getElementById('splashCopyright');
+    if (copyrightDiv) {
+        copyrightDiv.innerHTML = `
+            <div>${t.copyrightLine1}</div>
+            <div id="copyrightLine2">${t.copyrightLine2}</div>
+        `;
+    }
+    
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.classList.remove('active');
+        if (btn.dataset.lang === currentLang) btn.classList.add('active');
+    });
+}
 
             function setLanguage(lang) {
                 currentLang = lang;
@@ -314,7 +320,6 @@
                 
                 const splash = document.getElementById('splash');
                 const main = document.getElementById('main');
-                const copyright = document.getElementById('splashCopyright');
                 
                 setTimeout(() => {
                     if (copyright) copyright.classList.add('active');
