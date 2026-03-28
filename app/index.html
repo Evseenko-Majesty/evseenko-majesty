@@ -373,6 +373,20 @@
     </div>
 
     <script>
+    // Проверяем, есть ли параметр fullscreen в URL
+const urlParams = new URLSearchParams(window.location.search);
+if (urlParams.get('mode') === 'fullscreen') {
+    setTimeout(() => {
+        window.Telegram.WebApp.expand();
+    }, 50);
+}
+
+// Принудительное раскрытие с задержкой
+setTimeout(() => {
+    if (window.Telegram?.WebApp) {
+        window.Telegram.WebApp.expand();
+    }
+}, 200);
         // === TELEGRAM WEBAPP ===
 const tg = window.Telegram.WebApp;
 
