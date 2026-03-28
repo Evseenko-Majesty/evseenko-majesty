@@ -14,6 +14,7 @@
 
         :root {
             --bg-primary: #ffffff;
+            --bg-primary-rgb: 255, 255, 255;
             --bg-secondary: #f5f5f5;
             --text-primary: #000000;
             --text-secondary: #8e8e93;
@@ -24,6 +25,7 @@
 
         body.dark {
             --bg-primary: #0B0F14;
+            --bg-primary-rgb: 11, 15, 20;
             --bg-secondary: #1c1c1e;
             --text-primary: #ffffff;
             --text-secondary: #98989e;
@@ -183,6 +185,7 @@
             border: 0.5px solid var(--border);
         }
 
+        /* === ПРЕМИАЛЬНАЯ НАВИГАЦИЯ === */
         .bottom-nav {
             position: fixed;
             bottom: 0;
@@ -190,26 +193,66 @@
             right: 0;
             max-width: 500px;
             margin: 0 auto;
-            background: var(--bg-primary);
+            background: rgba(var(--bg-primary-rgb), 0.95);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
             border-top: 0.5px solid var(--border);
             display: flex;
             justify-content: space-around;
-            padding: 10px 16px 20px 16px;
+            padding: 8px 20px 24px 20px;
             z-index: 100;
+            transition: all 0.3s ease;
         }
 
         .nav-item {
             background: none;
             border: none;
-            font-size: 14px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            font-size: 11px;
             font-weight: 500;
             color: var(--text-secondary);
             cursor: pointer;
-            padding: 8px 20px;
+            padding: 8px 12px;
             border-radius: 30px;
+            transition: all 0.2s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            position: relative;
         }
+
         .nav-item.active {
             color: var(--accent);
+        }
+
+        .nav-icon {
+            width: 22px;
+            height: 22px;
+            transition: transform 0.2s ease;
+        }
+
+        .nav-item:active .nav-icon {
+            transform: scale(0.92);
+        }
+
+        .nav-item.active::after {
+            content: '';
+            position: absolute;
+            bottom: -6px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 4px;
+            height: 4px;
+            background: var(--accent);
+            border-radius: 2px;
+            opacity: 0.8;
+        }
+
+        @media (hover: hover) {
+            .nav-item:hover {
+                color: var(--accent);
+                background: rgba(128, 128, 128, 0.08);
+            }
         }
 
         .setting-item {
@@ -298,8 +341,43 @@
         </div>
 
         <div class="bottom-nav">
-            <button class="nav-item active" data-screen="home">🏠 Главная</button>
-            <button class="nav-item" data-screen="settings">⚙️ Настройки</button>
+            <button class="nav-item active" data-screen="home">
+                <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M3 9L12 3L21 9L12 15L3 9Z"/>
+                    <path d="M9 22V12H15V22"/>
+                </svg>
+                <span>Главная</span>
+            </button>
+            <button class="nav-item" data-screen="services">
+                <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <path d="M14 7L9 12L14 17"/>
+                    <path d="M4 12H15"/>
+                    <circle cx="18" cy="12" r="2"/>
+                </svg>
+                <span>Услуги</span>
+            </button>
+            <button class="nav-item" data-screen="history">
+                <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <circle cx="12" cy="12" r="10"/>
+                    <polyline points="12 6 12 12 16 14"/>
+                    <path d="M4 4L8 8"/>
+                </svg>
+                <span>История</span>
+            </button>
+            <button class="nav-item" data-screen="check">
+                <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <circle cx="12" cy="12" r="3"/>
+                    <path d="M22 12C22 12 19 18 12 18C5 18 2 12 2 12C2 12 5 6 12 6C19 6 22 12 22 12Z"/>
+                </svg>
+                <span>Проверка</span>
+            </button>
+            <button class="nav-item" data-screen="profile">
+                <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <path d="M20 21V19C20 16.8 18.2 15 16 15H8C5.8 15 4 16.8 4 19V21"/>
+                    <circle cx="12" cy="7" r="4"/>
+                </svg>
+                <span>Профиль</span>
+            </button>
         </div>
     </div>
 
@@ -416,9 +494,12 @@
                 }
                 
                 const navItems = document.querySelectorAll('.nav-item');
-                if (navItems.length >= 2) {
-                    navItems[0].innerHTML = '🏠 ' + t.navHome;
-                    navItems[1].innerHTML = '⚙️ ' + t.navSettings;
+                if (navItems.length >= 5) {
+                    navItems[0].innerHTML = '<svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9L12 3L21 9L12 15L3 9Z"/><path d="M9 22V12H15V22"/></svg><span>' + t.navHome + '</span>';
+                    navItems[1].innerHTML = '<svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 7L9 12L14 17"/><path d="M4 12H15"/><circle cx="18" cy="12" r="2"/></svg><span>Услуги</span>';
+                    navItems[2].innerHTML = '<svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/><path d="M4 4L8 8"/></svg><span>История</span>';
+                    navItems[3].innerHTML = '<svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="3"/><path d="M22 12C22 12 19 18 12 18C5 18 2 12 2 12C2 12 5 6 12 6C19 6 22 12 22 12Z"/></svg><span>Проверка</span>';
+                    navItems[4].innerHTML = '<svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 21V19C20 16.8 18.2 15 16 15H8C5.8 15 4 16.8 4 19V21"/><circle cx="12" cy="7" r="4"/></svg><span>Профиль</span>';
                 }
                 
                 const copyrightDiv = document.getElementById('splashCopyright');
