@@ -40,135 +40,128 @@
             transition: background 0.2s ease, color 0.2s ease;
         }
 
-       /* === ЗАГРУЗОЧНЫЙ ЭКРАН === */
-.splash {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: var(--bg-primary);
-    z-index: 2000;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: opacity 0.4s ease;
-}
+        .splash {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--bg-primary);
+            z-index: 2000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.4s ease;
+        }
 
-.splash-content {
-    text-align: center;
-    padding: 20px;
-    position: relative;
-    width: 100%;
-    max-width: 400px;
-    margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-height: 500px;
-}
+        .splash-content {
+            text-align: center;
+            padding: 20px;
+            position: relative;
+            width: 100%;
+            max-width: 400px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 500px;
+        }
 
-/* Логотип — выше к верхнему краю */
-.splash-logo-wrapper {
-    opacity: 0;
-    transform: scale(0.8) translateY(20px);
-    transition: all 0.6s cubic-bezier(0.2, 0.9, 0.4, 1.1);
-    margin-top: -40px;
-    margin-bottom: 20px;
-}
-.splash-logo-wrapper.active {
-    opacity: 1;
-    transform: scale(1) translateY(0);
-}
-.splash-logo {
-    font-size: 100px;
-    margin-bottom: 0;
-    filter: drop-shadow(0 0 20px var(--accent-glow));
-}
+        .splash-logo-wrapper {
+            opacity: 0;
+            transform: scale(0.8) translateY(20px);
+            transition: all 0.6s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            margin-top: -40px;
+            margin-bottom: 20px;
+        }
+        .splash-logo-wrapper.active {
+            opacity: 1;
+            transform: scale(1) translateY(0);
+        }
+        .splash-logo {
+            font-size: 100px;
+            margin-bottom: 0;
+            filter: drop-shadow(0 0 20px var(--accent-glow));
+        }
 
-/* Название — чистое золото, без градиента */
-.splash-brand {
-    opacity: 0;
-    transform: translateY(20px);
-    transition: all 0.5s cubic-bezier(0.2, 0.9, 0.4, 1.1) 0.1s;
-    margin-bottom: 30px;
-}
-.splash-brand.active {
-    opacity: 1;
-    transform: translateY(0);
-}
-.splash-title {
-    font-size: 24px;
-    font-weight: 600;
-    letter-spacing: 6px;
-    text-transform: uppercase;
-    color: var(--accent);  /* чистое золото, без градиента */
-}
+        .splash-brand {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.5s cubic-bezier(0.2, 0.9, 0.4, 1.1) 0.1s;
+            margin-bottom: 30px;
+        }
+        .splash-brand.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .splash-title {
+            font-size: 24px;
+            font-weight: 600;
+            letter-spacing: 6px;
+            text-transform: uppercase;
+            color: var(--accent);
+        }
 
-/* Слоган */
-.splash-tagline {
-    opacity: 0;
-    transform: translateY(20px);
-    transition: all 0.5s cubic-bezier(0.2, 0.9, 0.4, 1.1) 0.2s;
-    margin-bottom: 40px;
-}
-.splash-tagline.active {
-    opacity: 1;
-    transform: translateY(0);
-}
-.tagline-primary {
-    font-size: 18px;
-    font-weight: 500;
-    letter-spacing: 1px;
-    color: var(--accent);  /* чистое золото */
-}
-.tagline-secondary {
-    font-size: 12px;
-    opacity: 0.55;
-    margin-top: 6px;
-    color: var(--text-secondary);
-}
+        .splash-tagline {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.5s cubic-bezier(0.2, 0.9, 0.4, 1.1) 0.2s;
+            margin-bottom: 40px;
+        }
+        .splash-tagline.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .tagline-primary {
+            font-size: 18px;
+            font-weight: 500;
+            letter-spacing: 1px;
+            color: var(--accent);
+        }
+        .tagline-secondary {
+            font-size: 12px;
+            opacity: 0.55;
+            margin-top: 6px;
+            color: var(--text-secondary);
+        }
 
-/* Статус — посередине */
-.splash-status-wrapper {
-    opacity: 0;
-    transform: translateY(20px);
-    transition: all 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1) 0.3s;
-    margin-bottom: 20px;
-}
-.splash-status-wrapper.active {
-    opacity: 1;
-    transform: translateY(0);
-}
-.splash-status {
-    display: inline-block;
-    padding: 8px 20px;
-    border-radius: 40px;
-    font-size: 12px;
-    font-weight: 500;
-    letter-spacing: 1px;
-    background: var(--bg-secondary);
-    border: 1px solid var(--accent);
-    color: var(--accent);
-    backdrop-filter: blur(10px);
-}
+        .splash-status-wrapper {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1) 0.3s;
+            margin-bottom: 20px;
+        }
+        .splash-status-wrapper.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .splash-status {
+            display: inline-block;
+            padding: 8px 20px;
+            border-radius: 40px;
+            font-size: 12px;
+            font-weight: 500;
+            letter-spacing: 1px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--accent);
+            color: var(--accent);
+            backdrop-filter: blur(10px);
+        }
 
-/* Копирайт — внизу */
-.splash-copyright {
-    position: absolute;
-    bottom: -200px;
-    left: 0;
-    right: 0;
-    text-align: center;
-    font-size: 10px;
-    opacity: 0.4;
-    color: var(--text-secondary);
-    letter-spacing: 0.3px;
-    line-height: 1.4;
-}
+        .splash-copyright {
+            position: absolute;
+            bottom: -200px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            font-size: 10px;
+            opacity: 0.4;
+            color: var(--text-secondary);
+            letter-spacing: 0.3px;
+            line-height: 1.4;
+        }
 
-        /* === ОСНОВНОЙ КОНТЕНТ === */
         .container {
             max-width: 500px;
             margin: 0 auto;
@@ -253,35 +246,26 @@
 </head>
 <body>
     <div id="splash" class="splash">
-    <div class="splash-content">
-        <!-- Логотип (вверху) -->
-        <div class="splash-logo-wrapper">
-            <div class="splash-logo">👑</div>
-        </div>
-        
-        <!-- Название (после логотипа) -->
-        <div class="splash-brand">
-            <div class="splash-title">EVSEENKO MAJESTY</div>
-        </div>
-        
-        <!-- Слоган (после названия) -->
-        <div class="splash-tagline">
-            <div class="tagline-primary" id="taglinePrimary"></div>
-            <div class="tagline-secondary" id="taglineSecondary"></div>
-        </div>
-        
-        <!-- Статус (после слогана) -->
-        <div class="splash-status-wrapper">
-            <div class="splash-status" id="splashStatus">СИСТЕМА ГОТОВА</div>
-        </div>
-        
-        <!-- Копирайт (внизу) -->
-        <div class="splash-copyright" id="splashCopyright">
-            <div>Evseenko Majesty © 2026</div>
-            <div>Все права защищены</div>
+        <div class="splash-content">
+            <div class="splash-logo-wrapper">
+                <div class="splash-logo">👑</div>
+            </div>
+            <div class="splash-brand">
+                <div class="splash-title">EVSEENKO MAJESTY</div>
+            </div>
+            <div class="splash-tagline">
+                <div class="tagline-primary" id="taglinePrimary"></div>
+                <div class="tagline-secondary" id="taglineSecondary"></div>
+            </div>
+            <div class="splash-status-wrapper">
+                <div class="splash-status" id="splashStatus">СИСТЕМА ГОТОВА</div>
+            </div>
+            <div class="splash-copyright" id="splashCopyright">
+                <div>Evseenko Majesty © 2026</div>
+                <div>Все права защищены</div>
+            </div>
         </div>
     </div>
-</div>
 
     <div id="main" style="display: none;">
         <div class="container">
@@ -295,14 +279,14 @@
                 <div class="card">
                     <h1>Настройки</h1>
                     <div class="setting-item">
-            
-    <span>Имя</span>
-    <span id="userName">—</span>
-</div>
-<div class="setting-item">
-    <span>Роль</span>
-    <span id="userRole">Клиент</span>
-</div>
+                        <span>Имя</span>
+                        <span id="userName">—</span>
+                    </div>
+                    <div class="setting-item">
+                        <span>Роль</span>
+                        <span id="userRole">Клиент</span>
+                    </div>
+                    <div class="setting-item">
                         <span>🌐 Язык / Language</span>
                         <div class="lang-buttons">
                             <button class="lang-btn" data-lang="ru">🇷🇺 Русский</button>
@@ -320,72 +304,70 @@
     </div>
 
     <script>
-    // === API ===
-const API_URL = 'https://evseenko-majesty-bot.onrender.com';
+        // === API ===
+        const API_URL = 'https://evseenko-bot.onrender.com';
+        let currentUser = null;
 
-// Глобальные переменные
-let currentUser = null;
-
-// === АВТОРИЗАЦИЯ ===
-async function authorize(telegramData) {
-    try {
-        const response = await fetch(`${API_URL}/api/user`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(telegramData)
-        });
-        
-        const data = await response.json();
-        if (data.success) {
-            currentUser = data.user;
-            return true;
+        // === АВТОРИЗАЦИЯ ===
+        async function authorize(telegramData) {
+            try {
+                const response = await fetch(`${API_URL}/api/user`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(telegramData)
+                });
+                
+                const data = await response.json();
+                if (data.success) {
+                    currentUser = data.user;
+                    return true;
+                }
+                return false;
+            } catch (error) {
+                console.error('Auth error:', error);
+                return false;
+            }
         }
-        return false;
-    } catch (error) {
-        console.error('Auth error:', error);
-        return false;
-    }
-}
 
-// === ОБНОВЛЕНИЕ ИНТЕРФЕЙСА ===
-function updateUI() {
-    if (currentUser) {
-        document.getElementById('userName').innerText = currentUser.name;
-        document.getElementById('userRole').innerText = 
-            currentUser.role === 'client' ? 'Клиент' : 
-            currentUser.role === 'master' ? 'Мастер' : 
-            currentUser.role === 'admin' ? 'Администратор' : 'Владелец';
-    }
-}
-
-// === ЗАГРУЗКА ПРИЛОЖЕНИЯ ===
-async function initApp() {
-    const tg = window.Telegram.WebApp;
-    const user = tg.initDataUnsafe?.user;
-    
-    if (user) {
-        const success = await authorize({
-            telegram_id: user.id,
-            first_name: user.first_name,
-            username: user.username
-        });
-        
-        if (success) {
-            updateUI();
-        } else {
-            console.log('Authorization failed');
+        // === ОБНОВЛЕНИЕ ИНТЕРФЕЙСА ===
+        function updateUI() {
+            if (currentUser) {
+                const userNameEl = document.getElementById('userName');
+                const userRoleEl = document.getElementById('userRole');
+                if (userNameEl) userNameEl.innerText = currentUser.name;
+                if (userRoleEl) {
+                    userRoleEl.innerText = 
+                        currentUser.role === 'client' ? 'Клиент' : 
+                        currentUser.role === 'master' ? 'Мастер' : 
+                        currentUser.role === 'admin' ? 'Администратор' : 'Владелец';
+                }
+            }
         }
-    }
-}
 
-// Запускаем после загрузки страницы
-document.addEventListener('DOMContentLoaded', initApp);
+        // === ЗАГРУЗКА ПРИЛОЖЕНИЯ ===
+        async function initApp() {
+            const tg = window.Telegram.WebApp;
+            const user = tg.initDataUnsafe?.user;
+            
+            if (user) {
+                const success = await authorize({
+                    telegram_id: user.id,
+                    first_name: user.first_name,
+                    username: user.username
+                });
+                
+                if (success) {
+                    updateUI();
+                }
+            }
+        }
+
+        // Основной код приложения
         (function() {
             const tg = window.Telegram.WebApp;
             tg.expand();
             tg.ready();
 
-            // === ЯЗЫК ===
             let currentLang = localStorage.getItem('app_lang') || detectLanguage();
 
             function detectLanguage() {
@@ -423,23 +405,22 @@ document.addEventListener('DOMContentLoaded', initApp);
                 
                 const t = texts[currentLang];
                 
-                // Заголовки экранов
                 const homeH1 = document.querySelector('#screen-home h1');
                 const settingsH1 = document.querySelector('#screen-settings h1');
                 if (homeH1) homeH1.innerText = t.home;
                 if (settingsH1) settingsH1.innerText = t.settingsTitle;
                 
-                const settingSpan = document.querySelector('.setting-item span');
-                if (settingSpan) settingSpan.innerText = t.language;
+                const settingSpans = document.querySelectorAll('.setting-item span');
+                if (settingSpans.length >= 3) {
+                    settingSpans[2].innerText = t.language;
+                }
                 
-                // Нижняя навигация
                 const navItems = document.querySelectorAll('.nav-item');
                 if (navItems.length >= 2) {
                     navItems[0].innerHTML = '🏠 ' + t.navHome;
                     navItems[1].innerHTML = '⚙️ ' + t.navSettings;
                 }
                 
-                // Копирайт
                 const copyrightDiv = document.getElementById('splashCopyright');
                 if (copyrightDiv) {
                     copyrightDiv.innerHTML = `
@@ -448,17 +429,14 @@ document.addEventListener('DOMContentLoaded', initApp);
                     `;
                 }
                 
-                // Слоган
                 const taglinePrimary = document.getElementById('taglinePrimary');
                 const taglineSecondary = document.getElementById('taglineSecondary');
                 if (taglinePrimary) taglinePrimary.innerText = t.taglinePrimary;
                 if (taglineSecondary) taglineSecondary.innerText = t.taglineSecondary;
                 
-                // Статус
                 const statusEl = document.getElementById('splashStatus');
                 if (statusEl) statusEl.innerText = t.status;
                 
-                // Кнопки языка
                 document.querySelectorAll('.lang-btn').forEach(btn => {
                     btn.classList.remove('active');
                     if (btn.dataset.lang === currentLang) btn.classList.add('active');
@@ -471,7 +449,6 @@ document.addEventListener('DOMContentLoaded', initApp);
                 updateLanguage();
             }
 
-            // === ТЕМА ===
             function applyTheme() {
                 const theme = tg.colorScheme;
                 if (theme === 'dark') {
@@ -483,7 +460,6 @@ document.addEventListener('DOMContentLoaded', initApp);
 
             tg.onEvent('themeChanged', () => applyTheme());
 
-            // === НАВИГАЦИЯ ===
             function goToScreen(screenId) {
                 document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
                 const target = document.getElementById(`screen-${screenId}`);
@@ -502,7 +478,6 @@ document.addEventListener('DOMContentLoaded', initApp);
                 btn.addEventListener('click', () => setLanguage(btn.dataset.lang));
             });
 
-            // === ЗАГРУЗКА ===
             function startSplash() {
                 applyTheme();
                 updateLanguage();
@@ -514,18 +489,17 @@ document.addEventListener('DOMContentLoaded', initApp);
                 const tagline = document.querySelector('.splash-tagline');
                 const statusWrapper = document.querySelector('.splash-status-wrapper');
                 
-                // Анимация появления
                 setTimeout(() => { if (logoWrapper) logoWrapper.classList.add('active'); }, 200);
                 setTimeout(() => { if (brand) brand.classList.add('active'); }, 600);
                 setTimeout(() => { if (tagline) tagline.classList.add('active'); }, 1000);
                 setTimeout(() => { if (statusWrapper) statusWrapper.classList.add('active'); }, 1400);
                 
-                // Закрытие через 5 секунд
                 setTimeout(() => {
                     if (splash) splash.style.opacity = '0';
                     setTimeout(() => {
                         if (splash) splash.style.display = 'none';
                         if (main) main.style.display = 'block';
+                        initApp();
                     }, 400);
                 }, 5000);
             }
