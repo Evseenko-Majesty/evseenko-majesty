@@ -295,6 +295,14 @@
                 <div class="card">
                     <h1>Настройки</h1>
                     <div class="setting-item">
+            
+    <span>Имя</span>
+    <span id="userName">—</span>
+</div>
+<div class="setting-item">
+    <span>Роль</span>
+    <span id="userRole">Клиент</span>
+</div>
                         <span>🌐 Язык / Language</span>
                         <div class="lang-buttons">
                             <button class="lang-btn" data-lang="ru">🇷🇺 Русский</button>
@@ -312,6 +320,66 @@
     </div>
 
     <script>
+    // === API ===
+const API_URL = 'https://evseenko-majesty-bot.onrender.com';
+
+// Глобальные переменные
+let currentUser = null;
+
+// === АВТОРИЗАЦИЯ ===
+async function authorize(telegramData) {
+    try {
+        const response = await fetch(`${API_URL}/api/user`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(telegramData)
+        });
+        
+        const data = await response.json();
+        if (data.success) {
+            currentUser = data.user;
+            return true;
+        }
+        return false;
+    } catch (error) {
+        console.error('Auth error:', error);
+        return false;
+    }
+}
+
+// === ОБНОВЛЕНИЕ ИНТЕРФЕЙСА ===
+function updateUI() {
+    if (currentUser) {
+        document.getElementById('userName').innerText = currentUser.name;
+        document.getElementById('userRole').innerText = 
+            currentUser.role === 'client' ? 'Клиент' : 
+            currentUser.role === 'master' ? 'Мастер' : 
+            currentUser.role === 'admin' ? 'Администратор' : 'Владелец';
+    }
+}
+
+// === ЗАГРУЗКА ПРИЛОЖЕНИЯ ===
+async function initApp() {
+    const tg = window.Telegram.WebApp;
+    const user = tg.initDataUnsafe?.user;
+    
+    if (user) {
+        const success = await authorize({
+            telegram_id: user.id,
+            first_name: user.first_name,
+            username: user.username
+        });
+        
+        if (success) {
+            updateUI();
+        } else {
+            console.log('Authorization failed');
+        }
+    }
+}
+
+// Запускаем после загрузки страницы
+document.addEventListener('DOMContentLoaded', initApp);
         (function() {
             const tg = window.Telegram.WebApp;
             tg.expand();
