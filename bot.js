@@ -8,6 +8,11 @@ const SUPABASE_URL = process.env.SUPABASE_URL;
 const SUPABASE_KEY = process.env.SUPABASE_KEY;
 const WEBAPP_URL = 'https://evseenkomajesty.ru/app';
 
+if (!BOT_TOKEN) {
+    console.error('❌ BOT_TOKEN not set');
+    process.exit(1);
+}
+
 const bot = new Telegraf(BOT_TOKEN);
 const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 const app = express();
@@ -15,6 +20,8 @@ app.use(express.json());
 
 // === API: ПОЛУЧИТЬ/СОЗДАТЬ ПОЛЬЗОВАТЕЛЯ ===
 app.post('/api/user', async (req, res) => {
+    console.log('📥 POST /api/user', req.body);
+    
     const { telegram_id, first_name, username } = req.body;
     
     if (!telegram_id) {
@@ -22,15 +29,14 @@ app.post('/api/user', async (req, res) => {
     }
     
     try {
-        // Проверяем, есть ли пользователь
         let { data: user } = await supabase
             .from('majesty_users')
             .select('*')
             .eq('telegram_id', telegram_id)
             .single();
         
-        // Если нет — создаём
         if (!user) {
+            console.log('👤 Creating new user:', telegram_id);
             const { data: newUser, error } = await supabase
                 .from('majesty_users')
                 .insert({
@@ -45,7 +51,6 @@ app.post('/api/user', async (req, res) => {
             if (error) throw error;
             user = newUser;
         } else {
-            // Обновляем время последнего входа
             await supabase
                 .from('majesty_users')
                 .update({ last_login: new Date() })
@@ -67,6 +72,17 @@ app.post('/api/user', async (req, res) => {
     }
 });
 
+// === API: БАЛАНС ===
+app.get('/api/balance/:telegram_id', async (req, res) => {
+    const { data: user } = await supabase
+        .from('majesty_users')
+        .select('balance, bonus_points')
+        .eq('telegram_id', req.params.telegram_id)
+        .single();
+    
+    res.json({ balance: user?.balance || 0, bonus: user?.bonus_points || 0 });
+});
+
 // === КОМАНДА /start ===
 bot.start(async (ctx) => {
     await ctx.replyWithMarkdown(
@@ -81,7 +97,14 @@ bot.start(async (ctx) => {
 // === ПИНГ ===
 app.get('/', (req, res) => res.send('OK'));
 
+// === ЗАПУСК ===
 const port = process.env.PORT || 3000;
-app.listen(port, () => console.log(`✅ Server on port ${port}`));
+app.listen(port, () => {
+    console.log(`✅ Server on port ${port}`);
+});
 
-bot.launch().then(() => console.log('✅ Bot started'));
+bot.launch().then(() => {
+    console.log('✅ Bot started');
+}).catch((err) => {
+    console.error('❌ Bot error:', err);
+});
