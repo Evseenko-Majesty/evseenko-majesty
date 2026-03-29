@@ -524,8 +524,15 @@
         }
         tg.onEvent('themeChanged', applyTheme);
 
-        // === НАВИГАЦИЯ ===
-        function initNavigation() {
+// === ПЕРЕКЛЮЧЕНИЕ ЭКРАНОВ ===
+function goToScreen(screenId) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    const target = document.getElementById(`screen-${screenId}`);
+    if (target) target.classList.add('active');
+}
+
+// === НАВИГАЦИЯ ===
+function initNavigation() {
     const items = document.querySelectorAll('.nav-item');
     const indicator = document.querySelector('.nav-indicator');
 
@@ -538,7 +545,7 @@
 
     items.forEach((btn, index) => {
         btn.addEventListener('click', () => {
-            vibrate('light');  // ← вибрация при нажатии
+            vibrate('light');
             goToScreen(btn.dataset.screen);
             document.querySelector('.nav-item.active')?.classList.remove('active');
             btn.classList.add('active');
