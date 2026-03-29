@@ -240,66 +240,195 @@ Evseenko Majesty © 2026
 
 </div>
 </div>
-
 <script>
 const tg = window.Telegram.WebApp;
+
+// === INIT ===
 tg.ready();
 tg.expand();
 
-// HAPTIC
-function vibrate(type="light"){
-try{
-tg.HapticFeedback.impactOccurred(type);
-}catch(e){}
+// === HAPTIC ===
+function vibrate(type = "light") {
+    try {
+        tg.HapticFeedback.impactOccurred(type);
+    } catch(e) {}
 }
 
-// NAV
-function goToScreen(id){
-document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
-document.getElementById("screen-"+id).classList.add('active');
-vibrate("light");
+// === API ===
+const API_URL = 'https://evseenko-majesty-bot.onrender.com';
+let currentUser = null;
+
+// === AUTH ===
+async function authorize(data) {
+    try {
+        const res = await fetch(`${API_URL}/api/user`, {
+            method: 'POST',
+            headers: {'Content-Type':'application/json'},
+            body: JSON.stringify(data)
+        });
+
+        const json = await res.json();
+        if (json.success) {
+            currentUser = json.user;
+            return true;
+        }
+        return false;
+    } catch(e) {
+        console.error(e);
+        return false;
+    }
 }
 
-function initNav(){
-const items=document.querySelectorAll('.nav-item');
-const indicator=document.querySelector('.nav-indicator');
+// === UI ===
+function updateUI() {
+    if (!currentUser) return;
 
-items.forEach((btn,i)=>{
-btn.addEventListener('click',()=>{
-goToScreen(btn.dataset.screen);
+    document.getElementById('userName').innerText = currentUser.name;
 
-document.querySelector('.nav-item.active')?.classList.remove('active');
-btn.classList.add('active');
+    const roles = {
+        client:'Клиент',
+        master:'Мастер',
+        admin:'Администратор'
+    };
 
-indicator.style.left=(i*50)+"%";
-vibrate("medium");
-});
-});
+    document.getElementById('userRole').innerText =
+        roles[currentUser.role] || 'Владелец';
 }
 
-// SPLASH
-function startSplash(){
-const elements=document.querySelectorAll('.fade');
+// === INIT APP ===
+async function initApp() {
+    const user = tg.initDataUnsafe?.user;
 
-elements.forEach((el,i)=>{
-setTimeout(()=>el.classList.add('active'),300*i);
-});
+    if (user) {
+        const ok = await authorize({
+            telegram_id: user.id,
+            first_name: user.first_name,
+            username: user.username
+        });
 
-setTimeout(()=>{
-document.getElementById('splash').style.opacity="0";
-
-setTimeout(()=>{
-document.getElementById('splash').style.display="none";
-document.getElementById('main').style.display="block";
-
-initNav();
-
-},400);
-
-},3000);
+        if (ok) updateUI();
+    }
 }
 
-document.addEventListener("DOMContentLoaded",startSplash);
+// === LANGUAGE ===
+let currentLang = localStorage.getItem('app_lang') || 'ru';
+
+function updateLanguage() {
+    const texts = {
+        ru: {
+            home:'Главная',
+            settings:'Настройки'
+        },
+        en: {
+            home:'Home',
+            settings:'Settings'
+        }
+    };
+
+    const t = texts[currentLang];
+
+    document.querySelector('#screen-home h1').innerText = t.home;
+    document.querySelector('#screen-settings h1').innerText = t.settings;
+
+    const navItems = document.querySelectorAll('.nav-item');
+    navItems[0].querySelector('span').innerText = t.home;
+    navItems[1].querySelector('span').innerText = t.settings;
+}
+
+function setLanguage(lang) {
+    currentLang = lang;
+    localStorage.setItem('app_lang', lang);
+    updateLanguage();
+    vibrate("light");
+}
+
+// === THEME ===
+function applyTheme() {
+    if (tg.colorScheme === 'dark') {
+        document.body.classList.add('dark');
+    } else {
+        document.body.classList.remove('dark');
+    }
+}
+
+tg.onEvent('themeChanged', applyTheme);
+
+// === NAVIGATION ===
+function goToScreen(id) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+
+    const target = document.getElementById(`screen-${id}`);
+    if (target) target.classList.add('active');
+
+    vibrate("light");
+}
+
+function initNavigation() {
+    const items = document.querySelectorAll('.nav-item');
+    const indicator = document.querySelector('.nav-indicator');
+
+    items.forEach((btn, index) => {
+        btn.addEventListener('click', () => {
+
+            goToScreen(btn.dataset.screen);
+
+            document.querySelector('.nav-item.active')?.classList.remove('active');
+            btn.classList.add('active');
+
+            indicator.style.left = `${index * 50}%`;
+
+            vibrate("medium");
+        });
+    });
+}
+
+// === LANGUAGE BUTTONS ===
+function initLangButtons() {
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            setLanguage(btn.dataset.lang);
+        });
+    });
+}
+
+// === SPLASH (УЛУЧШЕННЫЙ) ===
+function startSplash() {
+    applyTheme();
+    updateLanguage();
+
+    const splash = document.getElementById('splash');
+    const main = document.getElementById('main');
+
+    const logo = document.querySelector('.splash-logo-wrapper');
+    const brand = document.querySelector('.splash-brand');
+    const tagline = document.querySelector('.splash-tagline');
+    const status = document.querySelector('.splash-status-wrapper');
+
+    // анимация появления
+    setTimeout(() => logo?.classList.add('active'), 200);
+    setTimeout(() => brand?.classList.add('active'), 600);
+    setTimeout(() => tagline?.classList.add('active'), 1000);
+    setTimeout(() => status?.classList.add('active'), 1400);
+
+    // выход
+    setTimeout(() => {
+        splash.style.opacity = '0';
+
+        setTimeout(() => {
+            splash.style.display = 'none';
+            main.style.display = 'block';
+
+            initNavigation();
+            initLangButtons();
+            initApp();
+
+        }, 400);
+
+    }, 4000);
+}
+
+// === START ===
+document.addEventListener('DOMContentLoaded', startSplash);
 </script>
 
 </body>
