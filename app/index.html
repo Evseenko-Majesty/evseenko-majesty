@@ -525,34 +525,29 @@
         tg.onEvent('themeChanged', applyTheme);
 
         // === НАВИГАЦИЯ ===
-        function goToScreen(screenId) {
-            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-            document.getElementById(`screen-${screenId}`).classList.add('active');
-        }
-
-        // === ИНИЦИАЛИЗАЦИЯ НАВИГАЦИИ ===
         function initNavigation() {
-            const items = document.querySelectorAll('.nav-item');
-            const indicator = document.querySelector('.nav-indicator');
+    const items = document.querySelectorAll('.nav-item');
+    const indicator = document.querySelector('.nav-indicator');
 
-            if (indicator) {
-                const activeIndex = Array.from(items).findIndex(item => item.classList.contains('active'));
-                if (activeIndex !== -1) {
-                    indicator.style.left = `${activeIndex * 50}%`;
-                }
-            }
-
-            items.forEach((btn, index) => {
-                btn.addEventListener('click', () => {
-                    goToScreen(btn.dataset.screen);
-                    document.querySelector('.nav-item.active')?.classList.remove('active');
-                    btn.classList.add('active');
-                    if (indicator) {
-                        indicator.style.left = `${index * 50}%`;
-                    }
-                });
-            });
+    if (indicator) {
+        const activeIndex = Array.from(items).findIndex(item => item.classList.contains('active'));
+        if (activeIndex !== -1) {
+            indicator.style.left = `${activeIndex * 50}%`;
         }
+    }
+
+    items.forEach((btn, index) => {
+        btn.addEventListener('click', () => {
+            vibrate('light');  // ← вибрация при нажатии
+            goToScreen(btn.dataset.screen);
+            document.querySelector('.nav-item.active')?.classList.remove('active');
+            btn.classList.add('active');
+            if (indicator) {
+                indicator.style.left = `${index * 50}%`;
+            }
+        });
+    });
+}
 
         // === ЯЗЫК КНОПКИ ===
         function initLanguageButtons() {
@@ -560,6 +555,30 @@
                 btn.addEventListener('click', () => setLanguage(btn.dataset.lang));
             });
         }
+        // === ВИБРАЦИЯ ===
+function vibrate(style = 'light') {
+    if (!tg.HapticFeedback) return;
+    
+    switch(style) {
+        case 'light':
+            tg.HapticFeedback.impactOccurred('light');
+            break;
+        case 'medium':
+            tg.HapticFeedback.impactOccurred('medium');
+            break;
+        case 'heavy':
+            tg.HapticFeedback.impactOccurred('heavy');
+            break;
+        case 'success':
+            tg.HapticFeedback.notificationOccurred('success');
+            break;
+        case 'error':
+            tg.HapticFeedback.notificationOccurred('error');
+            break;
+        default:
+            tg.HapticFeedback.impactOccurred('light');
+    }
+}
 
         // === SPLASH ===
         function startSplash() {
@@ -576,7 +595,10 @@
             setTimeout(() => { if (logoWrapper) logoWrapper.classList.add('active'); }, 200);
             setTimeout(() => { if (brand) brand.classList.add('active'); }, 600);
             setTimeout(() => { if (tagline) tagline.classList.add('active'); }, 1000);
-            setTimeout(() => { if (statusWrapper) statusWrapper.classList.add('active'); }, 1400);
+            setTimeout(() => { 
+    if (statusWrapper) statusWrapper.classList.add('active');
+    vibrate('medium');
+}, 1400);
 
             setTimeout(() => {
                 splash.style.opacity = '0';
