@@ -46,134 +46,112 @@
             min-height: -webkit-fill-available;
             transition: background 0.2s ease, color 0.2s ease;
         }
+/* === ЗАГРУЗОЧНЫЙ ЭКРАН (независимые элементы) === */
+.splash-content {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    max-width: 400px;
+    margin: 0 auto;
+}
 
-        /* === ЗАГРУЗОЧНЫЙ ЭКРАН === */
-        .splash {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: var(--bg-primary);
-            z-index: 2000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: opacity 0.4s ease;
-        }
+/* Логотип — сам по себе */
+.splash-logo-wrapper {
+    position: absolute;
+    top: 15%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    transition: all 0.6s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+}
+.splash-logo-wrapper.active {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+}
+.splash-logo {
+    font-size: 100px;
+    filter: drop-shadow(0 0 20px var(--accent-glow));
+}
 
-        .splash-content {
-            text-align: center;
-            padding: 20px;
-            position: relative;
-            width: 100%;
-            max-width: 400px;
-            margin: 0 auto;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 80vh;
-        }
+/* Название — само по себе */
+.splash-brand {
+    position: absolute;
+    top: 35%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    text-align: center;
+    opacity: 0;
+    transition: all 0.5s cubic-bezier(0.2, 0.9, 0.4, 1.1) 0.1s;
+}
+.splash-brand.active {
+    opacity: 1;
+}
+.splash-title {
+    font-size: 24px;
+    letter-spacing: 6px;
+    color: var(--accent);
+}
 
-        /* Логотип — вверху, крупнее */
-        .splash-logo-wrapper {
-            opacity: 0;
-            transform: scale(0.8) translateY(20px);
-            transition: all 0.6s cubic-bezier(0.2, 0.9, 0.4, 1.1);
-            margin-top: 0;
-            margin-bottom: 30px;
-        }
-        .splash-logo-wrapper.active {
-            opacity: 1;
-            transform: scale(1) translateY(0);
-        }
-        .splash-logo {
-            font-size: 120px;
-            margin-bottom: 0;
-            filter: drop-shadow(0 0 20px var(--accent-glow));
-        }
+/* Слоган — сам по себе */
+.splash-tagline {
+    position: absolute;
+    top: 55%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    text-align: center;
+    opacity: 0;
+    transition: all 0.5s cubic-bezier(0.2, 0.9, 0.4, 1.1) 0.2s;
+}
+.splash-tagline.active {
+    opacity: 1;
+}
+.tagline-primary {
+    font-size: 18px;
+    color: var(--accent);
+}
+.tagline-secondary {
+    font-size: 12px;
+    opacity: 0.55;
+    margin-top: 6px;
+}
 
-        /* Название — после середины экрана */
-        .splash-brand {
-            opacity: 0;
-            transform: translateY(20px);
-            transition: all 0.5s cubic-bezier(0.2, 0.9, 0.4, 1.1) 0.1s;
-            margin-bottom: 40px;
-        }
-        .splash-brand.active {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        .splash-title {
-            font-size: 24px;
-            font-weight: 600;
-            letter-spacing: 6px;
-            text-transform: uppercase;
-            color: var(--accent);
-        }
+/* Статус — сам по себе */
+.splash-status-wrapper {
+    position: absolute;
+    top: 70%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    text-align: center;
+    opacity: 0;
+    transition: all 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1) 0.3s;
+}
+.splash-status-wrapper.active {
+    opacity: 1;
+}
+.splash-status {
+    display: inline-block;
+    padding: 8px 20px;
+    border-radius: 40px;
+    font-size: 12px;
+    background: var(--bg-secondary);
+    border: 1px solid var(--accent);
+    color: var(--accent);
+}
 
-        /* Слоган — чуть ниже середины */
-        .splash-tagline {
-            opacity: 0;
-            transform: translateY(20px);
-            transition: all 0.5s cubic-bezier(0.2, 0.9, 0.4, 1.1) 0.2s;
-            margin-bottom: 40px;
-        }
-        .splash-tagline.active {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        .tagline-primary {
-            font-size: 18px;
-            font-weight: 500;
-            letter-spacing: 1px;
-            color: var(--accent);
-        }
-        .tagline-secondary {
-            font-size: 12px;
-            opacity: 0.55;
-            margin-top: 6px;
-            color: var(--text-secondary);
-        }
-
-        /* Статус — ещё ниже */
-        .splash-status-wrapper {
-            opacity: 0;
-            transform: translateY(20px);
-            transition: all 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1) 0.3s;
-            margin-bottom: 30px;
-        }
-        .splash-status-wrapper.active {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        .splash-status {
-            display: inline-block;
-            padding: 8px 20px;
-            border-radius: 40px;
-            font-size: 12px;
-            font-weight: 500;
-            letter-spacing: 1px;
-            background: var(--bg-secondary);
-            border: 1px solid var(--accent);
-            color: var(--accent);
-            backdrop-filter: blur(10px);
-        }
-
-        /* Копирайт — в самом низу */
-        .splash-copyright {
-            position: absolute;
-            bottom: 20px;
-            left: 0;
-            right: 0;
-            text-align: center;
-            font-size: 10px;
-            opacity: 0.4;
-            color: var(--text-secondary);
-            letter-spacing: 0.3px;
-            line-height: 1.4;
-        }
+/* Копирайт — сам по себе */
+.splash-copyright {
+    position: absolute;
+    bottom: 5%;
+    left: 0;
+    right: 0;
+    text-align: center;
+    font-size: 10px;
+    opacity: 0.4;
+}
+        
 
         .container {
             max-width: 500px;
