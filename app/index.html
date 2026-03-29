@@ -373,226 +373,176 @@
         </div>
     </div>
 
-    <script>
-        // === TELEGRAM WEBAPP ===
-        const tg = window.Telegram.WebApp;
+    
         
-        // === ПРИНУДИТЕЛЬНОЕ РАСКРЫТИЕ ===
-        function expandWebApp() {
-            try {
-                tg.expand();
-            } catch(e) {}
+            <script>
+const tg = window.Telegram.WebApp;
+
+// === РАСКРЫТИЕ ===
+function expandWebApp() {
+    try { tg.expand(); } catch(e) {}
+}
+expandWebApp();
+window.addEventListener('load', expandWebApp);
+setTimeout(expandWebApp, 100);
+setTimeout(expandWebApp, 300);
+
+tg.ready();
+
+// === API ===
+const API_URL = 'https://evseenko-majesty-bot.onrender.com';
+let currentUser = null;
+
+// === АВТОРИЗАЦИЯ ===
+async function authorize(telegramData) {
+    try {
+        const response = await fetch(`${API_URL}/api/user`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(telegramData)
+        });
+
+        const data = await response.json();
+        if (data.success) {
+            currentUser = data.user;
+            return true;
         }
-        expandWebApp();
-        window.addEventListener('load', expandWebApp);
-        setTimeout(expandWebApp, 100);
-        setTimeout(expandWebApp, 300);
-        
-        tg.ready();
+        return false;
+    } catch (error) {
+        console.error('Auth error:', error);
+        return false;
+    }
+}
 
-        // === API ===
-        const API_URL = 'https://evseenko-majesty-bot.onrender.com';
-        let currentUser = null;
+// === UI ===
+function updateUI() {
+    if (!currentUser) return;
 
-        // === АВТОРИЗАЦИЯ ===
-        async function authorize(telegramData) {
-            try {
-                const response = await fetch(`${API_URL}/api/user`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(telegramData)
-                });
-                
-                const data = await response.json();
-                if (data.success) {
-                    currentUser = data.user;
-                    return true;
-                }
-                return false;
-            } catch (error) {
-                console.error('Auth error:', error);
-                return false;
-            }
+    document.getElementById('userName').innerText = currentUser.name;
+
+    const roleMap = {
+        client: 'Клиент',
+        master: 'Мастер',
+        admin: 'Администратор'
+    };
+
+    document.getElementById('userRole').innerText =
+        roleMap[currentUser.role] || 'Владелец';
+}
+
+// === INIT ===
+async function initApp() {
+    const user = tg.initDataUnsafe?.user;
+
+    if (user) {
+        const success = await authorize({
+            telegram_id: user.id,
+            first_name: user.first_name,
+            username: user.username
+        });
+
+        if (success) updateUI();
+    }
+}
+
+// === ЯЗЫК ===
+let currentLang = localStorage.getItem('app_lang') || 'ru';
+
+function updateLanguage() {
+    const texts = {
+        ru: {
+            home: 'Главная',
+            settings: 'Настройки'
+        },
+        en: {
+            home: 'Home',
+            settings: 'Settings'
         }
+    };
 
-        // === ОБНОВЛЕНИЕ ИНТЕРФЕЙСА ===
-        function updateUI() {
-            if (currentUser) {
-                const userNameEl = document.getElementById('userName');
-                const userRoleEl = document.getElementById('userRole');
-                if (userNameEl) userNameEl.innerText = currentUser.name;
-                if (userRoleEl) {
-                    userRoleEl.innerText = 
-                        currentUser.role === 'client' ? 'Клиент' : 
-                        currentUser.role === 'master' ? 'Мастер' : 
-                        currentUser.role === 'admin' ? 'Администратор' : 'Владелец';
-                }
-            }
-        }
+    const t = texts[currentLang];
 
-        // === ЗАГРУЗКА ПРИЛОЖЕНИЯ ===
-        async function initApp() {
-            const user = tg.initDataUnsafe?.user;
-            
-            if (user) {
-                const success = await authorize({
-                    telegram_id: user.id,
-                    first_name: user.first_name,
-                    username: user.username
-                });
-                
-                if (success) {
-                    updateUI();
-                }
-            }
-        }
+    document.querySelector('#screen-home h1').innerText = t.home;
+    document.querySelector('#screen-settings h1').innerText = t.settings;
 
-        // Основной код приложения
-        (function() {
-            let currentLang = localStorage.getItem('app_lang') || detectLanguage();
+    const navItems = document.querySelectorAll('.nav-item');
+    navItems[0].querySelector('span').innerText = t.home;
+    navItems[1].querySelector('span').innerText = t.settings;
+}
 
-            function detectLanguage() {
-                const tgLang = tg.initDataUnsafe?.user?.language_code || 'en';
-                return tgLang === 'ru' ? 'ru' : 'en';
-            }
+function setLanguage(lang) {
+    currentLang = lang;
+    localStorage.setItem('app_lang', lang);
+    updateLanguage();
+}
 
-            function updateLanguage() {
-                const texts = {
-                    ru: {
-                        home: 'Главная',
-                        settingsTitle: 'Настройки',
-                        language: '🌐 Язык / Language',
-                        navHome: 'Главная',
-                        navSettings: 'Настройки',
-                        copyrightLine1: 'Evseenko Majesty © 2026',
-                        copyrightLine2: 'Все права защищены',
-                        taglinePrimary: 'Двигайся за пределами',
-                        taglineSecondary: 'Drive Beyond Limits',
-                        status: 'СИСТЕМА ГОТОВА'
-                    },
-                    en: {
-                        home: 'Home',
-                        settingsTitle: 'Settings',
-                        language: '🌐 Language / Язык',
-                        navHome: 'Home',
-                        navSettings: 'Settings',
-                        copyrightLine1: 'Evseenko Majesty © 2026',
-                        copyrightLine2: 'All Rights Reserved',
-                        taglinePrimary: 'Drive Beyond Limits',
-                        taglineSecondary: 'Двигайся за пределами',
-                        status: 'SYSTEM READY'
-                    }
-                };
-                
-                const t = texts[currentLang];
-                
-                const homeH1 = document.querySelector('#screen-home h1');
-                const settingsH1 = document.querySelector('#screen-settings h1');
-                if (homeH1) homeH1.innerText = t.home;
-                if (settingsH1) settingsH1.innerText = t.settingsTitle;
-                
-                const settingSpans = document.querySelectorAll('.setting-item span');
-                if (settingSpans.length >= 3) {
-                    settingSpans[2].innerText = t.language;
-                }
-                
-                const navItems = document.querySelectorAll('.nav-item');
-                if (navItems.length >= 2) {
-                    navItems[0].innerHTML = '<svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9L12 3L21 9L12 15L3 9Z"/><path d="M9 22V12H15V22"/></svg><span>' + t.navHome + '</span>';
-                    navItems[1].innerHTML = '<svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H5.78a1.65 1.65 0 0 0-1.51 1 1.65 1.65 0 0 0 .33 1.82l.04.04A10 10 0 0 0 12 17.66a10 10 0 0 0 6.36-2.62l.04-.04z"/><path d="M16.5 9.4a10 10 0 0 0-9 0"/></svg><span>' + t.navSettings + '</span>';
-                }
-                
-                const copyrightDiv = document.getElementById('splashCopyright');
-                if (copyrightDiv) {
-                    copyrightDiv.innerHTML = `
-                        <div>${t.copyrightLine1}</div>
-                        <div>${t.copyrightLine2}</div>
-                    `;
-                }
-                
-                const taglinePrimary = document.getElementById('taglinePrimary');
-                const taglineSecondary = document.getElementById('taglineSecondary');
-                if (taglinePrimary) taglinePrimary.innerText = t.taglinePrimary;
-                if (taglineSecondary) taglineSecondary.innerText = t.taglineSecondary;
-                
-                const statusEl = document.getElementById('splashStatus');
-                if (statusEl) statusEl.innerText = t.status;
-                
-                document.querySelectorAll('.lang-btn').forEach(btn => {
-                    btn.classList.remove('active');
-                    if (btn.dataset.lang === currentLang) btn.classList.add('active');
-                });
-            }
+// === ТЕМА ===
+function applyTheme() {
+    if (tg.colorScheme === 'dark') {
+        document.body.classList.add('dark');
+    } else {
+        document.body.classList.remove('dark');
+    }
+}
+tg.onEvent('themeChanged', applyTheme);
 
-            function setLanguage(lang) {
-                currentLang = lang;
-                localStorage.setItem('app_lang', lang);
-                updateLanguage();
-            }
+// === НАВИГАЦИЯ ===
+function goToScreen(screenId) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.getElementById(`screen-${screenId}`).classList.add('active');
+}
 
-            function applyTheme() {
-                const theme = tg.colorScheme;
-                if (theme === 'dark') {
-                    document.body.classList.add('dark');
-                } else {
-                    document.body.classList.remove('dark');
-                }
-            }
+// === ИНИЦИАЛИЗАЦИЯ НАВИГАЦИИ ===
+function initNavigation() {
+    const items = document.querySelectorAll('.nav-item');
+    const indicator = document.querySelector('.nav-indicator');
 
-            tg.onEvent('themeChanged', () => applyTheme());
+    items.forEach((btn, index) => {
+        btn.addEventListener('click', () => {
 
-            function goToScreen(screenId) {
-                document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-                const items = document.querySelectorAll('.nav-item');
-const indicator = document.querySelector('.nav-indicator');
+            goToScreen(btn.dataset.screen);
 
-items.forEach((btn, index) => {
-    btn.addEventListener('click', () => {
-        
-        // переключение экранов
-        goToScreen(btn.dataset.screen);
+            document.querySelector('.nav-item.active')?.classList.remove('active');
+            btn.classList.add('active');
 
-        // активная кнопка
-        document.querySelector('.nav-item.active')?.classList.remove('active');
-        btn.classList.add('active');
-
-        // движение индикатора
-        indicator.style.left = `${index * 50}%`;
+            indicator.style.left = `${index * 50}%`;
+        });
     });
-});
+}
 
-            document.querySelectorAll('.lang-btn').forEach(btn => {
-                btn.addEventListener('click', () => setLanguage(btn.dataset.lang));
-            });
+// === ЯЗЫК КНОПКИ ===
+function initLanguageButtons() {
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.addEventListener('click', () => setLanguage(btn.dataset.lang));
+    });
+}
 
-            function startSplash() {
-                applyTheme();
-                updateLanguage();
-                
-                const splash = document.getElementById('splash');
-                const main = document.getElementById('main');
-                const logoWrapper = document.querySelector('.splash-logo-wrapper');
-                const brand = document.querySelector('.splash-brand');
-                const tagline = document.querySelector('.splash-tagline');
-                const statusWrapper = document.querySelector('.splash-status-wrapper');
-                
-                setTimeout(() => { if (logoWrapper) logoWrapper.classList.add('active'); }, 200);
-                setTimeout(() => { if (brand) brand.classList.add('active'); }, 600);
-                setTimeout(() => { if (tagline) tagline.classList.add('active'); }, 1000);
-                setTimeout(() => { if (statusWrapper) statusWrapper.classList.add('active'); }, 1400);
-                
-                setTimeout(() => {
-                    if (splash) splash.style.opacity = '0';
-                    setTimeout(() => {
-                        if (splash) splash.style.display = 'none';
-                        if (main) main.style.display = 'block';
-                        initApp();
-                    }, 400);
-                }, 5000);
-            }
+// === SPLASH ===
+function startSplash() {
+    applyTheme();
+    updateLanguage();
 
-            startSplash();
-        })();
-    </script>
+    const splash = document.getElementById('splash');
+    const main = document.getElementById('main');
+
+    setTimeout(() => {
+        splash.style.opacity = '0';
+
+        setTimeout(() => {
+            splash.style.display = 'none';
+            main.style.display = 'block';
+
+            initNavigation();      // 🔥 ВАЖНО
+            initLanguageButtons(); // 🔥 ВАЖНО
+            initApp();
+
+        }, 400);
+
+    }, 3000);
+}
+
+// === СТАРТ ===
+startSplash();
+</script>
 </body>
 </html>
