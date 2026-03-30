@@ -1,1 +1,626 @@
-s
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Evseenko Majesty</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #ffffff;
+            --bg-primary-rgb: 255, 255, 255;
+            --bg-secondary: #f5f5f5;
+            --text-primary: #000000;
+            --text-secondary: #8e8e93;
+            --accent: #c4a747;
+            --border: #e5e5ea;
+            --accent-glow: rgba(196, 167, 71, 0.3);
+        }
+
+        body.dark {
+            --bg-primary: #0B0F14;
+            --bg-primary-rgb: 11, 15, 20;
+            --bg-secondary: #1c1c1e;
+            --text-primary: #ffffff;
+            --text-secondary: #98989e;
+            --accent: #d4af37;
+            --border: #2c2c30;
+            --accent-glow: rgba(212, 175, 55, 0.3);
+        }
+
+        html {
+            height: -webkit-fill-available;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            min-height: -webkit-fill-available;
+            transition: background 0.2s ease, color 0.2s ease;
+        }
+
+        /* === ЗАГРУЗОЧНЫЙ ЭКРАН === */
+        .splash {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--bg-primary);
+            z-index: 2000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.4s ease;
+        }
+
+        .splash-content {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        .splash-logo-wrapper {
+            position: absolute;
+            top: 15%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            opacity: 0;
+            transition: all 0.6s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+        }
+        .splash-logo-wrapper.active {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1);
+        }
+        .splash-logo {
+            font-size: 100px;
+            filter: drop-shadow(0 0 20px var(--accent-glow));
+        }
+
+        .splash-brand {
+            position: absolute;
+            top: 30%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%;
+            text-align: center;
+            opacity: 0;
+            transition: all 0.5s cubic-bezier(0.2, 0.9, 0.4, 1.1) 0.1s;
+        }
+        .splash-brand.active {
+            opacity: 1;
+        }
+        .splash-title {
+            font-size: 24px;
+            font-weight: 600;
+            letter-spacing: 6px;
+            text-transform: uppercase;
+            color: var(--accent);
+        }
+
+        .splash-tagline {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%;
+            text-align: center;
+            opacity: 0;
+            transition: all 0.5s cubic-bezier(0.2, 0.9, 0.4, 1.1) 0.2s;
+        }
+        .splash-tagline.active {
+            opacity: 1;
+        }
+        .tagline-primary {
+            font-size: 18px;
+            font-weight: 500;
+            letter-spacing: 1px;
+            color: var(--accent);
+        }
+        .tagline-secondary {
+            font-size: 12px;
+            opacity: 0.55;
+            margin-top: 6px;
+            color: var(--text-secondary);
+        }
+
+        .splash-status-wrapper {
+            position: absolute;
+            top: 75%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%;
+            text-align: center;
+            opacity: 0;
+            transition: all 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1) 0.3s;
+        }
+        .splash-status-wrapper.active {
+            opacity: 1;
+        }
+        .splash-status {
+            display: inline-block;
+            padding: 8px 20px;
+            border-radius: 40px;
+            font-size: 12px;
+            font-weight: 500;
+            letter-spacing: 1px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--accent);
+            color: var(--accent);
+            backdrop-filter: blur(10px);
+        }
+
+        .splash-copyright {
+            position: absolute;
+            bottom: 5%;
+            left: 0;
+            right: 0;
+            text-align: center;
+            font-size: 10px;
+            opacity: 0.4;
+            color: var(--text-secondary);
+            letter-spacing: 0.3px;
+            line-height: 1.4;
+        }
+
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 20px 16px 80px 16px;
+        }
+
+        .screen {
+            display: none;
+        }
+        .screen.active {
+            display: block;
+        }
+
+        .card {
+            background: var(--bg-secondary);
+            border-radius: 14px;
+            padding: 20px;
+            margin-bottom: 16px;
+            border: 0.5px solid var(--border);
+        }
+
+        /* === ПРЕМИАЛЬНАЯ НАВИГАЦИЯ === */
+        .bottom-nav {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            max-width: 420px;
+            height: 65px;
+            background: rgba(var(--bg-primary-rgb), 0.75);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border-radius: 32px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 0 10px;
+            z-index: 1000;
+        }
+
+        .nav-item {
+            flex: 1;
+            height: 80%;
+            background: none;
+            border: none;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 4px;
+            font-size: 10px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            border-radius: 20px;
+            transition: all 0.25s ease;
+            z-index: 2;
+        }
+
+        .nav-item.active {
+            color: var(--accent);
+        }
+
+        .nav-icon {
+            width: 22px;
+            height: 22px;
+            transition: transform 0.2s ease;
+        }
+
+        .nav-item:active .nav-icon {
+            transform: scale(0.92);
+        }
+
+        .nav-indicator {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            width: 50%;
+            height: 80%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            transition: all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1);
+            z-index: 1;
+        }
+
+        @media (hover: hover) {
+            .nav-item:hover {
+                color: var(--accent);
+                background: rgba(128, 128, 128, 0.08);
+            }
+        }
+
+        .setting-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 0.5px solid var(--border);
+        }
+        .setting-item:last-child {
+            border-bottom: none;
+        }
+
+        .lang-buttons {
+            display: flex;
+            gap: 8px;
+        }
+        .lang-btn {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 13px;
+            cursor: pointer;
+            color: var(--text-primary);
+            transition: all 0.2s;
+        }
+        .lang-btn.active {
+            background: var(--accent);
+            color: #000;
+            border-color: var(--accent);
+        }
+    </style>
+</head>
+<body>
+    <div id="splash" class="splash">
+        <div class="splash-content">
+            <div class="splash-logo-wrapper">
+                <div class="splash-logo">👑</div>
+            </div>
+            <div class="splash-brand">
+                <div class="splash-title">EVSEENKO MAJESTY</div>
+            </div>
+            <div class="splash-tagline">
+                <div class="tagline-primary" id="taglinePrimary"></div>
+                <div class="tagline-secondary" id="taglineSecondary"></div>
+            </div>
+            <div class="splash-status-wrapper">
+                <div class="splash-status" id="splashStatus">СИСТЕМА ГОТОВА</div>
+            </div>
+            <div class="splash-copyright" id="splashCopyright">
+                <div>Evseenko Majesty © 2026</div>
+                <div>Все права защищены</div>
+            </div>
+        </div>
+    </div>
+
+    <div id="main" style="display: none;">
+        <div class="container">
+            <div class="screen active" id="screen-home">
+                <div class="card">
+                    <h1>Главная</h1>
+                </div>
+            </div>
+
+            <div class="screen" id="screen-settings">
+                <div class="card">
+                    <h1>Настройки</h1>
+                    <div class="setting-item">
+                        <span>Имя</span>
+                        <span id="userName">—</span>
+                    </div>
+                    <div class="setting-item">
+                        <span>Роль</span>
+                        <span id="userRole">Клиент</span>
+                    </div>
+                    <div class="setting-item">
+                        <span>🌐 Язык / Language</span>
+                        <div class="lang-buttons">
+                            <button class="lang-btn" data-lang="ru">🇷🇺 Русский</button>
+                            <button class="lang-btn" data-lang="en">🇬🇧 English</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="bottom-nav">
+            <div class="nav-indicator"></div>
+            <button class="nav-item active" data-screen="home">
+                <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M3 9L12 3L21 9L12 15L3 9Z"/>
+                    <path d="M9 22V12H15V22"/>
+                </svg>
+                <span>Главная</span>
+            </button>
+            <button class="nav-item" data-screen="settings">
+                <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <circle cx="12" cy="12" r="3"/>
+                    <path d="M19.4 15a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H5.78a1.65 1.65 0 0 0-1.51 1 1.65 1.65 0 0 0 .33 1.82l.04.04A10 10 0 0 0 12 17.66a10 10 0 0 0 6.36-2.62l.04-.04z"/>
+                    <path d="M16.5 9.4a10 10 0 0 0-9 0"/>
+                </svg>
+                <span>Настройки</span>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        const tg = window.Telegram.WebApp;
+
+        // === РАСКРЫТИЕ ===
+        function expandWebApp() {
+            try { tg.expand(); } catch(e) {}
+        }
+        expandWebApp();
+        window.addEventListener('load', expandWebApp);
+        setTimeout(expandWebApp, 100);
+        setTimeout(expandWebApp, 300);
+
+        tg.ready();
+
+        // === API ===
+        const API_URL = 'https://evseenko-majesty-bot.onrender.com';
+        let currentUser = null;
+
+        // === АВТОРИЗАЦИЯ ===
+        async function authorize(telegramData) {
+            try {
+                const response = await fetch(`${API_URL}/api/user`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(telegramData)
+                });
+
+                const data = await response.json();
+                if (data.success) {
+                    currentUser = data.user;
+                    return true;
+                }
+                return false;
+            } catch (error) {
+                console.error('Auth error:', error);
+                return false;
+            }
+        }
+
+        // === UI ===
+        function updateUI() {
+            if (!currentUser) return;
+
+            const userNameEl = document.getElementById('userName');
+            const userRoleEl = document.getElementById('userRole');
+            
+            if (userNameEl) userNameEl.innerText = currentUser.name;
+
+            const roleMap = {
+                client: 'Клиент',
+                master: 'Мастер',
+                admin: 'Администратор'
+            };
+            if (userRoleEl) userRoleEl.innerText = roleMap[currentUser.role] || 'Владелец';
+        }
+
+        // === INIT ===
+        async function initApp() {
+            const user = tg.initDataUnsafe?.user;
+
+            if (user) {
+                const success = await authorize({
+                    telegram_id: user.id,
+                    first_name: user.first_name,
+                    username: user.username
+                });
+
+                if (success) updateUI();
+            }
+        }
+
+        // === ЯЗЫК ===
+        let currentLang = localStorage.getItem('app_lang') || detectLanguage();
+
+        function detectLanguage() {
+            const tgLang = tg.initDataUnsafe?.user?.language_code || 'en';
+            return tgLang === 'ru' ? 'ru' : 'en';
+        }
+
+        function updateLanguage() {
+            const texts = {
+                ru: {
+                    home: 'Главная',
+                    settings: 'Настройки',
+                    copyrightLine1: 'Evseenko Majesty © 2026',
+                    copyrightLine2: 'Все права защищены',
+                    taglinePrimary: 'Двигайся за пределами',
+                    taglineSecondary: 'Drive Beyond Limits',
+                    status: 'СИСТЕМА ГОТОВА'
+                },
+                en: {
+                    home: 'Home',
+                    settings: 'Settings',
+                    copyrightLine1: 'Evseenko Majesty © 2026',
+                    copyrightLine2: 'All Rights Reserved',
+                    taglinePrimary: 'Drive Beyond Limits',
+                    taglineSecondary: 'Двигайся за пределами',
+                    status: 'SYSTEM READY'
+                }
+            };
+
+            const t = texts[currentLang];
+
+            const homeH1 = document.querySelector('#screen-home h1');
+            const settingsH1 = document.querySelector('#screen-settings h1');
+            if (homeH1) homeH1.innerText = t.home;
+            if (settingsH1) settingsH1.innerText = t.settings;
+
+            const navItems = document.querySelectorAll('.nav-item');
+            if (navItems.length >= 2) {
+                navItems[0].querySelector('span').innerText = t.home;
+                navItems[1].querySelector('span').innerText = t.settings;
+            }
+
+            const copyrightDiv = document.getElementById('splashCopyright');
+            if (copyrightDiv) {
+                copyrightDiv.innerHTML = `
+                    <div>${t.copyrightLine1}</div>
+                    <div>${t.copyrightLine2}</div>
+                `;
+            }
+
+            const taglinePrimary = document.getElementById('taglinePrimary');
+            const taglineSecondary = document.getElementById('taglineSecondary');
+            if (taglinePrimary) taglinePrimary.innerText = t.taglinePrimary;
+            if (taglineSecondary) taglineSecondary.innerText = t.taglineSecondary;
+
+            const statusEl = document.getElementById('splashStatus');
+            if (statusEl) statusEl.innerText = t.status;
+
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.dataset.lang === currentLang) btn.classList.add('active');
+            });
+        }
+
+        function setLanguage(lang) {
+            currentLang = lang;
+            localStorage.setItem('app_lang', lang);
+            updateLanguage();
+        }
+
+        // === ТЕМА ===
+        function applyTheme() {
+            if (tg.colorScheme === 'dark') {
+                document.body.classList.add('dark');
+            } else {
+                document.body.classList.remove('dark');
+            }
+        }
+        tg.onEvent('themeChanged', applyTheme);
+
+// === ПЕРЕКЛЮЧЕНИЕ ЭКРАНОВ ===
+function goToScreen(screenId) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    const target = document.getElementById(`screen-${screenId}`);
+    if (target) target.classList.add('active');
+}
+
+// === НАВИГАЦИЯ ===
+function initNavigation() {
+    const items = document.querySelectorAll('.nav-item');
+    const indicator = document.querySelector('.nav-indicator');
+
+    if (indicator) {
+        const activeIndex = Array.from(items).findIndex(item => item.classList.contains('active'));
+        if (activeIndex !== -1) {
+            indicator.style.left = `${activeIndex * 50}%`;
+        }
+    }
+
+    items.forEach((btn, index) => {
+        btn.addEventListener('click', () => {
+            vibrate('light');
+            goToScreen(btn.dataset.screen);
+            document.querySelector('.nav-item.active')?.classList.remove('active');
+            btn.classList.add('active');
+            if (indicator) {
+                indicator.style.left = `${index * 50}%`;
+            }
+        });
+    });
+}
+
+        // === ЯЗЫК КНОПКИ ===
+        function initLanguageButtons() {
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.addEventListener('click', () => setLanguage(btn.dataset.lang));
+            });
+        }
+        // === ВИБРАЦИЯ ===
+function vibrate(style = 'light') {
+    if (!tg.HapticFeedback) return;
+    
+    switch(style) {
+        case 'light':
+            tg.HapticFeedback.impactOccurred('light');
+            break;
+        case 'medium':
+            tg.HapticFeedback.impactOccurred('medium');
+            break;
+        case 'heavy':
+            tg.HapticFeedback.impactOccurred('heavy');
+            break;
+        case 'success':
+            tg.HapticFeedback.notificationOccurred('success');
+            break;
+        case 'error':
+            tg.HapticFeedback.notificationOccurred('error');
+            break;
+        default:
+            tg.HapticFeedback.impactOccurred('light');
+    }
+}
+
+        // === SPLASH ===
+        function startSplash() {
+            applyTheme();
+            updateLanguage();
+
+            const splash = document.getElementById('splash');
+            const main = document.getElementById('main');
+            const logoWrapper = document.querySelector('.splash-logo-wrapper');
+            const brand = document.querySelector('.splash-brand');
+            const tagline = document.querySelector('.splash-tagline');
+            const statusWrapper = document.querySelector('.splash-status-wrapper');
+
+            setTimeout(() => { if (logoWrapper) logoWrapper.classList.add('active'); }, 200);
+            setTimeout(() => { if (brand) brand.classList.add('active'); }, 600);
+            setTimeout(() => { if (tagline) tagline.classList.add('active'); }, 1000);
+            setTimeout(() => { 
+    if (statusWrapper) statusWrapper.classList.add('active');
+    vibrate('medium');
+}, 1400);
+
+            setTimeout(() => {
+                splash.style.opacity = '0';
+                setTimeout(() => {
+                    splash.style.display = 'none';
+                    main.style.display = 'block';
+                    initNavigation();
+                    initLanguageButtons();
+                    initApp();
+                }, 400);
+            }, 5000);
+        }
+
+        // === СТАРТ ===
+        startSplash();
+    </script>
+</body>
+</html>
