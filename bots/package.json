@@ -1,0 +1,14 @@
+{
+  "name": "evseenko-majesty-bot",
+  "version": "1.0.0",
+  "main": "client-bot.js",
+  "scripts": {
+    "start": "node client-bot.js"
+  },
+  "dependencies": {
+    "telegraf": "^4.16.3",
+    "@supabase/supabase-js": "^2.45.0",
+    "express": "^4.19.2",
+    "dotenv": "^16.4.5"
+  }
+}
