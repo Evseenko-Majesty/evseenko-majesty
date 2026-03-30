@@ -1,4 +1,4 @@
-const API_URL = 'https://evseenko-majesty-bot.onrender.com';
+const API_URL = 'https://evseenko-majesty.onrender.com';
 let currentUser = null;
 
 export async function authorize(telegramData) {
