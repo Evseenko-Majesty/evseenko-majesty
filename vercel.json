@@ -1,0 +1,22 @@
+{
+  "builds": [
+    {
+      "src": "apps/client/**",
+      "use": "@vercel/static"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/styles/(.*)",
+      "dest": "/apps/client/styles/$1"
+    },
+    {
+      "src": "/js/(.*)",
+      "dest": "/apps/client/js/$1"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/apps/client/index.html"
+    }
+  ]
+}
