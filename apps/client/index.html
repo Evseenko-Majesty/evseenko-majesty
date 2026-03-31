@@ -9,12 +9,17 @@
     <link rel="stylesheet" href="styles/themes.css">
     <link rel="stylesheet" href="styles/components.css">
     <link rel="stylesheet" href="styles/splash.css">
+    <link rel="stylesheet" href="styles/navigation.css">
 </head>
 <body>
     <div id="splash" class="splash">
         <div class="splash-content">
             <div class="splash-logo">👑</div>
             <div class="splash-title">EVSEENKO MAJESTY</div>
+            <div class="splash-tagline">
+                <div class="tagline-primary" id="taglinePrimary"></div>
+                <div class="tagline-secondary" id="taglineSecondary"></div>
+            </div>
             <div class="splash-status" id="splashStatus">СИСТЕМА ГОТОВА</div>
             <div class="splash-copyright" id="splashCopyright">
                 <div>Evseenko Majesty © 2026</div>
@@ -53,8 +58,21 @@
         </div>
 
         <div class="bottom-nav">
-            <button class="nav-item active" data-screen="home">🏠 Главная</button>
-            <button class="nav-item" data-screen="settings">⚙️ Настройки</button>
+            <button class="nav-item active" data-screen="home">
+                <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <path d="M3 9L12 3L21 9L12 15L3 9Z"/>
+                    <path d="M9 22V12H15V22"/>
+                </svg>
+                <span>Главная</span>
+            </button>
+            <button class="nav-item" data-screen="settings">
+                <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <circle cx="12" cy="12" r="3"/>
+                    <path d="M19.4 15a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H5.78a1.65 1.65 0 0 0-1.51 1 1.65 1.65 0 0 0 .33 1.82l.04.04A10 10 0 0 0 12 17.66a10 10 0 0 0 6.36-2.62l.04-.04z"/>
+                    <path d="M16.5 9.4a10 10 0 0 0-9 0"/>
+                </svg>
+                <span>Настройки</span>
+            </button>
         </div>
     </div>
 
@@ -74,25 +92,69 @@
         applyTheme();
         tg.onEvent('themeChanged', applyTheme);
 
+        // === ЯЗЫК ===
+        let currentLang = localStorage.getItem('app_lang') || 'ru';
+
+        const texts = {
+            ru: {
+                taglinePrimary: 'Двигайся за пределами',
+                taglineSecondary: 'Drive Beyond Limits',
+                status: 'СИСТЕМА ГОТОВА',
+                home: 'Главная',
+                settings: 'Настройки'
+            },
+            en: {
+                taglinePrimary: 'Drive Beyond Limits',
+                taglineSecondary: 'Двигайся за пределами',
+                status: 'SYSTEM READY',
+                home: 'Home',
+                settings: 'Settings'
+            }
+        };
+
+        function updateLanguage() {
+            const t = texts[currentLang];
+            document.getElementById('taglinePrimary').innerText = t.taglinePrimary;
+            document.getElementById('taglineSecondary').innerText = t.taglineSecondary;
+            document.getElementById('splashStatus').innerText = t.status;
+            document.querySelector('#screen-home h1').innerText = t.home;
+            document.querySelector('#screen-settings h1').innerText = t.settings;
+            
+            document.querySelectorAll('.nav-item').forEach((btn, i) => {
+                btn.querySelector('span').innerText = i === 0 ? t.home : t.settings;
+            });
+            
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.dataset.lang === currentLang) btn.classList.add('active');
+            });
+        }
+
+        function setLanguage(lang) {
+            currentLang = lang;
+            localStorage.setItem('app_lang', lang);
+            updateLanguage();
+        }
+
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+            btn.addEventListener('click', () => setLanguage(btn.dataset.lang));
+        });
+
         // === НАВИГАЦИЯ ===
         function goToScreen(screenId) {
             document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
             document.getElementById(`screen-${screenId}`).classList.add('active');
+            document.querySelectorAll('.nav-item').forEach(btn => btn.classList.remove('active'));
+            document.querySelector(`.nav-item[data-screen="${screenId}"]`).classList.add('active');
         }
 
         document.querySelectorAll('.nav-item').forEach(btn => {
             btn.addEventListener('click', () => goToScreen(btn.dataset.screen));
         });
 
-        // === ЯЗЫК (пока заглушка) ===
-        document.querySelectorAll('.lang-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                console.log('Язык:', btn.dataset.lang);
-                // Пока просто логируем, позже добавим функционал
-            });
-        });
-
         // === ЗАГРУЗКА ===
+        updateLanguage();
+
         setTimeout(() => {
             const splash = document.getElementById('splash');
             const main = document.getElementById('main');
