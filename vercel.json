@@ -7,8 +7,12 @@
   ],
   "routes": [
     {
-      "src": "/(.*)",
+      "src": "/apps/client/(.*)",
       "dest": "/apps/client/$1"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/apps/client/index.html"
     }
   ]
 }
