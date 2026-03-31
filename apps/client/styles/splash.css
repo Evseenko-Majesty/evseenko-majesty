@@ -1,4 +1,3 @@
-/* === ЗАГРУЗОЧНЫЙ ЭКРАН (премиум) === */
 .splash {
     position: fixed;
     top: 0;
@@ -10,123 +9,40 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: opacity 0.6s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+    transition: opacity 0.4s ease;
 }
 
 .splash-content {
-    position: relative;
-    width: 100%;
-    height: 100vh;
-    max-width: 400px;
-    margin: 0 auto;
-}
-
-/* Логотип — появляется с масштабом и свечением */
-.splash-logo-wrapper {
-    position: absolute;
-    top: 15%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    opacity: 0;
-    transition: all 0.7s cubic-bezier(0.2, 0.9, 0.4, 1.2);
-}
-.splash-logo-wrapper.active {
-    opacity: 1;
-    transform: translate(-50%, -50%) scale(1);
-}
-.splash-logo {
-    width: 100px;
-    height: auto;
-    filter: drop-shadow(0 0 20px var(--accent-glow));
-    transition: filter 0.3s ease;
-}
-
-/* Название — появляется с вылетом */
-.splash-brand {
-    position: absolute;
-    top: 32%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 100%;
     text-align: center;
-    opacity: 0;
-    transition: all 0.6s cubic-bezier(0.2, 0.9, 0.4, 1.1) 0.1s;
+    padding: 20px;
 }
-.splash-brand.active {
-    opacity: 1;
+
+.splash-logo {
+    font-size: 80px;
+    margin-bottom: 20px;
+    filter: drop-shadow(0 0 20px var(--accent-glow));
 }
+
 .splash-title {
-    font-size: 22px;
+    font-size: 20px;
     font-weight: 600;
-    letter-spacing: 6px;
-    text-transform: uppercase;
+    letter-spacing: 4px;
     color: var(--accent);
 }
 
-/* Слоган — две строки, основная ярче */
-.splash-tagline {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 100%;
-    text-align: center;
-    opacity: 0;
-    transition: all 0.6s cubic-bezier(0.2, 0.9, 0.4, 1.1) 0.2s;
-}
-.splash-tagline.active {
-    opacity: 1;
-}
-.tagline-primary {
-    font-size: 18px;
-    font-weight: 500;
+.splash-status {
+    margin-top: 40px;
+    font-size: 12px;
     letter-spacing: 1px;
     color: var(--accent);
 }
-.tagline-secondary {
-    font-size: 12px;
-    opacity: 0.55;
-    margin-top: 6px;
-    color: var(--text-secondary);
-}
 
-/* Статус — кнопка с обводкой */
-.splash-status-wrapper {
-    position: absolute;
-    top: 72%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 100%;
-    text-align: center;
-    opacity: 0;
-    transition: all 0.5s cubic-bezier(0.2, 0.9, 0.4, 1.1) 0.3s;
-}
-.splash-status-wrapper.active {
-    opacity: 1;
-}
-.splash-status {
-    display: inline-block;
-    padding: 8px 24px;
-    border-radius: 40px;
-    font-size: 12px;
-    font-weight: 500;
-    letter-spacing: 1.5px;
-    background: var(--bg-secondary);
-    border: 1px solid var(--accent);
-    color: var(--accent);
-    backdrop-filter: blur(10px);
-}
-
-/* Копирайт — внизу, полупрозрачный */
 .splash-copyright {
     position: absolute;
-    bottom: 5%;
+    bottom: 20px;
     left: 0;
     right: 0;
     text-align: center;
     font-size: 10px;
-    opacity: 0.4;
-    color: var(--text-secondary);
-    letter-spacing: 0.5px;
-    line-height: 1.4;
+    opacity: 0.5;
 }
