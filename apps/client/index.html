@@ -75,34 +75,74 @@
             </button>
         </div>
     </div>
+<script>
+        // === РЕЖИМ РАЗРАБОТКИ (для ПК) ===
+        const isDev = window.location.hostname === 'localhost' || 
+                      window.location.hostname.includes('vercel.app') ||
+                      !window.Telegram?.WebApp;
 
-  <script>
-        // === TELEGRAM WEBAPP (с запасным вариантом) ===
-        let tg = window.Telegram?.WebApp;
+        let tg;
 
-        // Если Telegram WebApp не загрузился — создаём заглушку
-        if (!tg) {
-            console.warn('Telegram WebApp не загружен, использую заглушку');
+        if (isDev) {
+            console.log('🔧 Режим разработки — использую заглушку');
+            
+            // Заглушка для тестирования на ПК
             tg = {
-                expand: () => {},
-                ready: () => {},
-                close: () => {},
-                colorScheme: localStorage.getItem('theme') === 'dark' ? 'dark' : 'light',
-                onEvent: () => {},
+                expand: () => console.log('🔧 expand'),
+                ready: () => console.log('🔧 ready'),
+                close: () => console.log('🔧 close'),
+                colorScheme: localStorage.getItem('dev_theme') === 'dark' ? 'dark' : 'light',
+                onEvent: (event, cb) => console.log('🔧 onEvent', event),
                 HapticFeedback: {
-                    impactOccurred: () => {},
-                    notificationOccurred: () => {}
+                    impactOccurred: () => console.log('🔧 haptic'),
+                    notificationOccurred: () => console.log('🔧 haptic')
                 },
                 initDataUnsafe: {
                     user: {
                         id: 123456789,
                         first_name: 'Тестовый',
                         username: 'test_user',
-                        language_code: 'ru'
+                        language_code: localStorage.getItem('dev_lang') || 'ru'
                     }
                 }
             };
+            
+            // Создаём глобальный объект
             window.Telegram = { WebApp: tg };
+            
+            // Кнопки для управления в режиме разработки
+            const devPanel = document.createElement('div');
+            devPanel.style.cssText = 'position: fixed; bottom: 80px; left: 10px; background: rgba(0,0,0,0.7); color: white; padding: 8px 12px; border-radius: 8px; font-size: 12px; z-index: 9999; display: flex; gap: 8px;';
+            devPanel.innerHTML = `
+                <button id="devLight" style="padding: 4px 8px;">☀️ Светлая</button>
+                <button id="devDark" style="padding: 4px 8px;">🌙 Тёмная</button>
+                <button id="devRu" style="padding: 4px 8px;">🇷🇺 RU</button>
+                <button id="devEn" style="padding: 4px 8px;">🇬🇧 EN</button>
+            `;
+            document.body.appendChild(devPanel);
+            
+            document.getElementById('devLight')?.addEventListener('click', () => {
+                localStorage.setItem('dev_theme', 'light');
+                tg.colorScheme = 'light';
+                applyTheme();
+            });
+            document.getElementById('devDark')?.addEventListener('click', () => {
+                localStorage.setItem('dev_theme', 'dark');
+                tg.colorScheme = 'dark';
+                applyTheme();
+            });
+            document.getElementById('devRu')?.addEventListener('click', () => {
+                localStorage.setItem('dev_lang', 'ru');
+                setLanguage('ru');
+            });
+            document.getElementById('devEn')?.addEventListener('click', () => {
+                localStorage.setItem('dev_lang', 'en');
+                setLanguage('en');
+            });
+            
+        } else {
+            // Реальный Telegram WebApp
+            tg = window.Telegram.WebApp;
         }
 
         // === ИНИЦИАЛИЗАЦИЯ ===
@@ -121,7 +161,8 @@
         tg.onEvent('themeChanged', applyTheme);
 
         // === ЯЗЫК ===
-        let currentLang = localStorage.getItem('app_lang') || 'ru';
+        let currentLang = localStorage.getItem('app_lang') || 
+                          (tg.initDataUnsafe?.user?.language_code === 'ru' ? 'ru' : 'en');
 
         const texts = {
             ru: {
@@ -142,15 +183,23 @@
 
         function updateLanguage() {
             const t = texts[currentLang];
-            document.getElementById('taglinePrimary').innerText = t.taglinePrimary;
-            document.getElementById('taglineSecondary').innerText = t.taglineSecondary;
-            document.getElementById('splashStatus').innerText = t.status;
-            document.querySelector('#screen-home h1').innerText = t.home;
-            document.querySelector('#screen-settings h1').innerText = t.settings;
+            const taglinePrimary = document.getElementById('taglinePrimary');
+            const taglineSecondary = document.getElementById('taglineSecondary');
+            const splashStatus = document.getElementById('splashStatus');
+            const homeH1 = document.querySelector('#screen-home h1');
+            const settingsH1 = document.querySelector('#screen-settings h1');
             
-            document.querySelectorAll('.nav-item').forEach((btn, i) => {
-                btn.querySelector('span').innerText = i === 0 ? t.home : t.settings;
-            });
+            if (taglinePrimary) taglinePrimary.innerText = t.taglinePrimary;
+            if (taglineSecondary) taglineSecondary.innerText = t.taglineSecondary;
+            if (splashStatus) splashStatus.innerText = t.status;
+            if (homeH1) homeH1.innerText = t.home;
+            if (settingsH1) settingsH1.innerText = t.settings;
+            
+            const navItems = document.querySelectorAll('.nav-item');
+            if (navItems.length >= 2) {
+                navItems[0].querySelector('span').innerText = t.home;
+                navItems[1].querySelector('span').innerText = t.settings;
+            }
             
             document.querySelectorAll('.lang-btn').forEach(btn => {
                 btn.classList.remove('active');
@@ -164,6 +213,7 @@
             updateLanguage();
         }
 
+        // === КНОПКИ ЯЗЫКА ===
         document.querySelectorAll('.lang-btn').forEach(btn => {
             btn.addEventListener('click', () => setLanguage(btn.dataset.lang));
         });
@@ -171,9 +221,11 @@
         // === НАВИГАЦИЯ ===
         function goToScreen(screenId) {
             document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-            document.getElementById(`screen-${screenId}`).classList.add('active');
+            const target = document.getElementById(`screen-${screenId}`);
+            if (target) target.classList.add('active');
             document.querySelectorAll('.nav-item').forEach(btn => btn.classList.remove('active'));
-            document.querySelector(`.nav-item[data-screen="${screenId}"]`).classList.add('active');
+            const activeBtn = document.querySelector(`.nav-item[data-screen="${screenId}"]`);
+            if (activeBtn) activeBtn.classList.add('active');
         }
 
         document.querySelectorAll('.nav-item').forEach(btn => {
@@ -186,10 +238,12 @@
         setTimeout(() => {
             const splash = document.getElementById('splash');
             const main = document.getElementById('main');
-            splash.style.opacity = '0';
-            setTimeout(() => {
-                splash.style.display = 'none';
-                main.style.display = 'block';
-            }, 400);
+            if (splash && main) {
+                splash.style.opacity = '0';
+                setTimeout(() => {
+                    splash.style.display = 'none';
+                    main.style.display = 'block';
+                }, 400);
+            }
         }, 3000);
     </script>
