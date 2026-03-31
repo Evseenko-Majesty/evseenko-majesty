@@ -7,8 +7,8 @@
   ],
   "routes": [
     {
-      "src": "/apps/client/(.*)",
-      "dest": "/apps/client/$1"
+      "src": "/styles/(.*)",
+      "dest": "/apps/client/styles/$1"
     },
     {
       "src": "/(.*)",
