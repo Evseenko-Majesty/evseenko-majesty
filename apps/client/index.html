@@ -76,8 +76,36 @@
         </div>
     </div>
 
-    <script>
-        const tg = window.Telegram.WebApp;
+  <script>
+        // === TELEGRAM WEBAPP (с запасным вариантом) ===
+        let tg = window.Telegram?.WebApp;
+
+        // Если Telegram WebApp не загрузился — создаём заглушку
+        if (!tg) {
+            console.warn('Telegram WebApp не загружен, использую заглушку');
+            tg = {
+                expand: () => {},
+                ready: () => {},
+                close: () => {},
+                colorScheme: localStorage.getItem('theme') === 'dark' ? 'dark' : 'light',
+                onEvent: () => {},
+                HapticFeedback: {
+                    impactOccurred: () => {},
+                    notificationOccurred: () => {}
+                },
+                initDataUnsafe: {
+                    user: {
+                        id: 123456789,
+                        first_name: 'Тестовый',
+                        username: 'test_user',
+                        language_code: 'ru'
+                    }
+                }
+            };
+            window.Telegram = { WebApp: tg };
+        }
+
+        // === ИНИЦИАЛИЗАЦИЯ ===
         tg.expand();
         tg.ready();
 
@@ -165,5 +193,3 @@
             }, 400);
         }, 3000);
     </script>
-</body>
-</html>
