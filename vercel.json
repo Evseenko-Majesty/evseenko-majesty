@@ -1,34 +1,21 @@
 {
-  "builds": [
+  "rewrites": [
     {
-      "src": "apps/client/**",
-      "use": "@vercel/static"
+      "source": "/apps/client",
+      "destination": "/apps/client/index.html"
     },
     {
-      "src": "apps/admin/**",
-      "use": "@vercel/static"
-    }
-  ],
-  "routes": [
+      "source": "/apps/client/:path*",
+      "destination": "/apps/client/:path*"
+    },
+
     {
-      "src": "/apps/client/(.*)",
-      "dest": "/apps/client/$1"
+      "source": "/apps/admin",
+      "destination": "/apps/admin/index.html"
     },
     {
-      "src": "/apps/admin/(.*)",
-      "dest": "/apps/admin/$1"
-    },
-    {
-      "src": "/styles/(.*)",
-      "dest": "/apps/client/styles/$1"
-    },
-    {
-      "src": "/js/(.*)",
-      "dest": "/apps/client/js/$1"
-    },
-    {
-      "src": "/(.*)",
-      "dest": "/apps/client/index.html"
+      "source": "/apps/admin/:path*",
+      "destination": "/apps/admin/:path*"
     }
   ]
 }
