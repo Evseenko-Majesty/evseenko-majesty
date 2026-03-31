@@ -6,9 +6,9 @@
     width: 90%;
     max-width: 420px;
     height: 65px;
-    background: rgba(var(--bg-primary-rgb), 0.85);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
+    background: rgba(var(--bg-primary-rgb), 0.75);
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
     border-radius: 32px;
     border: 1px solid rgba(255, 255, 255, 0.1);
     display: flex;
@@ -16,7 +16,6 @@
     align-items: center;
     padding: 0 10px;
     z-index: 1000;
-    transition: all 0.3s ease;
 }
 
 .nav-item {
@@ -30,12 +29,11 @@
     align-items: center;
     gap: 4px;
     font-size: 10px;
-    font-weight: 500;
     color: var(--text-secondary);
     cursor: pointer;
     border-radius: 20px;
-    transition: all 0.2s cubic-bezier(0.2, 0.9, 0.4, 1.1);
-    position: relative;
+    transition: all 0.25s ease;
+    z-index: 2;
 }
 
 .nav-item.active {
@@ -52,16 +50,17 @@
     transform: scale(0.92);
 }
 
-.nav-item.active::after {
-    content: '';
+.nav-indicator {
     position: absolute;
-    bottom: -4px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 4px;
-    height: 4px;
-    background: var(--accent);
-    border-radius: 2px;
+    top: 50%;
+    left: 0;
+    width: 50%;
+    height: 80%;
+    transform: translateY(-50%);
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 20px;
+    transition: all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1);
+    z-index: 1;
 }
 
 @media (hover: hover) {
