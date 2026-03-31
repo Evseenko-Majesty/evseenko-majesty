@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <base hret="/">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>Evseenko Majesty</title>
@@ -14,13 +13,19 @@
 <body>
     <div id="splash" class="splash">
         <div class="splash-content">
-            <div class="splash-logo">👑</div>
-            <div class="splash-title">EVSEENKO MAJESTY</div>
+            <div class="splash-logo-wrapper">
+                <div class="splash-logo">👑</div>
+            </div>
+            <div class="splash-brand">
+                <div class="splash-title">EVSEENKO MAJESTY</div>
+            </div>
             <div class="splash-tagline">
                 <div class="tagline-primary" id="taglinePrimary"></div>
                 <div class="tagline-secondary" id="taglineSecondary"></div>
             </div>
-            <div class="splash-status" id="splashStatus">СИСТЕМА ГОТОВА</div>
+            <div class="splash-status-wrapper">
+                <div class="splash-status" id="splashStatus">СИСТЕМА ГОТОВА</div>
+            </div>
             <div class="splash-copyright" id="splashCopyright">
                 <div>Evseenko Majesty © 2026</div>
                 <div>Все права защищены</div>
@@ -58,6 +63,7 @@
         </div>
 
         <div class="bottom-nav">
+            <div class="nav-indicator"></div>
             <button class="nav-item active" data-screen="home">
                 <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
                     <path d="M3 9L12 3L21 9L12 15L3 9Z"/>
@@ -75,165 +81,7 @@
             </button>
         </div>
     </div>
-<script>
-        // === РЕЖИМ РАЗРАБОТКИ (всегда используем заглушку на ПК) ===
-        const isDev = true; // Принудительно включаем режим разработки
-        
-        let tg;
 
-        // Заглушка для тестирования на ПК
-        tg = {
-            expand: () => console.log('🔧 expand'),
-            ready: () => console.log('🔧 ready'),
-            close: () => console.log('🔧 close'),
-            colorScheme: localStorage.getItem('dev_theme') === 'dark' ? 'dark' : 'light',
-            onEvent: (event, cb) => console.log('🔧 onEvent', event),
-            HapticFeedback: {
-                impactOccurred: () => console.log('🔧 haptic'),
-                notificationOccurred: () => console.log('🔧 haptic')
-            },
-            initDataUnsafe: {
-                user: {
-                    id: 123456789,
-                    first_name: 'Тестовый',
-                    username: 'test_user',
-                    language_code: localStorage.getItem('dev_lang') || 'ru'
-                }
-            }
-        };
-        
-        // Создаём глобальный объект
-        window.Telegram = { WebApp: tg };
-        
-        // Кнопки для управления в режиме разработки
-        const devPanel = document.createElement('div');
-        devPanel.style.cssText = 'position: fixed; bottom: 80px; left: 10px; background: rgba(0,0,0,0.8); color: white; padding: 8px 12px; border-radius: 8px; font-size: 12px; z-index: 9999; display: flex; gap: 8px; font-family: monospace;';
-        devPanel.innerHTML = `
-            <button id="devLight" style="padding: 4px 8px; cursor: pointer;">☀️ Светлая</button>
-            <button id="devDark" style="padding: 4px 8px; cursor: pointer;">🌙 Тёмная</button>
-            <button id="devRu" style="padding: 4px 8px; cursor: pointer;">🇷🇺 RU</button>
-            <button id="devEn" style="padding: 4px 8px; cursor: pointer;">🇬🇧 EN</button>
-        `;
-        document.body.appendChild(devPanel);
-        
-        document.getElementById('devLight')?.addEventListener('click', () => {
-            localStorage.setItem('dev_theme', 'light');
-            tg.colorScheme = 'light';
-            applyTheme();
-        });
-        document.getElementById('devDark')?.addEventListener('click', () => {
-            localStorage.setItem('dev_theme', 'dark');
-            tg.colorScheme = 'dark';
-            applyTheme();
-        });
-        document.getElementById('devRu')?.addEventListener('click', () => {
-            localStorage.setItem('dev_lang', 'ru');
-            setLanguage('ru');
-        });
-        document.getElementById('devEn')?.addEventListener('click', () => {
-            localStorage.setItem('dev_lang', 'en');
-            setLanguage('en');
-        });
-        
-        console.log('🔧 Режим разработки — заглушка активна');
-
-        // === ИНИЦИАЛИЗАЦИЯ ===
-        tg.expand();
-        tg.ready();
-
-        // === ТЕМА ===
-        function applyTheme() {
-            if (tg.colorScheme === 'dark') {
-                document.body.classList.add('dark');
-            } else {
-                document.body.classList.remove('dark');
-            }
-        }
-        applyTheme();
-
-        // === ЯЗЫК ===
-        let currentLang = localStorage.getItem('app_lang') || 'ru';
-
-        const texts = {
-            ru: {
-                taglinePrimary: 'Двигайся за пределами',
-                taglineSecondary: 'Drive Beyond Limits',
-                status: 'СИСТЕМА ГОТОВА',
-                home: 'Главная',
-                settings: 'Настройки'
-            },
-            en: {
-                taglinePrimary: 'Drive Beyond Limits',
-                taglineSecondary: 'Двигайся за пределами',
-                status: 'SYSTEM READY',
-                home: 'Home',
-                settings: 'Settings'
-            }
-        };
-
-        function updateLanguage() {
-            const t = texts[currentLang];
-            const taglinePrimary = document.getElementById('taglinePrimary');
-            const taglineSecondary = document.getElementById('taglineSecondary');
-            const splashStatus = document.getElementById('splashStatus');
-            const homeH1 = document.querySelector('#screen-home h1');
-            const settingsH1 = document.querySelector('#screen-settings h1');
-            
-            if (taglinePrimary) taglinePrimary.innerText = t.taglinePrimary;
-            if (taglineSecondary) taglineSecondary.innerText = t.taglineSecondary;
-            if (splashStatus) splashStatus.innerText = t.status;
-            if (homeH1) homeH1.innerText = t.home;
-            if (settingsH1) settingsH1.innerText = t.settings;
-            
-            const navItems = document.querySelectorAll('.nav-item');
-            if (navItems.length >= 2) {
-                navItems[0].querySelector('span').innerText = t.home;
-                navItems[1].querySelector('span').innerText = t.settings;
-            }
-            
-            document.querySelectorAll('.lang-btn').forEach(btn => {
-                btn.classList.remove('active');
-                if (btn.dataset.lang === currentLang) btn.classList.add('active');
-            });
-        }
-
-        function setLanguage(lang) {
-            currentLang = lang;
-            localStorage.setItem('app_lang', lang);
-            updateLanguage();
-        }
-
-        // === КНОПКИ ЯЗЫКА ===
-        document.querySelectorAll('.lang-btn').forEach(btn => {
-            btn.addEventListener('click', () => setLanguage(btn.dataset.lang));
-        });
-
-        // === НАВИГАЦИЯ ===
-        function goToScreen(screenId) {
-            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-            const target = document.getElementById(`screen-${screenId}`);
-            if (target) target.classList.add('active');
-            document.querySelectorAll('.nav-item').forEach(btn => btn.classList.remove('active'));
-            const activeBtn = document.querySelector(`.nav-item[data-screen="${screenId}"]`);
-            if (activeBtn) activeBtn.classList.add('active');
-        }
-
-        document.querySelectorAll('.nav-item').forEach(btn => {
-            btn.addEventListener('click', () => goToScreen(btn.dataset.screen));
-        });
-
-        // === ЗАГРУЗКА ===
-        updateLanguage();
-
-        setTimeout(() => {
-            const splash = document.getElementById('splash');
-            const main = document.getElementById('main');
-            if (splash && main) {
-                splash.style.opacity = '0';
-                setTimeout(() => {
-                    splash.style.display = 'none';
-                    main.style.display = 'block';
-                }, 400);
-            }
-        }, 3000);
-    </script>
+    <script type="module" src="js/app.js"></script>
+</body>
+</html>
