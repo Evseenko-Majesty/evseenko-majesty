@@ -5,28 +5,97 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>Evseenko Majesty</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <link rel="stylesheet" href="styles/base.css">
-    <link rel="stylesheet" href="styles/themes.css">
-    <link rel="stylesheet" href="styles/components.css">
-    <link rel="stylesheet" href="styles/splash.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #ffffff;
+            --bg-primary-rgb: 255, 255, 255;
+            --bg-secondary: #f5f5f5;
+            --text-primary: #000000;
+            --text-secondary: #8e8e93;
+            --accent: #c4a747;
+            --border: #e5e5ea;
+            --accent-glow: rgba(196, 167, 71, 0.3);
+        }
+
+        body.dark {
+            --bg-primary: #0B0F14;
+            --bg-primary-rgb: 11, 15, 20;
+            --bg-secondary: #1c1c1e;
+            --text-primary: #ffffff;
+            --text-secondary: #98989e;
+            --accent: #d4af37;
+            --border: #2c2c30;
+            --accent-glow: rgba(212, 175, 55, 0.3);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            transition: background 0.2s ease, color 0.2s ease;
+        }
+
+        .splash {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--bg-primary);
+            z-index: 2000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.4s ease;
+        }
+
+        .splash-content {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .splash-logo {
+            font-size: 80px;
+            margin-bottom: 20px;
+        }
+
+        .splash-title {
+            font-size: 20px;
+            font-weight: 600;
+            letter-spacing: 4px;
+        }
+
+        .splash-status {
+            margin-top: 40px;
+            font-size: 12px;
+            letter-spacing: 1px;
+        }
+
+        .splash-copyright {
+            position: absolute;
+            bottom: 20px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            font-size: 10px;
+            opacity: 0.5;
+        }
+    </style>
 </head>
 <body>
     <div id="splash" class="splash">
         <div class="splash-content">
-            <div class="splash-logo-wrapper">
-                <img src="/public/images/logo.svg" alt="Evseenko Majesty" class="splash-logo">
-            </div>
-            <div class="splash-brand">
-                <div class="splash-title">EVSEENKO MAJESTY</div>
-            </div>
-            <div class="splash-tagline">
-                <div class="tagline-primary" id="taglinePrimary"></div>
-                <div class="tagline-secondary" id="taglineSecondary"></div>
-            </div>
-            <div class="splash-status-wrapper">
-                <div class="splash-status" id="splashStatus">СИСТЕМА ГОТОВА</div>
-            </div>
-            <div class="splash-copyright" id="splashCopyright">
+            <div class="splash-logo">👑</div>
+            <div class="splash-title">EVSEENKO MAJESTY</div>
+            <div class="splash-status">СИСТЕМА ГОТОВА</div>
+            <div class="splash-copyright">
                 <div>Evseenko Majesty © 2026</div>
                 <div>Все права защищены</div>
             </div>
@@ -34,54 +103,38 @@
     </div>
 
     <div id="main" style="display: none;">
-        <div class="container">
-            <div class="screen active" id="screen-home">
-                <div class="card">
-                    <h1>Главная</h1>
-                </div>
-            </div>
-            <div class="screen" id="screen-settings">
-                <div class="card">
-                    <h1>Настройки</h1>
-                    <div class="setting-item">
-                        <span>Имя</span>
-                        <span id="userName">—</span>
-                    </div>
-                    <div class="setting-item">
-                        <span>Роль</span>
-                        <span id="userRole">Клиент</span>
-                    </div>
-                    <div class="setting-item">
-                        <span>🌐 Язык / Language</span>
-                        <div class="lang-buttons">
-                            <button class="lang-btn" data-lang="ru">🇷🇺 Русский</button>
-                            <button class="lang-btn" data-lang="en">🇬🇧 English</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="bottom-nav">
-            <div class="nav-indicator"></div>
-            <button class="nav-item active" data-screen="home">
-                <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                    <path d="M3 9L12 3L21 9L12 15L3 9Z"/>
-                    <path d="M9 22V12H15V22"/>
-                </svg>
-                <span>Главная</span>
-            </button>
-            <button class="nav-item" data-screen="settings">
-                <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                    <circle cx="12" cy="12" r="3"/>
-                    <path d="M19.4 15a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H5.78a1.65 1.65 0 0 0-1.51 1 1.65 1.65 0 0 0 .33 1.82l.04.04A10 10 0 0 0 12 17.66a10 10 0 0 0 6.36-2.62l.04-.04z"/>
-                    <path d="M16.5 9.4a10 10 0 0 0-9 0"/>
-                </svg>
-                <span>Настройки</span>
-            </button>
+        <div style="text-align: center; padding: 40px;">
+            <h1>Главная</h1>
+            <button onclick="window.Telegram.WebApp.close()">Закрыть</button>
         </div>
     </div>
 
-    <script type="module" src="app.js"></script>
+    <script>
+        const tg = window.Telegram.WebApp;
+        tg.expand();
+        tg.ready();
+
+        // Тема
+        function applyTheme() {
+            if (tg.colorScheme === 'dark') {
+                document.body.classList.add('dark');
+            } else {
+                document.body.classList.remove('dark');
+            }
+        }
+        applyTheme();
+        tg.onEvent('themeChanged', applyTheme);
+
+        // Загрузка
+        setTimeout(() => {
+            const splash = document.getElementById('splash');
+            const main = document.getElementById('main');
+            splash.style.opacity = '0';
+            setTimeout(() => {
+                splash.style.display = 'none';
+                main.style.display = 'block';
+            }, 400);
+        }, 3000);
+    </script>
 </body>
 </html>
