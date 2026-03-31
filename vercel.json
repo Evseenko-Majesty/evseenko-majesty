@@ -3,16 +3,20 @@
     {
       "src": "apps/client/**",
       "use": "@vercel/static"
+    },
+    {
+      "src": "apps/admin/**",
+      "use": "@vercel/static"
     }
   ],
   "routes": [
     {
-      "src": "/styles/(.*)",
-      "dest": "/apps/client/styles/$1"
+      "src": "/apps/client/(.*)",
+      "dest": "/apps/client/$1"
     },
     {
-      "src": "/js/(.*)",
-      "dest": "/apps/client/js/$1"
+      "src": "/apps/admin/(.*)",
+      "dest": "/apps/admin/$1"
     },
     {
       "src": "/(.*)",
