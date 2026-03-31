@@ -1,0 +1,41 @@
+.card {
+    background: var(--bg-secondary);
+    border-radius: 14px;
+    padding: 20px;
+    margin-bottom: 16px;
+    border: 0.5px solid var(--border);
+}
+
+.setting-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 0.5px solid var(--border);
+}
+
+.setting-item:last-child {
+    border-bottom: none;
+}
+
+.lang-buttons {
+    display: flex;
+    gap: 8px;
+}
+
+.lang-btn {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border);
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 13px;
+    cursor: pointer;
+    color: var(--text-primary);
+    transition: all 0.2s;
+}
+
+.lang-btn.active {
+    background: var(--accent);
+    color: #000;
+    border-color: var(--accent);
+}
