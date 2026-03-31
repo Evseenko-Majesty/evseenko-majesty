@@ -1,0 +1,12 @@
+{
+  "rewrites": [
+    {
+      "source": "/app/client",
+      "destination": "/apps/telegram-mini-app/index.html"
+    },
+    {
+      "source": "/app/client/(.*)",
+      "destination": "/apps/telegram-mini-app/$1"
+    }
+  ]
+}
