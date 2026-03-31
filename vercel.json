@@ -1,0 +1,14 @@
+{
+  "builds": [
+    {
+      "src": "apps/client/**",
+      "use": "@vercel/static"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "/apps/client/$1"
+    }
+  ]
+}
