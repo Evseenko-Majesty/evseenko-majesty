@@ -5,97 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>Evseenko Majesty</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        :root {
-            --bg-primary: #ffffff;
-            --bg-primary-rgb: 255, 255, 255;
-            --bg-secondary: #f5f5f5;
-            --text-primary: #000000;
-            --text-secondary: #8e8e93;
-            --accent: #c4a747;
-            --border: #e5e5ea;
-            --accent-glow: rgba(196, 167, 71, 0.3);
-        }
-
-        body.dark {
-            --bg-primary: #0B0F14;
-            --bg-primary-rgb: 11, 15, 20;
-            --bg-secondary: #1c1c1e;
-            --text-primary: #ffffff;
-            --text-secondary: #98989e;
-            --accent: #d4af37;
-            --border: #2c2c30;
-            --accent-glow: rgba(212, 175, 55, 0.3);
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            background: var(--bg-primary);
-            color: var(--text-primary);
-            min-height: 100vh;
-            transition: background 0.2s ease, color 0.2s ease;
-        }
-
-        .splash {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: var(--bg-primary);
-            z-index: 2000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: opacity 0.4s ease;
-        }
-
-        .splash-content {
-            text-align: center;
-            padding: 20px;
-        }
-
-        .splash-logo {
-            font-size: 80px;
-            margin-bottom: 20px;
-        }
-
-        .splash-title {
-            font-size: 20px;
-            font-weight: 600;
-            letter-spacing: 4px;
-        }
-
-        .splash-status {
-            margin-top: 40px;
-            font-size: 12px;
-            letter-spacing: 1px;
-        }
-
-        .splash-copyright {
-            position: absolute;
-            bottom: 20px;
-            left: 0;
-            right: 0;
-            text-align: center;
-            font-size: 10px;
-            opacity: 0.5;
-        }
-    </style>
+    <link rel="stylesheet" href="styles/base.css">
+    <link rel="stylesheet" href="styles/themes.css">
+    <link rel="stylesheet" href="styles/components.css">
+    <link rel="stylesheet" href="styles/splash.css">
 </head>
 <body>
     <div id="splash" class="splash">
         <div class="splash-content">
             <div class="splash-logo">👑</div>
             <div class="splash-title">EVSEENKO MAJESTY</div>
-            <div class="splash-status">СИСТЕМА ГОТОВА</div>
-            <div class="splash-copyright">
+            <div class="splash-status" id="splashStatus">СИСТЕМА ГОТОВА</div>
+            <div class="splash-copyright" id="splashCopyright">
                 <div>Evseenko Majesty © 2026</div>
                 <div>Все права защищены</div>
             </div>
@@ -103,9 +24,37 @@
     </div>
 
     <div id="main" style="display: none;">
-        <div style="text-align: center; padding: 40px;">
-            <h1>Главная</h1>
-            <button onclick="window.Telegram.WebApp.close()">Закрыть</button>
+        <div class="container">
+            <div class="screen active" id="screen-home">
+                <div class="card">
+                    <h1>Главная</h1>
+                </div>
+            </div>
+            <div class="screen" id="screen-settings">
+                <div class="card">
+                    <h1>Настройки</h1>
+                    <div class="setting-item">
+                        <span>Имя</span>
+                        <span id="userName">—</span>
+                    </div>
+                    <div class="setting-item">
+                        <span>Роль</span>
+                        <span id="userRole">Клиент</span>
+                    </div>
+                    <div class="setting-item">
+                        <span>🌐 Язык / Language</span>
+                        <div class="lang-buttons">
+                            <button class="lang-btn" data-lang="ru">🇷🇺 Русский</button>
+                            <button class="lang-btn" data-lang="en">🇬🇧 English</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="bottom-nav">
+            <button class="nav-item active" data-screen="home">🏠 Главная</button>
+            <button class="nav-item" data-screen="settings">⚙️ Настройки</button>
         </div>
     </div>
 
@@ -114,7 +63,7 @@
         tg.expand();
         tg.ready();
 
-        // Тема
+        // === ТЕМА ===
         function applyTheme() {
             if (tg.colorScheme === 'dark') {
                 document.body.classList.add('dark');
@@ -125,7 +74,25 @@
         applyTheme();
         tg.onEvent('themeChanged', applyTheme);
 
-        // Загрузка
+        // === НАВИГАЦИЯ ===
+        function goToScreen(screenId) {
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            document.getElementById(`screen-${screenId}`).classList.add('active');
+        }
+
+        document.querySelectorAll('.nav-item').forEach(btn => {
+            btn.addEventListener('click', () => goToScreen(btn.dataset.screen));
+        });
+
+        // === ЯЗЫК (пока заглушка) ===
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                console.log('Язык:', btn.dataset.lang);
+                // Пока просто логируем, позже добавим функционал
+            });
+        });
+
+        // === ЗАГРУЗКА ===
         setTimeout(() => {
             const splash = document.getElementById('splash');
             const main = document.getElementById('main');
