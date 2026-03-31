@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Evseenko Majesty</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <link rel="stylesheet" href="styles/base.css">
+    <link rel="stylesheet" href="styles/themes.css">
+    <link rel="stylesheet" href="styles/components.css">
+    <link rel="stylesheet" href="styles/splash.css">
+</head>
+<body>
+    <div id="splash" class="splash">
+        <div class="splash-content">
+            <div class="splash-logo-wrapper">
+                <img src="/public/images/logo.svg" alt="Evseenko Majesty" class="splash-logo">
+            </div>
+            <div class="splash-brand">
+                <div class="splash-title">EVSEENKO MAJESTY</div>
+            </div>
+            <div class="splash-tagline">
+                <div class="tagline-primary" id="taglinePrimary"></div>
+                <div class="tagline-secondary" id="taglineSecondary"></div>
+            </div>
+            <div class="splash-status-wrapper">
+                <div class="splash-status" id="splashStatus">СИСТЕМА ГОТОВА</div>
+            </div>
+            <div class="splash-copyright" id="splashCopyright">
+                <div>Evseenko Majesty © 2026</div>
+                <div>Все права защищены</div>
+            </div>
+        </div>
+    </div>
+
+    <div id="main" style="display: none;">
+        <div class="container">
+            <div class="screen active" id="screen-home">
+                <div class="card">
+                    <h1>Главная</h1>
+                </div>
+            </div>
+            <div class="screen" id="screen-settings">
+                <div class="card">
+                    <h1>Настройки</h1>
+                    <div class="setting-item">
+                        <span>Имя</span>
+                        <span id="userName">—</span>
+                    </div>
+                    <div class="setting-item">
+                        <span>Роль</span>
+                        <span id="userRole">Клиент</span>
+                    </div>
+                    <div class="setting-item">
+                        <span>🌐 Язык / Language</span>
+                        <div class="lang-buttons">
+                            <button class="lang-btn" data-lang="ru">🇷🇺 Русский</button>
+                            <button class="lang-btn" data-lang="en">🇬🇧 English</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="bottom-nav">
+            <div class="nav-indicator"></div>
+            <button class="nav-item active" data-screen="home">
+                <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <path d="M3 9L12 3L21 9L12 15L3 9Z"/>
+                    <path d="M9 22V12H15V22"/>
+                </svg>
+                <span>Главная</span>
+            </button>
+            <button class="nav-item" data-screen="settings">
+                <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <circle cx="12" cy="12" r="3"/>
+                    <path d="M19.4 15a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H5.78a1.65 1.65 0 0 0-1.51 1 1.65 1.65 0 0 0 .33 1.82l.04.04A10 10 0 0 0 12 17.66a10 10 0 0 0 6.36-2.62l.04-.04z"/>
+                    <path d="M16.5 9.4a10 10 0 0 0-9 0"/>
+                </svg>
+                <span>Настройки</span>
+            </button>
+        </div>
+    </div>
+
+    <script type="module" src="app.js"></script>
+</body>
+</html>
