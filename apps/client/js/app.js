@@ -1,11 +1,11 @@
-import { expand, ready, getUser } from './modules/telegram.js';
+import { expand, ready, getTelegram } from './modules/telegram.js';
 import { initTheme, setTheme } from './modules/theme.js';
 import { getCurrentLanguage, updateUI as updateLanguageUI, setLanguage } from './modules/language.js';
 import { authorize, updateUserUI } from './modules/auth.js';
 import { startSplash } from './modules/splash.js';
 import { initNavigation, goToScreen } from './modules/navigation.js';
 
-// Telegram
+// раскрытие на весь экран телеграмм
 expand();
 ready();
 
