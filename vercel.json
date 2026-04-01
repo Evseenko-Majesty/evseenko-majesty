@@ -1,0 +1,30 @@
+{
+  "builds": [
+    {
+      "src": "apps/client/**",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "site/**",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "shared/**",
+      "use": "@vercel/static"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/shared/(.*)",
+      "dest": "/shared/$1"
+    },
+    {
+      "src": "/apps/client/(.*)",
+      "dest": "/apps/client/$1"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/site/index.html"
+    }
+  ]
+}
