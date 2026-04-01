@@ -24,5 +24,14 @@ export const setTheme = (theme) => {
 
 export const initTheme = () => {
     applyTheme();
-    window.Telegram?.WebApp?.onEvent('themeChanged', applyTheme);
+    
+    // Слушаем изменение темы в Telegram
+    if (window.Telegram?.WebApp) {
+        window.Telegram.WebApp.onEvent('themeChanged', () => {
+            // Если включен авторежим, обновляем тему
+            if (currentTheme === 'auto') {
+                applyTheme();
+            }
+        });
+    }
 };
