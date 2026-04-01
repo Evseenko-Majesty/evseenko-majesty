@@ -1,21 +1,21 @@
 import { expand, ready, getTelegram } from './modules/telegram.js';
 import { initTheme, setTheme } from './modules/theme.js';
 import { getCurrentLanguage, updateUI as updateLanguageUI, setLanguage } from './modules/language.js';
-import { authorize, updateUserUI } from './modules/auth.js';
+import { authorize, updateUserUI, getUser } from './modules/auth.js';
 import { startSplash } from './modules/splash.js';
 import { initNavigation, goToScreen } from './modules/navigation.js';
 
-// раскрытие на весь экран телеграмм
+// === РАСКРЫТИЕ НА ВЕСЬ ЭКРАН ===
 expand();
 ready();
 
-// Тема
+// === ТЕМА ===
 initTheme();
 
-// Язык
+// === ЯЗЫК ===
 updateLanguageUI();
 
-// Кнопки языка в интерфейсе
+// === КНОПКИ ЯЗЫКА ===
 document.querySelectorAll('.lang-btn').forEach(btn => {
     btn.addEventListener('click', () => {
         setLanguage(btn.dataset.lang);
@@ -23,16 +23,18 @@ document.querySelectorAll('.lang-btn').forEach(btn => {
     });
 });
 
-// Кнопки для панели разработчика (для ПК)
-const devButtons = document.querySelectorAll('#devLight, #devDark, #devRu, #devEn');
-if (devButtons.length) {
-    document.getElementById('devLight')?.addEventListener('click', () => setTheme('light'));
-    document.getElementById('devDark')?.addEventListener('click', () => setTheme('dark'));
-    document.getElementById('devRu')?.addEventListener('click', () => setLanguage('ru'));
-    document.getElementById('devEn')?.addEventListener('click', () => setLanguage('en'));
-}
+// === КНОПКИ ПАНЕЛИ РАЗРАБОТЧИКА (для ПК) ===
+const devLight = document.getElementById('devLight');
+const devDark = document.getElementById('devDark');
+const devRu = document.getElementById('devRu');
+const devEn = document.getElementById('devEn');
 
-// Авторизация
+if (devLight) devLight.addEventListener('click', () => setTheme('light'));
+if (devDark) devDark.addEventListener('click', () => setTheme('dark'));
+if (devRu) devRu.addEventListener('click', () => setLanguage('ru'));
+if (devEn) devEn.addEventListener('click', () => setLanguage('en'));
+
+// === АВТОРИЗАЦИЯ ===
 const initAuth = async () => {
     const user = getUser();
     if (user) {
@@ -45,13 +47,13 @@ const initAuth = async () => {
     }
 };
 
-// Запуск
+// === ЗАПУСК ===
 startSplash(() => {
     initNavigation();
     initAuth();
 });
 
-// Делаем функции глобальными для консоли (для отладки)
+// === ГЛОБАЛЬНЫЕ ФУНКЦИИ ДЛЯ ОТЛАДКИ ===
 window.goToScreen = goToScreen;
 window.setTheme = setTheme;
 window.setLanguage = setLanguage;
