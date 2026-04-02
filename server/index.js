@@ -13,32 +13,37 @@ const supabase = createClient(
 
 // API: получить баланс и бонусы (с авторегистрацией)
 app.get('/api/user/:telegram_id', async (req, res) => {
-    let telegram_id = req.params.telegram_id;
+    const telegram_id = req.params.telegram_id;
     
-    // Проверяем, есть ли пользователь
-    let { data, error } = await supabase
+    // 1. Пытаемся найти пользователя
+    let { data: user, error } = await supabase
         .from('users')
         .select('*')
         .eq('telegram_id', telegram_id)
         .single();
     
-    // Если нет — создаём
-    if (!data) {
+    // 2. Если не найден — создаём
+    if (!user) {
+        console.log(`👤 Создаём нового пользователя: ${telegram_id}`);
         const { data: newUser, error: insertError } = await supabase
             .from('users')
-            .insert([{ telegram_id: telegram_id, balance: 0, bonus: 0 }])
+            .insert([{ telegram_id, balance: 0, bonus: 0 }])
             .select()
             .single();
         
-        if (!insertError) {
-            data = newUser;
+        if (!insertError && newUser) {
+            user = newUser;
         }
     }
     
-    res.json({ balance: data?.balance || 0, bonus: data?.bonus || 0 });
+    // 3. Возвращаем баланс и бонусы
+    res.json({ 
+        balance: user?.balance || 0, 
+        bonus: user?.bonus || 0 
+    });
 });
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
-    console.log(`✅ API on port ${port}`);
+    console.log(`✅ API на порту ${port}`);
 });
