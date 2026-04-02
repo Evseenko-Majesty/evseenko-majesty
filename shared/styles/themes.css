@@ -1,0 +1,23 @@
+/* Светлая тема (по умолчанию) */
+body {
+    --bg: #FFFFFF;
+    --text: #1C1C1E;
+    --card: #F8F8FA;
+    --accent: #D4AF37;
+    --border: #E5E5EA;
+}
+
+/* Тёмная тема (когда в Telegram включена тёмная) */
+body.dark {
+    --bg: #0B0F14;
+    --text: #FFFFFF;
+    --card: #141418;
+    --accent: #D4AF37;
+    --border: #2C2C30;
+}
+
+body {
+    background: var(--bg);
+    color: var(--text);
+    transition: background 0.2s, color 0.2s;
+}
