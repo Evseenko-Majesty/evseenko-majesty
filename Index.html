@@ -4,25 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Evseenko Majesty</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="container">
         <div class="logo">👑</div>
         <h1>Evseenko Majesty</h1>
         <p class="philosophy">от улицы к мастерству</p>
-        <button id="themeBtn">🌙 Тёмная тема</button>
     </div>
-
-    <script>
-        const btn = document.getElementById('themeBtn');
-        let isDark = false;
-
-        btn.onclick = () => {
-            isDark = !isDark;
-            document.body.classList.toggle('dark', isDark);
-            btn.textContent = isDark ? '☀️ Светлая тема' : '🌙 Тёмная тема';
-        };
-    </script>
 </body>
 </html>
