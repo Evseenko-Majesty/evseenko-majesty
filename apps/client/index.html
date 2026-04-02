@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Evseenko Majesty</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <link rel="stylesheet" href="/shared/styles/base.css">
+    <link rel="stylesheet" href="/shared/styles/themes.css">
+    <link rel="stylesheet" href="/shared/styles/components.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="splash" class="splash">
+        <div class="splash-content">
+            <div class="splash-logo">👑</div>
+            <div class="splash-title">EVSEENKO MAJESTY</div>
+            <div class="splash-philosophy" id="splashPhilosophy">от улицы к мастерству</div>
+            <div class="splash-status" id="splashStatus">проверка сервера</div>
+        </div>
+    </div>
+
+    <div id="main" style="display: none;">
+        <div class="container">
+            <div class="screen active" id="screen-home">
+                <div class="card">
+                    <h1>Главная</h1>
+                    <p style="margin-top: 8px; color: var(--accent);">From the street to mastery</p>
+                </div>
+            </div>
+
+            <div class="screen" id="screen-settings">
+                <div class="card">
+                    <h1>Настройки</h1>
+                    <div class="setting-item">
+                        <span>Имя</span>
+                        <span id="userName">—</span>
+                    </div>
+                    <div class="setting-item">
+                        <span>Фамилия</span>
+                        <span id="userLastName">—</span>
+                    </div>
+                    <div class="setting-item">
+                        <span>Username</span>
+                        <span id="userUsername">—</span>
+                    </div>
+                    <div class="setting-item">
+                        <span>Язык</span>
+                        <span id="userLanguage">—</span>
+                    </div>
+                    <div class="setting-item">
+                        <span>Тема</span>
+                        <div class="lang-buttons">
+                            <button class="lang-btn" data-theme="light">☀️ Светлая</button>
+                            <button class="lang-btn" data-theme="dark">🌙 Тёмная</button>
+                            <button class="lang-btn" data-theme="afterdark">🌑 AFTERDARK</button>
+                            <button class="lang-btn" data-theme="auto">🔄 Авто</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="bottom-nav">
+            <button class="nav-item active" data-screen="home">
+                <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <path d="M3 9L12 3L21 9L12 15L3 9Z"/>
+                    <path d="M9 22V12H15V22"/>
+                </svg>
+                <span>Главная</span>
+            </button>
+            <button class="nav-item" data-screen="settings">
+                <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <circle cx="12" cy="12" r="3"/>
+                    <path d="M19.4 15a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H5.78a1.65 1.65 0 0 0-1.51 1 1.65 1.65 0 0 0 .33 1.82l.04.04A10 10 0 0 0 12 17.66a10 10 0 0 0 6.36-2.62l.04-.04z"/>
+                    <path d="M16.5 9.4a10 10 0 0 0-9 0"/>
+                </svg>
+                <span>Настройки</span>
+            </button>
+        </div>
+    </div>
+
+    <script type="module" src="app.js"></script>
+</body>
+</html>
