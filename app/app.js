@@ -42,14 +42,17 @@
             document.getElementById('screen-home').classList.remove('active');
         };
 
-        // Тёмная тема
-        const themeBtn = document.getElementById('themeBtn');
-        let isDark = false;
-        themeBtn.onclick = () => {
-            isDark = !isDark;
-            document.body.classList.toggle('dark', isDark);
-            themeBtn.textContent = isDark ? '☀️ Светлая тема' : '🌙 Тёмная тема';
-        };
+        // Автотема (следит за Telegram)
+function applyTheme() {
+    const tg = window.Telegram?.WebApp;
+    if (tg?.colorScheme === 'dark') {
+        document.body.classList.add('dark');
+    } else {
+        document.body.classList.remove('dark');
+    }
+}
+applyTheme();
+window.Telegram?.WebApp?.onEvent('themeChanged', applyTheme);
         // Пополнение баланса
 const topupBtn = document.getElementById('topupBtn');
 if (topupBtn) {
