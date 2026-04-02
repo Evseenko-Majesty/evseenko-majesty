@@ -50,3 +50,10 @@
             document.body.classList.toggle('dark', isDark);
             themeBtn.textContent = isDark ? '☀️ Светлая тема' : '🌙 Тёмная тема';
         };
+        // Пополнение баланса
+const topupBtn = document.getElementById('topupBtn');
+if (topupBtn) {
+    topupBtn.onclick = () => {
+        alert('Пополнение баланса скоро появится');
+    };
+}
