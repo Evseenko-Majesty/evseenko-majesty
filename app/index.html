@@ -5,122 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>Evseenko Majesty</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            background: #FFFFFF;
-            color: #1C1C1E;
-            transition: all 0.3s ease;
-            padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
-        }
-
-        body.dark {
-            background: #0B0F14;
-            color: #FFFFFF;
-        }
-
-        .container {
-            max-width: 500px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-
-        .screen {
-            display: none;
-        }
-        .screen.active {
-            display: block;
-        }
-
-        .logo {
-            font-size: 60px;
-            margin-bottom: 20px;
-            text-align: center;
-        }
-
-        h1 {
-            font-size: 28px;
-            letter-spacing: 4px;
-            margin-bottom: 12px;
-            text-align: center;
-        }
-
-        .philosophy {
-            font-size: 14px;
-            opacity: 0.7;
-            margin-bottom: 40px;
-            text-align: center;
-        }
-
-        .balance-card {
-            display: flex;
-            gap: 20px;
-            justify-content: center;
-            margin: 30px 0;
-        }
-
-        .balance-item {
-            background: rgba(212, 175, 55, 0.1);
-            border-radius: 20px;
-            padding: 16px 24px;
-            text-align: center;
-            flex: 1;
-        }
-
-        .balance-value {
-            font-size: 28px;
-            font-weight: 700;
-            color: #D4AF37;
-            display: block;
-        }
-
-        .balance-label {
-            font-size: 12px;
-            opacity: 0.7;
-            display: block;
-            margin-top: 4px;
-        }
-
-        button {
-            background: #D4AF37;
-            color: #000;
-            border: none;
-            border-radius: 40px;
-            padding: 12px 28px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            width: 100%;
-            margin-top: 12px;
-        }
-
-        .nav-buttons {
-            display: flex;
-            gap: 12px;
-            margin-top: 20px;
-        }
-
-        .nav-buttons button {
-            margin-top: 0;
-        }
-
-        .setting-item {
-            display: flex;
-            justify-content: space-between;
-            padding: 12px 0;
-            border-bottom: 0.5px solid rgba(128,128,128,0.3);
-        }
-    </style>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="container">
-        <!-- Главный экран -->
         <div id="screen-home" class="screen active">
             <div class="logo">👑</div>
             <h1>Evseenko Majesty</h1>
@@ -140,7 +28,6 @@
             <button id="themeBtn">🌙 Тёмная тема</button>
         </div>
 
-        <!-- Экран настроек -->
         <div id="screen-settings" class="screen">
             <h1>Настройки</h1>
             <div class="setting-item">
@@ -153,66 +40,12 @@
             </div>
         </div>
 
-        <!-- Кнопки навигации -->
         <div class="nav-buttons">
             <button id="navHome">🏠 Главная</button>
             <button id="navSettings">⚙️ Настройки</button>
         </div>
     </div>
 
-    <script>
-        // Telegram WebApp
-        const tg = window.Telegram?.WebApp;
-        if (tg) {
-            tg.expand();
-            tg.ready();
-        }
-
-        // Данные пользователя
-        const user = tg?.initDataUnsafe?.user;
-        if (user) {
-            document.getElementById('userName').innerText = user.first_name || '—';
-            document.getElementById('userId').innerText = user.id || '—';
-        }
-
-        // === ЗАГРУЗКА БАЛАНСА С СЕРВЕРА ===
-        const API_URL = 'https://evseenko-api.onrender.com'; // ЗАМЕНИ НА СВОЙ URL
-
-        async function loadBalance() {
-            if (!user) return;
-            
-            try {
-                const response = await fetch(`${API_URL}/api/user/${user.id}`);
-                const data = await response.json();
-                
-                document.getElementById('balance').innerText = data.balance || 0;
-                document.getElementById('bonus').innerText = data.bonus || 0;
-            } catch (error) {
-                console.error('Ошибка загрузки баланса:', error);
-            }
-        }
-
-        // Вызываем загрузку баланса
-        loadBalance();
-
-        // Переключение экранов
-        document.getElementById('navHome').onclick = () => {
-            document.getElementById('screen-home').classList.add('active');
-            document.getElementById('screen-settings').classList.remove('active');
-        };
-        document.getElementById('navSettings').onclick = () => {
-            document.getElementById('screen-settings').classList.add('active');
-            document.getElementById('screen-home').classList.remove('active');
-        };
-
-        // Тёмная тема
-        const themeBtn = document.getElementById('themeBtn');
-        let isDark = false;
-        themeBtn.onclick = () => {
-            isDark = !isDark;
-            document.body.classList.toggle('dark', isDark);
-            themeBtn.textContent = isDark ? '☀️ Светлая тема' : '🌙 Тёмная тема';
-        };
-    </script>
+    <script src="app.js"></script>
 </body>
 </html>
