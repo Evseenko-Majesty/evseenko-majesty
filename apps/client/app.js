@@ -1,20 +1,20 @@
-import { initTelegram } from '/shared/js/telegram.js';
-import { authorize, getCurrentUser } from '/shared/js/auth.js';
-import { initTheme } from '/shared/js/theme.js';
-import { showSplash } from './modules/splash.js';
-import { initNavigation } from './modules/navigation.js';
-import { initSettings } from './modules/settings.js';
+// apps/client/app.js — минимальная версия
+console.log('✅ app.js загружен');
 
-initTelegram();
-initTheme();
+const splash = document.getElementById('splash');
+const main = document.getElementById('main');
+const statusEl = document.getElementById('splashStatus');
 
-showSplash(async () => {
-    const user = await authorize();
-    if (user) {
-        initNavigation();
-        initSettings(user);
-        document.getElementById('main').style.display = 'block';
-    } else {
-        document.getElementById('splashStatus').textContent = 'ошибка авторизации';
-    }
-});
+if (splash && main && statusEl) {
+    statusEl.textContent = 'тестовый режим';
+    
+    setTimeout(() => {
+        splash.style.opacity = '0';
+        setTimeout(() => {
+            splash.style.display = 'none';
+            main.style.display = 'block';
+        }, 500);
+    }, 2000);
+} else {
+    console.error('❌ Элементы не найдены');
+}
