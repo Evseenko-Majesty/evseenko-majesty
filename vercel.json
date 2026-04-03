@@ -15,6 +15,13 @@
       "dest": "/shared/$1"
     },
     {
+      "src": "/apps/client/(.*\\.js)",
+      "dest": "/apps/client/$1",
+      "headers": {
+        "Content-Type": "application/javascript"
+      }
+    },
+    {
       "src": "/apps/client/(.*)",
       "dest": "/apps/client/$1"
     },
