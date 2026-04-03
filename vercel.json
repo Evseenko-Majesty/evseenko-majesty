@@ -3,32 +3,9 @@
     {
       "src": "apps/client/**",
       "use": "@vercel/static"
-    },
-    {
-      "src": "shared/**",
-      "use": "@vercel/static"
     }
   ],
   "routes": [
-    {
-      "src": "/shared/(.*)",
-      "dest": "/shared/$1"
-    },
-    {
-      "src": "/apps/client/(.*\\.js)",
-      "dest": "/apps/client/$1",
-      "headers": {
-        "Content-Type": "application/javascript"
-      }
-    },
-    {
-      "src": "/apps/client/(.*)",
-      "dest": "/apps/client/$1"
-    },
-    {
-      "src": "/api/(.*)",
-      "dest": "https://evseenko-api.onrender.com/api/$1"
-    },
     {
       "src": "/(.*)",
       "dest": "/apps/client/index.html"
