@@ -4,7 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>Evseenko Majesty</title>
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <link rel="stylesheet" href="/shared/styles/base.css">
+    <link rel="stylesheet" href="/shared/styles/themes.css">
+    <link rel="stylesheet" href="/shared/styles/components.css">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -15,7 +17,6 @@
             <p class="philosophy">от улицы к мастерству</p>
             
             <div class="balance-card">
-                <button id="topupBtn" class="topup-btn">+ Пополнить баланс</button>
                 <div class="balance-item">
                     <span class="balance-value" id="balance">0</span>
                     <span class="balance-label">₽ Баланс</span>
@@ -39,12 +40,25 @@
             </div>
         </div>
 
-        <div class="nav-buttons">
-            <button id="navHome">🏠 Главная</button>
-            <button id="navSettings">⚙️ Настройки</button>
+        <div class="bottom-nav">
+            <button class="nav-item active" data-screen="home">
+                <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <path d="M3 9L12 3L21 9L12 15L3 9Z"/>
+                    <path d="M9 22V12H15V22"/>
+                </svg>
+                <span>Главная</span>
+            </button>
+            <button class="nav-item" data-screen="settings">
+                <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <circle cx="12" cy="12" r="3"/>
+                    <path d="M19.4 15a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H5.78a1.65 1.65 0 0 0-1.51 1 1.65 1.65 0 0 0 .33 1.82l.04.04A10 10 0 0 0 12 17.66a10 10 0 0 0 6.36-2.62l.04-.04z"/>
+                    <path d="M16.5 9.4a10 10 0 0 0-9 0"/>
+                </svg>
+                <span>Настройки</span>
+            </button>
         </div>
     </div>
 
-    <script src="app.js"></script>
+    <script type="module" src="app.js"></script>
 </body>
 </html>
