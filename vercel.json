@@ -3,6 +3,10 @@
     {
       "src": "apps/client/**",
       "use": "@vercel/static"
+    },
+    {
+      "src": "site/**",
+      "use": "@vercel/static"
     }
   ],
   "routes": [
@@ -12,7 +16,7 @@
     },
     {
       "src": "/(.*)",
-      "dest": "/apps/client/index.html"
+      "dest": "/site/index.html"
     }
   ]
 }
