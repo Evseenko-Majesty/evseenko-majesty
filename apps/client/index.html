@@ -9,7 +9,20 @@
 </head>
 <body>
     <div id="app"></div>
-    <script type="module" src="modules/app.js"></script>
-</script>
+
+    <!-- Отлавливаем ошибки -->
+    <script>
+      window.onerror = function(msg, url, line, col, error) {
+        const div = document.createElement('div');
+        div.style.color = 'red';
+        div.style.whiteSpace = 'pre-wrap';
+        div.textContent = `Ошибка: ${msg}\nФайл: ${url}\nСтрока: ${line}, Колонка: ${col}`;
+        document.body.appendChild(div);
+        console.error(msg, url, line, col, error);
+      };
+    </script>
+
+    <!-- Подключаем модуль приложения -->
+    <script type="module" src="./modules/app.js"></script>
 </body>
 </html>
