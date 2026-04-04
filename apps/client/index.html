@@ -9,7 +9,15 @@
 </head>
 <body>
     <div id="app"></div>
-    <script type="module" src="modules/app.js"></script>
+<script>
+const appContainer = document.getElementById('app');
+appContainer.innerHTML = `
+  <div style="text-align:center; margin-top:40vh;">
+    <div style="font-size:80px;">👑</div>
+    <div style="font-size:24px; letter-spacing:4px;">EVSEENKO MAJESTY</div>
+  </div>
+`;
+console.log('Splash отрисован');
 </script>
 </body>
 </html>
