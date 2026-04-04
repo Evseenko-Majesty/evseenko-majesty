@@ -13,10 +13,7 @@ import { renderSplash } from './screens/splash.js';
 // Берёт текущий экран и рисует его в контейнере #app
 function updateUI() {
     const appContainer = document.getElementById('app');
-    if (!appContainer) {
-        console.error('#app контейнер не найден!');
-        return;
-    }
+    
     // Показываем загрузочный экран
     appContainer.innerHTML = renderSplash();
 }
