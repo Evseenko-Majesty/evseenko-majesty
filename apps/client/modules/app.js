@@ -1,31 +1,43 @@
 // ============================================
-// ГЛАВНЫЙ ФАЙЛ ПРИЛОЖЕНИЯ
+// ГЛАВНЫЙ ФАЙЛ КЛИЕНТСКОГО ПРИЛОЖЕНИЯ
 // ============================================
-
-// Импортируем экраны
 import { renderSplash } from './screens/splash.js';
-import { renderHome } from './screens/home.js';   // ← добавляем главную
+import { renderHome } from './screens/home.js';
+import { authorize } from '/shared/js/auth.js';   // ← общая авторизация
 
 // ============================================
 // Функция обновления интерфейса
 // ============================================
-function updateUI(screen = 'splash') {
+function updateUI(screen = 'splash', statusMessage = null) {
     const appContainer = document.getElementById('app');
     
     if (screen === 'splash') {
-        appContainer.innerHTML = renderSplash();
+        appContainer.innerHTML = renderSplash(statusMessage);
     } else if (screen === 'home') {
         appContainer.innerHTML = renderHome();
     }
 }
 
 // ============================================
-// ЗАПУСК ПРИЛОЖЕНИЯ
+// ЗАПУСК
 // ============================================
-// Сначала показываем загрузочный экран
-updateUI('splash');
+async function start() {
+    // Показываем загрузочный экран
+    updateUI('splash', 'Проверка сервера...');
+    
+    // Ждём 3 секунды
+    await new Promise(resolve => setTimeout(resolve, 3000));
+    
+    // Пытаемся авторизоваться
+    updateUI('splash', 'Авторизация...');
+    const result = await authorize();
+    
+    if (result.success) {
+        updateUI('home');
+    } else {
+        updateUI('splash', `❌ Ошибка: ${result.error}\nПовторите позже`);
+        // Можно добавить кнопку "Повторить"
+    }
+}
 
-// Через 3 секунды переключаем на главную
-setTimeout(() => {
-    updateUI('home');
-}, 3000);
+start();
