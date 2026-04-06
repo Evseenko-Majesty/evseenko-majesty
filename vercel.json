@@ -5,11 +5,19 @@
       "use": "@vercel/static"
     },
     {
+      "src": "shared/**",
+      "use": "@vercel/static"
+    },
+    {
       "src": "site/**",
       "use": "@vercel/static"
     }
   ],
   "routes": [
+    {
+      "src": "/shared/(.*)",
+      "dest": "/shared/$1"
+    },
     {
       "src": "/apps/client/(.*)",
       "dest": "/apps/client/$1"
