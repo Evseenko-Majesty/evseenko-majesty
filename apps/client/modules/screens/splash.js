@@ -1,15 +1,12 @@
 // ============================================
-// ЗАГРУЗОЧНЫЙ ЭКРАН (splash)
+// ЗАГРУЗОЧНЫЙ ЭКРАН
 // ============================================
-// Этот файл отвечает только за отображение загрузочного экрана
-// ============================================
-
-// Функция, которая возвращает HTML код загрузочного экрана
-export function renderSplash() {
+export function renderSplash(statusMessage = 'Проверка сервера...') {
     return `
-        <div style="text-align: center; margin-top: 40vh;">
-            <div style="font-size: 80px;">👑</div>
-            <div style="font-size: 24px; letter-spacing: 4px;">EVSEENKO MAJESTY</div>
+        <div class="container" style="text-align: center; margin-top: 40vh;">
+            <div class="logo">👑</div>
+            <h1>EVSEENKO MAJESTY</h1>
+            <div id="splashStatus" style="margin-top: 40px; font-size: 14px; opacity: 0.7;">${statusMessage}</div>
         </div>
     `;
 }
