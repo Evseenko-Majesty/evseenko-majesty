@@ -2,8 +2,8 @@
 // ГЛАВНЫЙ ФАЙЛ КЛИЕНТСКОГО ПРИЛОЖЕНИЯ
 // ============================================
 
-import { renderSplash } from './screens/splash/view.js';
-import { animateSplash } from './screens/splash/controller.js';
+import { renderSplash } from 'apps/client/modules/screens/splash/view.js';
+import { animateSplash } from 'apps/client/modules/screens/splash/controller.js';
 import { initTelegram } from '/shared/js/theme.js';
 
 // Инициализация Telegram (раскрытие + тема)
