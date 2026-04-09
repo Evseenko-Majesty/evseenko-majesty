@@ -9,15 +9,15 @@
 
 .splash__logo {
   position: absolute;
-  top: 23%;
+  top: 15%;
   left: 50%;
   transform: translate(-50%, -50%);
-  font-size: 110px;
+  font-size: 125px;
 }
 
 .splash__title {
   position: absolute;
-  top: 35%;
+  top: 30%;
   left: 50%;
   transform: translate(-50%, -50%);
   margin: 0;
@@ -32,7 +32,7 @@
 
 .splash__copyright {
   position: absolute;
-  bottom: 1%;
+  bottom: 2%;
   left: 0;
   right: 0;
   text-align: center;
