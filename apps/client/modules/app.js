@@ -6,6 +6,7 @@ class App {
   constructor() {
     this.tg = initTelegram();
     this.root = document.getElementById('root');
+    this.user = null;
     this.screens = {
       splash: new SplashScreen(this),
       home: new HomeScreen(this)
