@@ -11,6 +11,11 @@
   background: var(--bg-color);
 }
 
+.splash__logo {
+  margin-bottom: 16px;
+  font-size: 64px;
+}
+
 .splash__title {
   margin: 0;
   color: var(--accent-color);
