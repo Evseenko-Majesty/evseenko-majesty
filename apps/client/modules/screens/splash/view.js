@@ -8,7 +8,7 @@ export function render() {
   
   const copyright = document.createElement('div');
   copyright.className = 'splash__copyright';
-  copyright.textContent = '© 2026 Evseenko Majesty. Все права защищены.';
+  copyright.innerHTML = 'Evseenko Majesty © 2026<br>Все права защищены';
   
   div.appendChild(h1);
   div.appendChild(copyright);
