@@ -1,47 +1,18 @@
 // ============================================
 // ГЛАВНЫЙ ФАЙЛ КЛИЕНТСКОГО ПРИЛОЖЕНИЯ
 // ============================================
-import { renderSplash } from './screens/splash.js';
-import { renderHome } from './screens/home.js';
-import { authorize } from '/shared/js/auth.js';   // ← общая авторизация
-import { initTelegram } from '/shared/js/theme.js';  // импортируем тему
 
-// иницианизируем тему при старте 
+import { renderSplash } from './screens/splash/view.js';
+import { animateSplash } from './screens/splash/controller.js';
+import { initTelegram } from '/shared/js/theme.js';
+
+// Инициализация Telegram (раскрытие + тема)
 initTelegram();
 
-// ============================================
-// Функция обновления интерфейса
-// ============================================
-function updateUI(screen = 'splash', statusMessage = null) {
-    const appContainer = document.getElementById('app');
-    
-    if (screen === 'splash') {
-        appContainer.innerHTML = renderSplash(statusMessage);
-    } else if (screen === 'home') {
-        appContainer.innerHTML = renderHome();
-    }
+function updateUI() {
+    const app = document.getElementById('app');
+    app.innerHTML = renderSplash();
+    animateSplash();
 }
 
-// ============================================
-// ЗАПУСК
-// ============================================
-async function start() {
-    // Показываем загрузочный экран
-    updateUI('splash', 'Проверка сервера...');
-    
-    // Ждём 3 секунды
-    await new Promise(resolve => setTimeout(resolve, 3000));
-    
-    // Пытаемся авторизоваться
-    updateUI('splash', 'Авторизация...');
-    const result = await authorize();
-    
-    if (result.success) {
-        updateUI('home');
-    } else {
-        updateUI('splash', `❌ Ошибка: ${result.error}\nПовторите позже`);
-        // Можно добавить кнопку "Повторить"
-    }
-}
-
-start();
+updateUI();
