@@ -5,6 +5,7 @@ export class SplashScreen {
   constructor(app) {
     this.app = app;
     this.statusCard = null;
+    this.authCompleted = false;
   }
   
   getElement() {
@@ -12,18 +13,18 @@ export class SplashScreen {
   }
   
   onMount() {
-  this.statusCard = document.querySelector('.splash__status');
-  
-  setTimeout(() => {
-    this.authenticate();
-  }, 2800);
-}
+    this.statusCard = document.querySelector('.splash__status');
+    
+    setTimeout(() => {
+      this.authenticate();
+    }, 2800);
+  }
   
   async authenticate() {
     const tgUser = this.app.tg.initDataUnsafe?.user;
     
     if (!tgUser) {
-      this.showError('Данные пользователя недоступны');
+      this.showError('Откройте через Telegram');
       return;
     }
     
@@ -31,14 +32,20 @@ export class SplashScreen {
     
     if (result.success) {
       this.app.user = result.user;
+      this.authCompleted = true;
       this.showSuccess();
-      setTimeout(() => this.app.navigateTo('home'), 1500);
+      setTimeout(() => {
+        if (this.authCompleted) {
+          this.app.navigateTo('home');
+        }
+      }, 1500);
     } else {
       this.showError(result.error || 'Ошибка подключения');
     }
   }
   
   showSuccess() {
+    if (!this.statusCard) return;
     this.statusCard.className = 'splash__status splash__status--success';
     this.statusCard.innerHTML = `
       <div class="splash__status-content">
@@ -49,6 +56,7 @@ export class SplashScreen {
   }
   
   showError(message) {
+    if (!this.statusCard) return;
     this.statusCard.className = 'splash__status splash__status--error';
     this.statusCard.innerHTML = `
       <div class="splash__status-content">
@@ -58,15 +66,18 @@ export class SplashScreen {
       <button class="splash__retry">Повторить</button>
     `;
     
-    this.statusCard.querySelector('.splash__retry').addEventListener('click', () => {
-      this.statusCard.className = 'splash__status splash__status--loading';
-      this.statusCard.innerHTML = `
-        <div class="splash__status-content">
-          <span class="splash__status-icon">🔄</span>
-          <span class="splash__status-text">Подключение к серверу...</span>
-        </div>
-      `;
-      this.authenticate();
-    });
+    const retryBtn = this.statusCard.querySelector('.splash__retry');
+    if (retryBtn) {
+      retryBtn.addEventListener('click', () => {
+        this.statusCard.className = 'splash__status splash__status--loading';
+        this.statusCard.innerHTML = `
+          <div class="splash__status-content">
+            <span class="splash__status-icon">🔄</span>
+            <span class="splash__status-text">Подключение к серверу...</span>
+          </div>
+        `;
+        this.authenticate();
+      });
+    }
   }
 }
