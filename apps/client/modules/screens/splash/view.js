@@ -1,22 +1,10 @@
-// ============================================
-// ЗАГРУЗОЧНЫЙ ЭКРАН (HTML и анимация)
-// ============================================
-
-import './splash.css';
+// Загрузочный экран (только HTML)
+import { renderLogo } from '/shared/components/Logo.js';
 
 export function renderSplash() {
     return `
         <div class="splash-container">
-            <div class="splash-logo">👑</div>
+            ${renderLogo()}
         </div>
     `;
-}
-
-export function animateSplash() {
-    const logo = document.querySelector('.splash-logo');
-    if (logo) {
-        setTimeout(() => {
-            logo.classList.add('active');
-        }, 100);
-    }
 }
