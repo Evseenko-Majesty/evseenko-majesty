@@ -14,6 +14,10 @@ const supabase = createClient(
   process.env.SUPABASE_KEY
 );
 
+app.get('/', (req, res) => {
+  res.send('Evseenko Majesty Server OK');
+});
+
 app.post('/api/auth', async (req, res) => {
   const { telegram_id, first_name, last_name, username, photo_url } = req.body;
   
@@ -62,6 +66,7 @@ app.post('/api/auth', async (req, res) => {
   }
 });
 
-app.listen(3001, () => {
-  console.log('Server running on port 3001');
+const PORT = process.env.PORT || 3001;
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
 });
