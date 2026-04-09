@@ -1,27 +1,9 @@
 export function render() {
   const div = document.createElement('div');
-  div.style.cssText = `
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: var(--bg-color);
-  `;
+  div.className = 'splash';
   
   const h1 = document.createElement('h1');
-  h1.style.cssText = `
-    margin: 0;
-    color: var(--accent-color);
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    font-size: 32px;
-    font-weight: 600;
-    letter-spacing: 4px;
-    text-transform: uppercase;
-  `;
+  h1.className = 'splash__title';
   h1.textContent = 'EVSEENKO MAJESTY';
   
   div.appendChild(h1);
