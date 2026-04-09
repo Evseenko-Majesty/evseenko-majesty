@@ -12,9 +12,12 @@ export class SplashScreen {
   }
   
   onMount() {
-    this.statusCard = document.querySelector('.splash__status');
+  this.statusCard = document.querySelector('.splash__status');
+  
+  setTimeout(() => {
     this.authenticate();
-  }
+  }, 2800);
+}
   
   async authenticate() {
     const tgUser = this.app.tg.initDataUnsafe?.user;
