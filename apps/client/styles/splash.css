@@ -32,11 +32,11 @@
 
 .splash__slogan-main {
   position: absolute;
-  top: 55%;
+  top: 43%;
   left: 50%;
   transform: translate(-50%, -50%);
   color: var(--accent-color);
-  font-size: 18px;
+  font-size: 20px;
   font-weight: 500;
   letter-spacing: 2px;
   text-transform: uppercase;
@@ -46,11 +46,11 @@
 
 .splash__slogan-sub {
   position: absolute;
-  top: 60%;
+  top: 43%;
   left: 50%;
   transform: translate(-50%, -50%);
   color: var(--text-color);
-  font-size: 12px;
+  font-size: 20px;
   opacity: 0.5;
   text-align: center;
   width: 100%;
