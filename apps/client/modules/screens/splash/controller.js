@@ -12,6 +12,6 @@ export class SplashScreen {
   onMount() {
     setTimeout(() => {
       this.app.navigateTo('home');
-    }, 3500);
+    }, 5000);
   }
 }
