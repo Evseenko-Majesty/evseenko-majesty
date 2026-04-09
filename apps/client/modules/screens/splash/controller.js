@@ -45,39 +45,39 @@ export class SplashScreen {
   }
   
   showSuccess() {
-    if (!this.statusCard) return;
-    this.statusCard.className = 'splash__status splash__status--success';
-    this.statusCard.innerHTML = `
-      <div class="splash__status-content">
-        <span class="splash__status-icon">✅</span>
-        <span class="splash__status-text">Подключено</span>
-      </div>
-    `;
-  }
+  if (!this.statusCard) return;
+  this.statusCard.className = 'splash__status status-card status-card--success';
+  this.statusCard.innerHTML = `
+    <div class="status-card__content">
+      <span class="status-card__icon">✅</span>
+      <span class="status-card__text">Подключено</span>
+    </div>
+  `;
+}
+
+showError(message) {
+  if (!this.statusCard) return;
+  this.statusCard.className = 'splash__status status-card status-card--error';
+  this.statusCard.innerHTML = `
+    <div class="status-card__content">
+      <span class="status-card__icon">❌</span>
+      <span class="status-card__text">${message}</span>
+    </div>
+    <button class="btn status-card__retry">Повторить</button>
+  `;
   
-  showError(message) {
-    if (!this.statusCard) return;
-    this.statusCard.className = 'splash__status splash__status--error';
-    this.statusCard.innerHTML = `
-      <div class="splash__status-content">
-        <span class="splash__status-icon">❌</span>
-        <span class="splash__status-text">${message}</span>
-      </div>
-      <button class="splash__retry">Повторить</button>
-    `;
-    
-    const retryBtn = this.statusCard.querySelector('.splash__retry');
-    if (retryBtn) {
-      retryBtn.addEventListener('click', () => {
-        this.statusCard.className = 'splash__status splash__status--loading';
-        this.statusCard.innerHTML = `
-          <div class="splash__status-content">
-            <span class="splash__status-icon">🔄</span>
-            <span class="splash__status-text">Подключение к серверу...</span>
-          </div>
-        `;
-        this.authenticate();
-      });
-    }
+  const retryBtn = this.statusCard.querySelector('.status-card__retry');
+  if (retryBtn) {
+    retryBtn.addEventListener('click', () => {
+      this.statusCard.className = 'splash__status status-card status-card--loading';
+      this.statusCard.innerHTML = `
+        <div class="status-card__content">
+          <span class="status-card__icon">🔄</span>
+          <span class="status-card__text">Подключение к серверу...</span>
+        </div>
+      `;
+      this.authenticate();
+    });
   }
 }
+  
