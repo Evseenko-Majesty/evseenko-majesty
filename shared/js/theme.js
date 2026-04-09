@@ -1,11 +1,13 @@
 // ============================================
-// УПРАВЛЕНИЕ ТЕМОЙ (светлая / тёмная)
+// УПРАВЛЕНИЕ ТЕМОЙ + РАСКРЫТИЕ НА ВЕСЬ ЭКРАН
 // ============================================
+
+import { getTelegram, expandApp, ready } from './telegram.js';
 
 // Получить текущую тему из Telegram
 function getTelegramTheme() {
-    const tg = window.Telegram?.WebApp;
-    return tg?.colorScheme || 'light';   // 'light' или 'dark'
+    const tg = getTelegram();
+    return tg?.colorScheme || 'light';
 }
 
 // Применить тему к странице
@@ -13,19 +15,23 @@ export function applyTheme() {
     const theme = getTelegramTheme();
     
     if (theme === 'dark') {
-        document.body.classList.add('dark');   // добавляем класс dark
+        document.body.classList.add('dark');
     } else {
-        document.body.classList.remove('dark'); // убираем класс dark
+        document.body.classList.remove('dark');
     }
 }
 
-// Слушать изменение темы в Telegram
-export function initTheme() {
-    // Применяем тему сразу
+// Инициализация: раскрытие + тема
+export function initTelegram() {
+    // Раскрываем на весь экран
+    expandApp();
+    ready();
+    
+    // Применяем тему
     applyTheme();
     
-    // Слушаем событие смены темы
-    const tg = window.Telegram?.WebApp;
+    // Слушаем изменение темы
+    const tg = getTelegram();
     if (tg) {
         tg.onEvent('themeChanged', applyTheme);
     }
