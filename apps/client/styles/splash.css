@@ -30,6 +30,32 @@
   width: 100%;
 }
 
+.splash__slogan-main {
+  position: absolute;
+  top: 55%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: var(--accent-color);
+  font-size: 18px;
+  font-weight: 500;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  text-align: center;
+  width: 100%;
+}
+
+.splash__slogan-sub {
+  position: absolute;
+  top: 60%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: var(--text-color);
+  font-size: 12px;
+  opacity: 0.5;
+  text-align: center;
+  width: 100%;
+}
+
 .splash__copyright {
   position: absolute;
   bottom: 2%;
