@@ -17,7 +17,7 @@
 }
 
 .splash__title {
-  margin: 30;
+  margin-top: 30;
   color: var(--accent-color);
   font-size: 32px;
   font-weight: 600;
