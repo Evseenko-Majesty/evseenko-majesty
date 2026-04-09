@@ -1,8 +1,7 @@
 /* ============================================
-   СТИЛИ ЗАГРУЗОЧНОГО ЭКРАНА
+   СТИЛИ ТОЛЬКО ДЛЯ ЗАГРУЗОЧНОГО ЭКРАНА
    ============================================ */
 
-/* Контейнер — занимает весь экран */
 .splash-container {
     display: flex;
     flex-direction: column;
@@ -11,7 +10,7 @@
     position: relative;
 }
 
-/* ЛОГОТИП — расположение и анимация */
+/* Расположение логотипа и анимация */
 .splash-container .logo {
     margin-top: 25vh;          /* 25% от верха */
     opacity: 0;
@@ -22,17 +21,4 @@
 .splash-container .logo.active {
     opacity: 1;
     transform: scale(1);
-}
-
-/* НАЗВАНИЕ — появится позже */
-.splash-title {
-    margin-top: 5vh;
-    opacity: 0;
-    transform: translateY(20px);
-    transition: all 0.5s ease-out 0.2s;
-}
-
-.splash-title.active {
-    opacity: 1;
-    transform: translateY(0);
 }
