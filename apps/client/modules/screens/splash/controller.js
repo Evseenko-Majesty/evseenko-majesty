@@ -1,8 +1,7 @@
-// ============================================
-// ЛОГИКА ЗАГРУЗОЧНОГО ЭКРАНА
-// ============================================
+import { render } from './view.js';
 
-export function animateSplash() {
-    const logo = document.getElementById('logo');
-    if (logo) logo.classList.add('active');
+export class SplashScreen {
+  getElement() {
+    return render();
+  }
 }
