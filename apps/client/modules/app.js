@@ -4,10 +4,10 @@
 import { renderSplash } from './screens/splash.js';
 import { renderHome } from './screens/home.js';
 import { authorize } from '/shared/js/auth.js';   // ← общая авторизация
-import { initTheme } from '/shared/js/theme.js';  // импортируем тему
+import { initTelegram } from '/shared/js/theme.js';  // импортируем тему
 
 // иницианизируем тему при старте 
-initTheme();
+initTelegram();
 
 // ============================================
 // Функция обновления интерфейса
