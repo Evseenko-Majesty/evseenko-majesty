@@ -1,4 +1,5 @@
-import { renderSplash } from './screens/splash/view.js';
+import { SplashScreen } from './screens/splash/controller.js';
 
-// Рисуем загрузочный экран
-document.getElementById('app').innerHTML = renderSplash();
+const root = document.getElementById('root');
+const splash = new SplashScreen();
+root.appendChild(splash.getElement());
