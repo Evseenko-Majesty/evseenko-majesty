@@ -1,14 +1,22 @@
 // ============================================
-// ЗАГРУЗОЧНЫЙ ЭКРАН (только HTML)
+// ЗАГРУЗОЧНЫЙ ЭКРАН (HTML и анимация)
 // ============================================
 
-import { renderLogo } from '/shared/components/Logo.js';
 import './splash.css';
 
 export function renderSplash() {
     return `
         <div class="splash-container">
-            ${renderLogo()}
+            <div class="splash-logo">👑</div>
         </div>
     `;
+}
+
+export function animateSplash() {
+    const logo = document.querySelector('.splash-logo');
+    if (logo) {
+        setTimeout(() => {
+            logo.classList.add('active');
+        }, 100);
+    }
 }
