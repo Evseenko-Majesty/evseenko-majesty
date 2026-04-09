@@ -1,5 +1,5 @@
 import { renderLogo } from '/shared/components/Logo.js';
-import './splash.css';
+э
 
 export function renderSplash() {
     return `
