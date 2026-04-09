@@ -9,6 +9,14 @@ export function render() {
   const h1 = document.createElement('h1');
   h1.className = 'splash__title';
   h1.textContent = 'EVSEENKO MAJESTY';
+
+  const sloganMain = document.createElement('div');
+sloganMain.className = 'splash__slogan-main';
+sloganMain.textContent = 'Двигайся за пределами';
+
+const sloganSub = document.createElement('div');
+sloganSub.className = 'splash__slogan-sub';
+sloganSub.textContent = 'Drive Beyond Limits';
   
   const copyright = document.createElement('div');
   copyright.className = 'splash__copyright';
