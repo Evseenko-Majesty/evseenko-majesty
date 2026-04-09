@@ -1,4 +1,4 @@
-const API_URL = 'https://evseenko-majesty-server.onrender.com';
+const API_URL = 'https://evseenko-api.onrender.com';
 
 export const API = {
   async auth(telegramUser) {
