@@ -1,0 +1,24 @@
+/* ============================================
+   БАЗОВЫЕ СТИЛИ (сброс, шрифты)
+   ============================================ */
+
+/* Сброс отступов у всех элементов */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Шрифт для всего приложения */
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    min-height: 100vh;
+}
+
+/* Контейнер для центрирования контента */
+.container {
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 20px;
+    text-align: center;
+}
