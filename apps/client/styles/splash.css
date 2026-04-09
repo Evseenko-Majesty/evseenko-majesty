@@ -72,23 +72,23 @@
 .splash__slogan-main,
 .splash__slogan-sub {
   opacity: 0;
-  animation: fadeInUp 0.6s ease forwards;
+  animation: fadeInUp 1.2s ease forwards;
 }
 
 .splash__logo {
-  animation-delay: 0.1s;
-}
-
-.splash__title {
   animation-delay: 0.3s;
 }
 
+.splash__title {
+  animation-delay: 0.9s;
+}
+
 .splash__slogan-main {
-  animation-delay: 0.5s;
+  animation-delay: 1.5s;
 }
 
 .splash__slogan-sub {
-  animation-delay: 0.7s;
+  animation-delay: 2.1s;
 }
 
 @keyframes fadeInUp {
