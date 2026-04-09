@@ -1,37 +1,21 @@
-.splash {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  background: var(--bg-color);
-}
-
-.splash__logo {
-  margin-bottom: 16px;
-  font-size: 64px;
-}
-
-.splash__title {
-  margin: 0;
-  color: var(--accent-color);
-  font-size: 32px;
-  font-weight: 600;
-  letter-spacing: 4px;
-  text-transform: uppercase;
-}
-
-.splash__copyright {
-  position: absolute;
-  bottom: 16px;
-  left: 0;
-  right: 0;
-  text-align: center;
-  color: var(--text-color);
-  font-size: 12px;
-  opacity: 0.4;
+export function render() {
+  const div = document.createElement('div');
+  div.className = 'splash';
+  
+  const logo = document.createElement('div');
+  logo.className = 'splash__logo';
+  logo.textContent = '👑';
+  
+  const h1 = document.createElement('h1');
+  h1.className = 'splash__title';
+  h1.textContent = 'EVSEENKO MAJESTY';
+  
+  const copyright = document.createElement('div');
+  copyright.className = 'splash__copyright';
+  copyright.innerHTML = 'Evseenko Majesty © 2026<br>Все права защищены';
+  
+  div.appendChild(logo);
+  div.appendChild(h1);
+  div.appendChild(copyright);
+  return div;
 }
