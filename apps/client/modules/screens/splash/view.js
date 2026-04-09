@@ -24,6 +24,8 @@ sloganSub.textContent = 'Drive Beyond Limits';
   
   div.appendChild(logo);
   div.appendChild(h1);
+  div.appendChild(sloganMain);
+div.appendChild(sloganSub);
   div.appendChild(copyright);
   return div;
 }
