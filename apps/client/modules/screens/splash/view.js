@@ -23,13 +23,13 @@ export function render() {
   copyright.innerHTML = 'Evseenko Majesty © 2026<br>Все права защищены';
   
   const statusCard = document.createElement('div');
-  statusCard.className = 'splash__status splash__status--loading';
-  statusCard.innerHTML = `
-    <div class="splash__status-content">
-      <span class="splash__status-icon">🔄</span>
-      <span class="splash__status-text">Подключение к серверу...</span>
-    </div>
-  `;
+statusCard.className = 'splash__status status-card status-card--loading';
+statusCard.innerHTML = `
+  <div class="status-card__content">
+    <span class="status-card__icon">🔄</span>
+    <span class="status-card__text">Подключение к серверу...</span>
+  </div>
+`;
   
   div.appendChild(logo);
   div.appendChild(h1);
