@@ -1,0 +1,30 @@
+/* ============================================
+   ПЕРЕМЕННЫЕ ДЛЯ ТЕМ (светлая / тёмная)
+   ============================================ */
+
+/* Светлая тема (по умолчанию) */
+:root {
+    --bg-primary: #FFFFFF;        /* основной фон */
+    --bg-secondary: #F5F5F5;      /* второстепенный фон (карточки) */
+    --text-primary: #1C1C1E;      /* основной текст */
+    --text-secondary: #8E8E93;    /* второстепенный текст */
+    --accent: #C4A747;            /* акцентный цвет (золото) */
+    --border: #E5E5EA;            /* цвет границ */
+}
+
+/* Тёмная тема — применяется, когда на body есть класс dark */
+body.dark {
+    --bg-primary: #0B0F14;
+    --bg-secondary: #1C1C1E;
+    --text-primary: #FFFFFF;
+    --text-secondary: #98989E;
+    --accent: #D4AF37;
+    --border: #2C2C30;
+}
+
+/* Применяем переменные к body */
+body {
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    transition: background 0.2s ease, color 0.2s ease;
+}
