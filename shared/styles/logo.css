@@ -1,8 +1,0 @@
-/* Общие стили для логотипа (размер, цвет) */
-.logo {
-    font-size: 25vw;
-    max-width: 150px;
-    max-height: 150px;
-    color: var(--accent, #C4A747);
-    display: inline-block;
-}
