@@ -9,6 +9,10 @@
       "use": "@vercel/static"
     },
     {
+      "src": "server/**",
+      "use": "@vercel/static"
+    },
+    {
       "src": "site/**",
       "use": "@vercel/static"
     }
@@ -17,6 +21,10 @@
     {
       "src": "/shared/(.*)",
       "dest": "/shared/$1"
+    },
+    {
+      "src": "/server/(.*)",
+      "dest": "/server/$1"
     },
     {
       "src": "/apps/client/(.*)",
