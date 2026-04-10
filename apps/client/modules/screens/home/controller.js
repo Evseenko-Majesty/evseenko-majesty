@@ -5,6 +5,6 @@ export class HomeScreen {
     this.app = app;
   }
   getElement() {
-    return render();
+    return render(this.app.user);
   }
 }
