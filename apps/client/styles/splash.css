@@ -69,7 +69,7 @@
 
 .splash__status {
   position: absolute;
-  bottom: 10%;
+  bottom: 30%;
   left: 50%;
   transform: translateX(-50%);
   opacity: 0;
