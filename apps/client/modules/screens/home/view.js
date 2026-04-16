@@ -11,6 +11,11 @@ export function render(user) {
   profile.className = 'profile-header';
   profile.style.padding = '0';
   profile.style.marginBottom = '20px';
+  // Внутри render, после создания profile добавить:
+profile.style.cursor = 'pointer';
+profile.addEventListener('click', () => {
+  this.goToProfile();
+});
   
   const avatar = document.createElement('div');
   if (user?.photo_url) {
