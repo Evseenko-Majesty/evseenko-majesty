@@ -1,4 +1,5 @@
 import { render } from './view.js';
+import { hideBackButton } from '/shared/js/telegram.js';
 
 export class HomeScreen {
   constructor(app) {
@@ -15,5 +16,10 @@ export class HomeScreen {
     const root = document.getElementById('root');
     root.innerHTML = '';
     root.appendChild(this.getElement());
+    hideBackButton(this.app.tg);
+  }
+  
+  onMount() {
+    hideBackButton(this.app.tg);
   }
 }
