@@ -90,5 +90,5 @@ profile.addEventListener('click', () => {
     }
   }, 10);
   
-  return { div, moreItem };
+  return { div, moreItem, profile };
 }
