@@ -157,6 +157,8 @@
   cursor: pointer;
   transition: color 0.3s ease;
   z-index: 2;
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .bottom-nav__icon {
