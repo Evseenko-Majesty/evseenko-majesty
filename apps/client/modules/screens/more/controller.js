@@ -6,12 +6,6 @@ export class MoreScreen {
   }
   
   getElement() {
-    const { div, homeItem } = render();
-    
-    homeItem.addEventListener('click', () => {
-      this.app.navigateTo('home');
-    });
-    
-    return div;
+    return render();
   }
 }
