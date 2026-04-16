@@ -9,3 +9,12 @@ export function initTelegram() {
   });
   return tg;
 }
+
+export function setupBackButton(tg, onBack) {
+  tg.BackButton.show();
+  tg.BackButton.onClick(onBack);
+}
+
+export function hideBackButton(tg) {
+  tg.BackButton.hide();
+}
