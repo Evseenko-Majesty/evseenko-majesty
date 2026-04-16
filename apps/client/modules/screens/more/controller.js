@@ -6,10 +6,14 @@ export class MoreScreen {
   }
   
   getElement() {
-    const { div, homeItem } = render();
+    const { div, homeItem, menuItem } = render();
     
     homeItem.addEventListener('click', () => {
       this.app.navigateTo('home');
+    });
+    
+    menuItem.addEventListener('click', () => {
+      this.app.navigateTo('profile');
     });
     
     return div;
