@@ -8,7 +8,7 @@ class App {
     this.tg = initTelegram();
     this.root = document.getElementById('root');
     this.user = null;
-    this.history = [];
+    this.currentScreen = 'splash';
     this.screens = {
       splash: new SplashScreen(this),
       home: new HomeScreen(this),
@@ -17,11 +17,10 @@ class App {
   }
   
   navigateTo(screenName) {
+    this.currentScreen = screenName;
     const screen = this.screens[screenName];
     this.root.innerHTML = '';
     this.root.appendChild(screen.getElement());
-    
-    this.history.push(screenName);
     
     if (screenName === 'home' || screenName === 'splash') {
       hideBackButton(this.tg);
@@ -35,21 +34,10 @@ class App {
   }
   
   goBack() {
-  if (this.history.length > 1) {
-    this.history.pop();
-    const previousScreen = this.history.pop();
-    
-    const screen = this.screens[previousScreen];
-    this.root.innerHTML = '';
-    this.root.appendChild(screen.getElement());
-    
-    this.history.push(previousScreen);
-    
-    if (previousScreen === 'home' || previousScreen === 'splash') {
-      hideBackButton(this.tg);
+    if (this.currentScreen === 'more') {
+      this.navigateTo('home');
     }
   }
-}
   
   start() {
     this.navigateTo('splash');
