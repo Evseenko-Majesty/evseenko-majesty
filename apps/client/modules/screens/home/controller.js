@@ -6,10 +6,15 @@ export class HomeScreen {
   }
   
   getElement() {
-    const { div, moreItem } = render(this.app.user);
+    const { div, moreItem, profile } = render(this.app.user);
     
     moreItem.addEventListener('click', () => {
       this.app.navigateTo('more');
+    });
+    
+    profile.style.cursor = 'pointer';
+    profile.addEventListener('click', () => {
+      this.app.navigateTo('profile');
     });
     
     return div;
