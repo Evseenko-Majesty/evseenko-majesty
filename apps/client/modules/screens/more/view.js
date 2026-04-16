@@ -8,9 +8,31 @@ export function render() {
   
   const title = document.createElement('h2');
   title.style.color = 'var(--text-color)';
+  title.style.marginBottom = '24px';
+  title.style.fontSize = '28px';
+  title.style.fontWeight = '600';
   title.textContent = 'Ещё';
   
   content.appendChild(title);
+  
+  const menuItem = document.createElement('div');
+  menuItem.style.cssText = `
+    display: flex;
+    align-items: center;
+    padding: 16px;
+    background: var(--surface-color);
+    border: 1px solid var(--border-color);
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  `;
+  menuItem.innerHTML = `
+    <span style="font-size: 24px; margin-right: 16px;">👤</span>
+    <span style="color: var(--text-color); font-size: 16px; font-weight: 500;">Профиль</span>
+    <span style="margin-left: auto; color: var(--text-secondary);">→</span>
+  `;
+  
+  content.appendChild(menuItem);
   div.appendChild(content);
   
   const nav = document.createElement('nav');
@@ -55,5 +77,5 @@ export function render() {
     }
   }, 10);
   
-  return { div, homeItem };
+  return { div, homeItem, menuItem };
 }
