@@ -6,10 +6,9 @@ export class HomeScreen {
   }
   
   getElement() {
-    const div = render(this.app.user);
+    const { div, moreItem } = render(this.app.user);
     
-    const moreBtn = div.querySelector('.bottom-nav__item:last-child');
-    moreBtn.addEventListener('click', () => {
+    moreItem.addEventListener('click', () => {
       this.app.navigateTo('more');
     });
     
