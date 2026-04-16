@@ -1,6 +1,6 @@
 import { render } from './view.js'
 import { API } from '/shared/js/api.js'
-import { hideBackButton } from '/shared/js/telegram.js';
+import { hideBackButton } from '/shared/js/telegram.js'
 
 export class SplashScreen {
   constructor(app) {
@@ -14,9 +14,12 @@ export class SplashScreen {
   }
 
   onMount() {
-  hideBackButton(this.app.tg);
-  // остальное без изменений
-}
+    hideBackButton(this.app.tg)
+    this.statusCard = document.querySelector('.splash__status')
+    setTimeout(() => {
+      this.authenticate()
+    }, 2800)
+  }
 
   async authenticate() {
     const tgUser = this.app.tg.initDataUnsafe?.user
