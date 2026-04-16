@@ -7,7 +7,6 @@ export function render(user) {
   content.style.padding = '16px';
   content.style.paddingBottom = '100px';
   
-  // Профиль
   const profile = document.createElement('div');
   profile.className = 'profile-header';
   profile.style.padding = '0';
@@ -44,7 +43,6 @@ export function render(user) {
   
   div.appendChild(content);
   
-  // Навигация
   const nav = document.createElement('nav');
   nav.className = 'bottom-nav';
   
@@ -56,34 +54,36 @@ export function render(user) {
     z-index: 1;
   `;
   
-  const tabs = [
-    { id: 'home', icon: '🏠', label: 'Главная', screen: 'home' },
-    { id: 'more', icon: '⋯', label: 'Ещё', screen: 'more' }
-  ];
-  
   const indicator = document.createElement('div');
   indicator.className = 'bottom-nav__indicator';
   navButtons.appendChild(indicator);
   
-  tabs.forEach(tab => {
-    const item = document.createElement('button');
-    item.className = 'bottom-nav__item active';
-    item.innerHTML = `
-      <span class="bottom-nav__icon">${tab.icon}</span>
-      <span>${tab.label}</span>
-    `;
-    
-    item.addEventListener('click', () => {
-      if (tab.screen === 'more') {
-        this.goToMore();
-      }
-    });
-    
-    navButtons.appendChild(item);
-  });
+  const homeItem = document.createElement('button');
+  homeItem.className = 'bottom-nav__item active';
+  homeItem.innerHTML = `
+    <span class="bottom-nav__icon">🏠</span>
+    <span>Главная</span>
+  `;
   
+  const moreItem = document.createElement('button');
+  moreItem.className = 'bottom-nav__item';
+  moreItem.innerHTML = `
+    <span class="bottom-nav__icon">⋯</span>
+    <span>Ещё</span>
+  `;
+  
+  navButtons.appendChild(homeItem);
+  navButtons.appendChild(moreItem);
   nav.appendChild(navButtons);
   div.appendChild(nav);
   
-  return div;
+  setTimeout(() => {
+    const activeItem = nav.querySelector('.bottom-nav__item.active');
+    if (activeItem && indicator) {
+      indicator.style.width = activeItem.offsetWidth + 'px';
+      indicator.style.transform = `translateX(${activeItem.offsetLeft}px)`;
+    }
+  }, 10);
+  
+  return { div, moreItem };
 }
