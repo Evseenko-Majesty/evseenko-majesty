@@ -2,6 +2,7 @@ import { initTelegram, setupBackButton, hideBackButton } from '/shared/js/telegr
 import { SplashScreen } from './screens/splash/controller.js';
 import { HomeScreen } from './screens/home/controller.js';
 import { MoreScreen } from './screens/more/controller.js';
+import { ProfileScreen } from './screens/profile/controller.js';
 
 class App {
   constructor() {
@@ -12,7 +13,8 @@ class App {
     this.screens = {
       splash: new SplashScreen(this),
       home: new HomeScreen(this),
-      more: new MoreScreen(this)
+      more: new MoreScreen(this),
+      profile: new ProfileScreen(this)
     };
   }
   
@@ -34,7 +36,7 @@ class App {
   }
   
   goBack() {
-    if (this.currentScreen === 'more') {
+    if (this.currentScreen === 'more' || this.currentScreen === 'profile') {
       this.navigateTo('home');
     }
   }
