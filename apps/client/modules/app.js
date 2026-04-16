@@ -35,12 +35,24 @@ class App {
   }
   
   goBack() {
-    if (this.history.length > 1) {
-      this.history.pop();
-      const previousScreen = this.history.pop();
-      this.navigateTo(previousScreen);
+  if (this.history.length > 1) {
+    this.history.pop();
+    const previousScreen = this.history[this.history.length - 1];
+    
+    const screen = this.screens[previousScreen];
+    this.root.innerHTML = '';
+    this.root.appendChild(screen.getElement());
+    
+    if (previousScreen === 'home' || previousScreen === 'splash') {
+      hideBackButton(this.tg);
+    }
+    
+    if (screen.onMount) {
+      screen.onMount();
     }
   }
+}
+
   
   start() {
     this.navigateTo('splash');
