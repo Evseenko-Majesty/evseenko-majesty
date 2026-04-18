@@ -1,12 +1,15 @@
 // ============================================
-// ЗАГРУЗОЧНЫЙ ЭКРАН — ПРЕДСТАВЛЕНИЕ (HTML)
+// ЗАГРУЗОЧНЫЙ ЭКРАН — ПРЕДСТАВЛЕНИЕ
 // ============================================
+
+import { Copyright } from '/shared/components/Copyright.js';
 
 export function render() {
   const div = document.createElement('div');
   
-  // Временно пустой
-  // Потом добавим: корона, название, слоган, копирайт, статус-карточка
+  // Добавляем копирайт
+  const copyright = Copyright();
+  div.appendChild(copyright);
   
   return div;
 }
