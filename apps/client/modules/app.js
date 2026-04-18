@@ -39,16 +39,16 @@ class App {
   }
   
   goBack() {
-    if (this.currentScreen === 'more') {
+  if (this.currentScreen === 'more') {
+    this.navigateTo('home');
+  } else if (this.currentScreen === 'profile') {
+    if (this.previousScreen === 'more') {
+      this.navigateTo('more');
+    } else {
       this.navigateTo('home');
-    } else if (this.currentScreen === 'profile') {
-      if (this.previousScreen && this.previousScreen !== 'splash') {
-        this.navigateTo(this.previousScreen);
-      } else {
-        this.navigateTo('home');
-      }
     }
   }
+}
   
   start() {
     this.navigateTo('splash');
