@@ -1,17 +1,25 @@
+/* ============================================
+   БАЗОВЫЕ СТИЛИ
+   Сбросы и основные настройки для всего проекта
+   ============================================ */
+
+/* Сброс всех отступов у всех элементов */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
+/* Базовые настройки страницы */
 body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  background: var(--bg-color);
+  -webkit-font-smoothing: antialiased;      /* Сглаживание шрифтов на iOS */
+  -moz-osx-font-smoothing: grayscale;       /* Сглаживание шрифтов на macOS */
+  background: var(--bg-color);               /* Фон из темы */
 }
 
+/* Корневой контейнер приложения */
 #root {
-  min-height: 100vh;
-  background: var(--bg-color);
+  min-height: 100vh;                         /* Минимальная высота - весь экран */
+  background: var(--bg-color);               /* Фон из темы */
 }
