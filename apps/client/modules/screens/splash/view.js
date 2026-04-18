@@ -1,15 +1,12 @@
 // ============================================
-// ЗАГРУЗОЧНЫЙ ЭКРАН — ПРЕДСТАВЛЕНИЕ
+// ЗАГРУЗОЧНЫЙ ЭКРАН — ЧТО ВИДИТ ПОЛЬЗОВАТЕЛЬ
 // ============================================
 
-import { Copyright } from '/shared/components/Copyright.js';
-
 export function render() {
+  // Создаём пустой контейнер экрана
   const div = document.createElement('div');
-  div.className = 'splash';  // Стили из splash.css
   
-  const copyright = Copyright();
-  div.appendChild(copyright);
+  // Потом здесь будет: корона, название, слоган, копирайт
   
   return div;
 }
