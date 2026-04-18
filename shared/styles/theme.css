@@ -1,0 +1,25 @@
+/* СВЕТЛАЯ ТЕМА */
+[data-theme="light"] {
+  --bg-color: #FFFFFF;
+  --surface-color: #F8F8FA;
+  --border-color: #E5E5EA;
+  --text-color: #1C1C1E;
+  --text-secondary: #8E8E93;
+  --accent-color: #C4A747;
+  --accent-hover: #B0963A;
+  --success-color: #2E7D32;
+  --error-color: #C62828;
+}
+
+/* ТЁМНАЯ ТЕМА */
+[data-theme="dark"] {
+  --bg-color: #0B0F14;
+  --surface-color: #1C1C1E;
+  --border-color: #2C2C30;
+  --text-color: #FFFFFF;
+  --text-secondary: #98989E;
+  --accent-color: #D4AF37;
+  --accent-hover: #C49E2A;
+  --success-color: #4CAF50;
+  --error-color: #EF5350;
+}
