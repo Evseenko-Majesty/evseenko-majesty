@@ -1,17 +1,26 @@
 <!DOCTYPE html>
+<!-- Язык страницы - русский -->
 <html lang="ru">
 <head>
+  <!-- Кодировка - чтобы русские буквы не ломались -->
   <meta charset="UTF-8">
+  
+  <!-- Настройка для мобильных устройств и Telegram -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  
+  <!-- Заголовок вкладки -->
   <title>Evseenko Majesty</title>
-  <link rel="stylesheet" href="/shared/styles/base.css">
-  <link rel="stylesheet" href="/shared/styles/themes.css">
-  <link rel="stylesheet" href="/shared/styles/components.css">
-  <link rel="stylesheet" href="/apps/client/styles/splash.css">
+  
+  <!-- Подключаем Telegram SDK -->
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
 </head>
 <body>
-  <div id="root"></div>
-  <script type="module" src="/apps/client/modules/app.js"></script>
+  
+  <!-- Пустой контейнер - сюда JavaScript вставит всё приложение -->
+  <div id="app"></div>
+  
+  <!-- Главный файл приложения -->
+  <script type="module" src="modules/app.js"></script>
+  
 </body>
 </html>
