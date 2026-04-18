@@ -2,36 +2,34 @@
 // ГЛАВНЫЙ ФАЙЛ ПРИЛОЖЕНИЯ
 // ============================================
 
+import { initTelegram } from '/shared/js/telegram.js';
 import { SplashScreen } from './screens/splash/controller.js';
 
 class App {
   constructor() {
-    this.container = document.getElementById('app');  // Находим контейнер из HTML
-    this.user = null;  // Данные пользователя (пока пусто)
+    this.tg = initTelegram();                       // Инициализация Telegram
+    this.container = document.getElementById('app');
+    this.user = null;
     
-    // Все экраны приложения
     this.screens = {
       splash: new SplashScreen(this)
     };
   }
   
-  // Переход на другой экран
   navigateTo(screenName) {
     const screen = this.screens[screenName];
-    this.container.innerHTML = '';                     // Очищаем контейнер
-    this.container.appendChild(screen.getElement());   // Показываем новый экран
+    this.container.innerHTML = '';
+    this.container.appendChild(screen.getElement());
     
     if (screen.onMount) {
-      screen.onMount();  // Запускаем логику экрана
+      screen.onMount();
     }
   }
   
-  // Запуск приложения
   start() {
-    this.navigateTo('splash');  // Первый экран - загрузочный
+    this.navigateTo('splash');
   }
 }
 
-// Создаём и запускаем приложение
 const app = new App();
 app.start();
