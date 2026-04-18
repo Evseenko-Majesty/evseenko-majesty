@@ -20,7 +20,10 @@ class App {
   }
   
   navigateTo(screenName) {
-    this.previousScreen = this.currentScreen;
+    // Не обновляем previousScreen если переходим на ту же страницу
+    if (this.currentScreen !== screenName) {
+      this.previousScreen = this.currentScreen;
+    }
     this.currentScreen = screenName;
     
     const screen = this.screens[screenName];
@@ -39,16 +42,18 @@ class App {
   }
   
   goBack() {
-  if (this.currentScreen === 'more') {
-    this.navigateTo('home');
-  } else if (this.currentScreen === 'profile') {
-    if (this.previousScreen === 'more') {
-      this.navigateTo('more');
-    } else {
+    if (this.currentScreen === 'more') {
       this.navigateTo('home');
+    } else if (this.currentScreen === 'profile') {
+      if (this.previousScreen === 'more') {
+        this.navigateTo('more');
+      } else if (this.previousScreen === 'home') {
+        this.navigateTo('home');
+      } else {
+        this.navigateTo('home');
+      }
     }
   }
-}
   
   start() {
     this.navigateTo('splash');
