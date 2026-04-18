@@ -10,6 +10,7 @@ class App {
     this.root = document.getElementById('root');
     this.user = null;
     this.currentScreen = 'splash';
+    this.previousScreen = null;
     this.screens = {
       splash: new SplashScreen(this),
       home: new HomeScreen(this),
@@ -19,7 +20,9 @@ class App {
   }
   
   navigateTo(screenName) {
+    this.previousScreen = this.currentScreen;
     this.currentScreen = screenName;
+    
     const screen = this.screens[screenName];
     this.root.innerHTML = '';
     this.root.appendChild(screen.getElement());
@@ -36,8 +39,14 @@ class App {
   }
   
   goBack() {
-    if (this.currentScreen === 'more' || this.currentScreen === 'profile') {
+    if (this.currentScreen === 'more') {
       this.navigateTo('home');
+    } else if (this.currentScreen === 'profile') {
+      if (this.previousScreen && this.previousScreen !== 'splash') {
+        this.navigateTo(this.previousScreen);
+      } else {
+        this.navigateTo('home');
+      }
     }
   }
   
