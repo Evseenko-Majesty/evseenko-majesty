@@ -1,25 +1,44 @@
-/* СВЕТЛАЯ ТЕМА */
+/* ============================================
+   ТЕМЫ EVSEENKO MAJESTY
+   Цветовые переменные для светлой и тёмной темы
+   ============================================ */
+
+/* СВЕТЛАЯ ТЕМА (по умолчанию для устройств) */
 [data-theme="light"] {
-  --bg-color: #FFFFFF;
-  --surface-color: #F8F8FA;
-  --border-color: #E5E5EA;
-  --text-color: #1C1C1E;
-  --text-secondary: #8E8E93;
-  --accent-color: #C4A747;
-  --accent-hover: #B0963A;
-  --success-color: #2E7D32;
-  --error-color: #C62828;
+  /* Фоны */
+  --bg-color: #FFFFFF;                /* Фон страницы - белый */
+  --surface-color: #F8F8FA;           /* Фон карточек - почти белый */
+  --border-color: #E5E5EA;            /* Границы - светло-серый */
+  
+  /* Текст */
+  --text-color: #1C1C1E;              /* Основной текст - почти чёрный */
+  --text-secondary: #8E8E93;          /* Второстепенный текст - серый */
+  
+  /* Акценты */
+  --accent-color: #C4A747;            /* Золотой акцент (мягкий) */
+  --accent-hover: #B0963A;            /* Золотой при наведении */
+  
+  /* Статусы */
+  --success-color: #2E7D32;           /* Успех - зелёный */
+  --error-color: #C62828;             /* Ошибка - красный */
 }
 
-/* ТЁМНАЯ ТЕМА */
+/* ТЁМНАЯ ТЕМА (когда устройство в тёмном режиме) */
 [data-theme="dark"] {
-  --bg-color: #0B0F14;
-  --surface-color: #1C1C1E;
-  --border-color: #2C2C30;
-  --text-color: #FFFFFF;
-  --text-secondary: #98989E;
-  --accent-color: #D4AF37;
-  --accent-hover: #C49E2A;
-  --success-color: #4CAF50;
-  --error-color: #EF5350;
+  /* Фоны */
+  --bg-color: #0B0F14;                /* Фон страницы - глубокий тёмный */
+  --surface-color: #1C1C1E;           /* Фон карточек - тёмно-серый */
+  --border-color: #2C2C30;            /* Границы - тёмные */
+  
+  /* Текст */
+  --text-color: #FFFFFF;              /* Основной текст - белый */
+  --text-secondary: #98989E;          /* Второстепенный текст - светло-серый */
+  
+  /* Акценты */
+  --accent-color: #D4AF37;            /* Золотой акцент (яркий) */
+  --accent-hover: #C49E2A;            /* Золотой при наведении */
+  
+  /* Статусы */
+  --success-color: #4CAF50;           /* Успех - зелёный */
+  --error-color: #EF5350;             /* Ошибка - красный */
 }
