@@ -10,7 +10,7 @@
   display: flex;
   align-items: flex-start;
   justify-content: center;
-  padding-top: 10vh;            /* Отступ 30% от верха */
+  padding-top: 8vh;            /* Отступ 30% от верха */
 }
 
 .splash .logo {
