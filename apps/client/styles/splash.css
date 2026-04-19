@@ -30,7 +30,7 @@
 
 .splash .brand-name {
   position: absolute;
-  top: 34%;                      /* Позиция от верха экрана */
+  top: 32%;                      /* Позиция от верха экрана */
   left: 50%;
   transform: translate(-50%, 0);
   font-size: 3.5vh;
