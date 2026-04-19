@@ -14,7 +14,7 @@
 
 .splash .logo {
   position: absolute;
-  top: 10%;                      /* 30% от верха экрана */
+  top: 5%;                      /* 30% от верха экрана */
   left: 50%;
   transform: translate(-53%, 0);
   opacity: 0;
@@ -22,7 +22,7 @@
 }
 
 .splash .logo svg {
-  height: 55vh;                  /* Высота логотипа */
+  height: 60vh;                  /* Высота логотипа */
   width: auto;
 }
 
@@ -30,7 +30,7 @@
 
 .splash .brand-name {
   position: absolute;
-  top: 58%;                      /* Позиция от верха экрана */
+  top: 13%;                      /* Позиция от верха экрана */
   left: 50%;
   transform: translate(-50%, 0);
   font-size: 2.3vh;
