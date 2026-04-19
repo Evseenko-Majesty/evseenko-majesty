@@ -14,7 +14,7 @@
 
 .splash .logo {
   position: absolute;
-  top: 5%;                      /* 30% от верха экрана */
+  top: -5%;                      /* 30% от верха экрана */
   left: 50%;
   transform: translate(-53%, 0);
   opacity: 0;
