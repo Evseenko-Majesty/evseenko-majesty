@@ -34,3 +34,22 @@
     transform: translateY(0) translateX(-3%);;
   }
 }
+
+
+.splash .brand-name {
+  position: absolute;
+  top: calc(30vh + 55vh + 2.5vh);  /* Отступ от верха + высота логотипа + отступ */
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 2.3vh;
+  margin: 0;
+  opacity: 0;
+  animation: fadeIn 1s ease forwards;
+  animation-delay: 0.8s;         /* Появляется после логотипа */
+  white-space: nowrap;           /* В одну строку */
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
