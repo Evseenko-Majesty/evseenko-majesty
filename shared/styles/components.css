@@ -14,3 +14,14 @@
 .logo svg {
   width: auto;                  /* Ширина подстраивается под высоту */
 }
+
+/* -------------------- НАЗВАНИЕ БРЕНДА -------------------- */
+
+.brand-name {
+  font-family: 'Montserrat', 'Inter', sans-serif;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-align: center;
+  color: var(--text-color);   /* Будет меняться в теме */
+}
