@@ -27,10 +27,10 @@
 @keyframes fadeInUp {
   from {
     opacity: 0;
-    transform: translateY(25px);
+    transform: translateY(25px) translateX(-3%);;
   }
   to {
     opacity: 1;
-    transform: translateY(0) translateX(-2%);;
+    transform: translateY(0) translateX(-3%);;
   }
 }
