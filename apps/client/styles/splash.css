@@ -16,6 +16,7 @@
 .splash .logo {
   opacity: 0;
   animation: fadeInUp 2s cubic-bezier(0.2, 0.9, 0.3, 1) forwards;
+  transform: translateX(-3%);    /* Смещение влево на 2% */
 }
 
 .splash .logo svg {
@@ -30,6 +31,6 @@
   }
   to {
     opacity: 1;
-    transform: translateY(0);
+    transform: translateY(0) translateX(-2%);;
   }
 }
