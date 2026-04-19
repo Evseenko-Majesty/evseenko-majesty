@@ -1,6 +1,5 @@
 /* ============================================
    ЗАГРУЗОЧНЫЙ ЭКРАН — СТИЛИ
-   Конкретные стили для этой страницы
    ============================================ */
 
 .splash {
@@ -9,22 +8,25 @@
   height: 100vh;
   background: var(--bg-color);
   display: flex;
-  align-items: flex-start;      /* Прижимаем к верху */
+  align-items: flex-start;
   justify-content: center;
-  padding-top: 30vh;            /* Отступ 30% от верха экрана */
+  padding-top: 25vh;            /* 25% от верха (было 30%, теперь выше) */
 }
 
 .splash .logo {
-  opacity: 0;                   /* Скрыт до анимации */
+  opacity: 0;
   animation: fadeIn 1.5s ease forwards;
 }
 
 .splash .logo svg {
-  height: 22vh;                 /* Высота 22% от экрана */
+  height: 18vh;                 /* 18% от высоты экрана (меньше) */
 }
 
-/* Анимация появления */
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from { 
+    opacity: 0; 
+  }
+  to { 
+    opacity: 1; 
+  }
 }
