@@ -51,7 +51,7 @@
 
 .splash .slogan {
   position: absolute;
-  top: 46%;
+  top: 45%;
   left: 50%;
   transform: translate(-50%, 0);
   margin: 0;
@@ -78,7 +78,7 @@
 
 .splash .copyright {
   position: absolute;
-  bottom: 4%;                    /* 4% от низа */
+  bottom: 3.5%;                    /* 4% от низа */
   left: 50%;
   transform: translate(-50%, 0);
   font-size: 1.5vh;
