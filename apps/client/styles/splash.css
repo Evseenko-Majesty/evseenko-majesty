@@ -10,7 +10,7 @@
   display: flex;
   align-items: flex-start;
   justify-content: center;
-  padding-top: 20vh;            /* Отступ 30% от верха */
+  padding-top: 15vh;            /* Отступ 30% от верха */
 }
 
 .splash .logo {
@@ -19,14 +19,14 @@
 }
 
 .splash .logo svg {
-  height: 40vh;                 /* Крупный логотип */
+  height: 60vh;                 /* Крупный логотип */
 }
 
 /* Плавное появление с лёгким подъёмом */
 @keyframes fadeInUp {
   from {
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateY(25px);
   }
   to {
     opacity: 1;
