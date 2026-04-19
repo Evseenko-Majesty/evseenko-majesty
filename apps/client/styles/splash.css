@@ -10,23 +10,26 @@
   display: flex;
   align-items: flex-start;
   justify-content: center;
-  padding-top: 25vh;            /* 25% от верха (было 30%, теперь выше) */
+  padding-top: 20vh;            /* Отступ 30% от верха */
 }
 
 .splash .logo {
   opacity: 0;
-  animation: fadeIn 1.5s ease forwards;
+  animation: fadeInUp 2s cubic-bezier(0.2, 0.9, 0.3, 1) forwards;
 }
 
 .splash .logo svg {
-  height: 18vh;                 /* 18% от высоты экрана (меньше) */
+  height: 40vh;                 /* Крупный логотип */
 }
 
-@keyframes fadeIn {
-  from { 
-    opacity: 0; 
+/* Плавное появление с лёгким подъёмом */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
   }
-  to { 
-    opacity: 1; 
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
