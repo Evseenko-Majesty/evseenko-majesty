@@ -38,7 +38,7 @@
 
 .splash .brand-name {
   position: absolute;
-  top: calc(-10vh + 55vh + 5vh);  /* Отступ от верха + высота логотипа + отступ */
+  top: calc(-10vh + 5vh);
   left: 50%;
   transform: translateX(-50%);
   font-size: 2.8vh;
