@@ -1,12 +1,15 @@
 // ============================================
-// ЗАГРУЗОЧНЫЙ ЭКРАН — ЧТО ВИДИТ ПОЛЬЗОВАТЕЛЬ
+// ЗАГРУЗОЧНЫЙ ЭКРАН — ПРЕДСТАВЛЕНИЕ
 // ============================================
 
+import { Logo } from '/shared/components/Logo.js';
+
 export function render() {
-  // Создаём пустой контейнер экрана
   const div = document.createElement('div');
+  div.className = 'splash';
   
-  // Потом здесь будет: корона, название, слоган, копирайт
+  const logo = Logo();
+  div.appendChild(logo);
   
   return div;
 }
