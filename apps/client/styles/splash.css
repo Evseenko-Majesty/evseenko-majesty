@@ -47,6 +47,29 @@
   white-space: nowrap;
 }
 
+/* -------------------- СЛОГАН -------------------- */
+
+.splash .slogan {
+  position: absolute;
+  top: calc(30% + 3vh + 1.2vh);
+  left: 50%;
+  transform: translate(-50%, 0);
+  margin: 0;
+  opacity: 0;
+  animation: fadeIn 1s ease forwards;
+  animation-delay: 1.2s;
+  white-space: nowrap;
+}
+
+.splash .slogan__main {
+  font-size: 1.6vh;
+  margin-bottom: 0.6vh;          /* Отступ до второй строки */
+}
+
+.splash .slogan__sub {
+  font-size: 1.3vh;              /* Чуть меньше */
+}
+
 /* -------------------- АНИМАЦИИ -------------------- */
 
 @keyframes fadeInUp {
