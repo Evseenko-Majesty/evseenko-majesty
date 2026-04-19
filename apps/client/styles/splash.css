@@ -51,7 +51,7 @@
 
 .splash .slogan {
   position: absolute;
-  top: 48%;
+  top: 46%;
   left: 50%;
   transform: translate(-50%, 0);
   margin: 0;
@@ -81,7 +81,7 @@
   bottom: 4%;                    /* 4% от низа */
   left: 50%;
   transform: translate(-50%, 0);
-  font-size: 1.2vh;
+  font-size: 1.5vh;
   opacity: 0.8;
   white-space: nowrap;
 }
