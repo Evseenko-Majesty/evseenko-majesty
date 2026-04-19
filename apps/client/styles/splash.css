@@ -1,5 +1,6 @@
 /* ============================================
    ЗАГРУЗОЧНЫЙ ЭКРАН — СТИЛИ
+   Каждый элемент независимо от других
    ============================================ */
 
 .splash {
@@ -7,46 +8,56 @@
   width: 100%;
   height: 100vh;
   background: var(--bg-color);
-  display: flex;
-  align-items: flex-start;
-  justify-content: center;
-  padding-top: -10vh;            /* Отступ 30% от верха */
 }
 
+/* -------------------- ЛОГОТИП -------------------- */
+
 .splash .logo {
+  position: absolute;
+  top: 30%;                      /* 30% от верха экрана */
+  left: 50%;
+  transform: translate(-50%, 0);
   opacity: 0;
   animation: fadeInUp 2s cubic-bezier(0.2, 0.9, 0.3, 1) forwards;
-  transform: translateX(-3%);    /* Смещение влево на 2% */
 }
 
 .splash .logo svg {
-  height: 55vh;                 /* Крупный логотип */
+  height: 55vh;                  /* Высота логотипа */
+  width: auto;
 }
 
-/* Плавное появление с лёгким подъёмом */
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(25px) translateX(-3%);;
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0) translateX(-3%);;
-  }
-}
-
+/* -------------------- НАЗВАНИЕ БРЕНДА -------------------- */
 
 .splash .brand-name {
   position: absolute;
-  top: calc(-10vh + 5vh);
+  top: 58%;                      /* Позиция от верха экрана */
   left: 50%;
-  transform: translateX(-50%);
-  font-size: 2.8vh;
+  transform: translate(-50%, 0);
+  font-size: 2.3vh;
+  font-family: 'Montserrat', 'Inter', sans-serif;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-align: center;
+  color: var(--text-color);
   margin: 0;
   opacity: 0;
-  animation: fadeIn 2s ease forwards;
-  animation-delay: 0.8s;         /* Появляется после логотипа */
-  white-space: nowrap;           /* В одну строку */
+  animation: fadeIn 1s ease forwards;
+  animation-delay: 0.8s;
+  white-space: nowrap;
+}
+
+/* -------------------- АНИМАЦИИ -------------------- */
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translate(-50%, 25px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
 }
 
 @keyframes fadeIn {
