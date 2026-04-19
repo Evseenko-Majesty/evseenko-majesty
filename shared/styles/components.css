@@ -32,19 +32,10 @@
   text-align: center;
 }
 
-.slogan__main {
-  font-family: 'Montserrat', 'Inter', sans-serif;
-  font-weight: 400;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--text-secondary);
-}
-
+.slogan__main,
 .slogan__sub {
   font-family: 'Montserrat', 'Inter', sans-serif;
   font-weight: 400;
-  letter-spacing: 0.05em;
   text-transform: uppercase;
   color: var(--text-secondary);
-  opacity: 0.6;                  /* Прозрачнее */
 }
