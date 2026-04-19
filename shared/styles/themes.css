@@ -6,12 +6,14 @@
   --bg-color: #0A0A0A;
   --accent-color: #D4AF37;
   --text-color: #EAEAEA;
-  --text-secondary: #A0A0A0;     /* Серый для тёмной темы */
+  --text-secondary: #A0A0A0;
+  --copyright-color: #5A5A5A;    /* Тёмная тема */
 }
 
 [data-theme="light"] {
   --bg-color: #F7F7F5;
   --accent-color: #C9A227;
   --text-color: #0A0A0A;
-  --text-secondary: #555555;     /* Серый для светлой темы */
+  --text-secondary: #555555;
+  --copyright-color: #A0A0A0;    /* Светлая тема */
 }
