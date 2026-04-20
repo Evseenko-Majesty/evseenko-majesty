@@ -42,11 +42,13 @@ export class SplashScreen {
     return div;
   }
   
-  // Вызывается после того как экран показан
   onMount() {
-    this.startStatusAnimation();  // Запускаем смену текста
-    this.authenticate();          // Начинаем проверку сервера
-  }
+  // Ждём пока закончится анимация логотипа и названия (примерно 2.5 секунды)
+  setTimeout(() => {
+    this.startStatusAnimation();
+    this.authenticate();
+  }, 2500);  // Задержка в миллисекундах (2.5 секунды)
+}
   
   // Анимация смены текста статуса
   startStatusAnimation() {
