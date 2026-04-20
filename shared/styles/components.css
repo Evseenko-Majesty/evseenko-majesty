@@ -175,3 +175,82 @@
   from { opacity: 0; }
   to { opacity: 1; }
 }
+
+/* ============================================
+   ДАННЫЕ ПОЛЬЗОВАТЕЛЯ — БАЗОВЫЕ СТИЛИ
+   Цвета, шрифты, структура. Размеры НЕ заданы.
+   ============================================ */
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 2%;                      /* Отступ между аватаром и текстом — в % от ширины родителя */
+}
+
+/* Аватар — базовая форма и цвета */
+.user-info__avatar {
+  border-radius: 50%;                              /* Круглый */
+  border: 1.5px solid var(--accent-color);         /* Золотая обводка */
+  background: var(--surface-color);                /* Фон если нет фото */
+  overflow: hidden;                                /* Обрезаем фото по кругу */
+}
+
+/* Фото внутри аватара */
+.user-info__avatar-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;                               /* Заполняет без искажений */
+}
+
+/* Заглушка когда нет фото (инициалы) */
+.user-info__avatar--placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--accent-color);                      /* Золотой текст */
+  font-weight: 500;
+  text-transform: uppercase;
+}
+
+/* Текстовый блок — имя над никнеймом */
+.user-info__text {
+  display: flex;
+  flex-direction: column;                          /* Вертикально */
+}
+
+/* Имя пользователя */
+.user-info__name {
+  color: var(--text-color);                        /* Цвет из темы */
+  font-weight: 500;
+  line-height: 1.3;
+  letter-spacing: 0.02em;
+}
+
+/* Никнейм */
+.user-info__username {
+  color: var(--text-secondary);                    /* Второстепенный цвет */
+  font-weight: 400;
+  line-height: 1.3;
+}
+
+/* ============================================
+   ДАННЫЕ ПОЛЬЗОВАТЕЛЯ — В ШАПКЕ
+   Размеры для использования в верхней панели
+   ============================================ */
+
+.user-info--header .user-info__avatar {
+  width: 5vh;                    /* Размер аватара — 5% от высоты экрана */
+  height: 5vh;                   /* Меняй тут: 4vh, 6vh, 7vh */
+}
+
+.user-info--header .user-info__avatar--placeholder {
+  font-size: 2.5vh;              /* Размер буквы-заглушки */
+}
+
+.user-info--header .user-info__name {
+  font-size: 1.8vh;              /* Размер имени — 1.8% от высоты экрана */
+}
+
+.user-info--header .user-info__username {
+  font-size: 1.4vh;              /* Размер никнейма — 1.4% от высоты экрана */
+}
