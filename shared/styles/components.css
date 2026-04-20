@@ -191,8 +191,8 @@
 .more .logo,
 .profile .logo {
   position: fixed;
-  top: -10%;
-  left: 1%;
+  top: 20px;
+  left: 16px;
   transform: none;
   opacity: 1;
   z-index: 100;
@@ -201,6 +201,6 @@
 .home .logo svg,
 .more .logo svg,
 .profile .logo svg {
-  height: 10vh;
+  height: 40rx;
   width: auto;
 }
