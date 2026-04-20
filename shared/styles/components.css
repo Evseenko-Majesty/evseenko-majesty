@@ -198,14 +198,16 @@
   border: none;
   padding: 0;
   font-family: 'Montserrat', 'Inter', sans-serif;
-  font-size: 2vh;                            /* Размер текста */
+  font-size: 2vh;
   font-weight: 500;
   letter-spacing: 0.05em;
   text-transform: uppercase;
-  color: var(--text-secondary);              /* Неактивный цвет */
+  color: var(--text-secondary);
   cursor: pointer;
   transition: color 0.2s ease;
   white-space: nowrap;
+  outline: none;                     /* ← Убирает чёрную обводку */
+  -webkit-tap-highlight-color: transparent;  /* ← Убирает затемнение при тапе на мобильных */
 }
 
 /* Активная кнопка (текущая страница) */
