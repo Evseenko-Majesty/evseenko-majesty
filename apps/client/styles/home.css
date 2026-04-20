@@ -13,14 +13,14 @@
 /* -------------------- ЛОГОТИП -------------------- */
 .home .page-logo {
   position: absolute;
-  top: -2%;                       /* Отступ от верха */
-  left: 1%;                      /* Отступ слева */
+  top: -1.5%;                       /* Отступ от верха */
+  left: 0.6%;                      /* Отступ слева */
   transform: none;
   opacity: 1;
   z-index: 100;
 }
 .home .page-logo svg {
-  height: 16vh
+  height: 17vh
    ;                   /* Размер логотипа */
   width: auto;
 }
