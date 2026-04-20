@@ -69,34 +69,34 @@ export class SplashScreen {
   }
   
   // Проверка сервера и авторизация
-  async authenticate() {
-    
-    // Получаем данные пользователя из Telegram
-    const tgUser = this.app.tg.initDataUnsafe?.user;
-    
-    // Если не в Telegram — ошибка
-    if (!tgUser) {
-      this.showError();
-      return;
-    }
-    
-    // Отправляем запрос на сервер
-    const result = await API.auth(tgUser);
-    
-    if (result.success) {
-      // Успех — сохраняем пользователя, останавливаем анимацию
-      this.app.user = result.user;
-      clearInterval(this.interval);
-      this.showSuccess();
-      
-      // Через секунду переходим на главный экран
-      setTimeout(() => this.app.navigateTo('home'), 1000);
-      
-    } else {
-      // Ошибка — показываем ошибку
-      this.showError();
-    }
+async authenticate() {
+  
+  // Получаем данные пользователя из Telegram
+  const tgUser = this.app.tg.initDataUnsafe?.user;
+  
+  // Если не в Telegram — показываем ошибку
+  if (!tgUser) {
+    this.showError('Откройте приложение через Telegram');
+    return;
   }
+  
+  // Отправляем запрос на сервер
+  const result = await API.auth(tgUser);
+  
+  if (result.success) {
+    // Успех — сохраняем пользователя, останавливаем анимацию
+    this.app.user = result.user;
+    clearInterval(this.interval);
+    this.showSuccess();
+    
+    // Через секунду переходим на главный экран
+    setTimeout(() => this.app.navigateTo('home'), 1000);
+    
+  } else {
+    // Ошибка — показываем ошибку с текстом
+    this.showError(result.error || 'Ошибка соединения');
+  }
+}
   
   // Показать успешное завершение
   showSuccess() {
