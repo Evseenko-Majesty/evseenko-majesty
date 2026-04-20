@@ -1,12 +1,11 @@
 // ============================================
 // ЗАГРУЗОЧНЫЙ ЭКРАН — ЛОГИКА
-// Управляет анимацией статуса, проверкой сервера, переходом
 // ============================================
 
 import { render } from './view.js';
 import { API } from '/shared/js/api.js';
+import { ErrorModal } from '/shared/components/ErrorModal.js';
 
-// Этапы статуса (меняются по очереди)
 const STATUS_TEXTS = [
   'Подключение',
   'Проверка доступа', 
@@ -16,121 +15,107 @@ const STATUS_TEXTS = [
 
 export class SplashScreen {
   
-  // Конструктор — вызывается при создании экрана
   constructor(app) {
-    this.app = app;                        // Ссылка на главное приложение
-    
-    // Ссылки на элементы статус-карточки (заполнятся в getElement)
-    this.statusCard = null;                // Сама капсула
-    this.statusText = null;               // Текст внутри
-    this.statusIndicator = null;          // Иконка внутри
-    
-    // Для анимации смены текста
-    this.step = 0;                        // Текущий индекс в STATUS_TEXTS
-    this.interval = null;                 // ID интервала (чтобы потом остановить)
+    this.app = app;
+    this.statusCard = null;
+    this.statusText = null;
+    this.statusIndicator = null;
+    this.step = 0;
+    this.interval = null;
+    this.isRetrying = false;  // Чтобы не запускать повторно при ретрае
   }
   
-  // Возвращает HTML экрана и сохраняет ссылки на элементы
   getElement() {
     const { div, statusCard, statusText, statusIndicator } = render();
-    
-    // Сохраняем ссылки для управления
     this.statusCard = statusCard;
     this.statusText = statusText;
     this.statusIndicator = statusIndicator;
-    
     return div;
   }
   
   onMount() {
-  // Ждём пока закончится анимация логотипа и названия (примерно 2.5 секунды)
-  setTimeout(() => {
-    this.startStatusAnimation();
-    this.authenticate();
-  }, 2500);  // Задержка в миллисекундах (2.5 секунды)
-}
+    // Ждём окончания анимации контента
+    setTimeout(() => {
+      this.startStatusAnimation();
+      this.authenticate();
+    }, 2500);
+  }
   
-  // Анимация смены текста статуса
   startStatusAnimation() {
     this.interval = setInterval(() => {
-      // Переходим к следующему тексту (по кругу)
       this.step = (this.step + 1) % STATUS_TEXTS.length;
-      
-      // Плавно скрываем
       this.statusText.style.opacity = '0';
-      
-      // Через 150ms меняем текст и плавно показываем
       setTimeout(() => {
         this.statusText.textContent = STATUS_TEXTS[this.step];
         this.statusText.style.opacity = '1';
       }, 150);
+    }, 800);
+  }
+  
+  async authenticate() {
+    const tgUser = this.app.tg.initDataUnsafe?.user;
+    
+    // 1. Не в Telegram — показываем окно с переходом
+    if (!tgUser) {
+      clearInterval(this.interval);
+      this.showError('Откройте приложение');
       
-    }, 800); // Каждые 0.8 секунд
-  }
-  
-  // Проверка сервера и авторизация
-async authenticate() {
-  
-  // Получаем данные пользователя из Telegram
-  const tgUser = this.app.tg.initDataUnsafe?.user;
-  
-  // Если не в Telegram — показываем ошибку
-  if (!tgUser) {
-    this.showError('Откройте приложение через Telegram');
-    return;
-  }
-  
-  // Отправляем запрос на сервер
-  const result = await API.auth(tgUser);
-  
-  if (result.success) {
-    // Успех — сохраняем пользователя, останавливаем анимацию
-    this.app.user = result.user;
-    clearInterval(this.interval);
-    this.showSuccess();
+      const modal = ErrorModal(
+        'Не в Telegram',
+        'Откройте приложение через Telegram Mini App',
+        'Перейти в приложение',
+        () => {
+          // Открыть бота в Telegram
+          window.open('https://t.me/evseenko_bot', '_blank');
+        }
+      );
+      document.body.appendChild(modal);
+      return;
+    }
     
-    // Через секунду переходим на главный экран
-    setTimeout(() => this.app.navigateTo('home'), 1000);
+    // 2. Отправляем запрос на сервер
+    const result = await API.auth(tgUser);
     
-  } else {
-    // Ошибка — показываем ошибку с текстом
-    this.showError(result.error || 'Ошибка соединения');
+    if (result.success) {
+      // 3. Успех — зелёная галочка, переход на главную
+      this.app.user = result.user;
+      clearInterval(this.interval);
+      this.showSuccess();
+      setTimeout(() => this.app.navigateTo('home'), 1500);
+      
+    } else {
+      // 4. Ошибка сервера — красный крестик + окно с повтором
+      clearInterval(this.interval);
+      this.showError('Ошибка');
+      
+      const modal = ErrorModal(
+        'Ошибка соединения',
+        'Не удалось подключиться к серверу',
+        'Повторить',
+        () => {
+          // Перезагружаем страницу (или можно вызвать authenticate заново)
+          window.location.reload();
+        }
+      );
+      document.body.appendChild(modal);
+    }
   }
-}
   
-  // Показать успешное завершение
   showSuccess() {
-    // Меняем класс (становится зелёным)
     this.statusCard.classList.add('status-card--success');
-    
-    // Меняем иконку на галочку
     this.statusIndicator.innerHTML = `
       <use href="/shared/assets/icons/sprite.svg#status-success"></use>
     `;
-    
-    // Меняем текст
     this.statusText.textContent = 'Готово';
     this.statusText.style.opacity = '1';
   }
   
-  // Показать ошибку
-showError(message) {
-  // Останавливаем анимацию текста
-  clearInterval(this.interval);
-  
-  // Меняем класс (становится красным)
-  this.statusCard.classList.add('status-card--error');
-  
-  // Меняем иконку на крестик
-  this.statusIndicator.innerHTML = `
-    <use href="/shared/assets/icons/sprite.svg#status-error"></use>
-  `;
-  
-  // Меняем текст на переданное сообщение
-  this.statusText.textContent = message;
-  this.statusText.style.opacity = '1';
-  
-  // Здесь будет показ окна с кнопкой "Повторить"
-  console.log('Ошибка:', message);
-}
+  showError(text) {
+    this.statusCard.classList.add('status-card--error');
+    this.statusIndicator.innerHTML = `
+      <use href="/shared/assets/icons/sprite.svg#status-error"></use>
+    `;
+    this.statusText.textContent = text;
+    this.statusText.style.opacity = '1';
+  }
 }
