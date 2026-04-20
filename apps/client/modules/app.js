@@ -4,20 +4,24 @@
 
 import { initTelegram } from '/shared/js/telegram.js';
 import { SplashScreen } from './screens/splash/controller.js';
+import { HomeScreen } from './screens/home/controller.js';  // ← Добавить
 
 class App {
   constructor() {
-    this.tg = initTelegram();                       // Инициализация Telegram
+    this.tg = initTelegram();
     this.container = document.getElementById('app');
     this.user = null;
+    this.currentScreen = null;
     
     this.screens = {
-      splash: new SplashScreen(this)
+      splash: new SplashScreen(this),
+      home: new HomeScreen(this)      // ← Добавить
     };
   }
   
   navigateTo(screenName) {
     const screen = this.screens[screenName];
+    this.currentScreen = screenName;
     this.container.innerHTML = '';
     this.container.appendChild(screen.getElement());
     
