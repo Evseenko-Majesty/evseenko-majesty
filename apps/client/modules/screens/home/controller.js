@@ -10,7 +10,7 @@ export class HomeScreen {
   }
   
   getElement() {
-    return render();
+    return render(this.app.user);   // ← Передаём user из app
   }
   
   onMount() {
