@@ -8,8 +8,10 @@ export function render() {
   const div = document.createElement('div');
   div.className = 'home';
   
-  // Логотип в левом верхнем углу
-  div.appendChild(Logo());
+  // Добавляем логотип в шапку
+  const logo = Logo();
+  logo.classList.add('header-logo');  // ← Класс для позиционирования в углу
+  div.appendChild(logo);
   
   return div;
 }
