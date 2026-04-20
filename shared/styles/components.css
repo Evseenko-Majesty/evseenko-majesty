@@ -187,19 +187,23 @@
   gap: 2%;                      /* Отступ между аватаром и текстом — в % от ширины родителя */
 }
 
-/* Аватар — базовая форма и цвета */
 .user-info__avatar {
-  border-radius: 50%;                              /* Круглый */
-  border: 1.5px solid var(--accent-color);         /* Золотая обводка */
-  background: var(--surface-color);                /* Фон если нет фото */
-  overflow: hidden;                                /* Обрезаем фото по кругу */
+  width: 6vh;                    /* ← Фиксированная ширина */
+  height: 6vh;                   /* ← Фиксированная высота */
+  min-width: 6vh;                /* ← Запрещает сжиматься */
+  min-height: 6vh;               /* ← Запрещает сжиматься */
+  border-radius: 50%;
+  border: 1.5px solid var(--accent-color);
+  background: var(--surface-color);
+  overflow: hidden;
+  flex-shrink: 0;                /* ← Не даёт сжиматься внутри flex */
 }
 
-/* Фото внутри аватара */
 .user-info__avatar-img {
   width: 100%;
   height: 100%;
-  object-fit: cover;                               /* Заполняет без искажений */
+  object-fit: cover;             /* ← Заполняет без искажений */
+  display: block;                /* ← Убирает лишние отступы */
 }
 
 /* Заглушка когда нет фото (инициалы) */
