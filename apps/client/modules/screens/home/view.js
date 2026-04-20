@@ -10,7 +10,7 @@ export function render() {
   
   // Добавляем логотип в шапку
   const logo = Logo();
-  logo.classList.add('header-logo');  // ← Класс для позиционирования в углу
+  logo.classList.add('page-logo');  // ← Класс для позиционирования в углу
   div.appendChild(logo);
   
   return div;
