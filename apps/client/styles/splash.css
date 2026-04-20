@@ -1,6 +1,7 @@
 /* ============================================
    ЗАГРУЗОЧНЫЙ ЭКРАН — СТИЛИ
-   Каждый элемент независимо от других
+   Каждый элемент позиционируется независимо в процентах
+   Адаптивно под любой экран
    ============================================ */
 
 .splash {
@@ -14,16 +15,16 @@
 
 .splash .logo {
   position: absolute;
-  top: -5%;                      /* 30% от верха экрана */
+  top: -5%;                      /* Позиция от верха экрана */
   left: 50%;
-  transform: translate(-53%, 0);
+  transform: translate(-53%, 0); /* -53% = смещён левее центра */
   opacity: 0;
   animation: fadeInUp 2s cubic-bezier(0.2, 0.9, 0.3, 1) forwards;
 }
 
 .splash .logo svg {
-  height: 55vh;                  /* Высота логотипа */
-  width: auto;
+  height: 55vh;                  /* Высота логотипа — 55% от высоты экрана */
+  width: auto;                   /* Ширина подстраивается автоматически */
 }
 
 /* -------------------- НАЗВАНИЕ БРЕНДА -------------------- */
@@ -32,8 +33,8 @@
   position: absolute;
   top: 32%;                      /* Позиция от верха экрана */
   left: 50%;
-  transform: translate(-50%, 0);
-  font-size: 3.5vh;
+  transform: translate(-50%, 0); /* Точно по центру */
+  font-size: 3.5vh;              /* Размер шрифта — 3.5% от высоты экрана */
   font-family: 'Montserrat', 'Inter', sans-serif;
   font-weight: 500;
   letter-spacing: 0.1em;
@@ -43,42 +44,42 @@
   margin: 0;
   opacity: 0;
   animation: fadeIn 2s ease forwards;
-  animation-delay: 0.8s;
-  white-space: nowrap;
+  animation-delay: 0.8s;         /* Появляется после логотипа */
+  white-space: nowrap;           /* Не переносится на новую строку */
 }
 
 /* -------------------- СЛОГАН -------------------- */
 
 .splash .slogan {
   position: absolute;
-  top: 45%;
+  top: 45%;                      /* Позиция от верха экрана */
   left: 50%;
   transform: translate(-50%, 0);
   margin: 0;
   opacity: 0;
   animation: fadeIn 2s ease forwards;
-  animation-delay: 1.2s;
+  animation-delay: 1.2s;         /* Появляется после названия */
   white-space: nowrap;
 }
 
 .splash .slogan__main {
-  font-size: 2vh;
-  letter-spacing: 0.2em;
+  font-size: 2vh;                /* Размер русского слогана */
+  letter-spacing: 0.2em;         /* Широкие буквы */
   opacity: 1;
-  margin-bottom: 1.2vh;
+  margin-bottom: 1.2vh;          /* Отступ до английской строки */
 }
 
 .splash .slogan__sub {
-  font-size: 1.6vh;
+  font-size: 1.6vh;              /* Размер английского слогана */
   letter-spacing: 0.1em;
-  opacity: 0.6;
+  opacity: 0.6;                  /* Прозрачнее */
 }
 
 /* -------------------- КОПИРАЙТ -------------------- */
 
 .splash .copyright {
   position: absolute;
-  bottom: 3.5%;                    /* 4% от низа */
+  bottom: 3.5%;                  /* Отступ от низа экрана */
   left: 50%;
   transform: translate(-50%, 0);
   font-size: 1.5vh;
@@ -86,17 +87,21 @@
   white-space: nowrap;
 }
 
+/* -------------------- СТАТУС-КАРТОЧКА -------------------- */
+
 .splash .status-card {
   position: absolute;
-  top: 72%;        /* Было 72% — чем больше число, тем ниже */
+  top: 72%;                      /* Позиция от верха экрана */
   left: 50%;
   transform: translate(-50%, 0);
   opacity: 0;
   animation: fadeIn 0.6s ease forwards;
-  animation-delay: 2.5s;
+  animation-delay: 2.5s;         /* Появляется после всей анимации */
 }
-/* -------------------- АНИМАЦИИ -------------------- */
 
+/* -------------------- АНИМАЦИИ ПОЯВЛЕНИЯ -------------------- */
+
+/* Появление с подъёмом (для логотипа) */
 @keyframes fadeInUp {
   from {
     opacity: 0;
@@ -108,14 +113,15 @@
   }
 }
 
+/* Простое появление */
 @keyframes fadeIn {
   from { opacity: 0; }
   to { opacity: 1; }
 }
 
-/* -------------------- АНИМАЦИЯ ПЕРЕХОДА -------------------- */
+/* -------------------- АНИМАЦИЯ ПЕРЕХОДА НА ГЛАВНУЮ -------------------- */
 
-/* Плавное исчезновение */
+/* Плавное исчезновение элементов */
 .fade-out {
   animation: fadeOut 0.5s ease forwards !important;
 }
@@ -138,23 +144,23 @@
     opacity: 1;
   }
   100% {
-    top: 20px;      /* Отступ сверху */
-    left: 16px;     /* Отступ слева */
+    top: 3%;                     /* Конечная позиция — 3% от верха */
+    left: 5%;                    /* Конечная позиция — 5% от левого края */
     transform: translate(0, 0);
     opacity: 1;
   }
 }
 
-/* Уменьшение SVG — теперь сохраняет пропорции */
+/* Уменьшение логотипа при переходе */
 .splash .logo.to-corner svg {
   animation: shrinkLogo 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
 
 @keyframes shrinkLogo {
   0% {
-    height: 60vh;
+    height: 55vh;                /* Начальный размер */
   }
   100% {
-    height: 40rx;    /* Больше размер */
+    height: 5vh;                 /* Конечный размер — 5% от высоты экрана */
   }
 }
