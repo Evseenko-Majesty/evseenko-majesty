@@ -114,22 +114,23 @@ async authenticate() {
   }
   
   // Показать ошибку
-  showError() {
-    // Останавливаем анимацию текста
-    clearInterval(this.interval);
-    
-    // Меняем класс (становится красным)
-    this.statusCard.classList.add('status-card--error');
-    
-    // Меняем иконку на крестик
-    this.statusIndicator.innerHTML = `
-      <use href="/shared/assets/icons/sprite.svg#status-error"></use>
-    `;
-    
-    // Меняем текст
-    this.statusText.textContent = 'Ошибка';
-    this.statusText.style.opacity = '1';
-    
-    // Дальше здесь будет показ окна с кнопкой "Повторить"
-  }
+showError(message) {
+  // Останавливаем анимацию текста
+  clearInterval(this.interval);
+  
+  // Меняем класс (становится красным)
+  this.statusCard.classList.add('status-card--error');
+  
+  // Меняем иконку на крестик
+  this.statusIndicator.innerHTML = `
+    <use href="/shared/assets/icons/sprite.svg#status-error"></use>
+  `;
+  
+  // Меняем текст на переданное сообщение
+  this.statusText.textContent = message;
+  this.statusText.style.opacity = '1';
+  
+  // Здесь будет показ окна с кнопкой "Повторить"
+  console.log('Ошибка:', message);
+}
 }
