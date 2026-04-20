@@ -88,7 +88,7 @@
 
 .splash .status-card {
   position: absolute;
-  top: 75%;        /* Было 72% — чем больше число, тем ниже */
+  top: 72%;        /* Было 72% — чем больше число, тем ниже */
   left: 50%;
   transform: translate(-50%, 0);
   opacity: 0;
