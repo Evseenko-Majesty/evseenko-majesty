@@ -47,3 +47,75 @@
   text-align: center;
   color: var(--copyright-color);
 }
+
+/* -------------------- СТАТУС-КАРТОЧКА -------------------- */
+/* 
+   Системный блок проверки доступа
+   Выглядит как капсула, почти сливается с фоном
+*/
+
+.status-card {
+  /* Расположение элементов в строку */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  /* Расстояние между иконкой и текстом */
+  gap: 8px;
+  
+  /* Внутренние отступы (капсула) */
+  padding: 10px 20px;
+  
+  /* Фон из темы (полупрозрачный) */
+  background: var(--surface-color);
+  
+  /* Тонкая рамка, почти не видна */
+  border: 1px solid var(--border-color);
+  
+  /* Скругление — капсула */
+  border-radius: 40px;
+  
+  /* Эффект размытия фона (стекло) */
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  
+  /* Лёгкая прозрачность */
+  opacity: 0.9;
+}
+
+/* Контейнер для иконки */
+.status-card__indicator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  /* Цвет иконки — золотой */
+  color: var(--accent-color);
+}
+
+/* Текст статуса */
+.status-card__text {
+  /* Шрифт бренда */
+  font-family: 'Montserrat', 'Inter', sans-serif;
+  font-size: 13px;
+  font-weight: 400;
+  
+  /* Цвет из темы (серый) */
+  color: var(--text-secondary);
+  
+  /* Межбуквенное расстояние для премиум-вида */
+  letter-spacing: 0.05em;
+  
+  /* Плавная смена текста */
+  transition: opacity 0.15s ease;
+}
+
+/* Состояние успеха — иконка становится зеленоватой */
+.status-card--success .status-card__indicator {
+  color: #4A9E7A;
+}
+
+/* Состояние ошибки — иконка становится приглушённо-красной */
+.status-card--error .status-card__indicator {
+  color: #B85C5C;
+}
