@@ -239,8 +239,8 @@
    ============================================ */
 
 .user-info--header .user-info__avatar {
-  width: 6vh;                    /* Размер аватара — 5% от высоты экрана */
-  height: 6vh;                   /* Меняй тут: 4vh, 6vh, 7vh */
+  width: 5.5vh;                    /* Размер аватара — 5% от высоты экрана */
+  height: 5.5vh;                   /* Меняй тут: 4vh, 6vh, 7vh */
 }
 
 .user-info--header .user-info__avatar--placeholder {
