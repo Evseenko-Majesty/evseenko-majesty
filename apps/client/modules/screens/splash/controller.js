@@ -103,50 +103,21 @@ export class SplashScreen {
   
   showSuccess() {
   this.statusCard.classList.add('status-card--success');
-  this.statusIndicator.innerHTML = `
-    <use href="/shared/assets/icons/sprite.svg#status-success"></use>
-  `;
+  this.statusIndicator.innerHTML = `<use href="/shared/assets/icons/sprite.svg#status-success"></use>`;
   this.statusText.textContent = 'Готово';
   this.statusText.style.opacity = '1';
   
-  // Запускаем анимацию перехода
+  // Пауза 1 секунда, потом плавный уход
   setTimeout(() => {
-    this.startTransition();
-  }, 1000); // Пауза 1 секунда
-}
-
-startTransition() {
-  const splash = document.querySelector('.splash');
-  const logo = document.querySelector('.splash .logo');
-  const brandName = document.querySelector('.splash .brand-name');
-  const slogan = document.querySelector('.splash .slogan');
-  const copyright = document.querySelector('.splash .copyright');
-  const statusCard = document.querySelector('.splash .status-card');
-  
-  // 1. Статус и копирайт исчезают плавно (0.5s)
-  if (statusCard) statusCard.classList.add('fade-out');
-  if (copyright) copyright.classList.add('fade-out');
-  
-  setTimeout(() => {
-    // 2. Слоган исчезает
-    if (slogan) slogan.classList.add('fade-out');
-  }, 100);
-  
-  setTimeout(() => {
-    // 3. Название исчезает
-    if (brandName) brandName.classList.add('fade-out');
-  }, 200);
-  
-  setTimeout(() => {
-    // 4. Логотип начинает переход в угол
-    if (logo) logo.classList.add('to-corner');
+    const splash = document.querySelector('.splash');
+    const elements = splash.querySelectorAll('.logo, .brand-name, .slogan, .copyright, .status-card');
+    elements.forEach(el => el.classList.add('fade-out'));
     
-    // 5. Через 0.8 секунды (время анимации) переходим на главную
+    // Через 0.5 секунды переходим на главную
     setTimeout(() => {
       this.app.navigateTo('home');
-    }, 800);
-    
-  }, 300);
+    }, 500);
+  }, 1000);
 }
   
   showError(text) {
