@@ -20,7 +20,8 @@
   z-index: 100;
 }
 .home .page-logo svg {
-  height: 14vh;                   /* Размер логотипа */
+  height: 16vh
+   ;                   /* Размер логотипа */
   width: auto;
 }
 
