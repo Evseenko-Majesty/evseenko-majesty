@@ -66,7 +66,7 @@ export class SplashScreen {
         'Перейти в приложение',
         () => {
           // Открыть бота в Telegram
-          window.open('https://t.me/evseenko_bot', '_blank');
+          window.open('https://t.me/evseenko_majesty_bot', '_blank');
         }
       );
       document.body.appendChild(modal);
