@@ -4,7 +4,7 @@
 // ============================================
 
 // Адрес сервера на Render (замени на свой когда задеплоишь)
-const API_URL = 'https://evseenko-majesty-server.onrender.com';
+const API_URL = 'https://evseenko-api.onrender.com';
 
 export const API = {
   
