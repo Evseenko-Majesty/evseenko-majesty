@@ -239,18 +239,18 @@
    ============================================ */
 
 .user-info--header .user-info__avatar {
-  width: 5vh;                    /* Размер аватара — 5% от высоты экрана */
-  height: 5vh;                   /* Меняй тут: 4vh, 6vh, 7vh */
+  width: 6vh;                    /* Размер аватара — 5% от высоты экрана */
+  height: 6vh;                   /* Меняй тут: 4vh, 6vh, 7vh */
 }
 
 .user-info--header .user-info__avatar--placeholder {
-  font-size: 2.5vh;              /* Размер буквы-заглушки */
+  font-size: 3vh;              /* Размер буквы-заглушки */
 }
 
 .user-info--header .user-info__name {
-  font-size: 1.8vh;              /* Размер имени — 1.8% от высоты экрана */
+  font-size: 2.4vh;              /* Размер имени — 1.8% от высоты экрана */
 }
 
 .user-info--header .user-info__username {
-  font-size: 1.4vh;              /* Размер никнейма — 1.4% от высоты экрана */
+  font-size: 1.9vh;              /* Размер никнейма — 1.4% от высоты экрана */
 }
