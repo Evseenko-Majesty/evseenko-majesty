@@ -1,21 +1,21 @@
 /* ============================================
    КОМПОНЕНТЫ EVSEENKO MAJESTY
-   Общие стили для всех страниц
+   Общие стили для переиспользуемых элементов
    ============================================ */
 
-/* -------------------- ЛОГОТИП -------------------- */
+/* -------------------- ЛОГОТИП (БАЗОВЫЙ) -------------------- */
 
 .logo {
   display: flex;
   justify-content: center;
-  color: var(--accent-color);   /* Цвет из темы */
+  color: var(--accent-color);   /* Золотой цвет из темы */
 }
 
 .logo svg {
   width: auto;                  /* Ширина подстраивается под высоту */
 }
 
-/* -------------------- НАЗВАНИЕ БРЕНДА -------------------- */
+/* -------------------- НАЗВАНИЕ БРЕНДА (БАЗОВОЕ) -------------------- */
 
 .brand-name {
   font-family: 'Montserrat', 'Inter', sans-serif;
@@ -23,10 +23,10 @@
   letter-spacing: 0.1em;
   text-transform: uppercase;
   text-align: center;
-  color: var(--text-color);   /* Будет меняться в теме */
+  color: var(--text-color);
 }
 
-/* -------------------- СЛОГАН -------------------- */
+/* -------------------- СЛОГАН (БАЗОВЫЙ) -------------------- */
 
 .slogan {
   text-align: center;
@@ -40,7 +40,7 @@
   color: var(--text-secondary);
 }
 
-/* -------------------- КОПИРАЙТ -------------------- */
+/* -------------------- КОПИРАЙТ (БАЗОВЫЙ) -------------------- */
 
 .copyright {
   font-family: 'Montserrat', 'Inter', sans-serif;
@@ -49,73 +49,43 @@
 }
 
 /* -------------------- СТАТУС-КАРТОЧКА -------------------- */
-/* 
-   Системный блок проверки доступа
-   Выглядит как капсула, почти сливается с фоном
-*/
 
 .status-card {
-  /* Расположение элементов в строку */
   display: flex;
   align-items: center;
   justify-content: center;
-  
-  /* Расстояние между иконкой и текстом */
   gap: 8px;
-  
-  /* Внутренние отступы (капсула) */
   padding: 10px 20px;
-  
-  /* Фон из темы (полупрозрачный) */
   background: var(--surface-color);
-  
-  /* Тонкая рамка, почти не видна */
   border: 1px solid var(--border-color);
-  
-  /* Скругление — капсула */
   border-radius: 40px;
-  
-  /* Эффект размытия фона (стекло) */
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
-  
-  /* Лёгкая прозрачность */
   opacity: 0.9;
 }
 
-/* Контейнер для иконки */
 .status-card__indicator {
   display: flex;
   align-items: center;
   justify-content: center;
-  
-  /* Цвет иконки — золотой */
-  color: var(--accent-color);
+  color: var(--accent-color);   /* Золотой по умолчанию */
 }
 
-/* Текст статуса */
 .status-card__text {
-  /* Шрифт бренда */
   font-family: 'Montserrat', 'Inter', sans-serif;
   font-size: 13px;
   font-weight: 400;
-  
-  /* Цвет из темы (серый) */
   color: var(--text-secondary);
-  
-  /* Межбуквенное расстояние для премиум-вида */
   letter-spacing: 0.05em;
-  
-  /* Плавная смена текста */
   transition: opacity 0.15s ease;
 }
 
-/* Состояние успеха — иконка становится зеленоватой */
+/* Состояние успеха — иконка зеленоватая */
 .status-card--success .status-card__indicator {
   color: #4A9E7A;
 }
 
-/* Состояние ошибки — иконка становится приглушённо-красной */
+/* Состояние ошибки — иконка приглушённо-красная */
 .status-card--error .status-card__indicator {
   color: #B85C5C;
 }
@@ -184,15 +154,15 @@
 .error-modal__button:active {
   transform: scale(0.98);
 }
-/* -------------------- ЛОГОТИП В ШАПКЕ -------------------- */
 
-/* Когда логотип уже в главном приложении (не на загрузочном) */
+/* -------------------- ЛОГОТИП В ШАПКЕ (ГЛАВНАЯ И ДРУГИЕ СТРАНИЦЫ) -------------------- */
+
 .home .logo,
 .more .logo,
 .profile .logo {
   position: fixed;
-  top: 20px;
-  left: 16px;
+  top: 3%;                      /* Совпадает с концом анимации перехода */
+  left: 5%;                     /* Совпадает с концом анимации перехода */
   transform: none;
   opacity: 1;
   z-index: 100;
@@ -201,6 +171,13 @@
 .home .logo svg,
 .more .logo svg,
 .profile .logo svg {
-  height: 40rx;
+  height: 5vh;                  /* Совпадает с концом анимации перехода */
   width: auto;
+}
+
+/* -------------------- АНИМАЦИИ (ОБЩИЕ) -------------------- */
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
