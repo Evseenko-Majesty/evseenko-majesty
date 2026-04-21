@@ -44,7 +44,7 @@
 .splash .brand-name {
   position: relative;
   left: calc(53% - 50%);                       /* Компенсирует смещение логотипа, возвращая в центр */
-  margin-top: 3%;                              /* Отступ от логотипа — МЕНЯЙ ТУТ */
+  margin-top: -10%;                              /* Отступ от логотипа — МЕНЯЙ ТУТ */
   font-size: 3.5vh;                            /* Размер шрифта — МЕНЯЙ ТУТ */
   opacity: 0;
   animation: fadeIn 2s ease forwards;
