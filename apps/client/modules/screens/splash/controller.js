@@ -16,7 +16,7 @@ export class SplashScreen {
   
   onMount() {
     this.positionBrandName();
-    this.authenticate();  // ← Запускаем авторизацию
+    setTimeout(() => this.checkAccess(), 2500);  // После анимации
   }
   
   positionBrandName() {
@@ -29,26 +29,33 @@ export class SplashScreen {
     brandName.style.top = topPosition + 'px';
   }
   
-  async authenticate() {
+  async checkAccess() {
     const tgUser = this.app.tg.initDataUnsafe?.user;
     
+    // Не в Telegram — гость
     if (!tgUser) {
-      console.log('Не в Telegram');
+      this.app.user = {
+        first_name: 'Гость',
+        is_guest: true
+      };
+      setTimeout(() => this.app.navigateTo('home'), 1000);
       return;
     }
     
+    // В Telegram — пробуем подключиться к серверу
     const result = await API.auth(tgUser);
     
     if (result.success) {
       this.app.user = result.user;
-      console.log('Пользователь сохранён:', result.user);
-      
-      // Через 2 секунды переходим на главную
-      setTimeout(() => {
-        this.app.navigateTo('home');
-      }, 2000);
     } else {
-      console.error('Ошибка авторизации:', result.error);
+      // Сервер недоступен — гость с данными из Telegram
+      this.app.user = {
+        ...tgUser,
+        is_guest: true,
+        server_error: true
+      };
     }
+    
+    setTimeout(() => this.app.navigateTo('home'), 1000);
   }
 }
