@@ -8,11 +8,7 @@ export function StatusCard() {
   
   const icon = document.createElement('div');
   icon.className = 'status-card__icon';
-  icon.innerHTML = `
-    <svg width="24" height="24" viewBox="0 0 24 24">
-      <use href="#status-loading"></use>
-    </svg>
-  `;
+  icon.textContent = '⟳';  // Временная заглушка
   
   const text = document.createElement('span');
   text.className = 'status-card__text';
