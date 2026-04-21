@@ -1,0 +1,29 @@
+/* ============================================
+   USER INFO — НА СТРАНИЦЕ ПРОФИЛЯ
+   Крупные размеры, вертикальное расположение
+   ============================================ */
+
+.user-info--profile {
+  flex-direction: column;                  /* Аватар над текстом */
+  justify-content: center;
+  gap: 3%;
+}
+
+.user-info--profile .user-info__avatar {
+  width: 20vh;                             /* Крупный аватар */
+  height: 20vh;
+}
+
+.user-info--profile .user-info__avatar--placeholder {
+  font-size: 10vh;                         /* Крупная буква */
+}
+
+.user-info--profile .user-info__name {
+  font-size: 3.5vh;                        /* Крупное имя */
+  text-align: center;
+}
+
+.user-info--profile .user-info__username {
+  font-size: 2.5vh;                        /* Крупный никнейм */
+  text-align: center;
+}
