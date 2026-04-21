@@ -4,6 +4,7 @@
 
 import { Logo } from '/shared/components/Logo.js';
 import { BrandName } from '/shared/components/BrandName.js';
+import { Slogan } from '/shared/components/Slogan.js';
 
 export function render() {
   const div = document.createElement('div');
@@ -16,6 +17,7 @@ export function render() {
   brandBlock.appendChild(BrandName());
   
   div.appendChild(brandBlock);
+  div.appendChild(Slogan());
   
   return div;
 }
