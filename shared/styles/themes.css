@@ -2,20 +2,22 @@
    ТЕМЫ — ЦВЕТА БРЕНДА
    ============================================ */
 
-/* Тёмная тема (по умолчанию) */
 :root {
   --bg-color: #0A0A0A;
+  --surface-color: rgba(28, 28, 30, 0.8);
+  --border-color: rgba(255, 255, 255, 0.06);
   --accent-color: #D4AF37;
   --text-color: #EAEAEA;
   --text-secondary: #A0A0A0;
-  --copyright-color: #5A5A5A;              /* ← Добавить */
+  --copyright-color: #5A5A5A;
 }
 
-/* Светлая тема */
 [data-theme="light"] {
   --bg-color: #F7F7F5;
+  --surface-color: rgba(255, 255, 255, 0.8);
+  --border-color: rgba(0, 0, 0, 0.04);
   --accent-color: #C9A227;
   --text-color: #0A0A0A;
   --text-secondary: #666666;
-  --copyright-color: #A0A0A0;              /* ← Добавить */
+  --copyright-color: #A0A0A0;
 }
