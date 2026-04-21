@@ -137,3 +137,33 @@
   cursor: pointer;
   width: 100%;
 }
+
+/* ============================================
+   ШАПКА — ОБЩАЯ ДЛЯ ВСЕХ СТРАНИЦ
+   ============================================ */
+
+.app-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 3% 5% 0 5%;                    /* Отступы — МЕНЯЙ ТУТ */
+  z-index: 100;
+}
+
+.app-header__logo {
+  position: static;                         /* Убираем absolute с логотипа */
+}
+
+.app-header__logo svg {
+  height: 5vh;                             /* Размер логотипа в шапке — МЕНЯЙ ТУТ */
+  width: auto;
+}
+
+.app-header__right {
+  display: flex;
+  align-items: center;
+}
