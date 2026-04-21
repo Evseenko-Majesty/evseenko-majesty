@@ -147,28 +147,34 @@
   top: 0;
   left: 0;
   right: 0;
+  height: 8vh;                         /* Фиксированная высота шапки — МЕНЯЙ ТУТ */
   display: flex;
-  align-items: center;
+  align-items: center;                 /* Вертикально по центру шапки */
   justify-content: space-between;
-  padding: -4% 3% 0 3%;                    /* Отступы — МЕНЯЙ ТУТ */
+  padding: 0 5%;                       /* Только боковые отступы */
   z-index: 100;
 }
 
 .app-header__logo {
   position: static;
-  /* Тонкая настройка */
-  margin-top: -4vh;      /* Поднять выше — МЕНЯЙ ТУТ (отрицательное = вверх) */
-  margin-left: -4.5%;      /* Сместить левее — МЕНЯЙ ТУТ */
+  display: flex;
+  align-items: center;                 /* Логотип по центру своей высоты */
+  height: 100%;
+  margin-top: 0;                       /* Поднять/опустить логотип внутри шапки */
+  margin-left: 0;
 }
 
 .app-header__logo svg {
-  height: 15vh;                             /* Размер логотипа в шапке — МЕНЯЙ ТУТ */
+  height: 5vh;                         /* Размер логотипа */
   width: auto;
+  max-height: 100%;                    /* Не выходить за высоту шапки */
 }
 
 .app-header__right {
   display: flex;
   align-items: center;
+  height: 100%;
+  margin-top: 0;                       /* Поднять/опустить правый блок */
 }
 
 /* ============================================
