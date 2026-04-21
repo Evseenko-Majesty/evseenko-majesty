@@ -30,7 +30,7 @@ export class SplashScreen {
     const tgUser = this.app.tg.initDataUnsafe?.user;
     
     if (!tgUser) {
-      this.showSuccess('✓');
+      this.showSuccess();
       this.app.user = { first_name: 'Гость', is_guest: true };
       setTimeout(() => this.app.navigateTo('home'), 1000);
       return;
@@ -39,23 +39,31 @@ export class SplashScreen {
     const result = await API.auth(tgUser);
     
     if (result.success) {
-      this.showSuccess('✓');
+      this.showSuccess();
       this.app.user = result.user;
       setTimeout(() => this.app.navigateTo('home'), 1000);
     } else {
-      this.showError('✗');
+      this.showError();
     }
   }
   
-  showSuccess(symbol) {
+  showSuccess() {
     this.statusDiv.classList.add('status-card--success');
-    this.statusIcon.textContent = symbol;
+    this.statusIcon.innerHTML = `
+      <svg width="24" height="24" viewBox="0 0 24 24">
+        <use href="/shared/assets/icons/sprite.svg#status-success"></use>
+      </svg>
+    `;
     this.statusText.textContent = 'Готово';
   }
   
-  showError(symbol) {
+  showError() {
     this.statusDiv.classList.add('status-card--error');
-    this.statusIcon.textContent = symbol;
+    this.statusIcon.innerHTML = `
+      <svg width="24" height="24" viewBox="0 0 24 24">
+        <use href="/shared/assets/icons/sprite.svg#status-error"></use>
+      </svg>
+    `;
     this.statusText.textContent = 'Ошибка';
     
     const modal = Modal(
