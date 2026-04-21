@@ -3,6 +3,7 @@
 // ============================================
 
 import { initTelegram } from '/shared/js/telegram.js';
+import { loadIcons } from '/shared/js/loadIcons.js';
 import { SplashScreen } from './screens/splash/controller.js';
 
 class App {
@@ -26,7 +27,8 @@ class App {
     }
   }
   
-  start() {
+  async start() {
+    await loadIcons();  // ← Загружаем спрайт перед стартом
     this.navigateTo('splash');
   }
 }
