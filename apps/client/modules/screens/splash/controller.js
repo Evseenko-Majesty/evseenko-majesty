@@ -30,7 +30,7 @@ export class SplashScreen {
     const tgUser = this.app.tg.initDataUnsafe?.user;
     
     if (!tgUser) {
-      this.showSuccess();
+      this.showSuccess('✓');
       this.app.user = { first_name: 'Гость', is_guest: true };
       setTimeout(() => this.app.navigateTo('home'), 1000);
       return;
@@ -39,30 +39,31 @@ export class SplashScreen {
     const result = await API.auth(tgUser);
     
     if (result.success) {
-      this.showSuccess();
+      this.showSuccess('✓');
       this.app.user = result.user;
       setTimeout(() => this.app.navigateTo('home'), 1000);
     } else {
-      this.showError();
+      this.showError('✗');
     }
   }
   
-  showSuccess() {
-  this.statusDiv.classList.add('status-card--success');
-  this.statusIcon.innerHTML = '<use href="#status-success"></use>';
-  this.statusText.textContent = 'Готово';
-}
-
-showError() {
-  this.statusDiv.classList.add('status-card--error');
-  this.statusIcon.innerHTML = '<use href="#status-error"></use>';
-  this.statusText.textContent = 'Ошибка';
+  showSuccess(symbol) {
+    this.statusDiv.classList.add('status-card--success');
+    this.statusIcon.textContent = symbol;
+    this.statusText.textContent = 'Готово';
+  }
   
-  const modal = Modal(
-    'Ошибка соединения',
-    'Не удалось подключиться к серверу',
-    'Повторить',
-    () => window.location.reload()
-  );
-  document.body.appendChild(modal);
+  showError(symbol) {
+    this.statusDiv.classList.add('status-card--error');
+    this.statusIcon.textContent = symbol;
+    this.statusText.textContent = 'Ошибка';
+    
+    const modal = Modal(
+      'Ошибка соединения',
+      'Не удалось подключиться к серверу',
+      'Повторить',
+      () => window.location.reload()
+    );
+    document.body.appendChild(modal);
+  }
 }
