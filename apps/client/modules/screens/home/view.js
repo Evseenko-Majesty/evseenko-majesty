@@ -2,22 +2,20 @@
 // ГЛАВНЫЙ ЭКРАН — ПРЕДСТАВЛЕНИЕ
 // ============================================
 
-import { Logo } from '/shared/components/Logo.js';
+import { Header } from '/shared/components/Header.js';
 import { UserInfo } from '/shared/components/UserInfo.js';
 
 export function render(user) {
   const div = document.createElement('div');
   div.className = 'home';
   
-  // Логотип — абсолютное позиционирование
-  const logo = Logo();
-  logo.classList.add('page-logo');
-  div.appendChild(logo);
-  
-  // Профиль — абсолютное позиционирование
+  // Создаём правый контент — профиль пользователя
   const userInfo = UserInfo(user);
   userInfo.classList.add('user-info--header');
-  div.appendChild(userInfo);
+  
+  // Шапка с логотипом и профилем
+  const header = Header(userInfo);
+  div.appendChild(header);
   
   return div;
 }
