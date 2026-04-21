@@ -1,5 +1,5 @@
 /* ============================================
-   БАЗОВЫЕ СТИЛИ
+   БАЗОВЫЕ СТИЛИ — СБРОС И ШРИФТ
    ============================================ */
 
 * {
@@ -9,6 +9,12 @@
 }
 
 body {
-  font-family: 'Montserrat', 'Inter', sans-serif;  /* ← Основной шрифт всего приложения */
+  font-family: 'Montserrat', 'Inter', sans-serif;
+  background: var(--bg-color);
+}
+
+#app {
+  width: 100%;
+  min-height: 100vh;
   background: var(--bg-color);
 }
