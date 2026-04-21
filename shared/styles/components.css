@@ -150,7 +150,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 2.5% 2% 0 3.5%;                    /* Отступы — МЕНЯЙ ТУТ */
+  padding: -3% -3% 0 3.5%;                    /* Отступы — МЕНЯЙ ТУТ */
   z-index: 100;
 }
 
