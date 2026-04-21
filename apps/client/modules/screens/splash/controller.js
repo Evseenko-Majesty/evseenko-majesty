@@ -4,19 +4,27 @@
 
 import { render } from './view.js';
 import { API } from '/shared/js/api.js';
+import { Modal } from '/shared/components/Modal.js';
 
 export class SplashScreen {
   constructor(app) {
     this.app = app;
+    this.statusDiv = null;
+    this.statusIcon = null;
+    this.statusText = null;
   }
   
   getElement() {
-    return render();
+    const { div, statusDiv, statusIcon, statusText } = render();
+    this.statusDiv = statusDiv;
+    this.statusIcon = statusIcon;
+    this.statusText = statusText;
+    return div;
   }
   
   onMount() {
     this.positionBrandName();
-    setTimeout(() => this.checkAccess(), 2500);  // После анимации
+    setTimeout(() => this.checkAccess(), 2500);
   }
   
   positionBrandName() {
@@ -24,8 +32,7 @@ export class SplashScreen {
     const brandName = document.querySelector('.splash .brand-name');
     if (!logo || !brandName) return;
     const logoRect = logo.getBoundingClientRect();
-    const gap = 3;
-    const topPosition = logoRect.bottom + (window.innerHeight * gap / 100);
+    const topPosition = logoRect.bottom + (window.innerHeight * 3 / 100);
     brandName.style.top = topPosition + 'px';
   }
   
@@ -34,28 +41,41 @@ export class SplashScreen {
     
     // Не в Telegram — гость
     if (!tgUser) {
-      this.app.user = {
-        first_name: 'Гость',
-        is_guest: true
-      };
+      this.showSuccess();
+      this.app.user = { first_name: 'Гость', is_guest: true };
       setTimeout(() => this.app.navigateTo('home'), 1000);
       return;
     }
     
-    // В Telegram — пробуем подключиться к серверу
+    // В Telegram — пробуем сервер
     const result = await API.auth(tgUser);
     
     if (result.success) {
+      this.showSuccess();
       this.app.user = result.user;
+      setTimeout(() => this.app.navigateTo('home'), 1000);
     } else {
-      // Сервер недоступен — гость с данными из Telegram
-      this.app.user = {
-        ...tgUser,
-        is_guest: true,
-        server_error: true
-      };
+      this.showError();
     }
+  }
+  
+  showSuccess() {
+    this.statusDiv.classList.add('status-card--success');
+    this.statusIcon.innerHTML = '<use href="/shared/assets/icons/sprite.svg#status-success"></use>';
+    this.statusText.textContent = 'Готово';
+  }
+  
+  showError() {
+    this.statusDiv.classList.add('status-card--error');
+    this.statusIcon.innerHTML = '<use href="/shared/assets/icons/sprite.svg#status-error"></use>';
+    this.statusText.textContent = 'Ошибка';
     
-    setTimeout(() => this.app.navigateTo('home'), 1000);
+    const modal = Modal(
+      'Ошибка соединения',
+      'Не удалось подключиться к серверу',
+      'Повторить',
+      () => window.location.reload()
+    );
+    document.body.appendChild(modal);
   }
 }
