@@ -165,7 +165,7 @@
 }
 
 .app-header__logo svg {
-  height: 5vh;                         /* Размер логотипа */
+  height: 15vh;                         /* Размер логотипа */
   width: auto;
   max-height: 100%;                    /* Не выходить за высоту шапки */
 }
