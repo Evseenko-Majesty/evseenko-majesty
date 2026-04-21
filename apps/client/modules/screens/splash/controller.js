@@ -48,22 +48,21 @@ export class SplashScreen {
   }
   
   showSuccess() {
-    this.statusDiv.classList.add('status-card--success');
-    this.statusIcon.innerHTML = '<use href="/shared/assets/icons/sprite.svg#status-success"></use>';
-    this.statusText.textContent = 'Готово';
-  }
+  this.statusDiv.classList.add('status-card--success');
+  this.statusIcon.innerHTML = '<use href="#status-success"></use>';
+  this.statusText.textContent = 'Готово';
+}
+
+showError() {
+  this.statusDiv.classList.add('status-card--error');
+  this.statusIcon.innerHTML = '<use href="#status-error"></use>';
+  this.statusText.textContent = 'Ошибка';
   
-  showError() {
-    this.statusDiv.classList.add('status-card--error');
-    this.statusIcon.innerHTML = '<use href="/shared/assets/icons/sprite.svg#status-error"></use>';
-    this.statusText.textContent = 'Ошибка';
-    
-    const modal = Modal(
-      'Ошибка соединения',
-      'Не удалось подключиться к серверу',
-      'Повторить',
-      () => window.location.reload()
-    );
-    document.body.appendChild(modal);
-  }
+  const modal = Modal(
+    'Ошибка соединения',
+    'Не удалось подключиться к серверу',
+    'Повторить',
+    () => window.location.reload()
+  );
+  document.body.appendChild(modal);
 }
