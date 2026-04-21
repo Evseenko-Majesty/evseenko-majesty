@@ -23,23 +23,12 @@ export class SplashScreen {
   }
   
   onMount() {
-    this.positionBrandName();
     setTimeout(() => this.checkAccess(), 2500);
-  }
-  
-  positionBrandName() {
-    const logo = document.querySelector('.splash .logo');
-    const brandName = document.querySelector('.splash .brand-name');
-    if (!logo || !brandName) return;
-    const logoRect = logo.getBoundingClientRect();
-    const topPosition = logoRect.bottom + (window.innerHeight * 3 / 100);
-    brandName.style.top = topPosition + 'px';
   }
   
   async checkAccess() {
     const tgUser = this.app.tg.initDataUnsafe?.user;
     
-    // Не в Telegram — гость
     if (!tgUser) {
       this.showSuccess();
       this.app.user = { first_name: 'Гость', is_guest: true };
@@ -47,7 +36,6 @@ export class SplashScreen {
       return;
     }
     
-    // В Telegram — пробуем сервер
     const result = await API.auth(tgUser);
     
     if (result.success) {
