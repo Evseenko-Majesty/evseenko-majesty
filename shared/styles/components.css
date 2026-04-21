@@ -150,7 +150,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 3% 5% 0 5%;                    /* Отступы — МЕНЯЙ ТУТ */
+  padding: 2.5% 2% 0 3.5%;                    /* Отступы — МЕНЯЙ ТУТ */
   z-index: 100;
 }
 
@@ -159,7 +159,7 @@
 }
 
 .app-header__logo svg {
-  height: 5vh;                             /* Размер логотипа в шапке — МЕНЯЙ ТУТ */
+  height: 15vh;                             /* Размер логотипа в шапке — МЕНЯЙ ТУТ */
   width: auto;
 }
 
@@ -216,7 +216,7 @@
   white-space: nowrap;              /* Не переносить */
   overflow: hidden;                 /* Скрывать лишнее */
   text-overflow: ellipsis;          /* Добавлять ... */
-  max-width: 25vw;                  /* Максимальная ширина — 25% экрана */
+  max-width: 33vw;                  /* Максимальная ширина — 25% экрана */
 }
 
 .user-info__username {
@@ -227,5 +227,5 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  max-width: 25vw;
+  max-width: 33vw;
 }
