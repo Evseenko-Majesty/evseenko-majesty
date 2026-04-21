@@ -167,7 +167,7 @@
 }
 
 .app-header__logo svg {
-  height: 15vh;                   /* Меняй на любое значение: 8vh, 10vh, 12vh */
+  height: 30vh;                   /* Меняй на любое значение: 8vh, 10vh, 12vh */
   width: auto;
   /* Убираем max-height, чтобы не ограничивал */
 }
