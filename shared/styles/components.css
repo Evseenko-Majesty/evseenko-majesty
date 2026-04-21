@@ -22,3 +22,16 @@
   text-align: center;
   color: var(--text-color);
 }
+
+/* -------------------- СЛОГАН (БАЗА) -------------------- */
+.slogan {
+  text-align: center;
+}
+
+.slogan__main,
+.slogan__sub {
+  font-family: 'Montserrat', 'Inter', sans-serif;
+  font-weight: 400;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
