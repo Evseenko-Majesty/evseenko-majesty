@@ -147,27 +147,29 @@
   top: 0;
   left: 0;
   right: 0;
-  height: 8vh;                         /* Фиксированная высота шапки — МЕНЯЙ ТУТ */
+  height: 8vh;
   display: flex;
-  align-items: center;                 /* Вертикально по центру шапки */
+  align-items: center;
   justify-content: space-between;
-  padding: 0 5%;                       /* Только боковые отступы */
+  padding: 0 5%;
   z-index: 100;
+  overflow: visible;              /* ← Разрешает содержимому выходить за пределы */
 }
 
 .app-header__logo {
   position: static;
   display: flex;
-  align-items: center;                 /* Логотип по центру своей высоты */
+  align-items: center;
   height: 100%;
-  margin-top: 0;                       /* Поднять/опустить логотип внутри шапки */
+  overflow: visible;              /* ← Разрешает SVG выходить за пределы */
+  margin-top: 0;
   margin-left: 0;
 }
 
 .app-header__logo svg {
-  height: 45vh;                         /* Размер логотипа */
+  height: 15vh;                   /* Меняй на любое значение: 8vh, 10vh, 12vh */
   width: auto;
-  max-height: 100%;                    /* Не выходить за высоту шапки */
+  /* Убираем max-height, чтобы не ограничивал */
 }
 
 .app-header__right {
