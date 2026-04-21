@@ -3,8 +3,8 @@
 // ============================================
 
 import { initTelegram } from '/shared/js/telegram.js';
-import { loadIcons } from '/shared/js/loadIcons.js';
 import { SplashScreen } from './screens/splash/controller.js';
+import { HomeScreen } from './screens/home/controller.js';
 
 class App {
   constructor() {
@@ -13,7 +13,8 @@ class App {
     this.user = null;
     
     this.screens = {
-      splash: new SplashScreen(this)
+      splash: new SplashScreen(this),
+      home: new HomeScreen(this)
     };
   }
   
@@ -27,8 +28,7 @@ class App {
     }
   }
   
-  async start() {
-    await loadIcons();  // ← Загружаем спрайт перед стартом
+  start() {
     this.navigateTo('splash');
   }
 }
