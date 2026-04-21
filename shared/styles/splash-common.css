@@ -8,3 +8,29 @@
   height: 100vh;
   background: var(--bg-color);
 }
+
+/* -------------------- ЛОГОТИП НА ЗАГРУЗОЧНОМ -------------------- */
+.splash .logo {
+  position: absolute;
+  top: -5%;                                /* Отступ от верха */
+  left: 50%;
+  transform: translate(-53%, 0);            /* -53% = смещение влево от центра */
+  opacity: 0;
+  animation: fadeInUp 2s cubic-bezier(0.2, 0.9, 0.3, 1) forwards;
+}
+
+.splash .logo svg {
+  height: 55vh;                            /* Размер логотипа */
+}
+
+/* -------------------- АНИМАЦИИ -------------------- */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translate(-53%, 25px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-53%, 0);
+  }
+}
