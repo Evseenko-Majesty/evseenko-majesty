@@ -7,6 +7,8 @@
   --bg-color: #0A0A0A;
   --accent-color: #D4AF37;
   --text-color: #EAEAEA;
+  --text-secondary: #A0A0A0;
+  --copyright-color: #5A5A5A;              /* ← Добавить */
 }
 
 /* Светлая тема */
@@ -14,4 +16,6 @@
   --bg-color: #F7F7F5;
   --accent-color: #C9A227;
   --text-color: #0A0A0A;
+  --text-secondary: #666666;
+  --copyright-color: #A0A0A0;              /* ← Добавить */
 }
