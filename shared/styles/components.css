@@ -35,3 +35,9 @@
   text-transform: uppercase;
   color: var(--text-secondary);
 }
+/* -------------------- КОПИРАЙТ (БАЗА) -------------------- */
+.copyright {
+  font-family: 'Montserrat', 'Inter', sans-serif;
+  text-align: center;
+  color: var(--copyright-color);
+}
