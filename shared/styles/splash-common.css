@@ -88,6 +88,16 @@
   opacity: 0.8;                                /* Прозрачность — МЕНЯЙ ТУТ */
   white-space: nowrap;
 }
+/* -------------------- СТАТУС-КАРТОЧКА НА ЗАГРУЗОЧНОМ -------------------- */
+.splash .status-card {
+  position: absolute;
+  bottom: 15%;                                 /* Отступ от низа — МЕНЯЙ ТУТ */
+  left: 50%;
+  transform: translate(-50%, 0);
+  opacity: 0;
+  animation: fadeIn 0.4s ease forwards;
+  animation-delay: 2.5s;                       /* Появляется после анимации — МЕНЯЙ ТУТ */
+}
 /* -------------------- АНИМАЦИИ -------------------- */
 @keyframes fadeInUp {
   from {
