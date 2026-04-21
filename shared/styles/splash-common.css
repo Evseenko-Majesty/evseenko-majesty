@@ -84,7 +84,7 @@
   bottom: 3.5%;                                /* Отступ от низа — МЕНЯЙ ТУТ */
   left: 50%;
   transform: translate(-50%, 0);
-  font-size: 1.8vh;                            /* Размер шрифта — МЕНЯЙ ТУТ */
+  font-size: 1.6vh;                            /* Размер шрифта — МЕНЯЙ ТУТ */
   opacity: 0.8;                                /* Прозрачность — МЕНЯЙ ТУТ */
   white-space: nowrap;
 }
