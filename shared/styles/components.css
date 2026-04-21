@@ -150,12 +150,15 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: -3% -3% 0 3.5%;                    /* Отступы — МЕНЯЙ ТУТ */
+  padding: 2% 3.5% 0 3.5%;                    /* Отступы — МЕНЯЙ ТУТ */
   z-index: 100;
 }
 
 .app-header__logo {
-  position: static;                         /* Убираем absolute с логотипа */
+  position: static;
+  /* Тонкая настройка */
+  margin-top: -2vh;      /* Поднять выше — МЕНЯЙ ТУТ (отрицательное = вверх) */
+  margin-left: -3%;      /* Сместить левее — МЕНЯЙ ТУТ */
 }
 
 .app-header__logo svg {
