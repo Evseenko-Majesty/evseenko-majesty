@@ -163,7 +163,7 @@
   height: 100%;
   overflow: visible;              /* ← Разрешает SVG выходить за пределы */
   margin-top: 1vh;
-  margin-left: -3.5vh;
+  margin-left: -3vh;
 }
 
 .app-header__logo svg {
