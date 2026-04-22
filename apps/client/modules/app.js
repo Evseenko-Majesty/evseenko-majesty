@@ -30,6 +30,7 @@ class App {
   }
   
   navigateTo(screenName) {
+    console.log('navigateTo:', screenName);
     this.currentScreen = screenName;
     const screen = this.screens[screenName];
     
@@ -39,6 +40,7 @@ class App {
     // Кнопка "Назад"
     if (screenName === 'more' || screenName === 'profile') {
       showBackButton(this.tg, () => {
+        console.log('Back button pressed from:', screenName);
         if (screenName === 'profile') {
           this.navigateTo('more');
         } else if (screenName === 'more') {
@@ -49,9 +51,12 @@ class App {
       hideBackButton(this.tg);
     }
     
-    // Навигация
+    // Нижняя навигация
     if (screenName === 'home' || screenName === 'more') {
-      const nav = BottomNav(this.navItems, screenName, (id) => this.navigateTo(id));
+      const nav = BottomNav(this.navItems, screenName, (id) => {
+        console.log('BottomNav click:', id);
+        this.navigateTo(id);
+      });
       this.container.appendChild(nav);
     }
     
