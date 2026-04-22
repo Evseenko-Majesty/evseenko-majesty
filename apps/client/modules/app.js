@@ -15,7 +15,6 @@ class App {
     this.container = document.getElementById('app');
     this.user = null;
     this.currentScreen = null;
-    this.backHandler = null;
     
     this.screens = {
       splash: new SplashScreen(this),
@@ -31,43 +30,33 @@ class App {
   }
   
   navigateTo(screenName) {
-    console.log('➡️ navigateTo:', screenName, '| current before:', this.currentScreen);
+    console.log('➡️ navigateTo:', screenName);
     this.currentScreen = screenName;
-    console.log('   current after:', this.currentScreen);
-    
     const screen = this.screens[screenName];
     
     this.container.innerHTML = '';
     this.container.appendChild(screen.getElement());
     
-    // Кнопка "Назад"
+    // Сначала скрываем кнопку и очищаем все обработчики
+    hideBackButton(this.tg);
+    this.tg.BackButton.offClick();
+    
+    // Потом показываем с новым обработчиком если нужно
     if (screenName === 'more' || screenName === 'profile') {
-      // Удаляем старый обработчик если был
-      if (this.backHandler) {
-        this.tg.BackButton.offClick(this.backHandler);
-      }
-      
-      this.backHandler = () => {
-        console.log('⬅️ Back pressed. currentScreen:', this.currentScreen);
+      const handler = () => {
+        console.log('⬅️ Back pressed from:', this.currentScreen);
         if (this.currentScreen === 'profile') {
-          console.log('   → going to more');
           this.navigateTo('more');
         } else if (this.currentScreen === 'more') {
-          console.log('   → going to home');
           this.navigateTo('home');
         }
       };
-      
-      showBackButton(this.tg, this.backHandler);
-    } else {
-      hideBackButton(this.tg);
-      this.backHandler = null;
+      showBackButton(this.tg, handler);
     }
     
     // Нижняя навигация
     if (screenName === 'home' || screenName === 'more') {
       const nav = BottomNav(this.navItems, screenName, (id) => {
-        console.log('📍 BottomNav click:', id);
         this.navigateTo(id);
       });
       this.container.appendChild(nav);
