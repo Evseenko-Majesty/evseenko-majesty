@@ -9,25 +9,13 @@
   background: var(--bg-color);
 }
 
-/* -------------------- БРЕНД-БЛОК (ЛОГОТИП + НАЗВАНИЕ) -------------------- */
-/* 
-   Содержит логотип и название.
-   Двигается целиком (top, left/transform).
-   Название внутри выравнивается по центру экрана независимо от логотипа.
-*/
-.splash__brand {
-  position: absolute;
-  top: -5%;                                    /* Отступ всего блока от верха — МЕНЯЙ ТУТ */
-  left: 50%;
-  transform: translate(-53%, 0);                /* Смещение логотипа влево — МЕНЯЙ ТУТ */
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-}
-
 /* -------------------- ЛОГОТИП -------------------- */
+/* Позиционируется относительно экрана */
 .splash .logo {
+  position: absolute;
+  top: -5%;                                    /* Отступ от верха — МЕНЯЙ ТУТ */
+  left: 50%;
+  transform: translate(-53%, 0);                /* Смещение влево — МЕНЯЙ ТУТ */
   opacity: 0;
   animation: fadeInUp 2s cubic-bezier(0.2, 0.9, 0.3, 1) forwards;
 }
@@ -37,32 +25,18 @@
 }
 
 /* -------------------- НАЗВАНИЕ БРЕНДА -------------------- */
-/* 
-   Название всегда по центру экрана.
-   Смещение логотипа на него не влияет.
-*/
+/* Позиционируется отдельно, всегда по центру экрана */
 .splash .brand-name {
-  position: relative;
-  left: calc(53% - 50%);                       /* Компенсирует смещение логотипа, возвращая в центр */
-  margin-top: -38%;                              /* Отступ от логотипа — МЕНЯЙ ТУТ */
-  font-size: 3.5vh;                            /* Размер шрифта — МЕНЯЙ ТУТ */
-  opacity: 0;
-  animation: fadeIn 2s ease forwards;
-  animation-delay: 0.8s;                       /* Задержка появления — МЕНЯЙ ТУТ */
-  white-space: nowrap;
-}
-
-/* -------------------- СЛОГАН НА ЗАГРУЗОЧНОМ -------------------- */
-/* Позиционируется относительно экрана, всегда по центру */
-.splash .slogan {
   position: absolute;
-  top: 48%;                                    /* Позиция от верха экрана — МЕНЯЙ ТУТ */
+  top: calc(-5% + 55vh + 3%);                   /* top логотипа + высота + отступ */
+  /*       ↑       ↑     ↑                      МЕНЯЙ ВСЕ ТРИ ЗНАЧЕНИЯ */
   left: 50%;
-  transform: translate(-50%, 0);
+  transform: translate(-50%, 0);                /* Всегда по центру */
+  font-size: 3.5vh;                            /* Размер шрифта — МЕНЯЙ ТУТ */
   margin: 0;
   opacity: 0;
   animation: fadeIn 2s ease forwards;
-  animation-delay: 1.2s;                       /* Задержка появления — МЕНЯЙ ТУТ */
+  animation-delay: 0.8s;                       /* Задержка появления — МЕНЯЙ ТУТ */
   white-space: nowrap;
 }
 
@@ -102,11 +76,11 @@
 @keyframes fadeInUp {
   from {
     opacity: 0;
-    transform: translateY(25px);
+    transform: translate(-53%, 25px);
   }
   to {
     opacity: 1;
-    transform: translateY(0);
+    transform: translate(-53%, 0);
   }
 }
 
