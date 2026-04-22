@@ -7,6 +7,7 @@ import { SplashScreen } from './screens/splash/controller.js';
 import { HomeScreen } from './screens/home/controller.js';
 import { MoreScreen } from './screens/more/controller.js';
 import { ProfileScreen } from './screens/profile/controller.js';
+import { BottomNav } from '/shared/components/BottomNav.js';
 
 class App {
   constructor() {
@@ -14,7 +15,6 @@ class App {
     this.container = document.getElementById('app');
     this.user = null;
     this.currentScreen = null;
-    this.isNavigating = false;  // ← Защита от повторных вызовов
     
     this.screens = {
       splash: new SplashScreen(this),
@@ -22,17 +22,15 @@ class App {
       more: new MoreScreen(this),
       profile: new ProfileScreen(this)
     };
+    
+    this.navItems = [
+      { id: 'home', label: 'Главная' },
+      { id: 'more', label: 'Ещё' }
+    ];
   }
   
   navigateTo(screenName) {
-    if (this.isNavigating) {
-      console.warn('⚠️ Уже выполняется переход, игнорирую:', screenName);
-      return;
-    }
-    
-    this.isNavigating = true;
-    console.log('➡️ navigateTo:', screenName, 'стек:', new Error().stack);
-    
+    console.trace('➡️ navigateTo:', screenName);
     this.currentScreen = screenName;
     const screen = this.screens[screenName];
     
@@ -47,7 +45,6 @@ class App {
     if (screenName === 'more' || screenName === 'profile') {
       this.tg.BackButton.onClick(() => {
         console.log('⬅️ BACK из:', this.currentScreen);
-        this.isNavigating = false;  // Сбрасываем перед переходом
         if (this.currentScreen === 'profile') {
           this.navigateTo('more');
         } else if (this.currentScreen === 'more') {
@@ -57,11 +54,18 @@ class App {
       this.tg.BackButton.show();
     }
     
+    // Нижняя навигация
+    if (screenName === 'home' || screenName === 'more') {
+      const nav = BottomNav(this.navItems, screenName, (id) => {
+        console.log('📍 Nav click:', id);
+        this.navigateTo(id);
+      });
+      this.container.appendChild(nav);
+    }
+    
     if (screen.onMount) {
       screen.onMount();
     }
-    
-    setTimeout(() => { this.isNavigating = false; }, 100);
   }
   
   start() {
@@ -71,6 +75,4 @@ class App {
 
 const app = new App();
 app.start();
-
-// Для отладки из консоли
 window.app = app;
