@@ -15,6 +15,7 @@ class App {
     this.container = document.getElementById('app');
     this.user = null;
     this.currentScreen = null;
+    this.backHandler = null;
     
     this.screens = {
       splash: new SplashScreen(this),
@@ -30,31 +31,43 @@ class App {
   }
   
   navigateTo(screenName) {
-    console.log('navigateTo:', screenName);
+    console.log('➡️ navigateTo:', screenName, '| current before:', this.currentScreen);
     this.currentScreen = screenName;
+    console.log('   current after:', this.currentScreen);
+    
     const screen = this.screens[screenName];
     
     this.container.innerHTML = '';
     this.container.appendChild(screen.getElement());
     
-    // Кнопка "Назад" — используем this.currentScreen в момент нажатия
+    // Кнопка "Назад"
     if (screenName === 'more' || screenName === 'profile') {
-      showBackButton(this.tg, () => {
-        console.log('Back button pressed. Current screen:', this.currentScreen);
+      // Удаляем старый обработчик если был
+      if (this.backHandler) {
+        this.tg.BackButton.offClick(this.backHandler);
+      }
+      
+      this.backHandler = () => {
+        console.log('⬅️ Back pressed. currentScreen:', this.currentScreen);
         if (this.currentScreen === 'profile') {
+          console.log('   → going to more');
           this.navigateTo('more');
         } else if (this.currentScreen === 'more') {
+          console.log('   → going to home');
           this.navigateTo('home');
         }
-      });
+      };
+      
+      showBackButton(this.tg, this.backHandler);
     } else {
       hideBackButton(this.tg);
+      this.backHandler = null;
     }
     
     // Нижняя навигация
     if (screenName === 'home' || screenName === 'more') {
       const nav = BottomNav(this.navItems, screenName, (id) => {
-        console.log('BottomNav click:', id);
+        console.log('📍 BottomNav click:', id);
         this.navigateTo(id);
       });
       this.container.appendChild(nav);
