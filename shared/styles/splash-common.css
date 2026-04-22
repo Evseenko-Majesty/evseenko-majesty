@@ -28,7 +28,7 @@
 /* Позиционируется отдельно, всегда по центру экрана */
 .splash .brand-name {
   position: absolute;
-  top: 40;                   /* top логотипа + высота + отступ */
+  top: 40%;                   /* top логотипа + высота + отступ */
   /*       ↑       ↑     ↑                      МЕНЯЙ ВСЕ ТРИ ЗНАЧЕНИЯ */
   left: 50%;
   transform: translate(-50%, 0);                /* Всегда по центру */
@@ -43,6 +43,8 @@
 .splash .slogan__main {
    position: absolute;
   top: 55%;  
+    left: 50%;
+  transform: translate(-50%, 0); 
   font-size: 2.2vh;                              /* Размер русского текста — МЕНЯЙ ТУТ */
   letter-spacing: 0.2em;                       /* Межбуквенное расстояние — МЕНЯЙ ТУТ */
   opacity: 1;                                  /* Прозрачность — МЕНЯЙ ТУТ */
@@ -50,6 +52,10 @@
 }
 
 .splash .slogan__sub {
+     position: absolute;
+  top: 57%;  
+    left: 50%;
+  transform: translate(-50%, 0)
   font-size: 1.6vh;                            /* Размер английского текста — МЕНЯЙ ТУТ */
   letter-spacing: 0.1em;                       /* Межбуквенное расстояние — МЕНЯЙ ТУТ */
   opacity: 0.6;                                /* Прозрачность — МЕНЯЙ ТУТ */
