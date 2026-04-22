@@ -37,13 +37,13 @@ class App {
     this.container.innerHTML = '';
     this.container.appendChild(screen.getElement());
     
-    // Кнопка "Назад"
+    // Кнопка "Назад" — используем this.currentScreen в момент нажатия
     if (screenName === 'more' || screenName === 'profile') {
       showBackButton(this.tg, () => {
-        console.log('Back button pressed from:', screenName);
-        if (screenName === 'profile') {
+        console.log('Back button pressed. Current screen:', this.currentScreen);
+        if (this.currentScreen === 'profile') {
           this.navigateTo('more');
-        } else if (screenName === 'more') {
+        } else if (this.currentScreen === 'more') {
           this.navigateTo('home');
         }
       });
