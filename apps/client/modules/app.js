@@ -55,12 +55,14 @@ class App {
   }
   
   goBack() {
-    if (this.currentScreen === 'profile') {
-      this.navigateTo('more');
-    } else if (this.currentScreen === 'more') {
-      this.navigateTo('home');
-    }
+  alert('goBack called from: ' + this.currentScreen);
+  
+  if (this.currentScreen === 'profile') {
+    this.navigateTo('more');
+  } else if (this.currentScreen === 'more') {
+    this.navigateTo('home');
   }
+}
   
   start() {
     this.navigateTo('splash');
