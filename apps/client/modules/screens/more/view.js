@@ -1,3 +1,7 @@
+// ============================================
+// СТРАНИЦА "ЕЩЁ" — ПРЕДСТАВЛЕНИЕ
+// ============================================
+
 import { Header } from '/shared/components/Header.js';
 
 export function render(user, onNavigate) {
@@ -14,18 +18,13 @@ export function render(user, onNavigate) {
   title.className = 'page-title';
   title.textContent = 'Ещё';
   
-  const btn = document.createElement('button');
-  btn.textContent = 'ПРОФИЛЬ';
-  btn.style.padding = '20px';
-  btn.style.margin = '20px';
-  btn.style.fontSize = '20px';
-  btn.addEventListener('click', () => {
-    console.log('🖱️ Клик по ПРОФИЛЬ');
-    onNavigate('profile');
-  });
+  const profileItem = document.createElement('div');
+  profileItem.className = 'menu-item';
+  profileItem.textContent = 'Профиль';
+  profileItem.addEventListener('click', () => onNavigate('profile'));
   
   content.appendChild(title);
-  content.appendChild(btn);
+  content.appendChild(profileItem);
   div.appendChild(content);
   
   return div;
