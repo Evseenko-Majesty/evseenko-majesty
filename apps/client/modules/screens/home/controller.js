@@ -10,10 +10,6 @@ export class HomeScreen {
   }
   
   getElement() {
-    return render(this.app.user);   // ← Передаём user из app
-  }
-  
-  onMount() {
-    // Пока пусто
+    return render(this.app.user, () => this.app.navigateTo('profile'));
   }
 }
