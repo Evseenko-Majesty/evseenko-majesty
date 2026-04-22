@@ -28,7 +28,7 @@
 /* Позиционируется отдельно, всегда по центру экрана */
 .splash .brand-name {
   position: absolute;
-  top: 32%;                
+  top: 30%;                
   left: 50%;
   transform: translate(-50%, 0);                /* Всегда по центру */
   font-size: 3.5vh;                            /* Размер шрифта — МЕНЯЙ ТУТ */
@@ -41,7 +41,7 @@
 
 .splash .slogan__main {
    position: absolute;
-  top: 50%;  
+  top: 45%;  
     left: 50%;
   transform: translate(-50%, 0); 
   font-size: 2.2vh;                              /* Размер русского текста — МЕНЯЙ ТУТ */
@@ -52,7 +52,7 @@
 
 .splash .slogan__sub {
    position: absolute;
-   top: 52%;  
+   top: 47%;  
   left: 50%;
   transform: translate(-50%, 0)
   font-size: 1.6vh;                            /* Размер английского текста — МЕНЯЙ ТУТ */
