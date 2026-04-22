@@ -36,7 +36,7 @@ class App {
     this.container.innerHTML = '';
     this.container.appendChild(screen.getElement());
     
-    // Кнопка "Назад" — показываем только на more и profile
+    // Кнопка "Назад" — только на more и profile
     if (screenName === 'more' || screenName === 'profile') {
       showBackButton(this.tg, () => this.goBack());
     } else {
@@ -55,14 +55,22 @@ class App {
   }
   
   goBack() {
-  alert('goBack called from: ' + this.currentScreen);
-  
-  if (this.currentScreen === 'profile') {
-    this.navigateTo('more');
-  } else if (this.currentScreen === 'more') {
-    this.navigateTo('home');
+    if (this.currentScreen === 'profile') {
+      // Вручную отрисовываем more, чтобы избежать повторных переходов
+      this.currentScreen = 'more';
+      const screen = this.screens.more;
+      
+      this.container.innerHTML = '';
+      this.container.appendChild(screen.getElement());
+      
+      showBackButton(this.tg, () => this.goBack());
+      const nav = BottomNav(this.navItems, 'more', (id) => this.navigateTo(id));
+      this.container.appendChild(nav);
+      
+    } else if (this.currentScreen === 'more') {
+      this.navigateTo('home');
+    }
   }
-}
   
   start() {
     this.navigateTo('splash');
