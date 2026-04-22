@@ -19,7 +19,10 @@ export function render(user, onNavigate) {
   btn.style.padding = '20px';
   btn.style.margin = '20px';
   btn.style.fontSize = '20px';
-  btn.addEventListener('click', () => onNavigate('profile'));
+  btn.addEventListener('click', () => {
+    console.log('🖱️ Клик по ПРОФИЛЬ');
+    onNavigate('profile');
+  });
   
   content.appendChild(title);
   content.appendChild(btn);
