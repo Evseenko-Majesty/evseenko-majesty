@@ -50,7 +50,7 @@
   gap: 10px;
   padding: 12px 24px;
   background: var(--surface-color);
-  border: 1px solid var(--border-color);
+  border: 1px solid var(--accent-color);
   border-radius: 60px;
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
