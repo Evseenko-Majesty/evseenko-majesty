@@ -30,20 +30,20 @@ class App {
   }
   
   navigateTo(screenName) {
-    const screen = this.screens[screenName];
     this.currentScreen = screenName;
+    const screen = this.screens[screenName];
     
     this.container.innerHTML = '';
     this.container.appendChild(screen.getElement());
     
-    // Кнопка "Назад" — только на "more" и "profile"
+    // Кнопка "Назад" — показываем только на more и profile
     if (screenName === 'more' || screenName === 'profile') {
       showBackButton(this.tg, () => this.goBack());
     } else {
       hideBackButton(this.tg);
     }
     
-    // Нижняя навигация — только на "home" и "more"
+    // Нижняя навигация — только на home и more
     if (screenName === 'home' || screenName === 'more') {
       const nav = BottomNav(this.navItems, screenName, (id) => this.navigateTo(id));
       this.container.appendChild(nav);
@@ -55,14 +55,12 @@ class App {
   }
   
   goBack() {
-  console.log('goBack from:', this.currentScreen);  // ← Добавь для проверки
-  
-  if (this.currentScreen === 'profile') {
-    this.navigateTo('more');
-  } else if (this.currentScreen === 'more') {
-    this.navigateTo('home');
+    if (this.currentScreen === 'profile') {
+      this.navigateTo('more');
+    } else if (this.currentScreen === 'more') {
+      this.navigateTo('home');
+    }
   }
-}
   
   start() {
     this.navigateTo('splash');
