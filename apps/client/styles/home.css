@@ -7,5 +7,4 @@
   width: 100%;
   min-height: 100vh;
   background: var(--bg-color);
-  padding-top: 12vh;                         /* Отступ чтобы контент не заезжал под шапку */
 }
