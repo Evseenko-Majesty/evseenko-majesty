@@ -55,14 +55,14 @@ class App {
   }
   
   goBack() {
-    if (this.currentScreen === 'profile') {
-      // С профиля ВСЕГДА на "Ещё"
-      this.navigateTo('more');
-    } else if (this.currentScreen === 'more') {
-      // С "Ещё" на главную
-      this.navigateTo('home');
-    }
+  console.log('goBack from:', this.currentScreen);  // ← Добавь для проверки
+  
+  if (this.currentScreen === 'profile') {
+    this.navigateTo('more');
+  } else if (this.currentScreen === 'more') {
+    this.navigateTo('home');
   }
+}
   
   start() {
     this.navigateTo('splash');
