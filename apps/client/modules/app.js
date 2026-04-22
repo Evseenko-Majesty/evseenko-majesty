@@ -36,14 +36,20 @@ class App {
     this.container.innerHTML = '';
     this.container.appendChild(screen.getElement());
     
-    // Кнопка "Назад" — только на more и profile
+    // Кнопка "Назад"
     if (screenName === 'more' || screenName === 'profile') {
-      showBackButton(this.tg, () => this.goBack());
+      showBackButton(this.tg, () => {
+        if (screenName === 'profile') {
+          this.navigateTo('more');
+        } else if (screenName === 'more') {
+          this.navigateTo('home');
+        }
+      });
     } else {
       hideBackButton(this.tg);
     }
     
-    // Нижняя навигация — только на home и more
+    // Навигация
     if (screenName === 'home' || screenName === 'more') {
       const nav = BottomNav(this.navItems, screenName, (id) => this.navigateTo(id));
       this.container.appendChild(nav);
@@ -51,24 +57,6 @@ class App {
     
     if (screen.onMount) {
       screen.onMount();
-    }
-  }
-  
-  goBack() {
-    if (this.currentScreen === 'profile') {
-      // Вручную отрисовываем more, чтобы избежать повторных переходов
-      this.currentScreen = 'more';
-      const screen = this.screens.more;
-      
-      this.container.innerHTML = '';
-      this.container.appendChild(screen.getElement());
-      
-      showBackButton(this.tg, () => this.goBack());
-      const nav = BottomNav(this.navItems, 'more', (id) => this.navigateTo(id));
-      this.container.appendChild(nav);
-      
-    } else if (this.currentScreen === 'more') {
-      this.navigateTo('home');
     }
   }
   
