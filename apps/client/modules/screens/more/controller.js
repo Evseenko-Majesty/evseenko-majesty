@@ -10,6 +10,6 @@ export class MoreScreen {
   }
   
   getElement() {
-    return render();
+    return render(this.app.user, (screen) => this.app.navigateTo(screen));
   }
 }
