@@ -162,7 +162,7 @@
   align-items: center;
   height: 100%;
   overflow: visible;              /* ← Разрешает SVG выходить за пределы */
-  margin-top: -5vh;
+  margin-top: 2vh;
   margin-left: -4vh;
 }
 
