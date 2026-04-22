@@ -241,18 +241,25 @@
   max-width: 33vw;
 }
 
-/* -------------------- ПУНКТ МЕНЮ -------------------- */
+/* -------------------- ПУНКТ МЕНЮ (КАРТОЧКА) -------------------- */
 .menu-item {
-  padding: 2vh 0;
+  padding: 2vh 2.5vh;                    /* Внутренние отступы — МЕНЯЙ ТУТ */
+  margin-bottom: 1.5vh;                  /* Отступ между пунктами — МЕНЯЙ ТУТ */
   color: var(--text-color);
   font-family: 'Montserrat', 'Inter', sans-serif;
-  font-size: 2.2vh;
+  font-size: 2.2vh;                      /* Размер текста — МЕНЯЙ ТУТ */
   font-weight: 500;
-  border-bottom: 2px solid gold;        /* ← Временная яркая рамка */
+  background: var(--surface-color);      /* Фон карточки */
+  border: 1px solid var(--border-color); /* Тонкая рамка */
+  border-radius: 20px;                   /* Скругление — МЕНЯЙ ТУТ */
   cursor: pointer;
-  background: rgba(255,255,255,0.1);    /* ← Временный фон */
+  transition: all 0.3s ease;             /* Плавность */
 }
 
+/* При наведении */
 .menu-item:hover {
-  color: var(--accent-color);
+  background: var(--surface-color);
+  border-color: var(--accent-color);     /* Золотая рамка */
+  transform: translateY(-2px);           /* Лёгкий подъём */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
