@@ -6,6 +6,7 @@ import { initTelegram, showBackButton, hideBackButton } from '/shared/js/telegra
 import { SplashScreen } from './screens/splash/controller.js';
 import { HomeScreen } from './screens/home/controller.js';
 import { MoreScreen } from './screens/more/controller.js';
+import { ProfileScreen } from './screens/profile/controller.js';
 import { BottomNav } from '/shared/components/BottomNav.js';
 
 class App {
@@ -18,7 +19,8 @@ class App {
     this.screens = {
       splash: new SplashScreen(this),
       home: new HomeScreen(this),
-      more: new MoreScreen(this)
+      more: new MoreScreen(this),
+      profile: new ProfileScreen(this)
     };
     
     this.navItems = [
@@ -34,16 +36,14 @@ class App {
     this.container.innerHTML = '';
     this.container.appendChild(screen.getElement());
     
-    // Управление кнопкой "Назад"
-    if (screenName === 'more') {
-      // На странице "Ещё" показываем кнопку "Назад", возвращает на главную
-      showBackButton(this.tg, () => this.navigateTo('home'));
+    // Кнопка "Назад" — только на "more" и "profile"
+    if (screenName === 'more' || screenName === 'profile') {
+      showBackButton(this.tg, () => this.goBack());
     } else {
-      // На остальных экранах скрываем
       hideBackButton(this.tg);
     }
     
-    // Навигация
+    // Нижняя навигация — только на "home" и "more"
     if (screenName === 'home' || screenName === 'more') {
       const nav = BottomNav(this.navItems, screenName, (id) => this.navigateTo(id));
       this.container.appendChild(nav);
@@ -51,6 +51,16 @@ class App {
     
     if (screen.onMount) {
       screen.onMount();
+    }
+  }
+  
+  goBack() {
+    if (this.currentScreen === 'profile') {
+      // С профиля ВСЕГДА на "Ещё"
+      this.navigateTo('more');
+    } else if (this.currentScreen === 'more') {
+      // С "Ещё" на главную
+      this.navigateTo('home');
     }
   }
   
