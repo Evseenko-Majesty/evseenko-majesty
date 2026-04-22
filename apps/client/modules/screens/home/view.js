@@ -12,8 +12,6 @@ export function render(user, onProfileClick) {
   const userInfo = UserInfo(user);
   userInfo.classList.add('user-info--header');
   userInfo.style.cursor = 'pointer';
-  userInfo.addEventListener('click', () => {
-    alert('Клик по профилю на ГЛАВНОЙ');
     onProfileClick();
   });
   
