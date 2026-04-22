@@ -5,15 +5,15 @@
 import { Header } from '/shared/components/Header.js';
 import { UserInfo } from '/shared/components/UserInfo.js';
 
-export function render(user) {
+export function render(user, onProfileClick) {
   const div = document.createElement('div');
   div.className = 'home';
   
-  // Создаём правый контент — профиль пользователя
   const userInfo = UserInfo(user);
   userInfo.classList.add('user-info--header');
+  userInfo.style.cursor = 'pointer';
+  userInfo.addEventListener('click', onProfileClick);
   
-  // Шапка с логотипом и профилем
   const header = Header(userInfo);
   div.appendChild(header);
   
