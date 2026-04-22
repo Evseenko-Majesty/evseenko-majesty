@@ -2,7 +2,7 @@
 // ГЛАВНЫЙ ФАЙЛ ПРИЛОЖЕНИЯ
 // ============================================
 
-import { initTelegram, setBackButton, hideBackButton } from '/shared/js/telegram.js';
+import { initTelegram } from '/shared/js/telegram.js';
 import { SplashScreen } from './screens/splash/controller.js';
 import { HomeScreen } from './screens/home/controller.js';
 import { MoreScreen } from './screens/more/controller.js';
@@ -14,6 +14,7 @@ class App {
     this.tg = initTelegram();
     this.container = document.getElementById('app');
     this.user = null;
+    this.screenHistory = [];
     
     this.screens = {
       splash: new SplashScreen(this),
@@ -26,29 +27,31 @@ class App {
       { id: 'home', label: 'Главная' },
       { id: 'more', label: 'Ещё' }
     ];
+    
+    // Вешаем ОДИН раз глобальный обработчик
+    this.tg.BackButton.onClick(() => {
+      if (this.screenHistory.length > 1) {
+        this.screenHistory.pop(); // убираем текущий
+        const prev = this.screenHistory[this.screenHistory.length - 1];
+        this.navigateTo(prev, true);
+      }
+    });
   }
   
-  navigateTo(screenName) {
-    alert('Переход на: ' + screenName);
+  navigateTo(screenName, fromBack = false) {
+    if (!fromBack) {
+      this.screenHistory.push(screenName);
+    }
     
     const screen = this.screens[screenName];
-    
     this.container.innerHTML = '';
     this.container.appendChild(screen.getElement());
     
-    // Кнопка "Назад"
-    if (screenName === 'profile') {
-      setBackButton(this.tg, () => {
-        alert('Назад из ПРОФИЛЯ -> идём на ЕЩЁ');
-        this.navigateTo('more');
-      });
-    } else if (screenName === 'more') {
-      setBackButton(this.tg, () => {
-        alert('Назад из ЕЩЁ -> идём на ГЛАВНУЮ');
-        this.navigateTo('home');
-      });
+    // Показываем/скрываем кнопку
+    if (screenName === 'more' || screenName === 'profile') {
+      this.tg.BackButton.show();
     } else {
-      hideBackButton(this.tg);
+      this.tg.BackButton.hide();
     }
     
     // Навигация
