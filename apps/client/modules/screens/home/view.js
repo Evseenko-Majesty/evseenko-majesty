@@ -12,8 +12,6 @@ export function render(user, onProfileClick) {
   const userInfo = UserInfo(user);
   userInfo.classList.add('user-info--header');
   userInfo.style.cursor = 'pointer';
-    onProfileClick();
-  });
   
   const header = Header(userInfo);
   div.appendChild(header);
