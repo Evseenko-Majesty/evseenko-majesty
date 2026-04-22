@@ -29,6 +29,8 @@ class App {
   }
   
   navigateTo(screenName) {
+    alert('Переход на: ' + screenName);
+    
     const screen = this.screens[screenName];
     
     this.container.innerHTML = '';
@@ -36,9 +38,15 @@ class App {
     
     // Кнопка "Назад"
     if (screenName === 'profile') {
-      setBackButton(this.tg, () => this.navigateTo('more'));
+      setBackButton(this.tg, () => {
+        alert('Назад из ПРОФИЛЯ -> идём на ЕЩЁ');
+        this.navigateTo('more');
+      });
     } else if (screenName === 'more') {
-      setBackButton(this.tg, () => this.navigateTo('home'));
+      setBackButton(this.tg, () => {
+        alert('Назад из ЕЩЁ -> идём на ГЛАВНУЮ');
+        this.navigateTo('home');
+      });
     } else {
       hideBackButton(this.tg);
     }
