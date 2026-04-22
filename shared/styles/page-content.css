@@ -4,12 +4,12 @@
    ============================================ */
 
 .page-content {
-  padding: 12vh 5% 0 5%;               /* Отступ сверху от шапки, боковые — МЕНЯЙ ТУТ */
+  padding: 8vh 5% 0 5%;               /* Отступ сверху от шапки, боковые — МЕНЯЙ ТУТ */
 }
 
 .page-title {
   color: var(--text-color);
-  font-size: 3vh;                      /* Размер заголовка — МЕНЯЙ ТУТ */
+  font-size: 5vh;                      /* Размер заголовка — МЕНЯЙ ТУТ */
   font-family: 'Montserrat', 'Inter', sans-serif;
   font-weight: 500;
   margin: 0 0 2vh 0;                   /* Отступ снизу — МЕНЯЙ ТУТ */
