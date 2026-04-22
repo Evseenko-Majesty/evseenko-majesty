@@ -162,8 +162,8 @@
   align-items: center;
   height: 100%;
   overflow: visible;              /* ← Разрешает SVG выходить за пределы */
-  margin-top: -2vh;
-  margin-left: -2vh;
+  margin-top: -5vh;
+  margin-left: -4vh;
 }
 
 .app-header__logo svg {
