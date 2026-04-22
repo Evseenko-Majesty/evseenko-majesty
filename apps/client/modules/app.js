@@ -2,7 +2,7 @@
 // ГЛАВНЫЙ ФАЙЛ ПРИЛОЖЕНИЯ
 // ============================================
 
-import { initTelegram, showBackButton, hideBackButton } from '/shared/js/telegram.js';
+import { initTelegram, setBackButton, hideBackButton } from '/shared/js/telegram.js';
 import { SplashScreen } from './screens/splash/controller.js';
 import { HomeScreen } from './screens/home/controller.js';
 import { MoreScreen } from './screens/more/controller.js';
@@ -14,7 +14,6 @@ class App {
     this.tg = initTelegram();
     this.container = document.getElementById('app');
     this.user = null;
-    this.currentScreen = null;
     
     this.screens = {
       splash: new SplashScreen(this),
@@ -30,36 +29,23 @@ class App {
   }
   
   navigateTo(screenName) {
-    console.trace('➡️ navigateTo:', screenName);
-    this.currentScreen = screenName;
     const screen = this.screens[screenName];
     
     this.container.innerHTML = '';
     this.container.appendChild(screen.getElement());
     
-    // Очищаем старые обработчики
-    this.tg.BackButton.offClick();
-    hideBackButton(this.tg);
-    
     // Кнопка "Назад"
-    if (screenName === 'more' || screenName === 'profile') {
-      this.tg.BackButton.onClick(() => {
-        console.log('⬅️ BACK из:', this.currentScreen);
-        if (this.currentScreen === 'profile') {
-          this.navigateTo('more');
-        } else if (this.currentScreen === 'more') {
-          this.navigateTo('home');
-        }
-      });
-      this.tg.BackButton.show();
+    if (screenName === 'profile') {
+      setBackButton(this.tg, () => this.navigateTo('more'));
+    } else if (screenName === 'more') {
+      setBackButton(this.tg, () => this.navigateTo('home'));
+    } else {
+      hideBackButton(this.tg);
     }
     
-    // Нижняя навигация
+    // Навигация
     if (screenName === 'home' || screenName === 'more') {
-      const nav = BottomNav(this.navItems, screenName, (id) => {
-        console.log('📍 Nav click:', id);
-        this.navigateTo(id);
-      });
+      const nav = BottomNav(this.navItems, screenName, (id) => this.navigateTo(id));
       this.container.appendChild(nav);
     }
     
@@ -75,4 +61,3 @@ class App {
 
 const app = new App();
 app.start();
-window.app = app;
