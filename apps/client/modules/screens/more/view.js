@@ -21,7 +21,10 @@ export function render(user, onNavigate) {
   const profileItem = document.createElement('div');
   profileItem.className = 'menu-item';
   profileItem.textContent = 'Профиль';
-  profileItem.addEventListener('click', () => onNavigate('profile'));
+  profileItem.addEventListener('click', () => {
+    alert('Клик по Профиль на странице Ещё');
+    onNavigate('profile');
+  });
   
   content.appendChild(title);
   content.appendChild(profileItem);
