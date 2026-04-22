@@ -11,7 +11,7 @@
   color: var(--text-color);
   font-size: 4vh;                      /* Размер заголовка — МЕНЯЙ ТУТ */
   font-family: 'Montserrat', 'Inter', sans-serif;
-  font-weight: 700;
-  margin: -1vh 0 2vh 0;                   /* Отступ снизу — МЕНЯЙ ТУТ */
+  font-weight: 800;
+  margin: 0 0 2vh 0;                   /* Отступ снизу — МЕНЯЙ ТУТ */
  leteer-spacing: 0.02em;
 }
