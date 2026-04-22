@@ -12,16 +12,15 @@ export function render() {
   const div = document.createElement('div');
   div.className = 'splash';
   
-  const brandBlock = document.createElement('div');
-  brandBlock.className = 'splash__brand';
-  brandBlock.appendChild(Logo());
-  brandBlock.appendChild(BrandName());
+  // Логотип и название — отдельно друг от друга
+  div.appendChild(Logo());
+  div.appendChild(BrandName());
   
-  const { div: statusDiv, icon, text } = StatusCard();
-  
-  div.appendChild(brandBlock);
+  // Остальные элементы
   div.appendChild(Slogan());
   div.appendChild(Copyright());
+  
+  const { div: statusDiv, icon, text } = StatusCard();
   div.appendChild(statusDiv);
   
   return { div, statusDiv, statusIcon: icon, statusText: text };
