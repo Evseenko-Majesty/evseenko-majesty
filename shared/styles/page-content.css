@@ -9,9 +9,9 @@
 
 .page-title {
   color: var(--text-color);
-  font-size: 6vh;                      /* Размер заголовка — МЕНЯЙ ТУТ */
+  font-size: 7vh;                      /* Размер заголовка — МЕНЯЙ ТУТ */
   font-family: 'Montserrat', 'Inter', sans-serif;
   font-weight: 1100;
-  margin: 0 0 2vh 0;                   /* Отступ снизу — МЕНЯЙ ТУТ */
+  margin: -1vh 0 2vh 0;                   /* Отступ снизу — МЕНЯЙ ТУТ */
  leteer-spacing: 0.02em;
 }
