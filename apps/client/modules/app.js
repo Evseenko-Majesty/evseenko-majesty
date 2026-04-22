@@ -28,10 +28,10 @@ class App {
       { id: 'more', label: 'Ещё' }
     ];
     
-    // Вешаем ОДИН раз глобальный обработчик
+    // Один обработчик на всё приложение
     this.tg.BackButton.onClick(() => {
       if (this.screenHistory.length > 1) {
-        this.screenHistory.pop(); // убираем текущий
+        this.screenHistory.pop();
         const prev = this.screenHistory[this.screenHistory.length - 1];
         this.navigateTo(prev, true);
       }
@@ -47,14 +47,14 @@ class App {
     this.container.innerHTML = '';
     this.container.appendChild(screen.getElement());
     
-    // Показываем/скрываем кнопку
+    // Кнопка "Назад"
     if (screenName === 'more' || screenName === 'profile') {
       this.tg.BackButton.show();
     } else {
       this.tg.BackButton.hide();
     }
     
-    // Навигация
+    // Нижняя навигация
     if (screenName === 'home' || screenName === 'more') {
       const nav = BottomNav(this.navItems, screenName, (id) => this.navigateTo(id));
       this.container.appendChild(nav);
