@@ -10,7 +10,6 @@
 }
 
 /* -------------------- ЛОГОТИП -------------------- */
-/* Позиционируется относительно экрана */
 .splash .logo {
   position: absolute;
   top: -5%;                                    /* Отступ от верха — МЕНЯЙ ТУТ */
@@ -25,52 +24,57 @@
 }
 
 /* -------------------- НАЗВАНИЕ БРЕНДА -------------------- */
-/* Позиционируется отдельно, всегда по центру экрана */
 .splash .brand-name {
   position: absolute;
-  top: 30%;                
+  top: 30%;                                    /* Позиция — МЕНЯЙ ТУТ */
   left: 50%;
-  transform: translate(-50%, 0);                /* Всегда по центру */
-  font-size: 3.5vh;                            /* Размер шрифта — МЕНЯЙ ТУТ */
+  transform: translate(-50%, 0);
+  font-size: 3.5vh;                            /* Размер — МЕНЯЙ ТУТ */
   margin: 0;
   opacity: 0;
   animation: fadeIn 2s ease forwards;
-  animation-delay: 0.8s;                       /* Задержка появления — МЕНЯЙ ТУТ */
+  animation-delay: 0.8s;                       /* Задержка — МЕНЯЙ ТУТ */
+  white-space: nowrap;
+}
+
+/* -------------------- СЛОГАН -------------------- */
+.splash .slogan {
+  position: absolute;
+  top: 45%;                                    /* Позиция всего блока — МЕНЯЙ ТУТ */
+  left: 50%;
+  transform: translate(-50%, 0);
+  margin: 0;
+  opacity: 0;
+  animation: fadeIn 2s ease forwards;
+  animation-delay: 1.2s;                       /* Задержка — МЕНЯЙ ТУТ */
   white-space: nowrap;
 }
 
 .splash .slogan__main {
-   position: absolute;
-  top: 45%;  
-    left: 50%;
-  transform: translate(-50%, 0); 
-  font-size: 2.2vh;                              /* Размер русского текста — МЕНЯЙ ТУТ */
-  letter-spacing: 0.2em;                       /* Межбуквенное расстояние — МЕНЯЙ ТУТ */
+  font-size: 2.2vh;                            /* Размер русского — МЕНЯЙ ТУТ */
+  letter-spacing: 0.2em;                       /* Межбуквенное — МЕНЯЙ ТУТ */
   opacity: 1;                                  /* Прозрачность — МЕНЯЙ ТУТ */
-    white-space: nowrap;
+  margin-bottom: 0.8vh;                        /* Отступ до английского — МЕНЯЙ ТУТ */
 }
 
 .splash .slogan__sub {
-   position: absolute;
-   top: 47%;  
-  left: 50%;
-  transform: translate(-50%, 0)
-  font-size: 1.6vh;                            /* Размер английского текста — МЕНЯЙ ТУТ */
-  letter-spacing: 0.1em;                       /* Межбуквенное расстояние — МЕНЯЙ ТУТ */
+  font-size: 1.6vh;                            /* Размер английского — МЕНЯЙ ТУТ */
+  letter-spacing: 0.1em;                       /* Межбуквенное — МЕНЯЙ ТУТ */
   opacity: 0.6;                                /* Прозрачность — МЕНЯЙ ТУТ */
-    white-space: nowrap;
 }
-/* -------------------- КОПИРАЙТ НА ЗАГРУЗОЧНОМ -------------------- */
+
+/* -------------------- КОПИРАЙТ -------------------- */
 .splash .copyright {
   position: absolute;
   bottom: 3.3%;                                /* Отступ от низа — МЕНЯЙ ТУТ */
   left: 50%;
   transform: translate(-50%, 0);
-  font-size: 1.7vh;                            /* Размер шрифта — МЕНЯЙ ТУТ */
+  font-size: 1.7vh;                            /* Размер — МЕНЯЙ ТУТ */
   opacity: 0.8;                                /* Прозрачность — МЕНЯЙ ТУТ */
   white-space: nowrap;
 }
-/* -------------------- СТАТУС-КАРТОЧКА НА ЗАГРУЗОЧНОМ -------------------- */
+
+/* -------------------- СТАТУС-КАРТОЧКА -------------------- */
 .splash .status-card {
   position: absolute;
   bottom: 23%;                                 /* Отступ от низа — МЕНЯЙ ТУТ */
@@ -78,8 +82,9 @@
   transform: translate(-50%, 0);
   opacity: 0;
   animation: fadeIn 0.4s ease forwards;
-  animation-delay: 2.5s;                       /* Появляется после анимации — МЕНЯЙ ТУТ */
+  animation-delay: 2.5s;                       /* Задержка — МЕНЯЙ ТУТ */
 }
+
 /* -------------------- АНИМАЦИИ -------------------- */
 @keyframes fadeInUp {
   from {
