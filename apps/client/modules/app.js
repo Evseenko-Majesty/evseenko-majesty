@@ -7,7 +7,6 @@ import { SplashScreen } from './screens/splash/controller.js';
 import { HomeScreen } from './screens/home/controller.js';
 import { MoreScreen } from './screens/more/controller.js';
 import { ProfileScreen } from './screens/profile/controller.js';
-import { BottomNav } from '/shared/components/BottomNav.js';
 
 class App {
   constructor() {
@@ -22,44 +21,31 @@ class App {
       more: new MoreScreen(this),
       profile: new ProfileScreen(this)
     };
-    
-    this.navItems = [
-      { id: 'home', label: 'Главная' },
-      { id: 'more', label: 'Ещё' }
-    ];
   }
   
   navigateTo(screenName) {
-    console.log('➡️ navigateTo:', screenName);
+    console.log('navigateTo:', screenName);
     this.currentScreen = screenName;
     const screen = this.screens[screenName];
     
     this.container.innerHTML = '';
     this.container.appendChild(screen.getElement());
     
-    // Сначала скрываем кнопку и очищаем все обработчики
-    hideBackButton(this.tg);
+    // Очищаем старые обработчики
     this.tg.BackButton.offClick();
+    hideBackButton(this.tg);
     
-    // Потом показываем с новым обработчиком если нужно
+    // Кнопка "Назад"
     if (screenName === 'more' || screenName === 'profile') {
-      const handler = () => {
-        console.log('⬅️ Back pressed from:', this.currentScreen);
+      this.tg.BackButton.onClick(() => {
+        console.log('BACK from:', this.currentScreen);
         if (this.currentScreen === 'profile') {
           this.navigateTo('more');
         } else if (this.currentScreen === 'more') {
           this.navigateTo('home');
         }
-      };
-      showBackButton(this.tg, handler);
-    }
-    
-    // Нижняя навигация
-    if (screenName === 'home' || screenName === 'more') {
-      const nav = BottomNav(this.navItems, screenName, (id) => {
-        this.navigateTo(id);
       });
-      this.container.appendChild(nav);
+      this.tg.BackButton.show();
     }
     
     if (screen.onMount) {
@@ -71,6 +57,9 @@ class App {
     this.navigateTo('splash');
   }
 }
+
+// Временно сделаем глобальную функцию для переходов
+window.goTo = (screen) => app.navigateTo(screen);
 
 const app = new App();
 app.start();
