@@ -2,7 +2,7 @@
 // ГЛАВНЫЙ ФАЙЛ ПРИЛОЖЕНИЯ
 // ============================================
 
-import { initTelegram } from '/shared/js/telegram.js';
+import { initTelegram, showBackButton, hideBackButton } from '/shared/js/telegram.js';
 import { SplashScreen } from './screens/splash/controller.js';
 import { HomeScreen } from './screens/home/controller.js';
 import { MoreScreen } from './screens/more/controller.js';
@@ -21,7 +21,6 @@ class App {
       more: new MoreScreen(this)
     };
     
-    // Пункты навигации
     this.navItems = [
       { id: 'home', label: 'Главная' },
       { id: 'more', label: 'Ещё' }
@@ -35,7 +34,16 @@ class App {
     this.container.innerHTML = '';
     this.container.appendChild(screen.getElement());
     
-    // Добавляем навигацию на home и more
+    // Управление кнопкой "Назад"
+    if (screenName === 'more') {
+      // На странице "Ещё" показываем кнопку "Назад", возвращает на главную
+      showBackButton(this.tg, () => this.navigateTo('home'));
+    } else {
+      // На остальных экранах скрываем
+      hideBackButton(this.tg);
+    }
+    
+    // Навигация
     if (screenName === 'home' || screenName === 'more') {
       const nav = BottomNav(this.navItems, screenName, (id) => this.navigateTo(id));
       this.container.appendChild(nav);
