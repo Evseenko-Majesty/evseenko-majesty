@@ -14,6 +14,7 @@ class App {
     this.container = document.getElementById('app');
     this.user = null;
     this.currentScreen = null;
+    this.isNavigating = false;  // ← Защита от повторных вызовов
     
     this.screens = {
       splash: new SplashScreen(this),
@@ -24,7 +25,14 @@ class App {
   }
   
   navigateTo(screenName) {
-    console.log('navigateTo:', screenName);
+    if (this.isNavigating) {
+      console.warn('⚠️ Уже выполняется переход, игнорирую:', screenName);
+      return;
+    }
+    
+    this.isNavigating = true;
+    console.log('➡️ navigateTo:', screenName, 'стек:', new Error().stack);
+    
     this.currentScreen = screenName;
     const screen = this.screens[screenName];
     
@@ -38,7 +46,8 @@ class App {
     // Кнопка "Назад"
     if (screenName === 'more' || screenName === 'profile') {
       this.tg.BackButton.onClick(() => {
-        console.log('BACK from:', this.currentScreen);
+        console.log('⬅️ BACK из:', this.currentScreen);
+        this.isNavigating = false;  // Сбрасываем перед переходом
         if (this.currentScreen === 'profile') {
           this.navigateTo('more');
         } else if (this.currentScreen === 'more') {
@@ -51,6 +60,8 @@ class App {
     if (screen.onMount) {
       screen.onMount();
     }
+    
+    setTimeout(() => { this.isNavigating = false; }, 100);
   }
   
   start() {
@@ -58,8 +69,8 @@ class App {
   }
 }
 
-// Временно сделаем глобальную функцию для переходов
-window.goTo = (screen) => app.navigateTo(screen);
-
 const app = new App();
 app.start();
+
+// Для отладки из консоли
+window.app = app;
