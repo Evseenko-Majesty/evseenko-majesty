@@ -27,7 +27,7 @@
       "dest": "/apps/admin/$1"
     },
     {
-      "src": "/admin_majesty",
+      "src": "/emajesty_core",
       "dest": "/apps/admin/index.html"
     }
   ]
