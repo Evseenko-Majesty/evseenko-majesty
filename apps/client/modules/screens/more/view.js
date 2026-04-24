@@ -46,7 +46,9 @@ telegramItem.innerHTML = `
   <span>Наша группа Telegram</span>
   <span class="menu-item__arrow">›</span>
 `;
-
+telegramItem.addEventListener('click', () => {
+  window.open(LINKS.telegram, '_blank');
+});
 // VK
 const vkItem = document.createElement('div');
 vkItem.className = 'menu-item menu-item--vk';
