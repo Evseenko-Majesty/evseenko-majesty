@@ -6,24 +6,27 @@
 .user-info--profile {
   flex-direction: column;                  /* Аватар над текстом */
   justify-content: center;
-  gap: 3%;
+  gap: 2vh;
+   margin-top: 5vh;
 }
 
 .user-info--profile .user-info__avatar {
-  width: 20vh;                             /* Крупный аватар */
-  height: 20vh;
+  width: 15vh;                             /* Крупный аватар */
+  height: 15vh;
 }
 
 .user-info--profile .user-info__avatar--placeholder {
-  font-size: 10vh;                         /* Крупная буква */
+  font-size: 8vh;                         /* Крупная буква */
 }
 
 .user-info--profile .user-info__name {
-  font-size: 3.5vh;                        /* Крупное имя */
+  font-size: 3vh;                        /* Крупное имя */
   text-align: center;
+   max-width: 30vw;
 }
 
 .user-info--profile .user-info__username {
-  font-size: 2.5vh;                        /* Крупный никнейм */
+  font-size: 2vh;                        /* Крупный никнейм */
   text-align: center;
+   max-width: 30vw;
 }
