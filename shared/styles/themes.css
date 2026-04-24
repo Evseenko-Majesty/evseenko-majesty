@@ -10,6 +10,8 @@
   --text-color: #EAEAEA;
   --text-secondary: #A0A0A0;
   --copyright-color: #5A5A5A;
+   --telegram-color: #2AABEE;
+   --vk-color: #0077FF;
 }
 
 [data-theme="light"] {
