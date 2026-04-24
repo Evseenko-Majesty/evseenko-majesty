@@ -241,42 +241,52 @@
   max-width: 33vw;
 }
 
-/* -------------------- ПУНКТ МЕНЮ (КАРТОЧКА) -------------------- */
+/* -------------------- ПУНКТ МЕНЮ -------------------- */
 .menu-item {
-  padding: 2vh 2.5vh;                    /* Внутренние отступы — МЕНЯЙ ТУТ */
-  margin-bottom: 1.5vh;                  /* Отступ между пунктами — МЕНЯЙ ТУТ */
+  display: flex;
+  align-items: center;
+  padding: 2vh 2.5vh;
+  margin-bottom: 1.5vh;
   color: var(--text-color);
   font-family: 'Montserrat', 'Inter', sans-serif;
-  font-size: 2.3vh;                      /* Размер текста — МЕНЯЙ ТУТ */
-  font-weight: 600;
-  background: var(--surface-color);      /* Фон карточки */
-  border: 1.5px solid var(--accent-color); /* Тонкая рамка */
-  border-radius: 20px;                   /* Скругление — МЕНЯЙ ТУТ */
+  font-size: 2.2vh;
+  font-weight: 500;
+  background: var(--surface-color);
+  border: 1px solid var(--accent-color);
+  border-radius: 20px;
   cursor: pointer;
-  transition: all 0.3s ease;             /* Плавность */
+  transition: transform 0.3s ease;
 }
-/* -------------------- ПУНКТ МЕНЮ — СТРЕЛКА -------------------- */
-.menu-item::after {
-  content: '›';                    /* Стрелка */
-  float: right;
-  font-size: 3vh;                /* Размер стрелки — МЕНЯЙ ТУТ */
-  font-weight: 400;
-  opacity: 0.5;                    /* Прозрачность — МЕНЯЙ ТУТ */
-  line-height: 1;
+
+.menu-item:hover {
+  transform: translateY(-2px);
 }
-/* -------------------- ПУНКТ МЕНЮ — TELEGRAM -------------------- */
+
+/* Иконка слева */
+.menu-item__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 2vh;
+  flex-shrink: 0;
+}
+
+/* Стрелка справа */
+.menu-item__arrow {
+  margin-left: auto;
+  opacity: 0.5;
+  font-size: 2.5vh;
+  font-weight: 300;
+}
+
+/* Telegram */
 .menu-item--telegram {
   border-color: var(--telegram-color);
   color: var(--telegram-color);
 }
 
-/* -------------------- ПУНКТ МЕНЮ — VK -------------------- */
+/* VK */
 .menu-item--vk {
   border-color: var(--vk-color);
   color: var(--vk-color);
-}
-
-/* При наведении */
-.menu-item:hover {
-  transform: translateY(-2px);           /* Лёгкий подъём */
 }
