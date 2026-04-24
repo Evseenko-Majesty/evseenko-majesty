@@ -255,6 +255,15 @@
   cursor: pointer;
   transition: all 0.3s ease;             /* Плавность */
 }
+/* -------------------- ПУНКТ МЕНЮ — СТРЕЛКА -------------------- */
+.menu-item::after {
+  content: '›';                    /* Стрелка */
+  float: right;
+  font-size: 2.5vh;                /* Размер стрелки — МЕНЯЙ ТУТ */
+  font-weight: 300;
+  opacity: 0.5;                    /* Прозрачность — МЕНЯЙ ТУТ */
+  line-height: 1;
+}
 /* -------------------- ПУНКТ МЕНЮ — TELEGRAM -------------------- */
 .menu-item--telegram {
   border-color: var(--telegram-color);
