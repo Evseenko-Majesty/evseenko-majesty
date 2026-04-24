@@ -66,12 +66,12 @@
 /* -------------------- ACCESS -------------------- */
 .splash__access {
   position: absolute;
-  top: 55%;                                    /* Позиция — МЕНЯЙ ТУТ */
+  top: 60%;                                    /* Позиция — МЕНЯЙ ТУТ */
   left: 50%;
   transform: translate(-50%, 0);
   font-family: 'Montserrat', 'Inter', sans-serif;
   font-size: 1.8vh;                            /* Размер — МЕНЯЙ ТУТ */
-  font-weight: 400;
+  font-weight: 600;
   letter-spacing: 0.15em;
   text-transform: uppercase;
   color: var(--accent-color);
