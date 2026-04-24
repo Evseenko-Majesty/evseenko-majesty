@@ -259,8 +259,8 @@
 .menu-item::after {
   content: '›';                    /* Стрелка */
   float: right;
-  font-size: 2.5vh;                /* Размер стрелки — МЕНЯЙ ТУТ */
-  font-weight: 300;
+  font-size: 3vh;                /* Размер стрелки — МЕНЯЙ ТУТ */
+  font-weight: 400;
   opacity: 0.5;                    /* Прозрачность — МЕНЯЙ ТУТ */
   line-height: 1;
 }
