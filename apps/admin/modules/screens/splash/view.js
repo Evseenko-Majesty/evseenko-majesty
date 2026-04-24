@@ -19,8 +19,8 @@ accessLabel.textContent = 'controller';
   div.appendChild(Logo());
   div.appendChild(BrandName());
   div.appendChild(Slogan());
-  div.appendChild(AccessLabel);
+  div.appendChild(accessLabel);
   div.appendChild(Copyright());
   
-  return div;
+  return div; 
 }
