@@ -27,7 +27,7 @@ export function render(user, onNavigate) {
   
   // Наша группа Telegram
   const telegramItem = document.createElement('div');
-  telegramItem.className = 'menu-item';
+  telegramItem.className = 'menu-item menu-item--telegram';
   telegramItem.textContent = 'Наша группа Telegram';
   telegramItem.addEventListener('click', () => {
     window.open(LINKS.telegram, '_blank');
@@ -35,7 +35,7 @@ export function render(user, onNavigate) {
   
   // Наша группа VK
   const vkItem = document.createElement('div');
-  vkItem.className = 'menu-item';
+  vkItem.className = 'menu-item menu-item--vk';
   vkItem.textContent = 'Наша группа VK';
   vkItem.addEventListener('click', () => {
     window.open(LINKS.vk, '_blank');
