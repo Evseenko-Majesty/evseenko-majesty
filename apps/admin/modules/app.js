@@ -18,6 +18,7 @@ class AdminApp {
       home: new HomeScreen(this)
     };
     
+    // Один обработчик кнопки "Назад"
     this.tg.BackButton.onClick(() => {
       if (this.screenHistory.length > 1) {
         this.screenHistory.pop();
@@ -36,10 +37,11 @@ class AdminApp {
     this.container.innerHTML = '';
     this.container.appendChild(screen.getElement());
     
-    if (screenName !== 'splash') {
-      this.tg.BackButton.show();
-    } else {
+    // Кнопка "Назад" — скрыта на splash и home
+    if (screenName === 'home' || screenName === 'splash') {
       this.tg.BackButton.hide();
+    } else {
+      this.tg.BackButton.show();
     }
     
     if (screen.onMount) {
