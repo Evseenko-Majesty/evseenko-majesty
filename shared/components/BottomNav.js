@@ -1,12 +1,13 @@
 // ============================================
 // НИЖНЯЯ НАВИГАЦИЯ — ОБЩИЙ КОМПОНЕНТ
-// Принимает массив пунктов:
-// { id, label, icon: 'svg-код' }
+// Принимает items: [{ id, label, icon }]
 // ============================================
 
 export function BottomNav(items, currentScreen, onNavigate) {
   const nav = document.createElement('nav');
   nav.className = 'bottom-nav';
+  
+  if (!items || !items.length) return nav;
   
   items.forEach(item => {
     const btn = document.createElement('button');
@@ -15,15 +16,13 @@ export function BottomNav(items, currentScreen, onNavigate) {
       btn.classList.add('active');
     }
     
-    // Иконка — берётся из item.icon
     const icon = document.createElement('span');
     icon.className = 'bottom-nav__icon';
-    icon.innerHTML = item.icon;
+    icon.innerHTML = item.icon || '';
     
-    // Текст — берётся из item.label
     const label = document.createElement('span');
     label.className = 'bottom-nav__label';
-    label.textContent = item.label;
+    label.textContent = item.label || '';
     
     btn.appendChild(icon);
     btn.appendChild(label);
