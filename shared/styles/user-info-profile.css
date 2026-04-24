@@ -21,14 +21,14 @@
 
 .user-info--profile .user-info__name {
   font-size: 3.2vh;                        /* Крупное имя */
-   font-weight: 700;
+   font-weight: 600;
   text-align: center;
-   max-width: 50vw;
+   max-width: 60vw;
 }
 
 .user-info--profile .user-info__username {
   font-size: 2vh;                        /* Крупный никнейм */
-    font-weight: 400;
+    font-weight: 350;
   text-align: center;
    max-width: 50vw;
 }
