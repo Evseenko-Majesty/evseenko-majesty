@@ -3,6 +3,7 @@
 // ============================================
 
 import { Header } from '/shared/components/Header.js';
+import { LINKS } from '/shared/constants/links.js';
 
 export function render(user, onNavigate) {
   const div = document.createElement('div');
@@ -18,13 +19,32 @@ export function render(user, onNavigate) {
   title.className = 'page-title';
   title.textContent = 'Ещё';
   
+  // Профиль
   const profileItem = document.createElement('div');
   profileItem.className = 'menu-item';
   profileItem.textContent = 'Профиль';
   profileItem.addEventListener('click', () => onNavigate('profile'));
   
+  // Наша группа Telegram
+  const telegramItem = document.createElement('div');
+  telegramItem.className = 'menu-item';
+  telegramItem.textContent = 'Наша группа Telegram';
+  telegramItem.addEventListener('click', () => {
+    window.open(LINKS.telegram, '_blank');
+  });
+  
+  // Наша группа VK
+  const vkItem = document.createElement('div');
+  vkItem.className = 'menu-item';
+  vkItem.textContent = 'Наша группа VK';
+  vkItem.addEventListener('click', () => {
+    window.open(LINKS.vk, '_blank');
+  });
+  
   content.appendChild(title);
   content.appendChild(profileItem);
+  content.appendChild(telegramItem);
+  content.appendChild(vkItem);
   div.appendChild(content);
   
   return div;
