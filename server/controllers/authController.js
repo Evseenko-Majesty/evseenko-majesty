@@ -8,7 +8,6 @@ export async function authUser(req, res) {
   const { telegram_id, first_name, last_name, username, photo_url } = req.body;
   
   try {
-    // Проверяем, есть ли пользователь
     const { data: existingUser } = await supabase
       .from('users')
       .select('*')
@@ -16,7 +15,6 @@ export async function authUser(req, res) {
       .single();
     
     if (existingUser) {
-      // Обновляем данные
       const { data: updatedUser } = await supabase
         .from('users')
         .update({
@@ -30,10 +28,14 @@ export async function authUser(req, res) {
         .select()
         .single();
       
-      return res.json({ success: true, user: updatedUser });
+      // Возвращаем роль
+      return res.json({ 
+        success: true, 
+        user: updatedUser,
+        role: updatedUser.role 
+      });
     }
     
-    // Создаём нового
     const { data: newUser } = await supabase
       .from('users')
       .insert({
@@ -42,13 +44,18 @@ export async function authUser(req, res) {
         last_name,
         username,
         photo_url,
+        role: 'client',
         created_at: new Date(),
         last_login: new Date()
       })
       .select()
       .single();
     
-    res.json({ success: true, user: newUser });
+    res.json({ 
+      success: true, 
+      user: newUser,
+      role: 'client'
+    });
     
   } catch (error) {
     console.error('Ошибка авторизации:', error);
