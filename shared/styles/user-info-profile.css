@@ -20,8 +20,8 @@
 }
 
 .user-info--profile .user-info__name {
-  font-size: 3vh;                        /* Крупное имя */
-   font-weight: 600;
+  font-size: 3.2vh;                        /* Крупное имя */
+   font-weight: 700;
   text-align: center;
    max-width: 50vw;
 }
