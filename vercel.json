@@ -1,19 +1,11 @@
 {
   "builds": [
     {
-      "src": "apps/client/**",
+      "src": "apps/**",
       "use": "@vercel/static"
     },
     {
       "src": "shared/**",
-      "use": "@vercel/static"
-    },
-    {
-      "src": "server/**",
-      "use": "@vercel/static"
-    },
-    {
-      "src": "site/**",
       "use": "@vercel/static"
     }
   ],
@@ -23,16 +15,20 @@
       "dest": "/shared/$1"
     },
     {
-      "src": "/server/(.*)",
-      "dest": "/server/$1"
-    },
-    {
-      "src": "/apps/client/(.*)",
+      "src": "/app_majesty/(.*)",
       "dest": "/apps/client/$1"
     },
     {
-      "src": "/(.*)",
-      "dest": "/site/index.html"
+      "src": "/app_majesty",
+      "dest": "/apps/client/index.html"
+    },
+    {
+      "src": "/admin_majesty/(.*)",
+      "dest": "/apps/admin/$1"
+    },
+    {
+      "src": "/admin_majesty",
+      "dest": "/apps/admin/index.html"
     }
   ]
 }
