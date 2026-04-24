@@ -1,7 +1,3 @@
-// ============================================
-// НИЖНЯЯ НАВИГАЦИЯ
-// ============================================
-
 export function BottomNav(items, currentScreen, onNavigate) {
   const nav = document.createElement('nav');
   nav.className = 'bottom-nav';
@@ -16,13 +12,13 @@ export function BottomNav(items, currentScreen, onNavigate) {
     // Иконка
     const icon = document.createElement('span');
     icon.className = 'bottom-nav__icon';
-    icon.innerHTML = `
-      <svg width="20" height="20" viewBox="0 0 24 24">
-        <use href="/shared/assets/icons/sprite.svg#nav-${item.id}"></use>
-      </svg>
-    `;
+    // Используем HTML-entities для SVG, чтобы не грузить заново
+    if (item.id === 'home') {
+      icon.innerHTML = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 21h14M5 21v-13M19 21v-13M9 21v-8h6v8M2 10l10-8 10 8"/></svg>`;
+    } else {
+      icon.innerHTML = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="5" cy="12" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="19" cy="12" r="1.5"/></svg>`;
+    }
     
-    // Текст
     const label = document.createElement('span');
     label.className = 'bottom-nav__label';
     label.textContent = item.label;
