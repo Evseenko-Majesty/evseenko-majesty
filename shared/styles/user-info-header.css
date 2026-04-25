@@ -25,3 +25,6 @@
 .user-info--header .user-info__username {
   font-size: 1.4vh;                        /* Размер никнейма */
 }
+.user-info--header .user-info__role {
+  font-size: 1.1vh;
+}
