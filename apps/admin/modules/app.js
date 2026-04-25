@@ -9,6 +9,7 @@ import { MoreScreen } from './screens/more/controller.js';
 import { ProfileScreen } from './screens/profile/controller.js';
 import { GrantScreen } from './screens/grant/controller.js';
 import { GrantFormScreen } from './screens/grant-form/controller.js';
+import { GrantUserScreen } from './screens/grant-user/controller.js';
 import { BottomNav } from '/shared/components/BottomNav.js';
 
 class AdminApp {
@@ -16,6 +17,7 @@ class AdminApp {
     this.tg = initTelegram();
     this.container = document.getElementById('app');
     this.user = null;
+    this.selectedUser = null;
     this.screenHistory = [];
     
     this.screens = {
@@ -24,7 +26,7 @@ class AdminApp {
       more: new MoreScreen(this),
       profile: new ProfileScreen(this),
       grant: new GrantScreen(this),
-      grantform: new GrantFormScreen(this)
+      grantForm: new GrantFormScreen(this)
     };
     
     this.navItems = [
@@ -49,12 +51,19 @@ class AdminApp {
     });
   }
   
-  navigateTo(screenName, fromBack = false) {
+  navigateTo(screenName, fromBack = false, data = null) {
+    // Если переход на grant-user с данными — создаём экран
+    if (screenName === 'grant-user' && data) {
+      this.screens['grant-user'] = new GrantUserScreen(this, data);
+    }
+    
     if (!fromBack) {
       this.screenHistory.push(screenName);
     }
     
     const screen = this.screens[screenName];
+    if (!screen) return;
+    
     this.container.innerHTML = '';
     this.container.appendChild(screen.getElement());
     
