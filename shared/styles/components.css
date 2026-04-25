@@ -240,7 +240,15 @@
   text-overflow: ellipsis;
   max-width: 33vw;
 }
-
+.user-info__role {
+  font-family: 'Montserrat', 'Inter', sans-serif;
+  color: var(--accent-color);
+  font-weight: 400;
+  font-size: 1.2vh;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  white-space: nowrap;
+}
 /* -------------------- ПУНКТ МЕНЮ -------------------- */
 .menu-item {
   display: flex;
