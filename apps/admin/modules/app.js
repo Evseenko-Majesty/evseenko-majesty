@@ -24,7 +24,7 @@ class AdminApp {
       more: new MoreScreen(this),
       profile: new ProfileScreen(this),
       grant: new GrantScreen(this),
-      grant-form: new GrantFormScreen(this)
+      grantform: new GrantFormScreen(this)
     };
     
     this.navItems = [
