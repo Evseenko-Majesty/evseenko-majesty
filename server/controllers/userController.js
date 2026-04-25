@@ -1,25 +1,34 @@
-// ============================================
-// ПОИСК ПОЛЬЗОВАТЕЛЕЙ
-// ============================================
-
-import { supabase } from '../config/supabase.js';
-
 export async function searchUsers(req, res) {
-  const { query } = req.query;  // Поисковый запрос из URL
+  const { query } = req.query;
+  
+  console.log('Поисковой запрос:', query);
   
   if (!query || query.length < 2) {
     return res.json({ success: true, users: [] });
   }
   
   try {
-    // Ищем по имени, фамилии, username или telegram_id
+    // Сначала проверим всех пользователей
+    const { data: allUsers, error: allError } = await supabase
+      .from('users')
+      .select('*')
+      .limit(5);
+    
+    console.log('Все пользователи (первые 5):', allUsers);
+    
+    // Теперь поиск
     const { data, error } = await supabase
       .from('users')
       .select('*')
-      .or(`first_name.ilike.%${query}%,username.ilike.%${query}%`)
+      .ilike('first_name', `%${query}%`)
       .limit(10);
     
-    if (error) throw error;
+    console.log('Результат поиска:', data);
+    
+    if (error) {
+      console.error('Ошибка поиска:', error);
+      throw error;
+    }
     
     res.json({ success: true, users: data });
   } catch (error) {
