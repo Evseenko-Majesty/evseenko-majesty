@@ -53,8 +53,8 @@ class AdminApp {
   
   navigateTo(screenName, fromBack = false, data = null) {
     // Если переход на grant-user с данными — создаём экран
-    if (screenName === 'grantuser' && data) {
-      this.screens['grantuser'] = new GrantUserScreen(this, data);
+    if (screenName === 'grant-user' && data) {
+      this.screens['grant-user'] = new GrantUserScreen(this, data);
     }
     
     if (!fromBack) {
