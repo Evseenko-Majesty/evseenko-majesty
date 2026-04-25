@@ -55,3 +55,58 @@
 .search-result {
   margin-top: 2vh;
 }
+/* -------------------- КАРТОЧКА ПОЛЬЗОВАТЕЛЯ -------------------- */
+.user-card {
+  display: flex;
+  align-items: center;
+  gap: 3%;
+  padding: 2vh;
+  margin-bottom: 1.5vh;
+  background: var(--surface-color);
+  border: 1px solid var(--accent-color);
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+.user-card__avatar {
+  width: 7vh;
+  height: 7vh;
+  min-width: 7vh;
+  border-radius: 50%;
+  background: var(--surface-color);
+  border: 1.5px solid var(--accent-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--accent-color);
+  font-size: 3vh;
+  font-weight: 500;
+  text-transform: uppercase;
+}
+
+.user-card__info {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
+}
+
+.user-card__name {
+  color: var(--text-color);
+  font-size: 2.2vh;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.user-card__username {
+  color: var(--text-secondary);
+  font-size: 1.8vh;
+}
+
+.user-card__arrow {
+  color: var(--text-secondary);
+  font-size: 3vh;
+  opacity: 0.5;
+}
