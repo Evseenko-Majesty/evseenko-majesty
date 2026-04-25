@@ -33,7 +33,7 @@ export function render(user, onNavigate) {
     <span>Дать допуск</span>
     <span class="menu-item__arrow">›</span>
   `;
-  grantCard.addEventListener('click', () => onNavigate('grant-form'));
+  grantCard.addEventListener('click', () => onNavigate('grantform'));
   
   content.appendChild(title);
   content.appendChild(grantCard);
