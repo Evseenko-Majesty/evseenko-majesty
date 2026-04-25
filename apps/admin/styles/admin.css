@@ -1,0 +1,45 @@
+/* ============================================
+   АДМИН-ПАНЕЛЬ — СТИЛИ
+   ============================================ */
+
+/* -------------------- КАРТОЧКА ПОИСКА -------------------- */
+.search-card {
+  display: flex;
+  gap: 2%;
+  margin-bottom: 3vh;
+}
+
+.search-card__input {
+  flex: 1;
+  padding: 1.5vh 2vh;
+  border-radius: 20px;
+  border: 1px solid var(--accent-color);
+  background: var(--surface-color);
+  color: var(--text-color);
+  font-family: 'Montserrat', 'Inter', sans-serif;
+  font-size: 2vh;
+  outline: none;
+}
+
+.search-card__input::placeholder {
+  color: var(--text-secondary);
+  opacity: 0.6;
+}
+
+.search-card__btn {
+  padding: 1.5vh 3vh;
+  border-radius: 40px;
+  border: none;
+  background: var(--accent-color);
+  color: #0A0A0A;
+  font-family: 'Montserrat', 'Inter', sans-serif;
+  font-size: 2vh;
+  font-weight: 500;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+/* -------------------- РЕЗУЛЬТАТ ПОИСКА -------------------- */
+.search-result {
+  margin-top: 2vh;
+}
