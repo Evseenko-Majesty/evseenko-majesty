@@ -10,6 +10,6 @@ export class HomeScreen {
   }
   
   getElement() {
-    return render();
+    return render(this.app.user, () => this.app.navigateTo('profile'));
   }
 }
