@@ -16,8 +16,7 @@ export async function searchUsers(req, res) {
     const { data, error } = await supabase
       .from('users')
       .select('*')
-      .or(`first_name.ilike.%${query}%,last_name.ilike.%${query}%,username.ilike.%${query}%`)
-      .or(`telegram_id.eq.${isNaN(query) ? 0 : query}`)
+      .or(`first_name.ilike.%${query}%,username.ilike.%${query}%`)
       .limit(10);
     
     if (error) throw error;
