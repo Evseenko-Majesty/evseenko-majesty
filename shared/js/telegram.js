@@ -5,18 +5,19 @@ export function initTelegram() {
   tg.expand();
   tg.disableVerticalSwipes();
   
-  // Фиксируем высоту при открытии клавиатуры
-  tg.Viewport?.disable?.();
+  // Фиксируем высоту при загрузке в CSS-переменной
+  const setHeight = () => {
+    document.documentElement.style.setProperty('--app-height', window.innerHeight + 'px');
+  };
+  setHeight();
   
-  // Сохраняем исходную высоту
-  const originalHeight = window.innerHeight;
-  
-  tg.onEvent('viewportChanged', ({ height }) => {
-    // Игнорируем изменения высоты
-    document.body.style.height = originalHeight + 'px';
+  // При изменении вьюпорта — не меняем высоту
+  tg.onEvent('viewportChanged', () => {
+    // Ничего не делаем, оставляем исходную высоту
   });
   
   document.documentElement.setAttribute('data-theme', tg.colorScheme);
+  
   tg.onEvent('themeChanged', () => {
     document.documentElement.setAttribute('data-theme', tg.colorScheme);
   });
