@@ -42,6 +42,10 @@ export class GrantFormScreen {
   createUserCard(user) {
   const card = document.createElement('div');
   card.className = 'user-card';
+    card.addEventListener('click', () => {
+  this.app.selectedUser = user;
+  this.app.navigateTo('grant-user', false, user);
+});
   
   // Аватар
   const avatar = document.createElement('div');
