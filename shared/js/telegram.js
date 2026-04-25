@@ -3,12 +3,20 @@ export function initTelegram() {
   
   tg.ready();
   tg.expand();
-  
-  // Запрещаем вертикальные свайпы и фиксируем размер
   tg.disableVerticalSwipes();
   
-  document.documentElement.setAttribute('data-theme', tg.colorScheme);
+  // Фиксируем высоту при открытии клавиатуры
+  tg.Viewport?.disable?.();
   
+  // Сохраняем исходную высоту
+  const originalHeight = window.innerHeight;
+  
+  tg.onEvent('viewportChanged', ({ height }) => {
+    // Игнорируем изменения высоты
+    document.body.style.height = originalHeight + 'px';
+  });
+  
+  document.documentElement.setAttribute('data-theme', tg.colorScheme);
   tg.onEvent('themeChanged', () => {
     document.documentElement.setAttribute('data-theme', tg.colorScheme);
   });
