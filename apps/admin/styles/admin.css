@@ -4,15 +4,13 @@
 
 /* Фиксация страницы при открытии клавиатуры */
 .grant-form {
-    position: fixed;
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
-  height: 100vh;
-  height: 100dvh;              /* Динамическая высота (iOS) */
+  height: var(--app-height, 100vh);   /* Фиксированная высота */
   overflow-y: auto;
   background: var(--bg-color);
-  -webkit-overflow-scrolling: touch;
 }
 
 /* -------------------- КАРТОЧКА ПОИСКА -------------------- */
