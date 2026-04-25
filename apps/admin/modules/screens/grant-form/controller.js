@@ -40,16 +40,47 @@ export class GrantFormScreen {
   }
   
   createUserCard(user) {
-    const card = document.createElement('div');
-    card.className = 'user-card';
-    card.innerHTML = `
-      <span class="user-card__avatar">${user.first_name?.charAt(0) || '?'}</span>
-      <div class="user-card__info">
-        <span class="user-card__name">${user.first_name || ''} ${user.last_name || ''}</span>
-        <span class="user-card__username">${user.username ? '@' + user.username : 'ID: ' + user.telegram_id}</span>
-      </div>
-      <span class="user-card__arrow">›</span>
-    `;
-    return card;
+  const card = document.createElement('div');
+  card.className = 'user-card';
+  
+  // Аватар
+  const avatar = document.createElement('div');
+  avatar.className = 'user-card__avatar';
+  
+  if (user.photo_url) {
+    const img = document.createElement('img');
+    img.src = user.photo_url;
+    img.className = 'user-card__avatar-img';
+    img.alt = user.first_name || '';
+    avatar.appendChild(img);
+  } else {
+    avatar.textContent = user.first_name?.charAt(0) || '?';
   }
+  
+  // Инфо
+  const info = document.createElement('div');
+  info.className = 'user-card__info';
+  
+  const name = document.createElement('span');
+  name.className = 'user-card__name';
+  name.textContent = `${user.first_name || ''} ${user.last_name || ''}`;
+  
+  const username = document.createElement('span');
+  username.className = 'user-card__username';
+  username.textContent = user.username ? '@' + user.username : 'ID: ' + user.telegram_id;
+  
+  info.appendChild(name);
+  info.appendChild(username);
+  
+  // Стрелка
+  const arrow = document.createElement('span');
+  arrow.className = 'user-card__arrow';
+  arrow.textContent = '›';
+  
+  card.appendChild(avatar);
+  card.appendChild(info);
+  card.appendChild(arrow);
+  
+  return card;
+}
 }
