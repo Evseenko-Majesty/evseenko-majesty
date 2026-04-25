@@ -2,14 +2,6 @@
 // ДАННЫЕ ПОЛЬЗОВАТЕЛЯ — ОБЩИЙ КОМПОНЕНТ
 // ============================================
 
-// Перевод ролей на русский
-const ROLE_LABELS = {
-  owner: 'Владелец',
-  staff: 'Сотрудник',
-  partner: 'Партнёр',
-  client: 'Клиент'
-};
-
 export function UserInfo(user) {
   const div = document.createElement('div');
   div.className = 'user-info';
@@ -45,14 +37,8 @@ export function UserInfo(user) {
   username.className = 'user-info__username';
   username.textContent = user?.username ? '@' + user.username : '';
   
-  // Роль (на русском)
-  const role = document.createElement('div');
-  role.className = 'user-info__role';
-  role.textContent = ROLE_LABELS[user?.role] || user?.role || '';
-  
   textBlock.appendChild(name);
   textBlock.appendChild(username);
-  textBlock.appendChild(role);
   
   div.appendChild(avatar);
   div.appendChild(textBlock);
