@@ -34,9 +34,15 @@ export function UserInfo(user) {
   const username = document.createElement('div');
   username.className = 'user-info__username';
   username.textContent = user?.username ? '@' + user.username : '';
+
+  // После username добавить:
+const role = document.createElement('div');
+role.className = 'user-info__role';
+role.textContent = user?.role || '';
   
   textBlock.appendChild(name);
   textBlock.appendChild(username);
+  textBlock.appendChild(role);
   
   div.appendChild(avatar);
   div.appendChild(textBlock);
