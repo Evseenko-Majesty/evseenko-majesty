@@ -2,6 +2,17 @@
    АДМИН-ПАНЕЛЬ — СТИЛИ
    ============================================ */
 
+/* Фиксация страницы при открытии клавиатуры */
+.grant-form {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
+  background: var(--bg-color);
+}
+
 /* -------------------- КАРТОЧКА ПОИСКА -------------------- */
 .search-card {
   display: flex;
@@ -11,6 +22,7 @@
 
 .search-card__input {
   flex: 1;
+  min-width: 0;
   padding: 1.5vh 2vh;
   border-radius: 20px;
   border: 1px solid var(--accent-color);
@@ -39,7 +51,6 @@
   white-space: nowrap;
 }
 
-/* -------------------- РЕЗУЛЬТАТ ПОИСКА -------------------- */
 .search-result {
   margin-top: 2vh;
 }
