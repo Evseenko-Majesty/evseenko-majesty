@@ -15,18 +15,16 @@ export async function searchUsers(req, res) {
     // Проверяем, число ли это (ID)
     const isNumber = !isNaN(query);
     
-    // Поиск по имени и username (работает)
     const { data, error } = await supabase
       .from('users')
       .select('*')
-      .or(`first_name.ilike.%${query}%,username.ilike.%${query}%`)
+      .or(`first_name.ilike.%${query}%,last_name.ilike.%${query}%,username.ilike.%${query}%`)
       .limit(10);
     
     if (error) throw error;
     
+    // Если ввели число — ищем ещё по ID
     let result = data || [];
-    
-    // Если ввели число — ищем по ID
     if (isNumber) {
       const { data: byId } = await supabase
         .from('users')
@@ -34,8 +32,10 @@ export async function searchUsers(req, res) {
         .eq('telegram_id', parseInt(query));
       
       if (byId && byId.length > 0) {
-        const exists = result.find(u => u.telegram_id === byId[0].telegram_id);
-        if (!exists) result.unshift(byId[0]);
+        // Добавляем если ещё нет в результате
+        if (!result.find(u => u.telegram_id === byId[0].telegram_id)) {
+          result.unshift(byId[0]);
+        }
       }
     }
     
