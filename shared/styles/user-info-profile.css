@@ -32,3 +32,9 @@
   text-align: center;
    max-width: 50vw;
 }
+.user-info--profile .user-info__role {
+  font-size: 3.5vh;                /* Размер — МЕНЯЙ ТУТ */
+   font-weight: 400;
+  text-align: center;
+  margin-top:1vh;             /* Отступ от никнейма — МЕНЯЙ ТУТ */
+}
