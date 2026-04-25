@@ -1,9 +1,3 @@
-// ============================================
-// ПОИСК ПОЛЬЗОВАТЕЛЕЙ
-// ============================================
-
-import { supabase } from '../config/supabase.js';
-
 export async function searchUsers(req, res) {
   const { query } = req.query;
   
@@ -12,15 +6,34 @@ export async function searchUsers(req, res) {
   }
   
   try {
+    // Проверяем, число ли это (ID)
+    const isNumber = !isNaN(query);
+    
     const { data, error } = await supabase
       .from('users')
       .select('*')
-      .or(`first_name.ilike.%${query}%,username.ilike.%${query}%`)
+      .or(`first_name.ilike.%${query}%,last_name.ilike.%${query}%,username.ilike.%${query}%`)
       .limit(10);
     
     if (error) throw error;
     
-    res.json({ success: true, users: data || [] });
+    // Если ввели число — ищем ещё по ID
+    let result = data || [];
+    if (isNumber) {
+      const { data: byId } = await supabase
+        .from('users')
+        .select('*')
+        .eq('telegram_id', parseInt(query));
+      
+      if (byId && byId.length > 0) {
+        // Добавляем если ещё нет в результате
+        if (!result.find(u => u.telegram_id === byId[0].telegram_id)) {
+          result.unshift(byId[0]);
+        }
+      }
+    }
+    
+    res.json({ success: true, users: result });
   } catch (error) {
     res.status(500).json({ success: false, error: error.message });
   }
