@@ -1,5 +1,5 @@
 // ============================================
-// СТРАНИЦА "ДАТЬ ДОСТУП" — ЛОГИКА
+// СТРАНИЦА "ДОСТУП" — ЛОГИКА
 // ============================================
 
 import { render } from './view.js';
@@ -10,6 +10,6 @@ export class GrantScreen {
   }
   
   getElement() {
-    return render(this.app.user);
+    return render(this.app.user, (screen) => this.app.navigateTo(screen));
   }
 }
