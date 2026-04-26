@@ -3,6 +3,7 @@
 // ============================================
 
 import { render } from './view.js';
+import { API } from '/shared/js/api.js';
 
 export class GrantScreen {
   constructor(app) {
@@ -10,6 +11,31 @@ export class GrantScreen {
   }
   
   getElement() {
-    return render(this.app.user, (screen) => this.app.navigateTo(screen));
+    const div = render(
+      this.app.user,
+      [],
+      (screen) => this.app.navigateTo(screen),
+      (user) => this.app.navigateTo('grant-user', false, user)
+    );
+    
+    this.loadUsers(div);
+    
+    return div;
+  }
+  
+  async loadUsers(div) {
+    const result = await API.getStaffUsers();
+    
+    if (result.success && result.users.length > 0) {
+      // Перерисовываем список
+      this.app.container.innerHTML = '';
+      const updatedDiv = render(
+        this.app.user,
+        result.users,
+        (screen) => this.app.navigateTo(screen),
+        (user) => this.app.navigateTo('grant-user', false, user)
+      );
+      this.app.container.appendChild(updatedDiv);
+    }
   }
 }
