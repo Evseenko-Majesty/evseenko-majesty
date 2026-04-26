@@ -1,14 +1,10 @@
-// ============================================
-// API — ЗАПРОСЫ К СЕРВЕРУ
-// ============================================
-
 const API_URL = 'https://evseenko-api.onrender.com';
 
 export const API = {
-  
+
   async auth(telegramUser) {
     try {
-      const response = await fetch(`${API_URL}/api/auth`, {
+      const res = await fetch(`${API_URL}/api/auth`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -19,7 +15,7 @@ export const API = {
           photo_url: telegramUser.photo_url
         })
       });
-      return await response.json();
+      return await res.json();
     } catch (error) {
       return { success: false, error: 'Сетевая ошибка' };
     }
@@ -27,16 +23,25 @@ export const API = {
 
   async searchUsers(query) {
     try {
-      const response = await fetch(`${API_URL}/api/users/search?query=${encodeURIComponent(query)}`);
-      return await response.json();
+      const res = await fetch(`${API_URL}/api/users/search?query=${encodeURIComponent(query)}`);
+      return await res.json();
     } catch (error) {
       return { success: false, users: [], error: 'Сетевая ошибка' };
     }
   },
 
+  async checkPermission(userId, permission) {
+    try {
+      const res = await fetch(`${API_URL}/api/permissions/check?user_id=${userId}&permission=${permission}`);
+      return await res.json();
+    } catch (error) {
+      return { success: false, hasAccess: false };
+    }
+  },
+
   async updateUserRole(userId, role, grantedBy) {
     try {
-      const response = await fetch(`${API_URL}/api/permissions/role`, {
+      const res = await fetch(`${API_URL}/api/permissions/role`, {
         method: 'PUT',
         headers: { 
           'Content-Type': 'application/json',
@@ -44,17 +49,10 @@ export const API = {
         },
         body: JSON.stringify({ user_id: userId, role })
       });
-      return await response.json();
+      return await res.json();
     } catch (error) {
       return { success: false, error: 'Сетевая ошибка' };
     }
-  },
-  async getStaffUsers() {
-  try {
-    const response = await fetch(`${API_URL}/api/users/staff`);
-    return await response.json();
-  } catch (error) {
-    return { success: false, users: [], error: 'Сетевая ошибка' };
   }
-}
+
 };
