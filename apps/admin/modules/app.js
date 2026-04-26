@@ -39,20 +39,19 @@ class AdminApp {
   }
 });
   }
-  
   async navigateTo(screenName, fromBack = false) {
   if (!fromBack) this.screenHistory.push(screenName);
   
   const screen = this.screens[screenName];
   if (!screen) return;
   
-  this.container.innerHTML = '';
-  
-  // Ждём результат (для async getElement)
+  // Сначала получаем новый контент
   const element = await screen.getElement();
+  
+  // Потом очищаем и вставляем (без мигания)
+  this.container.innerHTML = '';
   this.container.appendChild(element);
   
-  // Остальное без изменений
   if (screenName === 'home' || screenName === 'splash') {
     this.tg.BackButton.hide();
   } else {
@@ -65,6 +64,7 @@ class AdminApp {
   
   if (screen.onMount) screen.onMount();
 }
+  
   
   start() {
     this.navigateTo('splash');
