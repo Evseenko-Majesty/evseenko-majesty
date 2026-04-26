@@ -29,11 +29,12 @@ class AdminApp {
     ];
     
     this.tg.BackButton.onClick(() => {
-      if (this.screenHistory.length > 1) {
-        this.screenHistory.pop();
-        this.navigateTo(this.screenHistory.pop(), true);
-      }
-    });
+  if (this.screenHistory.length > 1) {
+    this.screenHistory.pop();
+    const prev = this.screenHistory[this.screenHistory.length - 1];
+    this.navigateTo(prev, true);
+  }
+});
   }
   
   navigateTo(screenName, fromBack = false) {
