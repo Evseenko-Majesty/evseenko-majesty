@@ -43,7 +43,7 @@ export async function searchUsers(req, res) {
   } catch (error) {
     res.status(500).json({ success: false, error: error.message });
   }
-};
+},
 // Получить пользователей с ролями
 export async function getStaffUsers(req, res) {
   try {
