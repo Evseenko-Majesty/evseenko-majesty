@@ -56,7 +56,7 @@ export function render(user, staffUsers, onNavigate, onUserClick) {
         </div>
         <span class="user-card__arrow">›</span>
       `;
-      card.addEventListener('click', () => onUserClick(u));
+      card.addEventListener('click', () => onPermissionsClick(u));
       content.appendChild(card);
     });
   }
