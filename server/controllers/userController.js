@@ -1,7 +1,3 @@
-// ============================================
-// ПОИСК ПОЛЬЗОВАТЕЛЕЙ
-// ============================================
-
 import { supabase } from '../config/supabase.js';
 
 export async function searchUsers(req, res) {
@@ -38,22 +34,6 @@ export async function searchUsers(req, res) {
     }
     
     res.json({ success: true, users: result });
-  } catch (error) {
-    res.status(500).json({ success: false, error: error.message });
-  }
-}
-
-export async function getStaffUsers(req, res) {
-  try {
-    const { data, error } = await supabase
-      .from('users')
-      .select('*')
-      .not('role', 'is', null)
-      .neq('role', 'client');
-    
-    if (error) throw error;
-    
-    res.json({ success: true, users: data || [] });
   } catch (error) {
     res.status(500).json({ success: false, error: error.message });
   }
