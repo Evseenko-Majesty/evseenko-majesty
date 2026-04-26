@@ -4,7 +4,7 @@
 
 import { Header } from '/shared/components/Header.js';
 
-export function render(user, onNavigate) {
+export function render(user, staffUsers, onNavigate, onUserClick) {
   const div = document.createElement('div');
   div.className = 'grant';
   
@@ -37,7 +37,37 @@ export function render(user, onNavigate) {
   
   content.appendChild(title);
   content.appendChild(grantCard);
+  
+  // Список сотрудников
+  if (staffUsers && staffUsers.length > 0) {
+    const staffTitle = document.createElement('p');
+    staffTitle.className = 'grant-user__role-title';
+    staffTitle.textContent = 'Сотрудники и партнёры:';
+    content.appendChild(staffTitle);
+    
+    staffUsers.forEach(u => {
+      const card = document.createElement('div');
+      card.className = 'user-card';
+      card.innerHTML = `
+        <div class="user-card__avatar">${u.first_name?.charAt(0) || '?'}</div>
+        <div class="user-card__info">
+          <span class="user-card__name">${u.first_name || ''} ${u.last_name || ''}</span>
+          <span class="user-card__username">${u.role ? ROLE_LABELS[u.role] || u.role : ''}</span>
+        </div>
+        <span class="user-card__arrow">›</span>
+      `;
+      card.addEventListener('click', () => onUserClick(u));
+      content.appendChild(card);
+    });
+  }
+  
   div.appendChild(content);
   
   return div;
 }
+
+const ROLE_LABELS = {
+  owner: 'Владелец',
+  staff: 'Сотрудник',
+  partner: 'Партнёр'
+};
