@@ -48,5 +48,13 @@ export const API = {
     } catch (error) {
       return { success: false, error: 'Сетевая ошибка' };
     }
+  },
+  async getStaffUsers() {
+  try {
+    const response = await fetch(`${API_URL}/api/users/staff`);
+    return await response.json();
+  } catch (error) {
+    return { success: false, users: [], error: 'Сетевая ошибка' };
   }
+}
 };
