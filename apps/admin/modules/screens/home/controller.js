@@ -1,7 +1,3 @@
-// ============================================
-// ГЛАВНАЯ — ЛОГИКА
-// ============================================
-
 import { render } from './view.js';
 
 export class HomeScreen {
@@ -10,6 +6,6 @@ export class HomeScreen {
   }
   
   getElement() {
-    return render();
+    return render(this.app.user, () => this.app.navigateTo('profile'));
   }
 }
