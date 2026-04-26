@@ -15,3 +15,4 @@ export function render() {
   div.appendChild(Slogan());
   
   return div;
+ }
