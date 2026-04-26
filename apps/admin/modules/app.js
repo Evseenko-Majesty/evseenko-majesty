@@ -10,9 +10,8 @@ import { ProfileScreen } from './screens/profile/controller.js';
 import { GrantScreen } from './screens/grant/controller.js';
 import { GrantFormScreen } from './screens/grant-form/controller.js';
 import { GrantUserScreen } from './screens/grant-user/controller.js';
-import { BottomNav } from '/shared/components/BottomNav.js';
 import { GrantPermissionsScreen } from './screens/grant-permissions/controller.js';
-
+import { BottomNav } from '/shared/components/BottomNav.js';
 
 class AdminApp {
   constructor() {
@@ -22,6 +21,7 @@ class AdminApp {
     this.selectedUser = null;
     this.screenHistory = [];
     
+    // Экраны (grant-user и grant-permissions создаются динамически)
     this.screens = {
       splash: new SplashScreen(this),
       home: new HomeScreen(this),
@@ -54,36 +54,44 @@ class AdminApp {
   }
   
   navigateTo(screenName, fromBack = false, data = null) {
-    // Если переход на grant-user с данными — создаём экран
+    // --- ДИНАМИЧЕСКИЕ ЭКРАНЫ (требуют данные пользователя) ---
+    
+    // Экран выдачи роли
     if (screenName === 'grant-user' && data) {
       this.screens['grant-user'] = new GrantUserScreen(this, data);
     }
-    // В navigateTo:
-if (screenName === 'grant-permissions' && data) {
-  this.screens['grant-permissions'] = new GrantPermissionsScreen(this, data);
-}
     
+    // Экран прав доступа
+    if (screenName === 'grant-permissions' && data) {
+      this.screens['grant-permissions'] = new GrantPermissionsScreen(this, data);
+    }
+    
+    // --- ИСТОРИЯ ---
     if (!fromBack) {
       this.screenHistory.push(screenName);
     }
     
+    // --- РЕНДЕР ---
     const screen = this.screens[screenName];
     if (!screen) return;
     
     this.container.innerHTML = '';
     this.container.appendChild(screen.getElement());
     
+    // --- КНОПКА НАЗАД ---
     if (screenName === 'home' || screenName === 'splash') {
       this.tg.BackButton.hide();
     } else {
       this.tg.BackButton.show();
     }
     
+    // --- НИЖНЯЯ НАВИГАЦИЯ ---
     if (screenName === 'home' || screenName === 'more') {
       const nav = BottomNav(this.navItems, screenName, (id) => this.navigateTo(id));
       this.container.appendChild(nav);
     }
     
+    // --- ЛОГИКА ЭКРАНА ---
     if (screen.onMount) {
       screen.onMount();
     }
