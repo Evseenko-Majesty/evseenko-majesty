@@ -43,4 +43,20 @@ export async function searchUsers(req, res) {
   } catch (error) {
     res.status(500).json({ success: false, error: error.message });
   }
+};
+// Получить пользователей с ролями
+export async function getStaffUsers(req, res) {
+  try {
+    const { data, error } = await supabase
+      .from('users')
+      .select('*')
+      .not('role', 'is', null)
+      .neq('role', 'client');
+    
+    if (error) throw error;
+    
+    res.json({ success: true, users: data || [] });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
 }
