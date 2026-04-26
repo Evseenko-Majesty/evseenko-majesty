@@ -6,13 +6,6 @@ import { render } from './view.js';
 import { API } from '/shared/js/api.js';
 import { Modal } from '/shared/components/Modal.js';
 
-// Кто какую роль может давать
-const ROLE_GRANT = {
-  owner: ['owner', 'staff', 'partner'],
-  staff: ['staff', 'partner'],
-  partner: ['partner']
-};
-
 export class GrantUserScreen {
   constructor(app, selectedUser) {
     this.app = app;
@@ -20,17 +13,22 @@ export class GrantUserScreen {
     this.selectedRole = null;
   }
   
-  getElement() {
-    // Какие роли может давать текущий пользователь
-    const myRole = this.app.user?.role || 'client';
-    const allRoles = ROLE_GRANT[myRole] || [];
+  async getElement() {
+    // Получаем права текущего пользователя на выдачу ролей
+    const res = await API.checkPermissions(this.app.user?.telegram_id, 'grant_role');
+    
+    // Какие роли может давать
+    const availableRoles = [];
+    if (res.success && res.permissions) {
+      res.permissions.forEach(p => availableRoles.push(p.permission_value));
+    }
     
     // Исключаем текущую роль выбранного пользователя
-    const availableRoles = allRoles.filter(r => r !== this.selectedUser.role);
+    const filteredRoles = availableRoles.filter(r => r !== this.selectedUser.role);
     
     return render(
       this.selectedUser,
-      availableRoles,
+      filteredRoles,
       (role) => { this.selectedRole = role; },
       () => this.saveRole()
     );
