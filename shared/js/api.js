@@ -36,4 +36,20 @@ export const API = {
       return { success: false, users: [], error: 'Сетевая ошибка' };
     }
   }
+  // Обновить роль пользователя
+async updateUserRole(userId, role, grantedBy) {
+  try {
+    const response = await fetch(`${API_URL}/api/permissions/role`, {
+      method: 'PUT',
+      headers: { 
+        'Content-Type': 'application/json',
+        'Granted-By': String(grantedBy)
+      },
+      body: JSON.stringify({ user_id: userId, role })
+    });
+    return await response.json();
+  } catch (error) {
+    return { success: false, error: 'Сетевая ошибка' };
+  }
+}
 };
