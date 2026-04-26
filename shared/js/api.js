@@ -26,7 +26,7 @@ export const API = {
       const res = await fetch(`${API_URL}/api/users/search?query=${encodeURIComponent(query)}`);
       return await res.json();
     } catch (error) {
-      return { success: false, users: [], error: 'Сетевая ошибка' };
+      return { success: false, users: [] };
     }
   },
 
@@ -36,6 +36,15 @@ export const API = {
       return await res.json();
     } catch (error) {
       return { success: false, hasAccess: false };
+    }
+  },
+
+  async checkPermissions(userId, type) {
+    try {
+      const res = await fetch(`${API_URL}/api/permissions/check-type?user_id=${userId}&type=${type}`);
+      return await res.json();
+    } catch (error) {
+      return { success: false, permissions: [] };
     }
   },
 
