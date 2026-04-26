@@ -6,6 +6,6 @@ export class GrantScreen {
   }
   
   getElement() {
-    return render();
+    return render((screen) => this.app.navigateTo(screen));
   }
 }
