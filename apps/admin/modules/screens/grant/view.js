@@ -34,7 +34,10 @@ export function render(user, onNavigate) {
     <span class="menu-item__arrow">›</span>
   `;
   grantCard.addEventListener('click', () => onNavigate('grantform'));
-  
+  grantCard.addEventListener('click', () => {
+  console.log('Клик по "Дать допуск"');
+  onNavigate('grantForm');
+});
   content.appendChild(title);
   content.appendChild(grantCard);
   div.appendChild(content);
