@@ -11,31 +11,29 @@ export class GrantScreen {
   }
   
   getElement() {
-    const div = render(
+  const div = render(
+    this.app.user,
+    [],
+    (screen) => this.app.navigateTo(screen),
+    (user) => this.app.navigateTo('grant-user', false, user),
+    (user) => this.app.navigateTo('grant-permissions', false, user)
+  );
+  this.loadUsers(div);
+  return div;
+}
+
+async loadUsers(div) {
+  const result = await API.getStaffUsers();
+  if (result.success && result.users.length > 0) {
+    this.app.container.innerHTML = '';
+    const updatedDiv = render(
       this.app.user,
-      [],
+      result.users,
       (screen) => this.app.navigateTo(screen),
-      (user) => this.app.navigateTo('grant-user', false, user)
+      (user) => this.app.navigateTo('grant-user', false, user),
+      (user) => this.app.navigateTo('grant-permissions', false, user)
     );
-    
-    this.loadUsers(div);
-    
-    return div;
+    this.app.container.appendChild(updatedDiv);
   }
-  
-  async loadUsers(div) {
-    const result = await API.getStaffUsers();
-    
-    if (result.success && result.users.length > 0) {
-      // Перерисовываем список
-      this.app.container.innerHTML = '';
-      const updatedDiv = render(
-        this.app.user,
-        result.users,
-        (screen) => this.app.navigateTo(screen),
-        (user) => this.app.navigateTo('grant-user', false, user)
-      );
-      this.app.container.appendChild(updatedDiv);
-    }
-  }
+}
 }
