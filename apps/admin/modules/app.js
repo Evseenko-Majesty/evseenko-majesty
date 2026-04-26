@@ -40,27 +40,31 @@ class AdminApp {
 });
   }
   
-  navigateTo(screenName, fromBack = false) {
-    if (!fromBack) this.screenHistory.push(screenName);
-    
-    const screen = this.screens[screenName];
-    if (!screen) return;
-    
-    this.container.innerHTML = '';
-    this.container.appendChild(screen.getElement());
-    
-    if (screenName === 'home' || screenName === 'splash') {
-      this.tg.BackButton.hide();
-    } else {
-      this.tg.BackButton.show();
-    }
-    
-    if (screenName === 'home' || screenName === 'more') {
-      this.container.appendChild(BottomNav(this.navItems, screenName, (id) => this.navigateTo(id)));
-    }
-    
-    if (screen.onMount) screen.onMount();
+  async navigateTo(screenName, fromBack = false) {
+  if (!fromBack) this.screenHistory.push(screenName);
+  
+  const screen = this.screens[screenName];
+  if (!screen) return;
+  
+  this.container.innerHTML = '';
+  
+  // Ждём результат (для async getElement)
+  const element = await screen.getElement();
+  this.container.appendChild(element);
+  
+  // Остальное без изменений
+  if (screenName === 'home' || screenName === 'splash') {
+    this.tg.BackButton.hide();
+  } else {
+    this.tg.BackButton.show();
   }
+  
+  if (screenName === 'home' || screenName === 'more') {
+    this.container.appendChild(BottomNav(this.navItems, screenName, (id) => this.navigateTo(id)));
+  }
+  
+  if (screen.onMount) screen.onMount();
+}
   
   start() {
     this.navigateTo('splash');
