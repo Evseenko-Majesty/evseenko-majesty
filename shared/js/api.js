@@ -6,7 +6,6 @@ const API_URL = 'https://evseenko-api.onrender.com';
 
 export const API = {
   
-  // Авторизация пользователя
   async auth(telegramUser) {
     try {
       const response = await fetch(`${API_URL}/api/auth`, {
@@ -22,12 +21,10 @@ export const API = {
       });
       return await response.json();
     } catch (error) {
-      console.error('Ошибка API:', error);
       return { success: false, error: 'Сетевая ошибка' };
     }
   },
 
-  // Поиск пользователей
   async searchUsers(query) {
     try {
       const response = await fetch(`${API_URL}/api/users/search?query=${encodeURIComponent(query)}`);
@@ -35,21 +32,21 @@ export const API = {
     } catch (error) {
       return { success: false, users: [], error: 'Сетевая ошибка' };
     }
+  },
+
+  async updateUserRole(userId, role, grantedBy) {
+    try {
+      const response = await fetch(`${API_URL}/api/permissions/role`, {
+        method: 'PUT',
+        headers: { 
+          'Content-Type': 'application/json',
+          'Granted-By': String(grantedBy)
+        },
+        body: JSON.stringify({ user_id: userId, role })
+      });
+      return await response.json();
+    } catch (error) {
+      return { success: false, error: 'Сетевая ошибка' };
+    }
   }
-  // Обновить роль пользователя
-async updateUserRole(userId, role, grantedBy) {
-  try {
-    const response = await fetch(`${API_URL}/api/permissions/role`, {
-      method: 'PUT',
-      headers: { 
-        'Content-Type': 'application/json',
-        'Granted-By': String(grantedBy)
-      },
-      body: JSON.stringify({ user_id: userId, role })
-    });
-    return await response.json();
-  } catch (error) {
-    return { success: false, error: 'Сетевая ошибка' };
-  }
-}
 };
