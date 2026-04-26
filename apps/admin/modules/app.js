@@ -11,6 +11,8 @@ import { GrantScreen } from './screens/grant/controller.js';
 import { GrantFormScreen } from './screens/grant-form/controller.js';
 import { GrantUserScreen } from './screens/grant-user/controller.js';
 import { BottomNav } from '/shared/components/BottomNav.js';
+import { GrantPermissionsScreen } from './screens/grant-permissions/controller.js';
+
 
 class AdminApp {
   constructor() {
@@ -56,6 +58,10 @@ class AdminApp {
     if (screenName === 'grant-user' && data) {
       this.screens['grant-user'] = new GrantUserScreen(this, data);
     }
+    // В navigateTo:
+if (screenName === 'grant-permissions' && data) {
+  this.screens['grant-permissions'] = new GrantPermissionsScreen(this, data);
+}
     
     if (!fromBack) {
       this.screenHistory.push(screenName);
