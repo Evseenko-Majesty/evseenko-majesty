@@ -4,7 +4,7 @@
 
 import { Header } from '/shared/components/Header.js';
 
-export function render(user, staffUsers, onNavigate, onUserClick) {
+export function render(user, staffUsers, onNavigate, onUserClick, onPermissionsClick) {
   const div = document.createElement('div');
   div.className = 'grant';
   
