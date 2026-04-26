@@ -1,5 +1,6 @@
 import { supabase } from '../config/supabase.js';
 
+// Проверить одно право
 export async function checkPermission(req, res) {
   const { user_id, permission } = req.query;
   
@@ -17,6 +18,25 @@ export async function checkPermission(req, res) {
   }
 }
 
+// Проверить все права по типу
+export async function checkPermissionsByType(req, res) {
+  const { user_id, type } = req.query;
+  
+  try {
+    const { data } = await supabase
+      .from('user_permissions')
+      .select('*')
+      .eq('user_id', user_id)
+      .eq('permission_type', type)
+      .eq('status', 'active');
+    
+    res.json({ success: true, permissions: data || [] });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+}
+
+// Обновить роль пользователя
 export async function updateUserRole(req, res) {
   const { user_id, role } = req.body;
   const granted_by = req.headers['granted-by'];
