@@ -1,3 +1,7 @@
+// ============================================
+// ДАТЬ ДОПУСК — ЛОГИКА
+// ============================================
+
 import { render } from './view.js';
 import { API } from '/shared/js/api.js';
 
@@ -70,6 +74,10 @@ export class GrantFormScreen {
     card.appendChild(avatar);
     card.appendChild(info);
     card.appendChild(arrow);
+    
+    card.addEventListener('click', () => {
+      this.app.navigateTo('grant-user', false, user);
+    });
     
     return card;
   }
