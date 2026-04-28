@@ -160,3 +160,8 @@
   text-transform: uppercase;
   letter-spacing: 0.05em;
 }
+.user-detail-card__position {
+  color: var(--text-secondary);
+  font-size: 1.6vh;
+  margin-top: 0.5vh;
+}
