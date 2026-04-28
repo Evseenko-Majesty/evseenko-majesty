@@ -1,3 +1,7 @@
+// ============================================
+// СТРАНИЦА "ДОСТУП"
+// ============================================
+
 import { Header } from '/shared/components/Header.js';
 
 const ROLE_LABELS = {
@@ -21,6 +25,7 @@ export function render(onNavigate, showGrantForm = false, users = [], onUserClic
   
   content.appendChild(title);
   
+  // Карточка "Дать допуск"
   if (showGrantForm) {
     const grantCard = document.createElement('div');
     grantCard.className = 'menu-item';
@@ -40,6 +45,7 @@ export function render(onNavigate, showGrantForm = false, users = [], onUserClic
     content.appendChild(grantCard);
   }
   
+  // Список сотрудников
   if (users.length > 0) {
     const listTitle = document.createElement('p');
     listTitle.style.cssText = 'color: var(--text-color); font-size: 2vh; margin: 3vh 0 1.5vh 0; font-weight: 500;';
@@ -57,7 +63,8 @@ export function render(onNavigate, showGrantForm = false, users = [], onUserClic
         </div>
         <span class="user-search-card__arrow">›</span>
       `;
-      card.addEventListener('click', () => onPermisiionsClick(user));
+      // Клик — переход на страницу прав
+      card.addEventListener('click', () => onPermissionsClick(user));
       content.appendChild(card);
     });
   }
