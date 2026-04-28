@@ -1,3 +1,7 @@
+// ============================================
+// СТРАНИЦА "ДОСТУП" — ЛОГИКА
+// ============================================
+
 import { render } from './view.js';
 import { API } from '/shared/js/api.js';
 
@@ -7,9 +11,11 @@ export class GrantScreen {
   }
   
   async getElement() {
+    // Проверяем право на grantForm (Дать допуск)
     const res = await API.checkPermission(this.app.user?.telegram_id, 'grantForm');
     const showGrantForm = res.hasAccess;
     
+    // Загружаем список видимых сотрудников
     const usersRes = await API.getVisibleUsers(this.app.user?.telegram_id);
     const users = usersRes.success ? usersRes.users : [];
     
@@ -18,7 +24,7 @@ export class GrantScreen {
       showGrantForm,
       users,
       (user) => this.app.navigateTo('grant-user', false, user),
-      (user) => this.app.navigateTo('gran-permissions', false, user)
+      (user) => this.app.navigateTo('grant-permissions', false, user)
     );
   }
 }
