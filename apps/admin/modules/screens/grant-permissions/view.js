@@ -28,7 +28,6 @@ export function render(user) {
   const card = document.createElement('div');
   card.className = 'user-detail-card';
   
-  // Аватар крупный
   const avatar = document.createElement('div');
   avatar.className = 'user-detail-card__avatar';
   if (user.photo_url) {
@@ -40,7 +39,6 @@ export function render(user) {
     avatar.textContent = user.first_name?.charAt(0) || '?';
   }
   
-  // Инфо
   const info = document.createElement('div');
   info.className = 'user-detail-card__info';
   
@@ -56,15 +54,37 @@ export function render(user) {
   role.className = 'user-detail-card__role';
   role.textContent = ROLE_LABELS[user.role] || user.role || 'Клиент';
   
+  const position = document.createElement('div');
+  position.className = 'user-detail-card__position';
+  position.textContent = user.position || '';
+  
   info.appendChild(name);
   info.appendChild(username);
   info.appendChild(role);
+  info.appendChild(position);
   
   card.appendChild(avatar);
   card.appendChild(info);
   
+  // Раздел: Должность
+  const sectionTitle = document.createElement('p');
+  sectionTitle.className = 'permissions-section-title';
+  sectionTitle.textContent = 'Должность';
+  
+  const positionInput = document.createElement('input');
+  positionInput.className = 'search-card__input permissions-input';
+  positionInput.placeholder = 'Например: Администратор точки 1';
+  positionInput.value = user.position || '';
+  
+  const saveBtn = document.createElement('button');
+  saveBtn.className = 'search-card__btn permissions-save-btn';
+  saveBtn.textContent = 'Сохранить';
+  
   content.appendChild(title);
   content.appendChild(card);
+  content.appendChild(sectionTitle);
+  content.appendChild(positionInput);
+  content.appendChild(saveBtn);
   div.appendChild(content);
   
   return div;
