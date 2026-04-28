@@ -1,5 +1,5 @@
 // ============================================
-// EMajesty Core
+// EMajesty Core — ГЛАВНЫЙ ФАЙЛ АДМИН-ПАНЕЛИ
 // ============================================
 
 import { initTelegram } from '/shared/js/telegram.js';
@@ -10,6 +10,9 @@ import { ProfileScreen } from './screens/profile/controller.js';
 import { GrantScreen } from './screens/grant/controller.js';
 import { GrantFormScreen } from './screens/grant-form/controller.js';
 import { GrantUserScreen } from './screens/grant-user/controller.js';
+// ↓↓↓ ДОБАВИТЬ ↓↓↓
+import { GrantPermissionsScreen } from './screens/grant-permissions/controller.js';
+// ↑↑↑ ДОБАВИТЬ ↑↑↑
 import { BottomNav } from '/shared/components/BottomNav.js';
 
 class AdminApp {
@@ -26,6 +29,7 @@ class AdminApp {
       profile: new ProfileScreen(this),
       grant: new GrantScreen(this),
       grantForm: new GrantFormScreen(this)
+      // grant-user и grant-permissions создаются динамически
     };
     
     this.navItems = [
@@ -43,10 +47,18 @@ class AdminApp {
   }
   
   async navigateTo(screenName, fromBack = false, data = null) {
-    // Динамический экран выдачи роли
+    // --- ДИНАМИЧЕСКИЕ ЭКРАНЫ ---
+    
+    // Экран выдачи роли
     if (screenName === 'grant-user' && data) {
       this.screens['grant-user'] = new GrantUserScreen(this, data);
     }
+    // ↓↓↓ ДОБАВИТЬ ↓↓↓
+    // Экран прав доступа
+    if (screenName === 'grant-permissions' && data) {
+      this.screens['grant-permissions'] = new GrantPermissionsScreen(this, data);
+    }
+    // ↑↑↑ ДОБАВИТЬ ↑↑↑
     
     if (!fromBack) this.screenHistory.push(screenName);
     
@@ -58,12 +70,14 @@ class AdminApp {
     this.container.innerHTML = '';
     this.container.appendChild(element);
     
+    // Кнопка "Назад"
     if (screenName === 'home' || screenName === 'splash') {
       this.tg.BackButton.hide();
     } else {
       this.tg.BackButton.show();
     }
     
+    // Нижняя навигация
     if (screenName === 'home' || screenName === 'more') {
       this.container.appendChild(BottomNav(this.navItems, screenName, (id) => this.navigateTo(id)));
     }
