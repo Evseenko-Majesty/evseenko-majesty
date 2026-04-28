@@ -62,6 +62,15 @@ export const API = {
     } catch (error) {
       return { success: false, error: 'Сетевая ошибка' };
     }
+  },
+
+  async getVisibleUsers(userId) {
+    try {
+      const res = await fetch(`${API_URL}/api/users/visible?user_id=${userId}`);
+      return await res.json();
+    } catch (error) {
+      return { success: false, users: [] };
+    }
   }
 
 };
