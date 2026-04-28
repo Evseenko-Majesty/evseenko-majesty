@@ -38,3 +38,30 @@ export async function searchUsers(req, res) {
     res.status(500).json({ success: false, error: error.message });
   }
 }
+
+export async function getVisibleUsers(req, res) {
+  const { user_id } = req.query;
+  
+  try {
+    const { data: visible } = await supabase
+      .from('user_visibility')
+      .select('target_id')
+      .eq('user_id', user_id);
+    
+    if (!visible || visible.length === 0) {
+      return res.json({ success: true, users: [] });
+    }
+    
+    const targetIds = visible.map(v => v.target_id);
+    
+    const { data: users } = await supabase
+      .from('users')
+      .select('*')
+      .in('telegram_id', targetIds)
+      .in('role', ['owner', 'staff', 'partner']);
+    
+    res.json({ success: true, users: users || [] });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+}
