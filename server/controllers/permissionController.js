@@ -1,6 +1,5 @@
 import { supabase } from '../config/supabase.js';
 
-// Проверить одно право
 export async function checkPermission(req, res) {
   const { user_id, permission } = req.query;
   
@@ -18,7 +17,6 @@ export async function checkPermission(req, res) {
   }
 }
 
-// Проверить все права по типу
 export async function checkPermissionsByType(req, res) {
   const { user_id, type } = req.query;
   
@@ -36,20 +34,9 @@ export async function checkPermissionsByType(req, res) {
   }
 }
 
-// Обновить роль пользователя
 export async function updateUserRole(req, res) {
   const { user_id, role } = req.body;
   const granted_by = req.headers['granted-by'];
-  
-  const { data: owner } = await supabase
-    .from('users')
-    .select('role')
-    .eq('telegram_id', granted_by)
-    .single();
-  
-  if (!owner || owner.role !== 'owner') {
-    return res.status(403).json({ error: 'Только владелец может менять роли' });
-  }
   
   try {
     const { data, error } = await supabase
@@ -60,6 +47,15 @@ export async function updateUserRole(req, res) {
       .single();
     
     if (error) throw error;
+    
+    // Автоматически добавляем в видимость тому, кто выдал роль
+    if (granted_by && String(granted_by) !== String(user_id)) {
+      await supabase.from('user_visibility').upsert({
+        user_id: parseInt(granted_by),
+        target_id: parseInt(user_id),
+        granted_by: parseInt(granted_by)
+      }, { onConflict: 'user_id,target_id' });
+    }
     
     res.json({ success: true, user: data });
   } catch (error) {
