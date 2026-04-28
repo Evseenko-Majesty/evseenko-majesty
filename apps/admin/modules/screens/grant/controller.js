@@ -17,7 +17,8 @@ export class GrantScreen {
       (screen) => this.app.navigateTo(screen),
       showGrantForm,
       users,
-      (user) => this.app.navigateTo('grant-user', false, user)
+      (user) => this.app.navigateTo('grant-user', false, user),
+      (user) => this.app.navigateTo('gran-permissions', false, user)
     );
   }
 }
