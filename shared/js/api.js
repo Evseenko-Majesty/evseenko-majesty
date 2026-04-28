@@ -72,5 +72,17 @@ export const API = {
       return { success: false, users: [] };
     }
   }
+  async updateUserPosition(userId, position) {
+  try {
+    const res = await fetch(`${API_URL}/api/permissions/position`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ user_id: userId, position })
+    });
+    return await res.json();
+  } catch (error) {
+    return { success: false, error: 'Сетевая ошибка' };
+  }
+}
 
 };
