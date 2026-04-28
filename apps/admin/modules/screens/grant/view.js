@@ -1,10 +1,12 @@
-// ============================================
-// СТРАНИЦА "ДОСТУП"
-// ============================================
-
 import { Header } from '/shared/components/Header.js';
 
-export function render(onNavigate, showGrantForm = false) {
+const ROLE_LABELS = {
+  owner: 'Владелец',
+  staff: 'Сотрудник',
+  partner: 'Партнёр'
+};
+
+export function render(onNavigate, showGrantForm = false, users = [], onUserClick) {
   const div = document.createElement('div');
   div.className = 'grant';
   
@@ -17,7 +19,8 @@ export function render(onNavigate, showGrantForm = false) {
   title.className = 'page-title';
   title.textContent = 'Доступ';
   
-  // Карточка "Дать допуск" — только если showGrantForm
+  content.appendChild(title);
+  
   if (showGrantForm) {
     const grantCard = document.createElement('div');
     grantCard.className = 'menu-item';
@@ -37,7 +40,28 @@ export function render(onNavigate, showGrantForm = false) {
     content.appendChild(grantCard);
   }
   
-  content.appendChild(title);
+  if (users.length > 0) {
+    const listTitle = document.createElement('p');
+    listTitle.style.cssText = 'color: var(--text-color); font-size: 2vh; margin: 3vh 0 1.5vh 0; font-weight: 500;';
+    listTitle.textContent = 'Сотрудники:';
+    content.appendChild(listTitle);
+    
+    users.forEach(user => {
+      const card = document.createElement('div');
+      card.className = 'user-search-card';
+      card.innerHTML = `
+        <div class="user-search-card__avatar">${user.first_name?.charAt(0) || '?'}</div>
+        <div class="user-search-card__info">
+          <span class="user-search-card__name">${user.first_name || ''} ${user.last_name || ''}</span>
+          <span class="user-search-card__username">${ROLE_LABELS[user.role] || user.role}</span>
+        </div>
+        <span class="user-search-card__arrow">›</span>
+      `;
+      card.addEventListener('click', () => onUserClick(user));
+      content.appendChild(card);
+    });
+  }
+  
   div.appendChild(content);
   
   return div;
