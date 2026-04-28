@@ -165,3 +165,18 @@
   font-size: 1.6vh;
   margin-top: 0.5vh;
 }
+/* -------------------- ПРАВА -------------------- */
+.permissions-section-title {
+  color: var(--text-color);
+  font-size: 2vh;
+  margin: 3vh 0 1vh 0;
+  font-weight: 500;
+}
+
+.permissions-input {
+  margin-bottom: 1.5vh;
+}
+
+.permissions-save-btn {
+  width: 100%;
+}
