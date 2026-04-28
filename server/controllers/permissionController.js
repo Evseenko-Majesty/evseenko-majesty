@@ -62,3 +62,22 @@ export async function updateUserRole(req, res) {
     res.status(500).json({ success: false, error: error.message });
   }
 }
+// Обновить должность пользователя
+export async function updateUserPosition(req, res) {
+  const { user_id, position } = req.body;
+  
+  try {
+    const { data, error } = await supabase
+      .from('users')
+      .update({ position })
+      .eq('telegram_id', user_id)
+      .select()
+      .single();
+    
+    if (error) throw error;
+    
+    res.json({ success: true, user: data });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+}
