@@ -6,7 +6,7 @@ const ROLE_LABELS = {
   partner: 'Партнёр'
 };
 
-export function render(onNavigate, showGrantForm = false, users = [], onUserClick) {
+export function render(onNavigate, showGrantForm = false, users = [], onUserClick, onPermissionsClick) {
   const div = document.createElement('div');
   div.className = 'grant';
   
@@ -57,7 +57,7 @@ export function render(onNavigate, showGrantForm = false, users = [], onUserClic
         </div>
         <span class="user-search-card__arrow">›</span>
       `;
-      card.addEventListener('click', () => onUserClick(user));
+      card.addEventListener('click', () => onPermisiionsClick(user));
       content.appendChild(card);
     });
   }
