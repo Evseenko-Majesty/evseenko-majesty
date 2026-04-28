@@ -1,6 +1,5 @@
 import { Router } from 'express';
-import { checkPermission, checkPermissionsByType, updateUserRole } from '../controllers/permissionController.js';
-import { updateUserPosition } from '../controllers/permissionController.js';
+import { checkPermission, checkPermissionsByType, updateUserRole, updateUserPosition } from '../controllers/permissionController.js';
 
 const router = Router();
 
