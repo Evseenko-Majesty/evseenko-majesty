@@ -83,6 +83,18 @@ export const API = {
   } catch (error) {
     return { success: false, error: 'Сетевая ошибка' };
   }
+},
+  async togglePermission(userId, targetId, type, value, action) {
+  try {
+    const res = await fetch(`${API_URL}/api/permissions/toggle`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ user_id: userId, target_id: targetId, permission_type: type, permission_value: value, action })
+    });
+    return await res.json();
+  } catch (error) {
+    return { success: false };
+  }
 }
 
 };
