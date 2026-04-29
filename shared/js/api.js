@@ -71,7 +71,7 @@ export const API = {
     } catch (error) {
       return { success: false, users: [] };
     }
-  }
+  },
   async updateUserPosition(userId, position) {
   try {
     const res = await fetch(`${API_URL}/api/permissions/position`, {
