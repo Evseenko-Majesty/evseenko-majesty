@@ -81,37 +81,37 @@ export function render(user) {
   saveBtn.textContent = 'Сохранить';
   
   // Раздел: Доступ к странице "Доступ"
-const accessSectionTitle = document.createElement('p');
-accessSectionTitle.className = 'permissions-section-title';
-accessSectionTitle.textContent = 'Доступ к странице «Доступ»';
-
-const accessToggle = document.createElement('div');
-accessToggle.className = 'permissions-toggle';
-
-const accessLabel = document.createElement('span');
-accessLabel.textContent = 'Дать доступ';
-accessLabel.className = 'permissions-toggle__label';
-
-const accessCheckbox = document.createElement('input');
-accessCheckbox.type = 'checkbox';
-accessCheckbox.className = 'permissions-toggle__checkbox';
-accessCheckbox.checked = user.hasGrantAccess || false;
-
-accessToggle.appendChild(accessLabel);
-accessToggle.appendChild(accessCheckbox);
-
-const accessSaveBtn = document.createElement('button');
-accessSaveBtn.className = 'search-card__btn permissions-save-btn';
-accessSaveBtn.textContent = 'Сохранить доступ';
-
-content.appendChild(accessSectionTitle);
-content.appendChild(accessToggle);
-content.appendChild(accessSaveBtn);
+  const accessSectionTitle = document.createElement('p');
+  accessSectionTitle.className = 'permissions-section-title';
+  accessSectionTitle.textContent = 'Доступ к странице «Доступ»';
+  
+  const accessToggle = document.createElement('div');
+  accessToggle.className = 'permissions-toggle';
+  
+  const accessLabel = document.createElement('span');
+  accessLabel.textContent = 'Дать доступ';
+  accessLabel.className = 'permissions-toggle__label';
+  
+  const accessCheckbox = document.createElement('input');
+  accessCheckbox.type = 'checkbox';
+  accessCheckbox.className = 'permissions-toggle__checkbox';
+  accessCheckbox.checked = user.hasGrantAccess || false;
+  
+  accessToggle.appendChild(accessLabel);
+  accessToggle.appendChild(accessCheckbox);
+  
+  const accessSaveBtn = document.createElement('button');
+  accessSaveBtn.className = 'search-card__btn permissions-save-btn';
+  accessSaveBtn.textContent = 'Сохранить доступ';
+  
   content.appendChild(title);
   content.appendChild(card);
   content.appendChild(sectionTitle);
   content.appendChild(positionInput);
   content.appendChild(saveBtn);
+  content.appendChild(accessSectionTitle);
+  content.appendChild(accessToggle);
+  content.appendChild(accessSaveBtn);
   div.appendChild(content);
   
   return div;
