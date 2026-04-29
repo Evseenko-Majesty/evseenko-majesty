@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { checkPermission, checkPermissionsByType, updateUserRole, updateUserPosition } from '../controllers/permissionController.js';
+import { checkPermission, checkPermissionsByType, updateUserRole, updateUserPosition, togglePermission } from '../controllers/permissionController.js';
 
 const router = Router();
 
@@ -7,5 +7,5 @@ router.get('/check', checkPermission);
 router.get('/check-type', checkPermissionsByType);
 router.put('/role', updateUserRole);
 router.put('/position', updateUserPosition);
-
+router.post('/toggle', togglePermission);
 export default router;
