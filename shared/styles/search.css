@@ -180,3 +180,26 @@
 .permissions-save-btn {
   width: 100%;
 }
+/* -------------------- ПЕРЕКЛЮЧАТЕЛЬ -------------------- */
+.permissions-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 2vh;
+  margin-bottom: 1.5vh;
+  background: var(--surface-color);
+  border: 1px solid var(--accent-color);
+  border-radius: 20px;
+}
+
+.permissions-toggle__label {
+  color: var(--text-color);
+  font-size: 2vh;
+  font-weight: 500;
+}
+
+.permissions-toggle__checkbox {
+  width: 20px;
+  height: 20px;
+  accent-color: var(--accent-color);
+}
