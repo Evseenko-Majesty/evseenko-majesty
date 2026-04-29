@@ -81,3 +81,28 @@ export async function updateUserPosition(req, res) {
     res.status(500).json({ success: false, error: error.message });
   }
 }
+export async function togglePermission(req, res) {
+  const { user_id, target_id, permission_type, permission_value, action } = req.body;
+  
+  try {
+    if (action === 'grant') {
+      await supabase.from('user_permissions').upsert({
+        user_id: target_id,
+        granted_by: user_id,
+        permission_type,
+        permission_value,
+        status: 'active'
+      }, { onConflict: 'user_id,permission_type,permission_value' });
+    } else {
+      await supabase.from('user_permissions')
+        .update({ status: 'revoked' })
+        .eq('user_id', target_id)
+        .eq('permission_type', permission_type)
+        .eq('permission_value', permission_value);
+    }
+    
+    res.json({ success: true });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+}
