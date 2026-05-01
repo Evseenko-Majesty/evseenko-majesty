@@ -1,29 +1,20 @@
 <!DOCTYPE html>
-<!-- ============================================
-   КЛИЕНТСКОЕ ПРИЛОЖЕНИЕ EVSEENKO MAJESTY
-   Вход через Telegram Mini App или браузер
-   ============================================ -->
 <html lang="ru">
 <head>
-  <!-- Кодировка -->
   <meta charset="UTF-8">
-  
-  <!-- Адаптация под мобильные и Telegram -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  
-  <!-- Заголовок вкладки -->
   <title>Evseenko Majesty</title>
   
-  <!-- Telegram WebApp SDK (нужен для работы внутри Telegram) -->
+  <!-- Telegram SDK — обязательно для Mini App -->
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
 </head>
 <body>
   
-  <!-- Корневой контейнер — всё приложение будет здесь -->
+  <!-- Всё приложение будет внутри этого div -->
   <div id="app"></div>
   
-  <!-- Главный JS-файл приложения -->
-  <script type="module" src="/apps/client/modules/app.js"></script>
+  <!-- Главный файл приложения -->
+  <script type="module" src="modules/app.js"></script>
   
 </body>
 </html>
