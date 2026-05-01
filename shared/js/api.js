@@ -1,3 +1,7 @@
+// ============================================
+// API — ЗАПРОСЫ К СЕРВЕРУ
+// ============================================
+
 const API_URL = 'https://evseenko-api.onrender.com';
 
 export const API = {
@@ -64,6 +68,45 @@ export const API = {
     }
   },
 
+  async updateUserPosition(userId, position) {
+    try {
+      const res = await fetch(`${API_URL}/api/permissions/position`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ user_id: userId, position })
+      });
+      return await res.json();
+    } catch (error) {
+      return { success: false, error: 'Сетевая ошибка' };
+    }
+  },
+
+  async togglePermission(userId, targetId, type, value, action) {
+    try {
+      const res = await fetch(`${API_URL}/api/permissions/toggle`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ user_id: userId, target_id: targetId, permission_type: type, permission_value: value, action })
+      });
+      return await res.json();
+    } catch (error) {
+      return { success: false };
+    }
+  },
+
+  async revokeAllPermissions(userId, type) {
+    try {
+      const res = await fetch(`${API_URL}/api/permissions/revoke-all`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ user_id: userId, permission_type: type })
+      });
+      return await res.json();
+    } catch (error) {
+      return { success: false };
+    }
+  },
+
   async getVisibleUsers(userId) {
     try {
       const res = await fetch(`${API_URL}/api/users/visible?user_id=${userId}`);
@@ -71,42 +114,6 @@ export const API = {
     } catch (error) {
       return { success: false, users: [] };
     }
-  },
-  async updateUserPosition(userId, position) {
-  try {
-    const res = await fetch(`${API_URL}/api/permissions/position`, {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ user_id: userId, position })
-    });
-    return await res.json();
-  } catch (error) {
-    return { success: false, error: 'Сетевая ошибка' };
   }
-},
-  async revokeAllPermissions(userId, type) {
-  try {
-    const res = await fetch(`${API_URL}/api/permissions/revoke-all`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ user_id: userId, permission_type: type })
-    });
-    return await res.json();
-  } catch (error) {
-    return { success: false };
-  }
-},
-  async togglePermission(userId, targetId, type, value, action) {
-  try {
-    const res = await fetch(`${API_URL}/api/permissions/toggle`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ user_id: userId, target_id: targetId, permission_type: type, permission_value: value, action })
-    });
-    return await res.json();
-  } catch (error) {
-    return { success: false };
-  }
-}
 
 };
