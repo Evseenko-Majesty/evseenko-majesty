@@ -203,3 +203,28 @@
   height: 20px;
   accent-color: var(--accent-color);
 }
+/* -------------------- ВЫБОР РОЛЕЙ НА ВЫДАЧУ -------------------- */
+.permissions-roles {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5vh;
+  margin-bottom: 1.5vh;
+}
+
+.permissions-role {
+  padding: 1vh 2vh;
+  border-radius: 20px;
+  border: 1px solid var(--accent-color);
+  background: var(--surface-color);
+  color: var(--text-color);
+  font-family: 'Montserrat', 'Inter', sans-serif;
+  font-size: 1.8vh;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.permissions-role.active {
+  background: var(--accent-color);
+  color: #0A0A0A;
+  border-color: var(--accent-color);
+}
