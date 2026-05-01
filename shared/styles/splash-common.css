@@ -41,6 +41,40 @@
   animation-delay: 0.8s;            /* Появляется после логотипа */
   white-space: nowrap;              /* В одну строку */
 }
+/* Слоган на загрузочном */
+.splash .slogan {
+  position: absolute;
+  top: 45%;                         /* Позиция — МЕНЯЙ ТУТ */
+  left: 50%;
+  transform: translate(-50%, 0);
+  margin: 0;
+  opacity: 0;
+  animation: fadeIn 2s ease forwards;
+  animation-delay: 1.2s;
+  white-space: nowrap;
+}
+.splash .slogan__main {
+  font-size: 2vh;                   /* Размер — МЕНЯЙ ТУТ */
+  letter-spacing: 0.2em;
+  opacity: 1;
+  margin-bottom: 0.6vh;
+}
+.splash .slogan__sub {
+  font-size: 1.6vh;                 /* Размер — МЕНЯЙ ТУТ */
+  letter-spacing: 0.1em;
+  opacity: 0.6;
+}
+
+/* Копирайт на загрузочном */
+.splash .copyright {
+  position: absolute;
+  bottom: 3.5%;                     /* Отступ от низа — МЕНЯЙ ТУТ */
+  left: 50%;
+  transform: translate(-50%, 0);
+  font-size: 1.5vh;                 /* Размер — МЕНЯЙ ТУТ */
+  opacity: 0.8;
+  white-space: nowrap;
+}
 
 /* Анимация: появление с подъёмом */
 @keyframes fadeInUp {
