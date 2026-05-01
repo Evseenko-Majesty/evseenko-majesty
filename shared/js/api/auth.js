@@ -23,5 +23,24 @@ export const AuthAPI = {
     } catch (error) {
       return { success: false, error: 'Сетевая ошибка' };
     }
+  },
+  // Создать токен для браузера
+async createBrowserToken() {
+  try {
+    const res = await fetch(`${API_URL}/api/auth/browser-token`, { method: 'POST' });
+    return await res.json();
+  } catch (error) {
+    return { success: false };
   }
+},
+
+// Проверить статус токена
+async checkToken(token) {
+  try {
+    const res = await fetch(`${API_URL}/api/auth/check-token?token=${token}`);
+    return await res.json();
+  } catch (error) {
+    return { success: false };
+  }
+}
 };
