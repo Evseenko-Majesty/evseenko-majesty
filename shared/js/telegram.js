@@ -10,6 +10,10 @@ export function initTelegram() {
   
   // Растягиваем на весь экран
   tg.expand();
+  // Запрашиваем Fullscreen (если Mini App настроен на это)
+  if (tg.requestFullscreen) {
+    tg.requestFullscreen();
+  }
   
   // Устанавливаем тему при загрузке
   document.documentElement.setAttribute('data-theme', tg.colorScheme);
