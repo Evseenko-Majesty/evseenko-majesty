@@ -21,12 +21,12 @@
   display: flex;
   align-items: center;
   height: 100%;
-  margin-top: 5%;                       /* Выше/ниже логотип — МЕНЯЙ ТУТ */
+  margin-top: 0;                       /* Выше/ниже логотип — МЕНЯЙ ТУТ */
   margin-left: 0;                      /* Левее/правее логотип — МЕНЯЙ ТУТ */
 }
 
 .app-header__logo svg {
-  height: 55vh;                         /* Размер логотипа — МЕНЯЙ ТУТ */
+  height: 9vh;                         /* Размер логотипа — МЕНЯЙ ТУТ */
   width: auto;
 }
 
