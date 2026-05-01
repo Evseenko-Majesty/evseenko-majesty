@@ -6,7 +6,6 @@ import { render } from './view.js';
 import { API } from '/shared/js/api.js';
 import { Modal } from '/shared/components/Modal.js';
 
-// Разрешённые роли
 const ALLOWED_ROLES = ['owner', 'staff', 'partner'];
 
 export class SplashScreen {
@@ -25,7 +24,6 @@ export class SplashScreen {
   async checkAccess() {
     const tgUser = this.app.tg.initDataUnsafe?.user;
     
-    // Не в Telegram
     if (!tgUser) {
       document.body.appendChild(Modal(
         'Ошибка',
@@ -36,7 +34,6 @@ export class SplashScreen {
       return;
     }
     
-    // Проверяем пользователя
     const result = await API.auth(tgUser);
     
     if (!result.success) {
@@ -50,8 +47,8 @@ export class SplashScreen {
     }
     
     this.app.user = result.user;
+    await this.app.loadPermissions();  // ← ЗАГРУЖАЕМ ПРАВА
     
-    // Проверяем роль
     if (!ALLOWED_ROLES.includes(result.user?.role)) {
       document.body.appendChild(Modal(
         'Доступ запрещён',
@@ -62,7 +59,6 @@ export class SplashScreen {
       return;
     }
     
-    // Доступ разрешён — переход на главную
     setTimeout(() => this.app.navigateTo('home'), 1000);
   }
 }
