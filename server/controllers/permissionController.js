@@ -100,6 +100,20 @@ export async function togglePermission(req, res) {
         .eq('permission_type', permission_type)
         .eq('permission_value', permission_value);
     }
+    export async function revokeAllPermissions(req, res) {
+  const { user_id, permission_type } = req.body;
+  
+  try {
+    await supabase.from('user_permissions')
+      .update({ status: 'revoked' })
+      .eq('user_id', user_id)
+      .eq('permission_type', permission_type);
+    
+    res.json({ success: true });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+}
     
     res.json({ success: true });
   } catch (error) {
