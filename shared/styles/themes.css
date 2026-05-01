@@ -9,6 +9,8 @@
   --bg-color: #0A0A0A;            /* Фон страницы — почти чёрный */
   --accent-color: #D4AF37;        /* Акцентный цвет — золотой */
   --text-color: #FFFFFF;           /* Цвет текста — белый */
+   --text-secondary: #A0A0A0;   /* в :root */
+
 }
 
 /* Светлая тема (когда Telegram в светлом режиме) */
@@ -16,4 +18,5 @@
   --bg-color: #F7F7F5;            /* Фон — светло-кремовый */
   --accent-color: #C9A227;        /* Золотой чуть темнее */
   --text-color: #0A0A0A;          /* Текст — почти чёрный */
+   --text-secondary: #666666;   /* в [data-theme="light"] */
 }
