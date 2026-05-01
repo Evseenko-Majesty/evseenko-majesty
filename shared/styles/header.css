@@ -1,0 +1,43 @@
+/* ============================================
+   ШАПКА — ОБЩИЕ СТИЛИ
+   ============================================ */
+
+.app-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 8vh;                         /* Высота — МЕНЯЙ ТУТ */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 5%;                       /* Отступы по бокам — МЕНЯЙ ТУТ */
+  z-index: 100;
+  overflow: hidden;
+}
+
+.app-header__logo {
+  position: static;
+  display: flex;
+  align-items: center;
+  height: 100%;
+  margin-top: 0;                       /* Выше/ниже логотип — МЕНЯЙ ТУТ */
+  margin-left: 0;                      /* Левее/правее логотип — МЕНЯЙ ТУТ */
+}
+
+.app-header__logo svg {
+  height: 5vh;                         /* Размер логотипа — МЕНЯЙ ТУТ */
+  width: auto;
+}
+
+.app-header__right {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  margin-top: 0;                       /* Выше/ниже правый блок — МЕНЯЙ ТУТ */
+}
+
+/* Отступ для страниц с шапкой */
+.page-with-header {
+  padding-top: 12vh;                   /* Отступ от шапки — МЕНЯЙ ТУТ */
+}
