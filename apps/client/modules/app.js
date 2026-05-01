@@ -3,5 +3,7 @@ import { SplashScreen } from './screens/splash/controller.js';
 
 const tg = initTelegram();
 const container = document.getElementById('app');
-const splash = new SplashScreen();
+
+// Пока передаём null вместо app
+const splash = new SplashScreen(null);
 container.appendChild(splash.getElement());
