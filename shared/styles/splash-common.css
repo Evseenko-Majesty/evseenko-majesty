@@ -28,6 +28,20 @@
   width: auto;                      /* Ширина подстраивается */
 }
 
+/* Название бренда на загрузочном */
+.splash .brand-name {
+  position: absolute;
+  top: 32%;                         /* Позиция от верха — МЕНЯЙ ТУТ */
+  left: 50%;
+  transform: translate(-50%, 0);     /* По центру */
+  font-size: 3.5vh;                 /* Размер — МЕНЯЙ ТУТ */
+  margin: 0;
+  opacity: 0;
+  animation: fadeIn 2s ease forwards;
+  animation-delay: 0.8s;            /* Появляется после логотипа */
+  white-space: nowrap;              /* В одну строку */
+}
+
 /* Анимация: появление с подъёмом */
 @keyframes fadeInUp {
   from {
