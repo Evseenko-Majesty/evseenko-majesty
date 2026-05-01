@@ -22,3 +22,20 @@
   text-align: center;
   color: var(--text-color);
 }
+/* Слоган */
+.slogan {
+  text-align: center;
+}
+.slogan__main,
+.slogan__sub {
+  font-family: 'Montserrat', 'Inter', sans-serif;
+  font-weight: 400;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+/* Копирайт */
+.copyright {
+  font-family: 'Montserrat', 'Inter', sans-serif;
+  text-align: center;
+  color: var(--copyright-color);
+}
