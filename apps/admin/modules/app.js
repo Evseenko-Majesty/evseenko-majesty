@@ -6,6 +6,7 @@ import { initTelegram } from '/shared/js/telegram.js';
 import { SplashScreen } from './screens/splash/controller.js';
 import { HomeScreen } from './screens/home/controller.js';
 import { MoreScreen } from './screens/more/controller.js';
+import { MediaScreen } from './screens/media/controller.js';
 import { ProfileScreen } from './screens/profile/controller.js';
 import { GrantScreen } from './screens/grant/controller.js';
 import { GrantFormScreen } from './screens/grant-form/controller.js';
@@ -26,6 +27,7 @@ class AdminApp {
       splash: new SplashScreen(this),
       home: new HomeScreen(this),
       more: new MoreScreen(this),
+      media: new MediaScreen(this),
       profile: new ProfileScreen(this),
       grant: new GrantScreen(this),
       grantForm: new GrantFormScreen(this)
@@ -34,7 +36,8 @@ class AdminApp {
     
     this.navItems = [
       { id: 'home', label: 'Главная', icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 21h14M5 21v-13M19 21v-13M9 21v-8h6v8M2 10l10-8 10 8"/></svg>' },
-      { id: 'more', label: 'Ещё', icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 5h14M5 12h14M5 19h14"/></svg>' }
+      { id: 'more', label: 'Ещё', icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 5h14M5 12h14M5 19h14"/></svg>' },
+      { id: 'media', label: 'Медиа', icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>' }
     ];
     
     this.tg.BackButton.onClick(() => {
@@ -78,9 +81,9 @@ class AdminApp {
     }
     
     // Нижняя навигация
-    if (screenName === 'home' || screenName === 'more') {
-      this.container.appendChild(BottomNav(this.navItems, screenName, (id) => this.navigateTo(id)));
-    }
+    if (screenName === 'home' || screenName === 'more' || screenName === 'media') {
+  this.container.appendChild(BottomNav(this.navItems, screenName, (id) => this.navigateTo(id)));
+}
     
     if (screen.onMount) screen.onMount();
   }
