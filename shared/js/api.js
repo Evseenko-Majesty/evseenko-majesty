@@ -84,6 +84,18 @@ export const API = {
     return { success: false, error: 'Сетевая ошибка' };
   }
 },
+  async revokeAllPermissions(userId, type) {
+  try {
+    const res = await fetch(`${API_URL}/api/permissions/revoke-all`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ user_id: userId, permission_type: type })
+    });
+    return await res.json();
+  } catch (error) {
+    return { success: false };
+  }
+},
   async togglePermission(userId, targetId, type, value, action) {
   try {
     const res = await fetch(`${API_URL}/api/permissions/toggle`, {
