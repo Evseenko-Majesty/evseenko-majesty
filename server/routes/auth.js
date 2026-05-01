@@ -1,0 +1,9 @@
+import { Router } from 'express';
+import { authUser } from '../controllers/authController.js';
+
+const router = Router();
+
+// POST /api/auth — когда клиент отправляет данные
+router.post('/', authUser);
+
+export default router;
