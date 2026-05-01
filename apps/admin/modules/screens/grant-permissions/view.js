@@ -103,7 +103,43 @@ export function render(user) {
   const accessSaveBtn = document.createElement('button');
   accessSaveBtn.className = 'search-card__btn permissions-save-btn';
   accessSaveBtn.textContent = 'Сохранить доступ';
+
+  // Раздел: Права на выдачу ролей
+const grantRoleTitle = document.createElement('p');
+grantRoleTitle.className = 'permissions-section-title';
+grantRoleTitle.textContent = 'Может давать роли:';
+
+const rolesContainer = document.createElement('div');
+rolesContainer.className = 'permissions-roles';
+
+const roles = ['owner', 'staff', 'partner', 'client'];
+const roleLabels = { owner: 'Владелец', staff: 'Сотрудник', partner: 'Партнёр', client: 'Клиент' };
+
+roles.forEach(role => {
+  const roleBtn = document.createElement('div');
+  roleBtn.className = 'permissions-role';
+  roleBtn.textContent = roleLabels[role];
+  roleBtn.dataset.role = role;
   
+  // Если у пользователя уже есть это право — выделяем
+  if (user.grantRoles && user.grantRoles.includes(role)) {
+    roleBtn.classList.add('active');
+  }
+  
+  roleBtn.addEventListener('click', () => {
+    roleBtn.classList.toggle('active');
+  });
+  
+  rolesContainer.appendChild(roleBtn);
+});
+
+const rolesSaveBtn = document.createElement('button');
+rolesSaveBtn.className = 'search-card__btn permissions-save-btn';
+rolesSaveBtn.textContent = 'Сохранить роли';
+
+content.appendChild(grantRoleTitle);
+content.appendChild(rolesContainer);
+content.appendChild(rolesSaveBtn);
   content.appendChild(title);
   content.appendChild(card);
   content.appendChild(sectionTitle);
