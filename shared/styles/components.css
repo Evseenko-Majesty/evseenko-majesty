@@ -45,6 +45,7 @@
   display: flex;
   align-items: center;
   gap: 2%;
+   height: 100%;
 }
 
 .user-info__avatar {
@@ -74,6 +75,8 @@
 .user-info__text {
   display: flex;
   flex-direction: column;
+   justify-content: center;
+   height: 100%;
 }
 
 .user-info__name {
