@@ -32,11 +32,13 @@
 }
 
 .app-header__right {
+  position: absolute;       /* ← Вырываем из flex-потока */
+  right: 5%;                /* ← Отступ справа */
+  top: 50%;
+  transform: translateY(-50%);  /* ← По центру вертикали */
   display: flex;
   align-items: center;
-  height: 100%;
-  margin-top: 0;           
-   overflow: hidden;/* Выше/ниже правый блок — МЕНЯЙ ТУТ */
+  height: auto;
 }
 
 /* Отступ для страниц с шапкой */
