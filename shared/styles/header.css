@@ -42,3 +42,27 @@
 .page-with-header {
   padding-top: 12vh;                   /* Отступ от шапки — МЕНЯЙ ТУТ */
 }
+
+/* Профиль в шапке — размеры */
+.app-header .user-info__avatar {
+  width: 5vh;
+  height: 5vh;
+  min-width: 5vh;
+  min-height: 5vh;
+}
+
+.app-header .user-info__avatar--placeholder {
+  font-size: 2.5vh;
+}
+
+.app-header .user-info__name {
+  font-size: 1.8vh;
+}
+
+.app-header .user-info__username {
+  font-size: 1.4vh;
+}
+
+.app-header .user-info__role {
+  font-size: 1.2vh;
+}
