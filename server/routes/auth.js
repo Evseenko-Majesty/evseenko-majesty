@@ -1,9 +1,13 @@
 import { Router } from 'express';
-import { authUser } from '../controllers/authController.js';
+import { authUser, createBrowserToken, bindToken, checkToken } from '../controllers/authController.js';
+
+
 
 const router = Router();
 
-// POST /api/auth — когда клиент отправляет данные
 router.post('/', authUser);
+router.post('/browser-token', createBrowserToken);
+router.post('/bind-token', bindToken);
+router.get('/check-token', checkToken);
 
 export default router;
