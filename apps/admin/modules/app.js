@@ -21,6 +21,7 @@ class AdminApp {
     this.container = document.getElementById('app');
     this.user = null;
     this.screenHistory = [];
+    this.userPermissions = [];  // ← КЭШ ПРАВ
     
     this.screens = {
       splash: new SplashScreen(this),
@@ -62,6 +63,15 @@ class AdminApp {
     });
   }
   
+  // ← ЗАГРУЗКА ПРАВ ОДИН РАЗ
+  async loadPermissions() {
+    if (!this.user?.telegram_id) return;
+    const res = await API.checkPermissions(this.user.telegram_id, 'page');
+    if (res.success) {
+      this.userPermissions = res.permissions.map(p => p.permission_value);
+    }
+  }
+  
   async navigateTo(screenName, fromBack = false, data = null) {
     // Динамические экраны
     if (screenName === 'grant-user' && data) {
@@ -88,13 +98,14 @@ class AdminApp {
       this.tg.BackButton.show();
     }
     
-    // Нижняя навигация
+    // Нижняя навигация — проверка из КЭША
     if (screenName === 'home' || screenName === 'more' || screenName === 'media') {
       const availableItems = [];
       for (const item of this.allNavItems) {
         if (item.permission) {
-          const res = await API.checkPermission(this.user?.telegram_id, item.permission);
-          if (res.hasAccess) availableItems.push(item);
+          if (this.userPermissions.includes(item.permission)) {
+            availableItems.push(item);
+          }
         } else {
           availableItems.push(item);
         }
