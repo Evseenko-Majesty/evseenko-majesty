@@ -33,6 +33,6 @@ export class SplashScreen {
     }
     
     // Переход на главную
-    setTimeout(() => this.app.navigateTo('home'), 500);
+    setTimeout(() => this.app.navigateTo('home'), 2500);
   }
 }
