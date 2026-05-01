@@ -24,7 +24,9 @@ export function render(user) {
   title.className = 'page-title';
   title.textContent = 'Права доступа';
   
-  // Большая карточка пользователя
+  // ============================================
+  // БОЛЬШАЯ КАРТОЧКА ПОЛЬЗОВАТЕЛЯ
+  // ============================================
   const card = document.createElement('div');
   card.className = 'user-detail-card';
   
@@ -66,7 +68,9 @@ export function render(user) {
   card.appendChild(avatar);
   card.appendChild(info);
   
-  // Раздел: Должность
+  // ============================================
+  // ДОЛЖНОСТЬ
+  // ============================================
   const sectionTitle = document.createElement('p');
   sectionTitle.className = 'permissions-section-title';
   sectionTitle.textContent = 'Должность';
@@ -80,7 +84,9 @@ export function render(user) {
   saveBtn.className = 'search-card__btn permissions-save-btn';
   saveBtn.textContent = 'Сохранить';
   
-  // Раздел: Доступ к странице "Доступ"
+  // ============================================
+  // ДОСТУП К СТРАНИЦЕ "ДОСТУП"
+  // ============================================
   const accessSectionTitle = document.createElement('p');
   accessSectionTitle.className = 'permissions-section-title';
   accessSectionTitle.textContent = 'Доступ к странице «Доступ»';
@@ -103,43 +109,72 @@ export function render(user) {
   const accessSaveBtn = document.createElement('button');
   accessSaveBtn.className = 'search-card__btn permissions-save-btn';
   accessSaveBtn.textContent = 'Сохранить доступ';
-
-  // Раздел: Права на выдачу ролей
-const grantRoleTitle = document.createElement('p');
-grantRoleTitle.className = 'permissions-section-title';
-grantRoleTitle.textContent = 'Может давать роли:';
-
-const rolesContainer = document.createElement('div');
-rolesContainer.className = 'permissions-roles';
-
-const roles = ['owner', 'staff', 'partner', 'client'];
-const roleLabels = { owner: 'Владелец', staff: 'Сотрудник', partner: 'Партнёр', client: 'Клиент' };
-
-roles.forEach(role => {
-  const roleBtn = document.createElement('div');
-  roleBtn.className = 'permissions-role';
-  roleBtn.textContent = roleLabels[role];
-  roleBtn.dataset.role = role;
   
-  // Если у пользователя уже есть это право — выделяем
-  if (user.grantRoles && user.grantRoles.includes(role)) {
-    roleBtn.classList.add('active');
-  }
+  // ============================================
+  // ДОСТУП К "ДАТЬ ДОПУСК"
+  // ============================================
+  const grantFormSectionTitle = document.createElement('p');
+  grantFormSectionTitle.className = 'permissions-section-title';
+  grantFormSectionTitle.textContent = 'Доступ к странице «Дать допуск»';
   
-  roleBtn.addEventListener('click', () => {
-    roleBtn.classList.toggle('active');
+  const grantFormToggle = document.createElement('div');
+  grantFormToggle.className = 'permissions-toggle';
+  
+  const grantFormLabel = document.createElement('span');
+  grantFormLabel.textContent = 'Дать доступ';
+  grantFormLabel.className = 'permissions-toggle__label';
+  
+  const grantFormCheckbox = document.createElement('input');
+  grantFormCheckbox.type = 'checkbox';
+  grantFormCheckbox.className = 'permissions-toggle__checkbox';
+  grantFormCheckbox.checked = user.hasGrantFormAccess || false;
+  
+  grantFormToggle.appendChild(grantFormLabel);
+  grantFormToggle.appendChild(grantFormCheckbox);
+  
+  const grantFormSaveBtn = document.createElement('button');
+  grantFormSaveBtn.className = 'search-card__btn permissions-save-btn';
+  grantFormSaveBtn.textContent = 'Сохранить';
+  
+  // ============================================
+  // ВЫБОР РОЛЕЙ ДЛЯ ВЫДАЧИ
+  // ============================================
+  const grantRoleTitle = document.createElement('p');
+  grantRoleTitle.className = 'permissions-section-title';
+  grantRoleTitle.textContent = 'Может давать роли:';
+  grantRoleTitle.style.display = grantFormCheckbox.checked ? 'block' : 'none';
+  
+  const rolesContainer = document.createElement('div');
+  rolesContainer.className = 'permissions-roles';
+  rolesContainer.style.display = grantFormCheckbox.checked ? 'flex' : 'none';
+  
+  const roles = ['owner', 'staff', 'partner', 'client'];
+  
+  roles.forEach(role => {
+    const roleBtn = document.createElement('div');
+    roleBtn.className = 'permissions-role';
+    roleBtn.textContent = ROLE_LABELS[role];
+    roleBtn.dataset.role = role;
+    if (user.grantRoles && user.grantRoles.includes(role)) roleBtn.classList.add('active');
+    roleBtn.addEventListener('click', () => roleBtn.classList.toggle('active'));
+    rolesContainer.appendChild(roleBtn);
   });
   
-  rolesContainer.appendChild(roleBtn);
-});
-
-const rolesSaveBtn = document.createElement('button');
-rolesSaveBtn.className = 'search-card__btn permissions-save-btn';
-rolesSaveBtn.textContent = 'Сохранить роли';
-
-content.appendChild(grantRoleTitle);
-content.appendChild(rolesContainer);
-content.appendChild(rolesSaveBtn);
+  const rolesSaveBtn = document.createElement('button');
+  rolesSaveBtn.className = 'search-card__btn permissions-save-btn';
+  rolesSaveBtn.textContent = 'Сохранить роли';
+  rolesSaveBtn.style.display = grantFormCheckbox.checked ? 'block' : 'none';
+  
+  grantFormCheckbox.addEventListener('change', () => {
+    const show = grantFormCheckbox.checked;
+    grantRoleTitle.style.display = show ? 'block' : 'none';
+    rolesContainer.style.display = show ? 'flex' : 'none';
+    rolesSaveBtn.style.display = show ? 'block' : 'none';
+  });
+  
+  // ============================================
+  // СБОРКА
+  // ============================================
   content.appendChild(title);
   content.appendChild(card);
   content.appendChild(sectionTitle);
@@ -148,6 +183,12 @@ content.appendChild(rolesSaveBtn);
   content.appendChild(accessSectionTitle);
   content.appendChild(accessToggle);
   content.appendChild(accessSaveBtn);
+  content.appendChild(grantFormSectionTitle);
+  content.appendChild(grantFormToggle);
+  content.appendChild(grantFormSaveBtn);
+  content.appendChild(grantRoleTitle);
+  content.appendChild(rolesContainer);
+  content.appendChild(rolesSaveBtn);
   div.appendChild(content);
   
   return div;
