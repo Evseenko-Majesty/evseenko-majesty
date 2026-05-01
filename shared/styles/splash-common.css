@@ -13,7 +13,7 @@
 /* Логотип */
 .splash .logo {
   position: absolute;               /* Позиционируется относительно .splash */
-  top: -10%;                         /* Отступ от верха — МЕНЯЙ ТУТ */
+  top: 3%;                         /* Отступ от верха — МЕНЯЙ ТУТ */
   left: 50%;                        /* Центр по горизонтали */
   transform: translate(-53%, 0);    /* -53% = смещение влево от центра */
   opacity: 0;                       /* Изначально невидим */
@@ -31,7 +31,7 @@
 /* Название бренда на загрузочном */
 .splash .brand-name {
   position: absolute;
-  top: 40%;                         /* Позиция от верха — МЕНЯЙ ТУТ */
+  top: 42%;                         /* Позиция от верха — МЕНЯЙ ТУТ */
   left: 50%;
   transform: translate(-50%, 0);     /* По центру */
   font-size: 3.5vh;                 /* Размер — МЕНЯЙ ТУТ */
@@ -44,7 +44,7 @@
 /* Слоган на загрузочном */
 .splash .slogan {
   position: absolute;
-  top: 55%;                         /* Позиция — МЕНЯЙ ТУТ */
+  top: 60%;                         /* Позиция — МЕНЯЙ ТУТ */
   left: 50%;
   transform: translate(-50%, 0);
   margin: 0;
@@ -57,7 +57,7 @@
   font-size: 2.2vh;                   /* Размер — МЕНЯЙ ТУТ */
   letter-spacing: 0.2em;
   opacity: 1;
-  margin-bottom: 0.8vh;
+  margin-bottom: 0.9vh;
 }
 .splash .slogan__sub {
   font-size: 1.8vh;                 /* Размер — МЕНЯЙ ТУТ */
@@ -68,10 +68,10 @@
 /* Копирайт на загрузочном */
 .splash .copyright {
   position: absolute;
-  bottom: 3%;                     /* Отступ от низа — МЕНЯЙ ТУТ */
+  bottom: 2.9%;                     /* Отступ от низа — МЕНЯЙ ТУТ */
   left: 50%;
   transform: translate(-50%, 0);
-  font-size: 2vh;                 /* Размер — МЕНЯЙ ТУТ */
+  font-size: 1.8vh;                 /* Размер — МЕНЯЙ ТУТ */
   opacity: 0.8;
   white-space: nowrap;
 }
