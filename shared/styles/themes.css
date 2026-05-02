@@ -5,6 +5,7 @@
   --text-secondary: #A0A0A0;
   --surface-color: #1C1C1E;              /* ← Добавить */
   --border-color: rgba(255, 255, 255, 0.06); /* ← Добавить */
+  --telegram-color: #2AABEE;  /* Синий Telegram */
 }
 
 [data-theme="light"] {
