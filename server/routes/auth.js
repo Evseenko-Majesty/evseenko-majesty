@@ -1,13 +1,9 @@
-import { Router } from 'express';
-import { authUser, createBrowserToken, bindToken, checkToken } from '../controllers/authController.js';
-
-
+import { Router } from 'express';                   // Роутер Express
+import { authUser } from '../controllers/authController.js';  // Логика
 
 const router = Router();
 
+// Когда приходит POST на /api/auth → вызываем authUser
 router.post('/', authUser);
-router.post('/browser-token', createBrowserToken);
-router.post('/bind-token', bindToken);
-router.get('/check-token', checkToken);
 
 export default router;
