@@ -14,6 +14,8 @@
   padding: 0 5%;                       /* Отступы по бокам — МЕНЯЙ ТУТ */
   z-index: 100;
   overflow: hidden;
+   /* background: rgba(212, 175, 55, 0.15); ЦВЕТ ЧТОБ ВИДЕТЬ ГРАНИЦЫ
+
 }
 
 .app-header__logo {
