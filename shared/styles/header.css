@@ -50,7 +50,7 @@
 /* Профиль в шапке — размеры */
 .app-header .user-info__avatar {
   width: 5.9vh;
-  height: 8vh;
+  height: 5.9vh;
   min-width: 5vh;
   min-height: 5vh;
 }
