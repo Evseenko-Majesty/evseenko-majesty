@@ -1,20 +1,24 @@
 // ============================================
-// TELEGRAM — ИНИЦИАЛИЗАЦИЯ
+// TELEGRAM — ИНИЦИАЛИЗАЦИЯ И АВТО-ТЕМА
 // ============================================
 
 export function initTelegram() {
   const tg = window.Telegram.WebApp;
   
-  // Сообщаем Telegram что приложение готово
   tg.ready();
-  
-  // Раскрываем на весь экран
   tg.expand();
   
-  // Запрашиваем полный Fullscreen
   if (tg.requestFullscreen) {
     tg.requestFullscreen();
   }
+  
+  // Устанавливаем тему при загрузке
+  document.documentElement.setAttribute('data-theme', tg.colorScheme);
+  
+  // Меняем тему когда пользователь меняет её в Telegram
+  tg.onEvent('themeChanged', () => {
+    document.documentElement.setAttribute('data-theme', tg.colorScheme);
+  });
   
   return tg;
 }
