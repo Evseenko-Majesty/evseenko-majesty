@@ -111,4 +111,6 @@
  .modal__button {
   padding: 12px 24px;
   font-size: 14px;
+  background: var(--telegram-color);
+  color: #FFFFFF;
 }
