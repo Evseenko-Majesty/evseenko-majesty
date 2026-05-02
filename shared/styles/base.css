@@ -1,25 +1,22 @@
 /* ============================================
    БАЗОВЫЕ СТИЛИ
-   Сброс отступов, шрифт, фон для всего приложения
+   Сброс отступов, шрифт, фон
    ============================================ */
 
-/* Убираем все встроенные отступы у всех элементов */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-/* Основные настройки страницы */
 body {
-  font-family: 'Montserrat', 'Inter', sans-serif;  /* Шрифт бренда */
-  background: var(--bg-color);                       /* Фон из темы */
-  color: var(--text-color);                          /* Цвет текста из темы */
+  font-family: 'Montserrat', 'Inter', sans-serif;
+  background: var(--bg-color);
+  color: var(--text-color);
 }
 
-/* Корневой контейнер приложения — на весь экран */
 #app {
   width: 100%;
-  min-height: 100vh;                                 /* Минимальная высота = высота экрана */
-  background: var(--bg-color);                       /* Фон из темы */
+  min-height: 100vh;
+  background: var(--bg-color);
 }
