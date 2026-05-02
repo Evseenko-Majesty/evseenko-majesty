@@ -6,6 +6,6 @@ export class HomeScreen {
   }
   
   getElement() {
-    return render(this.app.user, this.app.tg?.isTelegram);
+    return render(this.app.user);
   }
 }
