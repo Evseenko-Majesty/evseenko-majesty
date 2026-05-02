@@ -1,11 +1,5 @@
-// ============================================
-// TELEGRAM — БЕЗОПАСНАЯ ИНИЦИАЛИЗАЦИЯ
-// ============================================
-
 export function initTelegram() {
-  // Проверяем, есть ли Telegram API
   if (!window.Telegram?.WebApp?.initData) {
-    // Браузер — возвращаем заглушку без ошибок
     return {
       isTelegram: false,
       initDataUnsafe: {},
@@ -23,5 +17,7 @@ export function initTelegram() {
     document.documentElement.setAttribute('data-theme', tg.colorScheme);
   });
   
-  return { ...tg, isTelegram: true };
+  // Добавляем флаг, не заменяя объект
+  tg.isTelegram = true;
+  return tg;
 }
