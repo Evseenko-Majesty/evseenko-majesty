@@ -23,7 +23,7 @@
   display: flex;
   align-items: center;
   height: 100%;
-  margin-top: 1.8vh;                       /* Выше/ниже логотип — МЕНЯЙ ТУТ */
+  margin-top: 1.3vh;                       /* Выше/ниже логотип — МЕНЯЙ ТУТ */
   margin-left: -5vh;                      /* Левее/правее логотип — МЕНЯЙ ТУТ */
 }
 
