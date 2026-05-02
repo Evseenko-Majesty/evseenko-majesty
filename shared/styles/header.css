@@ -4,7 +4,7 @@
 
 .app-header {
   position: fixed;
-  top: 10vh;
+  top: 9.8vh;
   left: 0;
   right: 0;
   height: 8vh;                         /* Высота — МЕНЯЙ ТУТ */
@@ -27,7 +27,7 @@
 }
 
 .app-header__logo svg {
-  height: 20vh;                         /* Размер логотипа — МЕНЯЙ ТУТ */
+  height: 19.7vh;                         /* Размер логотипа — МЕНЯЙ ТУТ */
   width: auto;
 }
 
@@ -48,8 +48,8 @@
 
 /* Профиль в шапке — размеры */
 .app-header .user-info__avatar {
-  width: 5.5vh;
-  height: 5.5vh;
+  width: 5.6vh;
+  height: 5.6vh;
   min-width: 5vh;
   min-height: 5vh;
 }
