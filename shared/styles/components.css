@@ -37,6 +37,6 @@
 .copyright {
   font-family: 'Montserrat', 'Inter', sans-serif;
   text-align: center;
-  color: var(--copyright-color);
+  color: var(--text-secondary);
 }
 
