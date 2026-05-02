@@ -1,10 +1,8 @@
 export function initTelegram() {
-  // Браузер
+  // Браузер — тема системы, заглушка
   if (!window.Telegram?.WebApp?.initData) {
-    // Определяем тему системы
     const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
     document.documentElement.setAttribute('data-theme', prefersDark ? 'dark' : 'light');
-    
     return {
       isTelegram: false,
       initDataUnsafe: {},
@@ -12,13 +10,12 @@ export function initTelegram() {
     };
   }
   
-  // Telegram
+  // Telegram — всегда fullscreen
   const tg = window.Telegram.WebApp;
   tg.ready();
   tg.expand();
   
-  const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-  if (isMobile && tg.requestFullscreen) {
+  if (tg.requestFullscreen) {
     try { tg.requestFullscreen(); } catch (e) {}
   }
   
