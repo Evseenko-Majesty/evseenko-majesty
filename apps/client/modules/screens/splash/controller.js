@@ -1,7 +1,3 @@
-// ============================================
-// ЗАГРУЗОЧНЫЙ ЭКРАН — ЛОГИКА
-// ============================================
-
 import { render } from './view.js';
 
 export class SplashScreen {
@@ -14,6 +10,8 @@ export class SplashScreen {
   }
   
   onMount() {
-    // Пока пусто — потом переход на главную
+    setTimeout(() => {
+      this.app.navigateTo('home');
+    }, 3000);
   }
 }
