@@ -40,77 +40,68 @@
   color: var(--text-secondary);
 }
 /* ============================================
-   КОМПОНЕНТЫ — БАЗА (цвета, шрифты, скругления)
-   Размеры — в стилях экранов
+   КОМПОНЕНТЫ — БАЗА
    ============================================ */
 
-/* -------------------- КНОПКА (ОСНОВНАЯ) -------------------- */
+/* -------------------- КНОПКА (БАЗА ДЛЯ ВСЕХ) -------------------- */
 .btn {
-  background: var(--accent-color);       /* Золотой фон */
-  color: #0A0A0A;                        /* Чёрный текст (всегда) */
-  border: none;                          /* Без рамки */
-  border-radius: 40px;                   /* Овальная */
+  background: var(--accent-color);
+  color: #0A0A0A;
+  border: none;
+  border-radius: 40px;
   font-family: 'Montserrat', 'Inter', sans-serif;
-  font-weight: 500;                      /* Полужирный */
-  cursor: pointer;                       /* Рука при наведении */
-  transition: opacity 0.2s ease;         /* Плавное затемнение при нажатии */
+  font-weight: 500;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
 }
 .btn:active {
-  opacity: 0.8;                          /* Затемнение */
+  opacity: 0.8;
 }
 
 /* -------------------- КНОПКА С ОБВОДКОЙ -------------------- */
 .btn-outline {
-  background: transparent;               /* Прозрачный фон */
-  color: var(--accent-color);            /* Золотой текст */
-  border: 1.5px solid var(--accent-color); /* Золотая рамка */
+  background: transparent;
+  color: var(--accent-color);
+  border: 1.5px solid var(--accent-color);
   border-radius: 40px;
   font-family: 'Montserrat', 'Inter', sans-serif;
   font-weight: 500;
   cursor: pointer;
 }
 
-/* -------------------- МОДАЛЬНОЕ ОКНО -------------------- */
+/* -------------------- МОДАЛЬНОЕ ОКНО (БАЗА) -------------------- */
 
-/* Затемнение (перекрывает весь экран) */
 .modal-overlay {
-  position: fixed;                       /* Поверх всего */
+  position: fixed;
   top: 0; left: 0;
   width: 100%; height: 100%;
-  background: rgba(0, 0, 0, 0.5);        /* Полупрозрачный чёрный */
-  backdrop-filter: blur(4px);             /* Размытие фона */
-  -webkit-backdrop-filter: blur(4px);     /* Для Safari */
-  display: flex;                          /* Для центрирования окна */
-  align-items: center;                    /* По центру вертикали */
-  justify-content: center;                /* По центру горизонтали */
-  z-index: 1000;                          /* Поверх всего */
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
 }
 
-/* Само окно */
 .modal {
-  background: var(--surface-color);       /* Фон из темы */
-  border: 1px solid var(--border-color);  /* Тонкая рамка */
-  border-radius: 24px;                    /* Скругление */
-  text-align: center;                     /* Текст по центру */
-  /* padding, width — в стилях экрана */
+  background: var(--surface-color);
+  border: 1px solid var(--border-color);
+  border-radius: 24px;
+  text-align: center;
 }
 
-/* Заголовок окна */
 .modal__title {
-  color: var(--text-color);              /* Цвет из темы */
-  font-weight: 500;                      /* Полужирный */
-  /* font-size, margin — в стилях экрана */
+  color: var(--text-color);
+  font-weight: 500;
 }
 
-/* Сообщение */
 .modal__message {
-  color: var(--text-secondary);          /* Второстепенный цвет */
-  /* font-size, margin — в стилях экрана */
+  color: var(--text-secondary);
 }
 
-/* Кнопка в модалке (наследует .btn) */
+/* -------------------- КНОПКА В МОДАЛКЕ (БАЗА) -------------------- */
 .modal__button {
-  /* Всё от .btn уже есть */
-  width: 100%;                           /* На всю ширину */
-  /* padding, font-size — в стилях экрана */
+  /* Наследует стили от .btn через JS (class="btn modal__button") */
+  width: 100%;
 }
