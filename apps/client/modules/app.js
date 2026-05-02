@@ -1,6 +1,6 @@
 import { initTelegram } from '/shared/js/telegram.js';
 import { SplashScreen } from './screens/splash/controller.js';
-
+import { HomeScreen } from './screens/home/controller.js';
 class App {
   constructor() {
     this.tg = initTelegram();
@@ -8,7 +8,8 @@ class App {
     this.user = null;
     
     this.screens = {
-      splash: new SplashScreen(this)
+  splash: new SplashScreen(this),
+  home: new HomeScreen(this)
     };
   }
   
