@@ -23,12 +23,12 @@
   display: flex;
   align-items: center;
   height: 100%;
-  margin-top: 2.1vh;                       /* Выше/ниже логотип — МЕНЯЙ ТУТ */
+  margin-top: 1.8vh;                       /* Выше/ниже логотип — МЕНЯЙ ТУТ */
   margin-left: -5vh;                      /* Левее/правее логотип — МЕНЯЙ ТУТ */
 }
 
 .app-header__logo svg {
-  height: 19.2vh;                         /* Размер логотипа — МЕНЯЙ ТУТ */
+  height: 19.5vh;                         /* Размер логотипа — МЕНЯЙ ТУТ */
   width: auto;
 }
 
@@ -49,7 +49,7 @@
 
 /* Профиль в шапке — размеры */
 .app-header .user-info__avatar {
-  width: 7vh;
+  width: 5.9vh;
   height: 8vh;
   min-width: 5vh;
   min-height: 5vh;
