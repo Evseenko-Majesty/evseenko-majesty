@@ -13,7 +13,7 @@ export function Modal(title, message, buttonText, onButtonClick) {
   modal.innerHTML = `
     <h3 class="modal__title">${title}</h3>
     <p class="modal__message">${message}</p>
-    <button class="modal__button">${buttonText}</button>
+    <button className="btn modal__button">${buttonText}</button>
   `;
   
   // При клике на кнопку — вызываем переданную функцию
