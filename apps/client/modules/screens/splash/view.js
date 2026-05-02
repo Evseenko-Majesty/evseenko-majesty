@@ -1,12 +1,10 @@
-// ============================================
-// ЗАГРУЗОЧНЫЙ ЭКРАН — ЧТО ВИДИТ ПОЛЬЗОВАТЕЛЬ
-// ============================================
+import { Logo } from '/shared/components/Logo.js';
 
 export function render() {
   const div = document.createElement('div');
   div.className = 'splash';
   
-  // Пока пусто — потом логотип, название, слоган
+  div.appendChild(Logo());
   
   return div;
 }
