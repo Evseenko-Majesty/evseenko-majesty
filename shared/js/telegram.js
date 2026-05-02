@@ -1,24 +1,27 @@
 // ============================================
-// TELEGRAM — ИНИЦИАЛИЗАЦИЯ И АВТО-ТЕМА
+// TELEGRAM — БЕЗОПАСНАЯ ИНИЦИАЛИЗАЦИЯ
 // ============================================
 
 export function initTelegram() {
-  const tg = window.Telegram.WebApp;
-  
-  tg.ready();
-  tg.expand();
-  
-  if (tg.requestFullscreen) {
-    tg.requestFullscreen();
+  // Проверяем, есть ли Telegram API
+  if (!window.Telegram?.WebApp?.initData) {
+    // Браузер — возвращаем заглушку без ошибок
+    return {
+      isTelegram: false,
+      initDataUnsafe: {},
+      BackButton: { show() {}, hide() {}, onClick() {} }
+    };
   }
   
-  // Устанавливаем тему при загрузке
-  document.documentElement.setAttribute('data-theme', tg.colorScheme);
+  const tg = window.Telegram.WebApp;
+  tg.ready();
+  tg.expand();
+  if (tg.requestFullscreen) tg.requestFullscreen();
   
-  // Меняем тему когда пользователь меняет её в Telegram
+  document.documentElement.setAttribute('data-theme', tg.colorScheme);
   tg.onEvent('themeChanged', () => {
     document.documentElement.setAttribute('data-theme', tg.colorScheme);
   });
   
-  return tg;
+  return { ...tg, isTelegram: true };
 }
