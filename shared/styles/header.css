@@ -22,12 +22,12 @@
   display: flex;
   align-items: center;
   height: 100%;
-  margin-top: 0;                       /* Выше/ниже логотип — МЕНЯЙ ТУТ */
-  margin-left: 0;                      /* Левее/правее логотип — МЕНЯЙ ТУТ */
+  margin-top: -2vh;                       /* Выше/ниже логотип — МЕНЯЙ ТУТ */
+  margin-left: -2vh;                      /* Левее/правее логотип — МЕНЯЙ ТУТ */
 }
 
 .app-header__logo svg {
-  height: 92vh;                         /* Размер логотипа — МЕНЯЙ ТУТ */
+  height: 20vh;                         /* Размер логотипа — МЕНЯЙ ТУТ */
   width: auto;
 }
 
@@ -48,8 +48,8 @@
 
 /* Профиль в шапке — размеры */
 .app-header .user-info__avatar {
-  width: 5vh;
-  height: 5vh;
+  width: 6vh;
+  height: 6vh;
   min-width: 5vh;
   min-height: 5vh;
 }
@@ -59,11 +59,11 @@
 }
 
 .app-header .user-info__name {
-  font-size: 1.8vh;
+  font-size: 2vh;
 }
 
 .app-header .user-info__username {
-  font-size: 1.4vh;
+  font-size: 1.6vh;
 }
 
 .app-header .user-info__role {
