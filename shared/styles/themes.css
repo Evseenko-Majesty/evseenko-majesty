@@ -1,24 +1,19 @@
 /* ============================================
    ТЕМЫ EVSEENKO MAJESTY
-   Хранит все цвета бренда
-   Меняются автоматически в зависимости от темы Telegram
    ============================================ */
 
 /* Тёмная тема (по умолчанию) */
 :root {
-  --bg-color: #0A0A0A;            /* Фон страницы — почти чёрный */
-  --accent-color: #D4AF37;        /* Акцентный цвет — золотой */
-  --text-color: #FFFFFF;           /* Цвет текста — белый */
-   --text-secondary: #A0A0A0;   /* в :root */
---copyright-color: #5A5A5A;   /* в :root */
-
+  --bg-color: #0A0A0A;              /* Фон страницы */
+  --accent-color: #D4AF37;          /* Золотой акцент */
+  --text-color: #FFFFFF;             /* Основной текст */
+  --text-secondary: #A0A0A0;         /* Второстепенный текст */
 }
 
-/* Светлая тема (когда Telegram в светлом режиме) */
+/* Светлая тема */
 [data-theme="light"] {
-  --bg-color: #F7F7F5;            /* Фон — светло-кремовый */
-  --accent-color: #C9A227;        /* Золотой чуть темнее */
-  --text-color: #0A0A0A;          /* Текст — почти чёрный */
-   --text-secondary: #666666;   /* в [data-theme="light"] */
-   --copyright-color: #A0A0A0;   /* в [data-theme="light"] */
+  --bg-color: #F7F7F5;
+  --accent-color: #C9A227;
+  --text-color: #0A0A0A;
+  --text-secondary: #666666;
 }
