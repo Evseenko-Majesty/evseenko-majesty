@@ -1,0 +1,45 @@
+/* Контейнер навигации */
+.bottom-nav {
+  position: fixed;                    /* Всегда на экране, не прокручивается */
+  bottom: 3%;                         /* Отступ от низа экрана */
+  left: 50%;                          /* Центрирование */
+  transform: translateX(-50%);        /* Точное центрирование */
+  display: flex;                      /* Кнопки в ряд */
+  gap: 8%;                            /* Расстояние между кнопками */
+  padding: 1.5vh 4vh;                 /* Внутренние отступы */
+  background: var(--surface-color);   /* Фон карточки */
+  backdrop-filter: blur(12px);         /* Размытие фона */
+  border: 1px solid var(--border-color); /* Тонкая рамка */
+  border-radius: 60px;                /* Овальная форма */
+  z-index: 200;                       /* Поверх контента */
+}
+
+/* Кнопка */
+.bottom-nav__item {
+  background: none;                   /* Прозрачный фон */
+  border: none;                       /* Без рамки */
+  padding: 8px;
+  display: flex;
+  flex-direction: column;             /* SVG над текстом */
+  align-items: center;                /* По центру */
+  gap: 4px;                           /* Между иконкой и текстом */
+  font-family: 'Montserrat', 'Inter', sans-serif;
+  font-size: 1.6vh;                   /* Размер текста */
+  font-weight: 500;
+  color: var(--text-secondary);       /* Неактивный цвет */
+  cursor: pointer;
+  white-space: nowrap;                /* Не переносить */
+  outline: none;                      /* Без обводки при фокусе */
+  -webkit-tap-highlight-color: transparent; /* Без затемнения при тапе */
+}
+
+/* Активная кнопка */
+.bottom-nav__item.active {
+  color: var(--accent-color);         /* Золотой цвет */
+}
+
+/* Размер иконок */
+.bottom-nav__item svg {
+  width: 20px;
+  height: 20px;
+}
