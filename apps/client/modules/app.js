@@ -29,7 +29,7 @@ class App {
       { id: 'more', label: 'Ещё', icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 5h14M5 12h14M5 19h14"/></svg>' }
     ];
     
-    // Один обработчик на всё приложение
+    // Встроенная кнопка "Назад" Telegram
     this.tg.BackButton.onClick(() => {
       if (this.screenHistory.length > 1) {
         this.screenHistory.pop();
@@ -45,29 +45,27 @@ class App {
     const screen = this.screens[screenName];
     this.container.innerHTML = '';
     this.container.appendChild(screen.getElement());
-
-  
-
-// В navigateTo, после вставки экрана:
-const existingBack = document.querySelector('.page-back-btn');
-if (existingBack) existingBack.remove();
-
-if (this.tg.isDesktopFullscreen && screenName !== 'home' && screenName !== 'splash') {
-  const backBtn = BackButton(() => {
-    if (this.screenHistory.length > 1) {
-      this.screenHistory.pop();
-      const prev = this.screenHistory[this.screenHistory.length - 1];
-      this.navigateTo(prev, true);
-    }
-  });
-  this.container.appendChild(backBtn);
-}
     
-    // Кнопка "Назад" — показывать/скрывать
+    // Встроенная кнопка "Назад"
     if (screenName === 'home' || screenName === 'splash') {
       this.tg.BackButton.hide();
     } else {
       this.tg.BackButton.show();
+    }
+    
+    // Своя кнопка "Назад" для ПК fullscreen
+    const existingBack = document.querySelector('.page-back-btn');
+    if (existingBack) existingBack.remove();
+    
+    if (this.tg.isDesktopFullscreen && screenName !== 'home' && screenName !== 'splash') {
+      const backBtn = BackButton(() => {
+        if (this.screenHistory.length > 1) {
+          this.screenHistory.pop();
+          const prev = this.screenHistory[this.screenHistory.length - 1];
+          this.navigateTo(prev, true);
+        }
+      });
+      this.container.appendChild(backBtn);
     }
     
     // Нижняя навигация
