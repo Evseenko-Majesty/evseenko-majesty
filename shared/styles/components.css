@@ -171,11 +171,12 @@
   letter-spacing: 0.05em;
   white-space: nowrap;
 }
+./* -------------------- КАРТОЧКА МЕНЮ (ОДИНОЧНАЯ) -------------------- */
 .menu-item {
   display: flex;
   align-items: center;
   padding: 2vh 2.5vh;
-  margin-bottom: 1.5vh;
+  margin-bottom: 1.5vh;              /* Отступ между карточками — МЕНЯЙ ТУТ */
   background: var(--surface-color);
   border: 1px solid var(--accent-color);
   border-radius: 20px;
@@ -183,6 +184,29 @@
   transition: transform 0.3s ease;
 }
 .menu-item:hover { transform: translateY(-2px); }
+
 .menu-item__icon { display: flex; align-items: center; margin-right: 2vh; color: var(--text-color); flex-shrink: 0; }
-.menu-item__label { color: var(--text-color); font-family: 'Montserrat', 'Inter', sans-serif; font-size: 2.5vh; font-weight: 550; }
+.menu-item__label { color: var(--text-color); font-family: 'Montserrat', 'Inter', sans-serif; font-size: 2.5vh; font-weight: 500; }
 .menu-item__arrow { margin-left: auto; color: var(--text-secondary); font-size: 2.5vh; opacity: 0.5; }
+.menu-item--spaced {
+  margin-bottom: 3vh;   /* Увеличенный отступ */
+}
+
+/* -------------------- ГРУППА КАРТОЧЕК -------------------- */
+.menu-group {
+  border: 1px solid var(--accent-color);
+  border-radius: 20px;
+  margin-bottom: 1.5vh;              /* Отступ после группы — МЕНЯЙ ТУТ */
+}
+.menu-group .menu-item {
+  border: none;
+  border-bottom: 1px solid var(--border-color);
+  border-radius: 0;
+  margin-bottom: 0;                  /* Внутри группы без отступа */
+}
+.menu-group .menu-item:first-child { border-radius: 20px 20px 0 0; }
+.menu-group .menu-item:last-child { border-radius: 0 0 20px 20px; border-bottom: none; }
+
+/* -------------------- ЦВЕТА СОЦСЕТЕЙ -------------------- */
+.menu-item--telegram, .menu-item--telegram .menu-item__label, .menu-item--telegram .menu-item__icon { border-color: var(--telegram-color); color: var(--telegram-color); }
+.menu-item--vk, .menu-item--vk .menu-item__label, .menu-item--vk .menu-item__icon { border-color: var(--vk-color); color: var(--vk-color); }
