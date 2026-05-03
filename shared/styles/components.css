@@ -281,13 +281,17 @@
   border: 1px solid var(--border-color); /* Тонкая рамка */
   border-radius: 40px;                   /* Овальная форма */
   padding: 1vh 3vh;                      /* Внутренние отступы */
-  color: var(--text-secondary);          /* Серый текст */
+  color: var(--accent-color);          /* Серый текст */
   font-family: 'Montserrat', 'Inter', sans-serif;
   font-size: 2vh;                        /* Размер текста — МЕНЯЙ ТУТ */
-  font-weight: 500;                      /* Жирность */
+  font-weight: 600;                      /* Жирность */
   text-transform: uppercase;             /* ЗАГЛАВНЫЕ БУКВЫ */
   letter-spacing: 0.05em;               /* Межбуквенный отступ */
   margin: 0;
   whiteкль-space: nowrap;                   /* Не переносить */
   z-index: 50;                           /* Слой */
+  max-width: 60vw;                 /* Максимальная ширина — МЕНЯЙ ТУТ */
+  overflow: hidden;                /* Прячем лишнее */
+  text-overflow: ellipsis;         /* Добавляем ... */
+  white-space: nowrap;             /* Не переносить */
 }
