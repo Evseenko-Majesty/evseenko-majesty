@@ -242,6 +242,13 @@
   padding: 0 2.5vh 1vh 2.5vh;
 }
 /* -------------------- ЦВЕТА СОЦСЕТЕЙ -------------------- */
+.menu-group .menu-item--telegram {
+  border-color: var(--telegram-color) !important;
+}
+.menu-group .menu-item--vk {
+  border-color: var(--vk-color) !important;
+}
+
 .menu-item--telegram {
   border-color: var(--telegram-color);
 }
