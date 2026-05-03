@@ -29,7 +29,7 @@ class App {
       { id: 'more', label: 'Ещё', icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 5h14M5 12h14M5 19h14"/></svg>' }
     ];
     
-    // Встроенная кнопка "Назад" Telegram
+    // Встроенная кнопка "Назад"
     this.tg.BackButton.onClick(() => {
       if (this.screenHistory.length > 1) {
         this.screenHistory.pop();
@@ -37,6 +37,12 @@ class App {
         this.navigateTo(prev, true);
       }
     });
+    
+    // Восстановление экрана после обновления
+    const savedScreen = sessionStorage.getItem('currentScreen');
+    if (savedScreen && savedScreen !== 'splash' && savedScreen !== 'profile') {
+      this.screenHistory = JSON.parse(sessionStorage.getItem('screenHistory') || '[]');
+    }
   }
   
   navigateTo(screenName, fromBack = false) {
@@ -46,6 +52,10 @@ class App {
     this.container.innerHTML = '';
     this.container.appendChild(screen.getElement());
     
+    // Сохраняем состояние
+    sessionStorage.setItem('currentScreen', screenName);
+    sessionStorage.setItem('screenHistory', JSON.stringify(this.screenHistory));
+    
     // Встроенная кнопка "Назад"
     if (screenName === 'home' || screenName === 'splash') {
       this.tg.BackButton.hide();
@@ -53,7 +63,7 @@ class App {
       this.tg.BackButton.show();
     }
     
-    // Своя кнопка "Назад" для ПК fullscreen
+    // Кнопка "Назад" для ПК fullscreen
     const existingBack = document.querySelector('.page-back-btn');
     if (existingBack) existingBack.remove();
     
@@ -76,7 +86,14 @@ class App {
     if (screen.onMount) screen.onMount();
   }
   
-  start() { this.navigateTo('splash'); }
+  start() {
+    const savedScreen = sessionStorage.getItem('currentScreen');
+    if (savedScreen && savedScreen !== 'splash') {
+      this.navigateTo(savedScreen);
+    } else {
+      this.navigateTo('splash');
+    }
+  }
 }
 
 const app = new App();
