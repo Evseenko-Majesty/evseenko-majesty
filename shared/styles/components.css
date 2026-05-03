@@ -184,5 +184,5 @@
 }
 .menu-item:hover { transform: translateY(-2px); }
 .menu-item__icon { display: flex; align-items: center; margin-right: 2vh; color: var(--text-color); flex-shrink: 0; }
-.menu-item__label { color: var(--text-color); font-family: 'Montserrat', 'Inter', sans-serif; font-size: 2.5vh; font-weight: 500; }
+.menu-item__label { color: var(--text-color); font-family: 'Montserrat', 'Inter', sans-serif; font-size: 2.5vh; font-weight: 600; }
 .menu-item__arrow { margin-left: auto; color: var(--text-secondary); font-size: 2.5vh; opacity: 0.5; }
