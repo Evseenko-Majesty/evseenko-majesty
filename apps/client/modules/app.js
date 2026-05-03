@@ -44,6 +44,27 @@ class App {
     const screen = this.screens[screenName];
     this.container.innerHTML = '';
     this.container.appendChild(screen.getElement());
+
+    // Своя кнопка "Назад" для ПК fullscreen
+if (this.tg.isDesktopFullscreen && screenName !== 'home' && screenName !== 'splash') {
+  let backBtn = document.querySelector('.custom-back-btn');
+  if (!backBtn) {
+    backBtn = document.createElement('button');
+    backBtn.className = 'custom-back-btn';
+    backBtn.textContent = '←';
+    backBtn.addEventListener('click', () => {
+      if (this.screenHistory.length > 1) {
+        this.screenHistory.pop();
+        this.navigateTo(this.screenHistory.pop(), true);
+      }
+    });
+    this.container.appendChild(backBtn);
+  }
+  backBtn.style.display = 'block';
+} else {
+  const backBtn = document.querySelector('.custom-back-btn');
+  if (backBtn) backBtn.style.display = 'none';
+}
     
     // Кнопка "Назад" — показывать/скрывать
     if (screenName === 'home' || screenName === 'splash') {
