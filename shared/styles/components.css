@@ -171,3 +171,18 @@
   letter-spacing: 0.05em;
   white-space: nowrap;
 }
+.menu-item {
+  display: flex;
+  align-items: center;
+  padding: 2vh 2.5vh;
+  margin-bottom: 1.5vh;
+  background: var(--surface-color);
+  border: 1px solid var(--accent-color);
+  border-radius: 20px;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+.menu-item:hover { transform: translateY(-2px); }
+.menu-item__icon { display: flex; align-items: center; margin-right: 2vh; color: var(--text-color); flex-shrink: 0; }
+.menu-item__label { color: var(--text-color); font-family: 'Montserrat', 'Inter', sans-serif; font-size: 2.2vh; font-weight: 500; }
+.menu-item__arrow { margin-left: auto; color: var(--text-secondary); font-size: 2.5vh; opacity: 0.5; }
