@@ -39,6 +39,20 @@
   text-align: center;
   color: var(--text-secondary);
 }
+.custom-back-btn {
+  position: fixed;
+  top: 4vh;
+  left: 3%;
+  background: var(--surface-color);
+  border: 1px solid var(--accent-color);
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  color: var(--accent-color);
+  font-size: 20px;
+  cursor: pointer;
+  z-index: 300;
+}
 /* ============================================
    КОМПОНЕНТЫ — БАЗА
    ============================================ */
