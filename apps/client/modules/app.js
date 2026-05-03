@@ -8,6 +8,7 @@ import { HomeScreen } from './screens/home/controller.js';
 import { MoreScreen } from './screens/more/controller.js';
 import { ProfileScreen } from './screens/profile/controller.js';
 import { BottomNav } from '/shared/components/BottomNav.js';
+import { BackButton } from '/shared/components/BackButton.js';
 
 class App {
   constructor() {
@@ -45,25 +46,21 @@ class App {
     this.container.innerHTML = '';
     this.container.appendChild(screen.getElement());
 
-    // Своя кнопка "Назад" для ПК fullscreen
+  
+
+// В navigateTo, после вставки экрана:
+const existingBack = document.querySelector('.page-back-btn');
+if (existingBack) existingBack.remove();
+
 if (this.tg.isDesktopFullscreen && screenName !== 'home' && screenName !== 'splash') {
-  let backBtn = document.querySelector('.custom-back-btn');
-  if (!backBtn) {
-    backBtn = document.createElement('button');
-    backBtn.className = 'custom-back-btn';
-    backBtn.textContent = '←';
-    backBtn.addEventListener('click', () => {
-      if (this.screenHistory.length > 1) {
-        this.screenHistory.pop();
-        this.navigateTo(this.screenHistory.pop(), true);
-      }
-    });
-    this.container.appendChild(backBtn);
-  }
-  backBtn.style.display = 'block';
-} else {
-  const backBtn = document.querySelector('.custom-back-btn');
-  if (backBtn) backBtn.style.display = 'none';
+  const backBtn = BackButton(() => {
+    if (this.screenHistory.length > 1) {
+      this.screenHistory.pop();
+      const prev = this.screenHistory[this.screenHistory.length - 1];
+      this.navigateTo(prev, true);
+    }
+  });
+  this.container.appendChild(backBtn);
 }
     
     // Кнопка "Назад" — показывать/скрывать
