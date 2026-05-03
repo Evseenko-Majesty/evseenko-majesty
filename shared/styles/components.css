@@ -271,3 +271,23 @@
 .menu-item--spaced {
   margin-bottom: 3vh;
 }
+/* -------------------- ЗАГОЛОВОК СТРАНИЦЫ -------------------- */
+.page-title {
+  position: fixed;                       /* Всегда на экране, даже при скролле */
+  top: 4vh;                              /* Отступ от верха — МЕНЯЙ ТУТ */
+  left: 50%;                             /* Центр по горизонтали */
+  transform: translateX(-50%);           /* Точное центрирование */
+  background: var(--surface-color);      /* Фон карточки */
+  border: 1px solid var(--border-color); /* Тонкая рамка */
+  border-radius: 40px;                   /* Овальная форма */
+  padding: 1vh 3vh;                      /* Внутренние отступы */
+  color: var(--text-secondary);          /* Серый текст */
+  font-family: 'Montserrat', 'Inter', sans-serif;
+  font-size: 2vh;                        /* Размер текста — МЕНЯЙ ТУТ */
+  font-weight: 500;                      /* Жирность */
+  text-transform: uppercase;             /* ЗАГЛАВНЫЕ БУКВЫ */
+  letter-spacing: 0.05em;               /* Межбуквенный отступ */
+  margin: 0;
+  whiteкль-space: nowrap;                   /* Не переносить */
+  z-index: 50;                           /* Слой */
+}
