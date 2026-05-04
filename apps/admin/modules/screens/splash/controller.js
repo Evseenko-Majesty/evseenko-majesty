@@ -1,5 +1,5 @@
 // ============================================
-// ЗАГРУЗОЧНЫЙ ЭКРАН — ЛОГИКА
+// ЗАГРУЗОЧНЫЙ ЭКРАН АДМИНКИ — ЛОГИКА
 // ============================================
 
 import { render } from './view.js';
@@ -21,12 +21,14 @@ export class SplashScreen {
     const tgUser = this.app.tg.initDataUnsafe?.user;
     
     if (!tgUser) {
-      document.body.appendChild(Modal(
+      const modal = Modal(
         'Только в Telegram',
-        'Приложение доступно только через Telegram',
+        'Приложение доступно только через Telegram Mini App',
         'Перейти в Telegram',
-        () => window.open('https://t.me/EvseenkoMajestyBot', '_blank')
-      ));
+        () => window.open('https://t.me/EMajesty_core_bot', '_blank')
+      );
+      modal.querySelector('.modal').setAttribute('data-telegram', '');
+      document.body.appendChild(modal);
       return;
     }
     
