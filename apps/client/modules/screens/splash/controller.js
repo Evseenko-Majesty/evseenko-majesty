@@ -1,3 +1,7 @@
+// ============================================
+// ЗАГРУЗОЧНЫЙ ЭКРАН КЛИЕНТА — ЛОГИКА
+// ============================================
+
 import { render } from './view.js';
 import { AuthAPI } from '/shared/js/api/auth.js';
 import { Modal } from '/shared/components/Modal.js';
@@ -15,12 +19,14 @@ export class SplashScreen {
     const tgUser = this.app.tg.initDataUnsafe?.user;
     
     if (!tgUser) {
-      document.body.appendChild(Modal(
+      const modal = Modal(
         'Только в Telegram',
         'Приложение доступно только через Telegram Mini App',
         'Перейти в Telegram',
-        () => window.open('https://t.me/Evseenko_Majesty_Bot', '_blank')
-      ));
+        () => window.open('https://t.me/Evseenko_majesty_bot', '_blank')
+      );
+      modal.querySelector('.modal').setAttribute('data-telegram', '');
+      document.body.appendChild(modal);
       return;
     }
     
