@@ -332,7 +332,7 @@
   flex-direction: column;
   justify-content: center;
   gap: 2vh;
-  margin-top: 5vh;
+  margin-top: 3vh;
 }
 .user-info--profile .user-info__avatar {
   width: 16vh;
