@@ -327,3 +327,30 @@
   text-overflow: ellipsis;         /* Добавляем ... */
   white-space: nowrap;             /* Не переносить */
 }
+/* -------------------- USER INFO НА СТРАНИЦЕ ПРОФИЛЯ -------------------- */
+.user-info--profile {
+  flex-direction: column;
+  justify-content: center;
+  gap: 2vh;
+  margin-top: 5vh;
+}
+.user-info--profile .user-info__avatar {
+  width: 16vh;
+  height: 16vh;
+  min-width: 16vh;
+  min-height: 16vh;
+}
+.user-info--profile .user-info__avatar--placeholder {
+  font-size: 7vh;
+}
+.user-info--profile .user-info__name {
+  font-size: 3.5vh;
+  font-weight: 600;
+  text-align: center;
+  max-width: 80vw;
+}
+.user-info--profile .user-info__username {
+  font-size: 2.5vh;
+  text-align: center;
+  max-width: 80vw;
+}
