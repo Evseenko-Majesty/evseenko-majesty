@@ -1,9 +1,13 @@
+// ============================================
+// ВЫБОР ГОРОДА
+// ============================================
+
 import { Header } from '/shared/components/Header.js';
 import { PageTitle } from '/shared/components/PageTitle.js';
 import { SearchCard } from '/shared/components/SearchCard.js';
-import { API } from '/shared/js/api.js';
+import { CitiesAPI } from '/shared/js/api/cities.js';
 
-export function render(onCitySelect) {
+export async function render(onCitySelect) {
   const div = document.createElement('div');
   div.className = 'city-select';
   
@@ -15,7 +19,7 @@ export function render(onCitySelect) {
   
   // Поиск
   content.appendChild(SearchCard('Введите город...', async (query) => {
-    const res = await API.searchCities(query);
+    const res = await CitiesAPI.searchCities(query);
     resultArea.innerHTML = '';
     if (res.success && res.cities.length > 0) {
       renderCityList(res.cities, resultArea, onCitySelect);
@@ -24,20 +28,19 @@ export function render(onCitySelect) {
     }
   }));
   
+  // Область результатов
   const resultArea = document.createElement('div');
   resultArea.className = 'city-result';
   content.appendChild(resultArea);
   
   // Загружаем все города
-  loadCities(resultArea, onCitySelect);
+  const res = await CitiesAPI.getCities();
+  if (res.success) {
+    renderCityList(res.cities, resultArea, onCitySelect);
+  }
   
   div.appendChild(content);
   return div;
-}
-
-async function loadCities(container, onSelect) {
-  const res = await API.getCities();
-  if (res.success) renderCityList(res.cities, container, onSelect);
 }
 
 function renderCityList(cities, container, onSelect) {
@@ -49,16 +52,18 @@ function renderCityList(cities, container, onSelect) {
     groups[letter].push(city);
   });
   
-  // Рендерим группы
+  // Рендерим группы в алфавитном порядке
   Object.keys(groups).sort().forEach(letter => {
     const group = document.createElement('div');
     group.className = 'menu-group';
     
+    // Заголовок с буквой
     const letterTitle = document.createElement('p');
     letterTitle.className = 'menu-social-title';
     letterTitle.textContent = letter;
     group.appendChild(letterTitle);
     
+    // Города этой буквы
     groups[letter].forEach(city => {
       const cityCard = document.createElement('div');
       cityCard.className = 'menu-item';
