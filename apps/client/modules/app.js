@@ -23,7 +23,7 @@ class App {
       home: new HomeScreen(this),
       more: new MoreScreen(this),
       profile: new ProfileScreen(this),
-      city-select: new CitySelectScreen(this)
+      cityselect: new CitySelectScreen(this)
     };
     
     this.navItems = [
