@@ -22,11 +22,16 @@ export function Modal(title, message, buttonText, onButtonClick) {
   messageEl.className = 'modal__message';
   messageEl.textContent = message;
   
-  // Кнопка (наследует .btn)
+  // Кнопка
   const button = document.createElement('button');
   button.className = 'btn modal__button';
   button.textContent = buttonText;
-  button.addEventListener('click', onButtonClick);
+  
+  // При клике: удаляем окно, потом выполняем действие
+  button.addEventListener('click', () => {
+    overlay.remove();
+    if (onButtonClick) onButtonClick();
+  });
   
   // Собираем
   modal.appendChild(titleEl);
