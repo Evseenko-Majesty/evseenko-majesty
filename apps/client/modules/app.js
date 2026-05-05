@@ -9,6 +9,7 @@ import { MoreScreen } from './screens/more/controller.js';
 import { ProfileScreen } from './screens/profile/controller.js';
 import { BottomNav } from '/shared/components/BottomNav.js';
 import { BackButton } from '/shared/components/BackButton.js';
+import { CitySelectScreen } from './screens/city-select/controller.js';
 
 class App {
   constructor() {
@@ -21,7 +22,8 @@ class App {
       splash: new SplashScreen(this),
       home: new HomeScreen(this),
       more: new MoreScreen(this),
-      profile: new ProfileScreen(this)
+      profile: new ProfileScreen(this),
+      city-select: new CitySelectScreen(this)
     };
     
     this.navItems = [
