@@ -7,9 +7,9 @@ import { SplashScreen } from './screens/splash/controller.js';
 import { HomeScreen } from './screens/home/controller.js';
 import { MoreScreen } from './screens/more/controller.js';
 import { ProfileScreen } from './screens/profile/controller.js';
+import { CitySelectScreen } from './screens/city-select/controller.js';
 import { BottomNav } from '/shared/components/BottomNav.js';
 import { BackButton } from '/shared/components/BackButton.js';
-import { CitySelectScreen } from './screens/city-select/controller.js';
 
 class App {
   constructor() {
@@ -40,12 +40,15 @@ class App {
     });
   }
   
-  navigateTo(screenName, fromBack = false) {
+  async navigateTo(screenName, fromBack = false) {
     if (!fromBack) this.screenHistory.push(screenName);
     
     const screen = this.screens[screenName];
     this.container.innerHTML = '';
-    this.container.appendChild(screen.getElement());
+    
+    // Ждём результат (для асинхронных getElement)
+    const element = await screen.getElement();
+    this.container.appendChild(element);
     
     // Встроенная кнопка "Назад"
     if (screenName === 'home' || screenName === 'splash') {
