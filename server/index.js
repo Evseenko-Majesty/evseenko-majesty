@@ -1,11 +1,13 @@
 import express from 'express';          // Фреймворк сервера
 import cors from 'cors';                // Разрешает запросы с других доменов
 import authRoutes from './routes/auth.js';  // Маршруты авторизации
+import cityRoutes from './routes/cities.js';
 
 const app = express();
 
 app.use(cors());          // Разрешаем запросы отовсюду
 app.use(express.json());  // Учим сервер понимать JSON в запросах
+app.use('/api/cities', cityRoutes);
 
 // Проверка что сервер жив (GET /)
 app.get('/', (req, res) => res.send('OK'));
