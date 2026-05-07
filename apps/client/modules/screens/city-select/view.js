@@ -1,7 +1,3 @@
-// ============================================
-// ВЫБОР ГОРОДА
-// ============================================
-
 import { Header } from '/shared/components/Header.js';
 import { PageTitle } from '/shared/components/PageTitle.js';
 import { SearchCard } from '/shared/components/SearchCard.js';
@@ -17,7 +13,6 @@ export async function render(onCitySelect) {
   const content = document.createElement('div');
   content.className = 'page-with-header';
   
-  // Поиск
   content.appendChild(SearchCard('Введите город...', async (query) => {
     const res = await CitiesAPI.searchCities(query);
     resultArea.innerHTML = '';
@@ -28,12 +23,10 @@ export async function render(onCitySelect) {
     }
   }));
   
-  // Область результатов
   const resultArea = document.createElement('div');
   resultArea.className = 'city-result';
   content.appendChild(resultArea);
   
-  // Загружаем все города
   const res = await CitiesAPI.getCities();
   if (res.success) {
     renderCityList(res.cities, resultArea, onCitySelect);
@@ -46,11 +39,10 @@ export async function render(onCitySelect) {
 function renderCityList(cities, container, onSelect) {
   container.innerHTML = '';
   
-  // Получаем сохранённый город
   const saved = localStorage.getItem('selectedCity');
   const selectedCity = saved ? JSON.parse(saved) : null;
   
-  // 1. Показываем выбранный город первым (зелёная рамка)
+  // 1. Выбранный город первым (зелёная рамка)
   if (selectedCity) {
     const selectedGroup = document.createElement('div');
     selectedGroup.className = 'menu-group';
@@ -69,7 +61,7 @@ function renderCityList(cities, container, onSelect) {
     container.appendChild(selectedGroup);
   }
   
-  // 2. Группируем остальные по первой букве
+  // 2. Остальные города по алфавиту
   const groups = {};
   cities.forEach(city => {
     const letter = city.name.charAt(0).toUpperCase();
@@ -77,7 +69,6 @@ function renderCityList(cities, container, onSelect) {
     groups[letter].push(city);
   });
   
-  // 3. Рендерим группы в алфавитном порядке
   Object.keys(groups).sort().forEach(letter => {
     const group = document.createElement('div');
     group.className = 'menu-group';
