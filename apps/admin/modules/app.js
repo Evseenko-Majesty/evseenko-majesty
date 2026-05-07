@@ -8,6 +8,7 @@ import { HomeScreen } from './screens/home/controller.js';
 import { MoreScreen } from './screens/more/controller.js';
 import { BackButton } from '/shared/components/BackButton.js';
 import { BottomNav } from '/shared/components/BottomNav.js';
+import { GrantScreen } from './screens/grant/controller.js';
 
 class AdminApp {
   constructor() {
@@ -19,7 +20,8 @@ class AdminApp {
     this.screens = {
       splash: new SplashScreen(this),
       home: new HomeScreen(this),
-      more: new MoreScreen(this)
+      more: new MoreScreen(this),
+      grant: new GrantScreen(this)
     };
     
     this.navItems = [
