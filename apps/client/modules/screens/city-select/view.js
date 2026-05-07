@@ -44,7 +44,32 @@ export async function render(onCitySelect) {
 }
 
 function renderCityList(cities, container, onSelect) {
-  // Группируем по первой букве
+  container.innerHTML = '';
+  
+  // Получаем сохранённый город
+  const saved = localStorage.getItem('selectedCity');
+  const selectedCity = saved ? JSON.parse(saved) : null;
+  
+  // 1. Показываем выбранный город первым (зелёная рамка)
+  if (selectedCity) {
+    const selectedGroup = document.createElement('div');
+    selectedGroup.className = 'menu-group';
+    
+    const selectedTitle = document.createElement('p');
+    selectedTitle.className = 'menu-social-title';
+    selectedTitle.textContent = 'Ваш город';
+    selectedGroup.appendChild(selectedTitle);
+    
+    const cityCard = document.createElement('div');
+    cityCard.className = 'menu-item city-card--selected';
+    cityCard.textContent = selectedCity.name;
+    cityCard.addEventListener('click', () => onSelect(selectedCity));
+    selectedGroup.appendChild(cityCard);
+    
+    container.appendChild(selectedGroup);
+  }
+  
+  // 2. Группируем остальные по первой букве
   const groups = {};
   cities.forEach(city => {
     const letter = city.name.charAt(0).toUpperCase();
@@ -52,18 +77,16 @@ function renderCityList(cities, container, onSelect) {
     groups[letter].push(city);
   });
   
-  // Рендерим группы в алфавитном порядке
+  // 3. Рендерим группы в алфавитном порядке
   Object.keys(groups).sort().forEach(letter => {
     const group = document.createElement('div');
     group.className = 'menu-group';
     
-    // Заголовок с буквой
     const letterTitle = document.createElement('p');
     letterTitle.className = 'menu-social-title';
     letterTitle.textContent = letter;
     group.appendChild(letterTitle);
     
-    // Города этой буквы
     groups[letter].forEach(city => {
       const cityCard = document.createElement('div');
       cityCard.className = 'menu-item';
