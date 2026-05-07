@@ -7,7 +7,9 @@
   --border-color: rgba(255, 255, 255, 0.06); /* ← Добавить */
   --telegram-color: #2AABEE;  /* Синий Telegram */
   --vk-color: #0077FF;
+  --success-color: #4A9E7A;
 }
+
 
 [data-theme="light"] {
   --bg-color: #F7F7F5;
