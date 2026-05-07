@@ -1,3 +1,10 @@
+.city-label {
+  cursor: pointer;
+  transition: opacity 0.2s;
+  border: 1px solid var(--accent-color) !important;
+  text-transform: none !important;
+}
+.city-label:hover { opacity: 0.8; }
 /* ============================================
    КОМПОНЕНТЫ — БАЗОВЫЕ СТИЛИ
    ============================================ */
