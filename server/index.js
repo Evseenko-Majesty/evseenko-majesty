@@ -3,6 +3,8 @@ import cors from 'cors';                // Разрешает запросы с 
 import authRoutes from './routes/auth.js';  // Маршруты авторизации
 import cityRoutes from './routes/cities.js';
 import userRoutes from './routes/users.js';
+import permissionRoutes from './routes/permissions.js';
+
 
 const app = express();
 
@@ -10,6 +12,7 @@ app.use(cors());          // Разрешаем запросы отовсюду
 app.use(express.json());  // Учим сервер понимать JSON в запросах
 app.use('/api/cities', cityRoutes);
 app.use('/api/users', userRoutes);
+app.use('/api/permissions', permissionRoutes);
 
 // Проверка что сервер жив (GET /)
 app.get('/', (req, res) => res.send('OK'));
