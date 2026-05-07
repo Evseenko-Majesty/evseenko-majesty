@@ -5,6 +5,13 @@
   text-transform: none !important;
 }
 .city-label:hover { opacity: 0.8; }
+.city-card--selected {
+  border-color: var(--success-color) !important;
+}
+.city-card--selected::after {
+  content: ' ✓';
+  color: var(--success-color);
+}
 /* ============================================
    КОМПОНЕНТЫ — БАЗОВЫЕ СТИЛИ
    ============================================ */
