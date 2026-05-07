@@ -6,9 +6,9 @@ import { initTelegram } from '/shared/js/telegram.js';
 import { SplashScreen } from './screens/splash/controller.js';
 import { HomeScreen } from './screens/home/controller.js';
 import { MoreScreen } from './screens/more/controller.js';
+import { GrantScreen } from './screens/grant/controller.js';
 import { BackButton } from '/shared/components/BackButton.js';
 import { BottomNav } from '/shared/components/BottomNav.js';
-import { GrantScreen } from './screens/grant/controller.js';
 
 class AdminApp {
   constructor() {
@@ -38,12 +38,16 @@ class AdminApp {
     });
   }
   
-  navigateTo(screenName, fromBack = false) {
+  async navigateTo(screenName, fromBack = false) {
     if (!fromBack) this.screenHistory.push(screenName);
     
     const screen = this.screens[screenName];
+    
+    // Ждём результат (для асинхронных getElement)
+    const element = await screen.getElement();
+    
     this.container.innerHTML = '';
-    this.container.appendChild(screen.getElement());
+    this.container.appendChild(element);
     
     // Встроенная кнопка "Назад"
     if (screenName === 'home' || screenName === 'splash') {
