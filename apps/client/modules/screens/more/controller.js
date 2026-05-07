@@ -1,3 +1,7 @@
+// ============================================
+// СТРАНИЦА "ЕЩЁ" — ЛОГИКА
+// ============================================
+
 import { render } from './view.js';
 
 export class MoreScreen {
@@ -6,7 +10,7 @@ export class MoreScreen {
   getElement() {
     const saved = localStorage.getItem('selectedCity');
     const city = saved ? JSON.parse(saved) : null;
-    const cityName = city?.name || 'Город';
+    const cityName = city?.name || 'Город';   // ← Было 'Выбрать город', исправил на 'Город'
     
     return render(
       (screen) => this.app.navigateTo(screen),
