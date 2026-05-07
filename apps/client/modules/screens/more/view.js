@@ -19,7 +19,6 @@ export function render(onNavigate, onCityClick, cityName) {
   
   content.appendChild(MenuItem('Профиль', profileIcon, () => onNavigate('profile')));
   
-  // Группа соцсетей
   const group = document.createElement('div');
   group.className = 'menu-group';
   
