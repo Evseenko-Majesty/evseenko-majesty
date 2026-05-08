@@ -1,44 +1,25 @@
-// ============================================
-// ДАТЬ ДОПУСК
-// ============================================
-
 import { Header } from '/shared/components/Header.js';
+import { PageTitle } from '/shared/components/PageTitle.js';
+import { UserSearch } from '/shared/components/UserSearch.js';
 
-export function render() {
+export function render(onSearch) {
   const div = document.createElement('div');
   div.className = 'grant-form';
   
+  div.appendChild(PageTitle('Выдача роли'));
   div.appendChild(Header(null));
   
   const content = document.createElement('div');
-  content.className = 'page-content';
+  content.className = 'page-with-header';
   
-  const title = document.createElement('h1');
-  title.className = 'page-title';
-  title.textContent = 'Дать допуск';
+  // Поиск пользователей
+  content.appendChild(UserSearch('Имя, username или ID...', onSearch));
   
-  // Поиск
-  const searchCard = document.createElement('div');
-  searchCard.className = 'search-card';
-  
-  const input = document.createElement('input');
-  input.className = 'search-card__input';
-  input.placeholder = 'Имя, username или ID...';
-  
-  const btn = document.createElement('button');
-  btn.className = 'search-card__btn';
-  btn.textContent = 'Поиск';
-  
-  searchCard.appendChild(input);
-  searchCard.appendChild(btn);
-  
+  // Область результатов (пока пустая)
   const resultArea = document.createElement('div');
   resultArea.className = 'search-result';
-  
-  content.appendChild(title);
-  content.appendChild(searchCard);
   content.appendChild(resultArea);
-  div.appendChild(content);
   
+  div.appendChild(content);
   return div;
 }
